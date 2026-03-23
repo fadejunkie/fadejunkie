@@ -159,7 +159,7 @@ const Cta13 = ({
               "var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif",
             fontSize: "0.9375rem",
             lineHeight: 1.65,
-            color: "rgba(255,244,234,0.5)",
+            color: "rgba(255,244,234,0.65)",
             maxWidth: "28rem",
             margin: "0 auto 3rem",
           }}

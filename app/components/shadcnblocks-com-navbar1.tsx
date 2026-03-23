@@ -83,7 +83,7 @@ const Navbar1 = ({
           <div className="flex items-center gap-6">
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-              <span className="font-serif text-xl font-bold tracking-tight">{logo.title}</span>
+              <span className="font-serif text-xl tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
             </a>
             <div className="flex items-center">
               <NavigationMenu>
@@ -106,7 +106,7 @@ const Navbar1 = ({
           <div className="flex items-center justify-between">
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-              <span className="text-lg font-semibold">{logo.title}</span>
+              <span className="font-serif text-lg tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -119,7 +119,7 @@ const Navbar1 = ({
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
                       {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-                      <span className="text-lg font-semibold">{logo.title}</span>
+                      <span className="font-serif text-lg tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
                     </a>
                   </SheetTitle>
                 </SheetHeader>

@@ -56,7 +56,7 @@ const Manifesto = () => {
               style={{
                 fontFamily:
                   "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(5rem, 10vw, 9rem)",
+                fontSize: "clamp(3.5rem, 7vw, 5.5rem)",
                 fontWeight: 300,
                 lineHeight: 0.8,
                 color: "hsl(34, 42%, 44%)",

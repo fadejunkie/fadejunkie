@@ -435,6 +435,7 @@ const Hero = () => {
         backgroundColor: "#fff4ea",
         display: "flex",
         alignItems: "center",
+        minHeight: "calc(100dvh - 57px)",
       }}
     >
       {/* Texture layers */}
