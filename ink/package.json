@@ -1,0 +1,19 @@
+{
+  "name": "ink",
+  "version": "1.0.0",
+  "description": "Ink — voice agent of the FadeJunkie ecosystem",
+  "type": "module",
+  "scripts": {
+    "start": "tsx ink.ts",
+    "dev": "tsx watch ink.ts",
+    "watch": "tsx ink.ts --watch"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
+  }
+}

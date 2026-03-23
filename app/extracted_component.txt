@@ -1,0 +1,884 @@
+great job. i took your idea - spun it up and got the following. i dont want us to carry over the style but the "examples" here are much more contextual : import { useState } from "react";
+
+const CATEGORIES = [
+  { id: "all", label: "All Tools", icon: "⚡" },
+  { id: "clippers", label: "Clippers & Tools", icon: "✂️" },
+  { id: "booking", label: "Booking & Business", icon: "📅" },
+  { id: "education", label: "Exam Prep & Education", icon: "🎓" },
+  { id: "marketing", label: "Marketing & Social", icon: "📣" },
+  { id: "supplies", label: "Supplies & Products", icon: "🛒" },
+  { id: "community", label: "Community & Network", icon: "🤝" },
+];
+
+const AUDIENCES = ["All", "Students", "Licensed Barbers", "Shop Owners", "Schools"];
+
+const TOOLS = [
+  // CLIPPERS & TOOLS
+  {
+    id: 1,
+    name: "Wahl Professional",
+    tagline: "Industry-standard clippers trusted by pros worldwide",
+    description: "The Magic Clip & Senior are barbershop staples. Known for precision fades, long battery life, and durable stagger-tooth blades that last years.",
+    url: "https://www.wahlpro.com",
+    logo: "https://logo.clearbit.com/wahlpro.com",
+    category: "clippers",
+    audiences: ["Licensed Barbers", "Students", "Shop Owners"],
+    rank: 1,
+    badge: "🏆 #1 Clipper Brand",
+    price: "From $100",
+    affiliate: true,
+  },
+  {
+    id: 2,
+    name: "Andis",
+    tagline: "The gold standard for precision line-ups",
+    description: "The Andis Master and T-Outliner are go-to tools for razor-sharp edges and detail work. Preferred by barbers who specialize in fades and clean lines.",
+    url: "https://www.andis.com",
+    logo: "https://logo.clearbit.com/andis.com",
+    category: "clippers",
+    audiences: ["Licensed Barbers", "Students"],
+    rank: 2,
+    badge: "🔥 Best for Fades",
+    price: "From $80",
+    affiliate: true,
+  },
+  {
+    id: 3,
+    name: "Oster Professional",
+    tagline: "Built like a tank — legendary durability",
+    description: "The Oster Classic 76 is the most iconic clipper in barbering history. Heavy-duty rotary motor handles thick hair with zero effort. Barbers pass these down for decades.",
+    url: "https://www.osterpro.com",
+    logo: "https://logo.clearbit.com/osterpro.com",
+    category: "clippers",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 3,
+    badge: "💪 Most Durable",
+    price: "From $120",
+    affiliate: true,
+  },
+  {
+    id: 4,
+    name: "BaBylissPRO",
+    tagline: "Next-gen performance for elite barbers",
+    description: "The GoldFX and SilverFX trimmers feature powerful Ferrari-designed motors and zero-gap capability. A rising favorite in competitions and high-end shops.",
+    url: "https://www.babylisspro.com",
+    logo: "https://logo.clearbit.com/babylisspro.com",
+    category: "clippers",
+    audiences: ["Licensed Barbers", "Students"],
+    rank: 4,
+    badge: "⭐ Competition Grade",
+    price: "From $130",
+    affiliate: true,
+  },
+  {
+    id: 5,
+    name: "Gamma+",
+    tagline: "Magnetic motor tech with 200-min battery life",
+    description: "The Cyborg clipper delivers 7,500 RPM, full metal body, and 200 minutes of runtime. Built for barbers who grind all day without interruption.",
+    url: "https://www.gammapiu.com",
+    logo: "https://logo.clearbit.com/gammapiu.com",
+    category: "clippers",
+    audiences: ["Licensed Barbers"],
+    rank: 5,
+    badge: "🔋 Longest Runtime",
+    price: "From $200",
+    affiliate: true,
+  },
+  // BOOKING & BUSINESS
+  {
+    id: 6,
+    name: "Booksy",
+    tagline: "The #1 barbershop booking platform worldwide",
+    description: "Used by 125,000+ businesses in 40+ countries. Handles scheduling, payments, client management, marketing blasts, and reviews all in one app.",
+    url: "https://booksy.com",
+    logo: "https://logo.clearbit.com/booksy.com",
+    category: "booking",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 1,
+    badge: "🌍 Most Popular",
+    price: "From $29.99/mo",
+    affiliate: true,
+  },
+  {
+    id: 7,
+    name: "theCut",
+    tagline: "Built by barbers, for barbers",
+    description: "The only booking app designed exclusively for the barbering community. Manage bookings, booth rent tracking, and client relationships without the noise of general salon apps.",
+    url: "https://thecut.co",
+    logo: "https://logo.clearbit.com/thecut.co",
+    category: "booking",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 2,
+    badge: "✂️ Barber-Built",
+    price: "Free + Premium",
+    affiliate: true,
+  },
+  {
+    id: 8,
+    name: "Square Appointments",
+    tagline: "Best-in-class POS + booking combo",
+    description: "Perfect for shops already using Square for payments. Seamlessly integrates scheduling with your POS system, CRM, and team management in one ecosystem.",
+    url: "https://squareup.com/us/en/appointments",
+    logo: "https://logo.clearbit.com/squareup.com",
+    category: "booking",
+    audiences: ["Shop Owners", "Licensed Barbers"],
+    rank: 3,
+    badge: "💳 Best POS Integration",
+    price: "Free – $69/mo",
+    affiliate: true,
+  },
+  {
+    id: 9,
+    name: "Fresha",
+    tagline: "Free marketplace + booking software",
+    description: "The only subscription-free booking platform with built-in marketplace exposure. Walk-ins, no-show protection, loyalty programs, and Google/Instagram integrations included.",
+    url: "https://fresha.com",
+    logo: "https://logo.clearbit.com/fresha.com",
+    category: "booking",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 4,
+    badge: "🆓 No Monthly Fee",
+    price: "Free (commission on new clients)",
+    affiliate: true,
+  },
+  {
+    id: 10,
+    name: "GlossGenius",
+    tagline: "Premium booking for independent barbers",
+    description: "Mobile-first platform with a premium brand aesthetic. Perfect for solo operators who want a sleek booking page, automated reminders, and simple marketing without complexity.",
+    url: "https://glossgenius.com",
+    logo: "https://logo.clearbit.com/glossgenius.com",
+    category: "booking",
+    audiences: ["Licensed Barbers"],
+    rank: 5,
+    badge: "📱 Best for Solos",
+    price: "From $24/mo",
+    affiliate: true,
+  },
+  // EXAM PREP & EDUCATION
+  {
+    id: 11,
+    name: "Milady",
+    tagline: "The industry's most trusted barbering curriculum",
+    description: "Milady's Standard Barbering is used in schools nationwide. Their online platform includes digital textbooks, exam prep, and instructor resources for state board success.",
+    url: "https://milady.com",
+    logo: "https://logo.clearbit.com/milady.com",
+    category: "education",
+    audiences: ["Students", "Schools"],
+    rank: 1,
+    badge: "📚 Industry Standard",
+    price: "Varies",
+    affiliate: false,
+  },
+  {
+    id: 12,
+    name: "Barbicide",
+    tagline: "Official sanitation certification for barbers",
+    description: "Barbicide Certification is required or strongly recommended in most states. Fast, free online course covering infection control, disinfection protocols, and professional safety.",
+    url: "https://www.barbicide.com/certification",
+    logo: "https://logo.clearbit.com/barbicide.com",
+    category: "education",
+    audiences: ["Students", "Licensed Barbers", "Schools"],
+    rank: 2,
+    badge: "🧪 Required Cert",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 13,
+    name: "Pivot Point",
+    tagline: "World-class cosmetology & barber education",
+    description: "Comprehensive online learning platform used by top barber schools. Covers theory, technique, and business skills. Includes interactive digital lessons and instructor tools.",
+    url: "https://pivot-point.com",
+    logo: "https://logo.clearbit.com/pivot-point.com",
+    category: "education",
+    audiences: ["Students", "Schools"],
+    rank: 3,
+    badge: "🎯 School Favorite",
+    price: "School pricing",
+    affiliate: false,
+  },
+  {
+    id: 14,
+    name: "YouTube – Barber Education",
+    tagline: "Free technique library from the best in the game",
+    description: "Channels like Chuka The Barber, Btcuts, and SeanFadeKing offer free world-class technique tutorials. From beginner fades to competition cuts — thousands of free lessons.",
+    url: "https://youtube.com",
+    logo: "https://logo.clearbit.com/youtube.com",
+    category: "education",
+    audiences: ["Students", "Licensed Barbers"],
+    rank: 4,
+    badge: "📺 Free Forever",
+    price: "Free",
+    affiliate: false,
+  },
+  // MARKETING & SOCIAL
+  {
+    id: 15,
+    name: "Instagram",
+    tagline: "The barber's portfolio & client acquisition engine",
+    description: "The primary platform for building your brand, showcasing cuts, and attracting new clients. Reels of haircuts consistently go viral and bring in walk-ins from across the city.",
+    url: "https://instagram.com",
+    logo: "https://logo.clearbit.com/instagram.com",
+    category: "marketing",
+    audiences: ["Licensed Barbers", "Shop Owners", "Students"],
+    rank: 1,
+    badge: "📸 Must-Have",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 16,
+    name: "Google Business Profile",
+    tagline: "Show up when clients search 'barber near me'",
+    description: "A fully optimized Google Business Profile is your most powerful free marketing tool. Controls your map listing, reviews, hours, photos, and local search rankings.",
+    url: "https://business.google.com",
+    logo: "https://logo.clearbit.com/google.com",
+    category: "marketing",
+    audiences: ["Shop Owners", "Licensed Barbers"],
+    rank: 2,
+    badge: "🗺️ Local SEO Essential",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 17,
+    name: "Canva",
+    tagline: "Design promo graphics in minutes",
+    description: "Create social media posts, loyalty cards, service menus, and shop signage with zero design experience. Barber-specific templates available. Essential for consistent branding.",
+    url: "https://canva.com",
+    logo: "https://logo.clearbit.com/canva.com",
+    category: "marketing",
+    audiences: ["Licensed Barbers", "Shop Owners", "Students"],
+    rank: 3,
+    badge: "🎨 Easy Design",
+    price: "Free + Pro $13/mo",
+    affiliate: true,
+  },
+  {
+    id: 18,
+    name: "TikTok",
+    tagline: "Go viral with your craft",
+    description: "Short-form video content showing fade transformations, shop culture, and barber life reaches millions. TikTok has launched multiple barbers to 100k+ followers organically.",
+    url: "https://tiktok.com",
+    logo: "https://logo.clearbit.com/tiktok.com",
+    category: "marketing",
+    audiences: ["Licensed Barbers", "Students", "Shop Owners"],
+    rank: 4,
+    badge: "🚀 Viral Potential",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 19,
+    name: "Mailchimp",
+    tagline: "Email marketing for client retention",
+    description: "Send appointment reminders, promotions, and newsletters to your client list. Automation sequences can re-engage lapsed clients and boost rebooking rates significantly.",
+    url: "https://mailchimp.com",
+    logo: "https://logo.clearbit.com/mailchimp.com",
+    category: "marketing",
+    audiences: ["Shop Owners", "Licensed Barbers"],
+    rank: 5,
+    badge: "📧 Retention Tool",
+    price: "Free – $13/mo",
+    affiliate: true,
+  },
+  // SUPPLIES & PRODUCTS
+  {
+    id: 20,
+    name: "BarberSupply.com",
+    tagline: "Pro-grade supplies for the modern barber",
+    description: "One-stop shop for clippers, trimmers, blades, capes, cleaning supplies, and grooming products from top brands like Andis, Wahl, BaByliss, and more.",
+    url: "https://barbersupply.com",
+    logo: "https://logo.clearbit.com/barbersupply.com",
+    category: "supplies",
+    audiences: ["Licensed Barbers", "Shop Owners", "Students"],
+    rank: 1,
+    badge: "🛍️ Best Selection",
+    price: "Varies",
+    affiliate: true,
+  },
+  {
+    id: 21,
+    name: "Suavecito",
+    tagline: "The barber-culture grooming brand",
+    description: "Pomades, beard oils, and grooming products that barbers actually recommend to clients. Strong retail opportunity — shops carry Suavecito as a premium upsell at the chair.",
+    url: "https://suavecito.com",
+    logo: "https://logo.clearbit.com/suavecito.com",
+    category: "supplies",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 2,
+    badge: "💈 Client Favorite",
+    price: "Retail/Wholesale",
+    affiliate: true,
+  },
+  {
+    id: 22,
+    name: "Amazon Professional",
+    tagline: "Fast delivery on all your barber essentials",
+    description: "Neck strips, capes, blade oil, clipper guards, barber chairs, and station equipment — all with Prime shipping. Ideal for stocking up a shop or student kit quickly.",
+    url: "https://amazon.com",
+    logo: "https://logo.clearbit.com/amazon.com",
+    category: "supplies",
+    audiences: ["Licensed Barbers", "Shop Owners", "Students"],
+    rank: 3,
+    badge: "📦 Fast Shipping",
+    price: "Varies",
+    affiliate: true,
+  },
+  {
+    id: 23,
+    name: "Tomb45",
+    tagline: "Wireless charging gear built for barbers",
+    description: "Tomb45 makes wireless charging pods, clipper wraps, and organizers specifically designed for the barber station. Keeps your tools charged and your station clean.",
+    url: "https://tomb45.com",
+    logo: "https://logo.clearbit.com/tomb45.com",
+    category: "supplies",
+    audiences: ["Licensed Barbers", "Shop Owners"],
+    rank: 4,
+    badge: "⚡ Station Upgrade",
+    price: "From $40",
+    affiliate: true,
+  },
+  // COMMUNITY & NETWORKING
+  {
+    id: 24,
+    name: "Behind The Chair (BTC)",
+    tagline: "The largest pro beauty community online",
+    description: "Education articles, technique breakdowns, product reviews, and a massive community of barbers and stylists. Great for staying current on trends and connecting with peers.",
+    url: "https://behindthechair.com",
+    logo: "https://logo.clearbit.com/behindthechair.com",
+    category: "community",
+    audiences: ["Licensed Barbers", "Students", "Schools"],
+    rank: 1,
+    badge: "🌐 Largest Community",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 25,
+    name: "BarberEVO",
+    tagline: "The barber industry's premier magazine & network",
+    description: "International publication and community platform covering technique, business, competitions, and industry news. Widely read by shop owners and seasoned professionals.",
+    url: "https://barberevo.com",
+    logo: "https://logo.clearbit.com/barberevo.com",
+    category: "community",
+    audiences: ["Licensed Barbers", "Shop Owners", "Schools"],
+    rank: 2,
+    badge: "📰 Industry Press",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 26,
+    name: "Reddit r/Barber",
+    tagline: "Real talk from working barbers",
+    description: "Unfiltered advice, critique sessions, tool recommendations, and troubleshooting from an active global barber community. Great for students seeking honest feedback on their work.",
+    url: "https://reddit.com/r/barber",
+    logo: "https://logo.clearbit.com/reddit.com",
+    category: "community",
+    audiences: ["Students", "Licensed Barbers"],
+    rank: 3,
+    badge: "💬 Honest Advice",
+    price: "Free",
+    affiliate: false,
+  },
+  {
+    id: 27,
+    name: "FadeJunkie",
+    tagline: "Your home base — built for the culture",
+    description: "The all-in-one platform for student barbers, licensed pros, and clients. Exam prep, shop profiles, booking, community — everything the industry needs in one place.",
+    url: "https://fadejunkie.com",
+    logo: "https://logo.clearbit.com/fadejunkie.com",
+    category: "community",
+    audiences: ["Students", "Licensed Barbers", "Shop Owners", "Schools"],
+    rank: 0,
+    badge: "💈 Our Platform",
+    price: "Free to Join",
+    affiliate: false,
+    featured: true,
+  },
+];
+
+const RANK_COLORS = {
+  0: "#FFD700",
+  1: "#FFD700",
+  2: "#C0C0C0",
+  3: "#CD7F32",
+  4: "#6EE7B7",
+  5: "#6EE7B7",
+};
+
+export default function BarberToolbox() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeAudience, setActiveAudience] = useState("All");
+  const [search, setSearch] = useState("");
+
+  const filtered = TOOLS.filter((t) => {
+    const catMatch = activeCategory === "all" || t.category === activeCategory;
+    const audMatch = activeAudience === "All" || t.audiences.includes(activeAudience);
+    const searchMatch =
+      search === "" ||
+      t.name.toLowerCase().includes(search.toLowerCase()) ||
+      t.tagline.toLowerCase().includes(search.toLowerCase());
+    return catMatch && audMatch && searchMatch;
+  }).sort((a, b) => (a.featured ? -1 : b.featured ? 1 : a.rank - b.rank));
+
+  return (
+    <div style={{
+      fontFamily: "'Syne', 'Space Grotesk', sans-serif",
+      background: "#0A0A0A",
+      minHeight: "100vh",
+      color: "#F5F0E8",
+      padding: "0",
+    }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        .tool-card {
+          background: #111111;
+          border: 1px solid #222;
+          border-radius: 16px;
+          padding: 24px;
+          transition: all 0.25s ease;
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .tool-card:hover {
+          border-color: #C8A96E;
+          transform: translateY(-4px);
+          box-shadow: 0 20px 60px rgba(200,169,110,0.15);
+        }
+        .tool-card.featured {
+          border: 2px solid #C8A96E;
+          background: linear-gradient(135deg, #111 0%, #1a1508 100%);
+        }
+        .tool-card.featured::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #C8A96E, #F5DFA0, #C8A96E);
+        }
+        .cat-btn {
+          background: #161616;
+          border: 1px solid #2a2a2a;
+          color: #999;
+          padding: 8px 16px;
+          border-radius: 100px;
+          font-family: 'Syne', sans-serif;
+          font-size: 13px;
+          cursor: pointer;
+          transition: all 0.2s;
+          white-space: nowrap;
+        }
+        .cat-btn:hover { border-color: #C8A96E; color: #C8A96E; }
+        .cat-btn.active {
+          background: #C8A96E;
+          border-color: #C8A96E;
+          color: #0A0A0A;
+          font-weight: 700;
+        }
+        .aud-btn {
+          background: transparent;
+          border: 1px solid #222;
+          color: #666;
+          padding: 6px 14px;
+          border-radius: 6px;
+          font-family: 'DM Mono', monospace;
+          font-size: 11px;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .aud-btn:hover { border-color: #555; color: #999; }
+        .aud-btn.active { background: #1E1E1E; border-color: #C8A96E; color: #C8A96E; }
+        .visit-btn {
+          background: #C8A96E;
+          color: #0A0A0A;
+          border: none;
+          padding: 10px 18px;
+          border-radius: 8px;
+          font-family: 'Syne', sans-serif;
+          font-weight: 700;
+          font-size: 12px;
+          cursor: pointer;
+          text-decoration: none;
+          display: inline-block;
+          transition: all 0.2s;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-top: auto;
+        }
+        .visit-btn:hover { background: #F5DFA0; transform: scale(1.03); }
+        .visit-btn.affiliate { background: linear-gradient(90deg, #C8A96E, #E8C97E); }
+        .logo-img {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          object-fit: contain;
+          background: #1E1E1E;
+          padding: 6px;
+          border: 1px solid #2a2a2a;
+          flex-shrink: 0;
+        }
+        .logo-fallback {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          background: #1E1E1E;
+          border: 1px solid #2a2a2a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          flex-shrink: 0;
+        }
+        .search-input {
+          background: #161616;
+          border: 1px solid #2a2a2a;
+          color: #F5F0E8;
+          padding: 12px 18px;
+          border-radius: 10px;
+          font-family: 'Syne', sans-serif;
+          font-size: 14px;
+          width: 100%;
+          max-width: 360px;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        .search-input:focus { border-color: #C8A96E; }
+        .search-input::placeholder { color: #444; }
+        .badge-pill {
+          font-family: 'DM Mono', monospace;
+          font-size: 10px;
+          font-weight: 500;
+          padding: 3px 8px;
+          border-radius: 100px;
+          background: #1E1E1E;
+          border: 1px solid #2a2a2a;
+          color: #C8A96E;
+          letter-spacing: 0.04em;
+          white-space: nowrap;
+        }
+        .audience-tag {
+          font-family: 'DM Mono', monospace;
+          font-size: 9px;
+          padding: 2px 7px;
+          border-radius: 4px;
+          background: #1a1a1a;
+          color: #666;
+          border: 1px solid #222;
+        }
+        .grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+        }
+        .rank-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+        .affiliate-chip {
+          font-family: 'DM Mono', monospace;
+          font-size: 9px;
+          padding: 2px 6px;
+          border-radius: 4px;
+          background: rgba(200,169,110,0.1);
+          color: #C8A96E;
+          border: 1px solid rgba(200,169,110,0.2);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C8A96E; }
+        .hero-tag {
+          font-family: 'DM Mono', monospace;
+          font-size: 11px;
+          color: #C8A96E;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          background: rgba(200,169,110,0.08);
+          border: 1px solid rgba(200,169,110,0.2);
+          padding: 6px 14px;
+          border-radius: 100px;
+          display: inline-block;
+          margin-bottom: 20px;
+        }
+        @media (max-width: 640px) {
+          .grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      {/* Hero Header */}
+      <div style={{
+        padding: "80px 40px 60px",
+        maxWidth: "1200px",
+        margin: "0 auto",
+        position: "relative",
+      }}>
+        {/* Background accent */}
+        <div style={{
+          position: "absolute",
+          top: 0, left: 0, right: 0,
+          height: "400px",
+          background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.07) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        <div style={{ position: "relative" }}>
+          <div className="hero-tag">💈 FadeJunkie Presents</div>
+          <h1 style={{
+            fontFamily: "'Syne', sans-serif",
+            fontWeight: 800,
+            fontSize: "clamp(42px, 6vw, 72px)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.02em",
+            marginBottom: "20px",
+          }}>
+            The Barber<br />
+            <span style={{ color: "#C8A96E" }}>Toolbox.</span>
+          </h1>
+          <p style={{
+            fontSize: "17px",
+            color: "#888",
+            maxWidth: "560px",
+            lineHeight: 1.7,
+            marginBottom: "40px",
+          }}>
+            Every resource a student, licensed barber, shop owner, or school needs —
+            ranked, reviewed, and ready. Updated for 2025.
+          </p>
+
+          {/* Stats bar */}
+          <div style={{ display: "flex", gap: "40px", flexWrap: "wrap" }}>
+            {[
+              { num: `${TOOLS.length}+`, label: "Curated Resources" },
+              { num: "6", label: "Categories" },
+              { num: "4", label: "Audience Types" },
+            ].map((s) => (
+              <div key={s.label}>
+                <div style={{ fontWeight: 800, fontSize: "28px", fontFamily: "'Syne', sans-serif", color: "#C8A96E" }}>{s.num}</div>
+                <div style={{ fontSize: "12px", color: "#555", fontFamily: "'DM Mono', monospace", textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div style={{
+        maxWidth: "1200px",
+        margin: "0 auto",
+        padding: "0 40px 32px",
+      }}>
+        {/* Category pills */}
+        <div style={{
+          display: "flex",
+          gap: "8px",
+          overflowX: "auto",
+          paddingBottom: "4px",
+          marginBottom: "20px",
+        }}>
+          {CATEGORIES.map((c) => (
+            <button
+              key={c.id}
+              className={`cat-btn ${activeCategory === c.id ? "active" : ""}`}
+              onClick={() => setActiveCategory(c.id)}
+            >
+              {c.icon} {c.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Audience + Search row */}
+        <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+            {AUDIENCES.map((a) => (
+              <button
+                key={a}
+                className={`aud-btn ${activeAudience === a ? "active" : ""}`}
+                onClick={() => setActiveAudience(a)}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
+          <input
+            className="search-input"
+            placeholder="Search tools..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Tools Grid */}
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px 80px" }}>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: "center", padding: "80px", color: "#444" }}>
+            <div style={{ fontSize: "48px", marginBottom: "16px" }}>✂️</div>
+            <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "20px" }}>No tools found for that filter.</div>
+          </div>
+        ) : (
+          <div className="grid">
+            {filtered.map((tool) => (
+              <ToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Footer note */}
+      <div style={{
+        borderTop: "1px solid #161616",
+        padding: "32px 40px",
+        maxWidth: "1200px",
+        margin: "0 auto",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "12px",
+      }}>
+        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: "11px", color: "#444", lineHeight: 1.6 }}>
+          ✦ Links marked <span className="affiliate-chip" style={{ display: "inline" }}>affiliate</span> may earn FadeJunkie a commission at no cost to you.
+          <br />All tools are independently reviewed and ranked on merit.
+        </div>
+        <div style={{ fontFamily: "'Syne', sans-serif", fontSize: "13px", color: "#C8A96E", fontWeight: 700 }}>
+          FadeJunkie © 2025
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToolCard({ tool }) {
+  const [imgError, setImgError] = useState(false);
+  const rankColor = RANK_COLORS[tool.rank] || "#444";
+
+  return (
+    <div
+      className={`tool-card ${tool.featured ? "featured" : ""}`}
+      onClick={() => window.open(tool.url, "_blank")}
+    >
+      {/* Top row: logo + name + rank */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "14px" }}>
+        {!imgError ? (
+          <img
+            src={tool.logo}
+            alt={tool.name}
+            className="logo-img"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <div className="logo-fallback">✂️</div>
+        )}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+            <span style={{
+              fontFamily: "'Syne', sans-serif",
+              fontWeight: 700,
+              fontSize: "16px",
+              lineHeight: 1.2,
+              color: tool.featured ? "#C8A96E" : "#F5F0E8",
+            }}>{tool.name}</span>
+            {tool.featured && (
+              <span style={{
+                fontSize: "10px",
+                background: "#C8A96E",
+                color: "#0A0A0A",
+                padding: "2px 7px",
+                borderRadius: "4px",
+                fontWeight: 800,
+                fontFamily: "'DM Mono', monospace",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}>Our Platform</span>
+            )}
+          </div>
+          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+            <span className="badge-pill">{tool.badge}</span>
+            {tool.affiliate && <span className="affiliate-chip">affiliate</span>}
+          </div>
+        </div>
+        {/* Rank indicator */}
+        {!tool.featured && (
+          <div style={{
+            fontFamily: "'DM Mono', monospace",
+            fontSize: "11px",
+            color: rankColor,
+            fontWeight: 500,
+            flexShrink: 0,
+          }}>
+            #{tool.rank}
+          </div>
+        )}
+      </div>
+
+      {/* Tagline */}
+      <div style={{
+        fontFamily: "'Syne', sans-serif",
+        fontSize: "13px",
+        fontWeight: 600,
+        color: "#AAA",
+        lineHeight: 1.4,
+      }}>
+        {tool.tagline}
+      </div>
+
+      {/* Description */}
+      <div style={{
+        fontSize: "13px",
+        color: "#666",
+        lineHeight: 1.65,
+        flexGrow: 1,
+      }}>
+        {tool.description}
+      </div>
+
+      {/* Price + audiences row */}
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "8px",
+      }}>
+        <div style={{
+          fontFamily: "'DM Mono', monospace",
+          fontSize: "11px",
+          color: "#C8A96E",
+          fontWeight: 500,
+        }}>
+          {tool.price}
+        </div>
+        <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
+          {tool.audiences.map((a) => (
+            <span key={a} className="audience-tag">{a}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <a
+        href={tool.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`visit-btn ${tool.affiliate ? "affiliate" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {tool.featured ? "Join FadeJunkie →" : `Visit ${tool.name.split(" ")[0]} →`}
+      </a>
+    </div>
+  );
+}

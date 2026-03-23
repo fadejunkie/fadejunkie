@@ -1,0 +1,54 @@
+# Workspace-level gitignore
+
+# Node modules (any subdirectory)
+**/node_modules/
+
+# Next.js build cache
+app/.next/
+app/next-env.d.ts
+app/tsconfig.tsbuildinfo
+
+# Convex generated
+app/convex/_generated/
+
+# Environment
+app/.env.local
+app/.env*.local
+
+# Temp dirs
+_tmp_directory_repo/
+
+# Drive watcher local state
+.drive-manifest.json
+
+# WCORWIN build output (Cloudflare Pages builds from source)
+seo-engine/WCORWIN/dist/
+
+# Archive (old scripts, concepts, reports)
+_archive/
+
+# Agent outbox archives
+*/outbox/_archive/
+
+# Test demos
+lobe/test-demo/
+
+# Sensitive files
+*.bin
+
+# Session files
+*/.last-session
+
+# Browser agent screenshots (ephemeral QA artifacts)
+browser-agent/shots/*.png
+sentinel/shots/*.png
+
+# Agent package-lock files (local installs, not shared)
+dispatch/package-lock.json
+convex-agent/package-lock.json
+ink/package-lock.json
+sentinel/package-lock.json
+
+# Agent outbox results (only plans in pending/ are worth tracking)
+*/outbox/*.md
+!*/outbox/pending/

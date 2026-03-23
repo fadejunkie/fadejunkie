@@ -1,0 +1,174 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PageWindow — Standalone browser mockup widget
+   Drop-in CSS. No dependencies. Self-contained.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pw-widget {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 10000;
+  width: 420px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.15);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  opacity: 0;
+  transform: translateY(24px) scale(0.95);
+}
+
+.pw-widget.pw-visible {
+  animation: pw-slideIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes pw-slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Chrome: Title Bar ──────────────────────────────────────────────────── */
+
+.pw-chrome {
+  background: #1e1e1e;
+  padding: 12px 16px;
+  cursor: grab;
+  user-select: none;
+}
+
+.pw-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pw-traffic-lights {
+  display: flex;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.pw-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: filter 0.15s ease;
+  position: relative;
+  background: transparent;
+}
+
+.pw-dot:hover {
+  filter: brightness(1.2);
+}
+
+.pw-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.pw-chrome:hover .pw-dot::after {
+  opacity: 1;
+}
+
+/* Close (red) */
+.pw-dot-close {
+  background: #ff5f57;
+}
+.pw-dot-close::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.5 3.5l5 5M8.5 3.5l-5 5' stroke='%23820b03' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") center/8px no-repeat;
+}
+
+/* Minimize (yellow) */
+.pw-dot-minimize {
+  background: #febc2e;
+}
+.pw-dot-minimize::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6h7' stroke='%23995700' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") center/8px no-repeat;
+}
+
+/* Expand (green) */
+.pw-dot-expand {
+  background: #28c840;
+}
+.pw-dot-expand::after {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 8L5.5 5.5 8 3M3 4.5V8h3.5' stroke='%23006500' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") center/8px no-repeat;
+}
+
+/* ── URL Bar ────────────────────────────────────────────────────────────── */
+
+.pw-url-bar {
+  flex: 1;
+  background: #2d2d2d;
+  border-radius: 6px;
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pw-lock-icon {
+  color: #7a7a7a;
+  font-size: 10px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pw-url-text {
+  color: #b0b0b0;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Content Area ───────────────────────────────────────────────────────── */
+
+.pw-content {
+  background: #2a2a2a;
+  overflow: hidden;
+}
+
+.pw-content-inner {
+  height: 0;
+  overflow: hidden;
+  transition: height 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pw-widget.pw-expanded .pw-content-inner {
+  height: 300px;
+}
+
+.pw-frame {
+  width: 100%;
+  height: 300px;
+  border: none;
+  display: block;
+  background: #fff4ea;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 500px) {
+  .pw-widget {
+    right: 12px;
+    bottom: 12px;
+    width: calc(100vw - 24px);
+  }
+}

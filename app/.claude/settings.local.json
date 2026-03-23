@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd /c/Users/twani/fadejunkie && npx convex env list 2>&1)",
+      "Bash(cd /c/Users/twani/fadejunkie && npx @convex-dev/auth 2>&1)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(cd /c/Users/twani/fadejunkie && npx tsc --noEmit 2>&1)",
+      "Bash(winget:*)",
+      "Bash(pip install:*)",
+      "Bash(echo composio not found:*)",
+      "Bash(claude mcp:*)",
+      "WebFetch(domain:mcp.composio.dev)",
+      "WebFetch(domain:v3.docs.composio.dev)",
+      "WebFetch(domain:docs.composio.dev)",
+      "WebSearch",
+      "WebFetch(domain:composio.dev)",
+      "Bash(curl:*)"
+    ]
+  }
+}

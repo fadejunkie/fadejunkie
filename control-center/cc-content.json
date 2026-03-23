@@ -1,0 +1,90 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "How to Nail the TDLR Practical Exam",
+      "type": "blog",
+      "status": "idea",
+      "audience": "Students",
+      "priority": "high",
+      "targetDate": "",
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "title": "Top 10 Clippers for Barbers in 2026",
+      "type": "blog",
+      "status": "idea",
+      "audience": "Barbers",
+      "priority": "high",
+      "targetDate": "",
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "title": "FadeJunkie Platform Launch Announcement",
+      "type": "social",
+      "status": "idea",
+      "audience": "All",
+      "priority": "medium",
+      "targetDate": "",
+      "notes": ""
+    },
+    {
+      "id": 4,
+      "title": "State Board Prep Guide: What Every TX Barber Student Needs to Know",
+      "type": "blog",
+      "status": "writing",
+      "audience": "Students",
+      "priority": "high",
+      "targetDate": "2026-03-21",
+      "notes": "SEO target: tdlr barber exam",
+      "createdAt": "2026-03-14"
+    },
+    {
+      "id": 5,
+      "title": "Top 5 Clippers Every Texas Barber Needs in 2026",
+      "type": "blog",
+      "status": "idea",
+      "audience": "Barbers",
+      "priority": "high",
+      "targetDate": "2026-03-28",
+      "notes": "Affiliate angle: link to clippers in resources directory",
+      "createdAt": "2026-03-14"
+    },
+    {
+      "id": 6,
+      "title": "FadeJunkie Launch: Free Tools for Barber Students",
+      "type": "social",
+      "status": "idea",
+      "audience": "Students",
+      "priority": "high",
+      "targetDate": "2026-03-15",
+      "notes": "IG caption + story series. Drive signups.",
+      "createdAt": "2026-03-14"
+    },
+    {
+      "id": 7,
+      "title": "How Barbers Can Use AI to Grow Their Business",
+      "type": "blog",
+      "status": "writing",
+      "audience": "Barbers",
+      "priority": "medium",
+      "targetDate": "2026-04-01",
+      "notes": "FJ services arm thought leadership. SEO target: AI for barbers",
+      "createdAt": "2026-03-14"
+    },
+    {
+      "id": 8,
+      "title": "TDLR Exam 2026: Everything You Need to Know",
+      "type": "blog",
+      "status": "idea",
+      "audience": "Students",
+      "priority": "high",
+      "targetDate": "2026-03-20",
+      "notes": "SEO gold. Target: tdlr barber exam texas 2026",
+      "createdAt": "2026-03-14"
+    }
+  ],
+  "lastUpdated": "2026-03-14T07:48:51.634Z"
+}

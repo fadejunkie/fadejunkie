@@ -1,0 +1,255 @@
+# Flashcard Component — Design Specification
+# FadeJunkie · Lobe Design System
+# Created: 2026-03-10
+
+────────────────────────────────────────────────────────────────
+
+## 1. Visual Anatomy
+
+The flashcard is a two-faced card with a 3D flip interaction.
+Each card has a FRONT (question) and BACK (answer reveal).
+The card lives inside a floating widget panel with navigation chrome.
+
+### Front Face
+┌─────────────────────────────────┐
+│ ᴛᴏᴘɪᴄ                tap to flip │  ← badge + hint row
+│                                   │
+│                                   │
+│   What is the technical term      │  ← question text, centered
+│   for split ends?                 │
+│                                   │
+│                                   │
+│     A    B    C    D              │  ← letter hints, faded (0.2 opacity)
+└─────────────────────────────────┘
+
+- Background: #fff4ea (warm cream)
+- Topic badge: top-left, monospace, 9px, uppercase, letter-spacing 0.08em
+  Color: #8a7e72 (muted warm gray)
+- "Tap to flip" hint: top-right, monospace, 9px, color #b8a99a, opacity 0.7
+- Question text: Spectral serif, 16px, weight 400, color #0a0a0a
+  Centered vertically and horizontally in the card body
+  Line-height: 1.45, max-width: 85% of card width
+- Answer letter hints: A B C D in a row at bottom
+  Monospace, 11px, weight 600, color #0a0a0a, opacity 0.2
+  Spaced evenly, 20px gap between letters
+  Serves as a visual hint that options exist on the back
+
+### Back Face
+┌─────────────────────────────────┐
+│                                   │
+│  ┌─ A ── Trichoptilosis ───────┐ │  ← correct: white pill, dark text
+│  └─────────────────────────────┘ │
+│    B    Fragilitas Crinium        │  ← wrong: white text, 0.3 opacity
+│    C    Monilethrix               │
+│    D    Trichorrhexis Nodosa      │
+│                                   │
+└─────────────────────────────────┘
+
+- Background: #0a0a0a (near-black)
+- Option rows: stacked vertically, 8px gap between rows
+  Each row: letter badge + option text, left-aligned
+  Padding: 14px horizontal
+- Letter badge: monospace, 10px, weight 600
+  Width: 20px, height: 20px, border-radius: 4px
+  Centered text, inline-flex
+- Correct answer row:
+  Background: #ffffff, border-radius: 6px, padding: 8px 12px
+  Letter badge: background #0a0a0a, color #ffffff
+  Text: Spectral, 13px, weight 600, color #0a0a0a
+- Wrong answer rows:
+  No background (transparent)
+  Letter badge: border 1px solid rgba(255,255,255,0.15), color rgba(255,255,255,0.3)
+  Text: Spectral, 13px, weight 400, color rgba(255,255,255,0.3)
+
+────────────────────────────────────────────────────────────────
+
+## 2. Card Dimensions & Spacing
+
+- Card width: 100% of widget content area (widget is 320px, so ~288px with padding)
+- Card height: 220px (fixed, no overflow scroll)
+- Card border-radius: 8px
+- Card internal padding: 16px
+- No border on either face — the background color shift IS the boundary
+
+────────────────────────────────────────────────────────────────
+
+## 3. Color System
+
+| Token              | Hex/Value                    | Usage                        |
+|---------------------|------------------------------|------------------------------|
+| card-front-bg       | #fff4ea                      | Front face background        |
+| card-back-bg        | #0a0a0a                      | Back face background         |
+| text-primary        | #0a0a0a                      | Question text (front)        |
+| text-muted          | #8a7e72                      | Topic badge, metadata        |
+| text-hint           | #b8a99a                      | "Tap to flip" hint           |
+| text-back-correct   | #0a0a0a                      | Correct answer text (on pill)|
+| text-back-wrong     | rgba(255,255,255,0.3)        | Wrong answer text            |
+| correct-pill-bg     | #ffffff                      | Correct answer pill           |
+| correct-badge-bg    | #0a0a0a                      | Correct answer letter badge  |
+| wrong-badge-border  | rgba(255,255,255,0.15)       | Wrong answer badge border    |
+| widget-chrome-bg    | #1a1a1a                      | Widget header/footer chrome  |
+| widget-chrome-text  | rgba(255,255,255,0.85)       | Widget header text           |
+| widget-chrome-muted | rgba(255,255,255,0.4)        | Counter, secondary text      |
+| star-active         | #c8a24e                      | Star/bookmark when active    |
+| star-inactive       | rgba(255,255,255,0.3)        | Star/bookmark when inactive  |
+| progress-bar-bg     | rgba(255,255,255,0.08)       | Progress bar track           |
+| progress-bar-fill   | #c8a24e                      | Progress bar filled portion  |
+
+────────────────────────────────────────────────────────────────
+
+## 4. Flip Animation Specification
+
+### CSS 3D Setup
+- Container: `perspective: 1200px`
+- Card inner wrapper: `transform-style: preserve-3d`
+- Both faces: `backface-visibility: hidden`
+- Back face: `transform: rotateY(180deg)` (pre-rotated)
+
+### Flip Trigger
+- Click anywhere on the card surface
+- NOT on navigation buttons or star button
+
+### Flip Transition
+- Property: `transform`
+- Duration: 400ms
+- Easing: `cubic-bezier(0.4, 0, 0.2, 1)` (Material standard)
+- Front → Back: card inner rotates to `rotateY(180deg)`
+- Back → Front: card inner rotates to `rotateY(0deg)`
+
+### Navigation Reset
+- When navigating to a new card (prev/next), if the card is currently
+  showing the back face, reset to front (rotateY(0)) immediately
+  (no animation — instant reset, then the new question appears)
+
+────────────────────────────────────────────────────────────────
+
+## 5. Widget Chrome
+
+### Header Bar
+- Background: #1a1a1a
+- Height: 40px
+- Padding: 0 16px
+- Border-radius: 12px 12px 0 0
+- Display: flex, align-items: center, justify-content: space-between
+- Left: "Flashcards" label
+  Monospace, 10px, weight 500, uppercase, letter-spacing 0.08em
+  Color: rgba(255,255,255,0.85)
+- Right: Card counter "2 / 5"
+  Monospace, 11px, weight 400
+  Color: rgba(255,255,255,0.4)
+- Cursor: grab (draggable)
+
+### Progress Bar
+- Sits directly below the header, inside chrome area
+- Height: 2px
+- Background track: rgba(255,255,255,0.08)
+- Fill: #c8a24e (gold)
+- Width: (currentCard / totalCards) * 100%
+- Transition: width 300ms ease
+
+### Navigation Row
+- Below the card, inside widget
+- Background: #1a1a1a
+- Height: 40px
+- Padding: 0 16px
+- Border-radius: 0 0 12px 12px
+- Display: flex, align-items: center, justify-content: space-between
+- Prev button (left): "←" monospace, 14px, color rgba(255,255,255,0.5)
+  Hover: color rgba(255,255,255,0.85)
+  Disabled (first card): opacity 0.2, pointer-events: none
+- Star button (center): "★" 16px
+  Inactive: color rgba(255,255,255,0.3)
+  Active: color #c8a24e
+  Transition: color 200ms ease, transform 200ms ease
+  Active adds: transform scale(1.1) briefly
+- Next button (right): "→" monospace, 14px, color rgba(255,255,255,0.5)
+  Hover: color rgba(255,255,255,0.85)
+  Disabled (last card): opacity 0.2, pointer-events: none
+
+────────────────────────────────────────────────────────────────
+
+## 6. Floating Widget Behavior
+
+### Positioning
+- `position: fixed`
+- Default: `bottom: 120px; right: 32px` (above the browser widget)
+- `z-index: 90` (below browser widget at 100)
+- Width: 320px
+- Border-radius: 12px
+
+### Shadow
+- `box-shadow: 0 16px 48px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.12)`
+
+### Draggable
+- Drag handle: header bar only
+- On first drag: convert bottom/right to top/left (pixel values)
+- No bounds clamping — allow free movement
+- Cursor: grab → grabbing during drag
+
+### Entrance Animation
+- Slide in from bottom: translateY(20px) + opacity 0 → translateY(0) + opacity 1
+- Duration: 600ms
+- Easing: cubic-bezier(0.22, 1, 0.36, 1)
+- Delay: 1.6s (after browser widget settles)
+
+### No resize handles
+- Fixed width, not resizable
+
+────────────────────────────────────────────────────────────────
+
+## 7. Star/Bookmark State
+
+- Toggle on click
+- Visual: filled star (★) with color transition
+- Inactive → Active: color animates from white/30 to #c8a24e
+- Brief scale pulse: scale(1) → scale(1.15) → scale(1) over 300ms
+- State is per-card, persists during session (not saved to backend in widget mode)
+
+────────────────────────────────────────────────────────────────
+
+## 8. Answer Reveal Pattern
+
+The front face shows the QUESTION only, with faded letter hints (A B C D)
+at the bottom as a subtle cue that options exist.
+
+The back face reveals ALL options with the correct one visually dominant:
+- Correct answer: white background pill, bold text, solid letter badge
+- Wrong answers: low-opacity text, ghost letter badges
+- The contrast ratio between correct and wrong answers should be dramatic —
+  the correct answer should "pop" immediately without scanning
+
+This pattern creates a study-test loop:
+1. Read question → think of answer
+2. Flip → see if you were right (correct answer is unmistakable)
+3. Star if you need to revisit → navigate to next
+
+────────────────────────────────────────────────────────────────
+
+## 9. Typography Reference
+
+| Element              | Font           | Size | Weight | Line-height | Tracking    |
+|----------------------|----------------|------|--------|-------------|-------------|
+| Topic badge          | Geist Mono     | 9px  | 500    | 1           | 0.08em      |
+| "Tap to flip"        | Geist Mono     | 9px  | 400    | 1           | 0.04em      |
+| Question text        | Spectral       | 16px | 400    | 1.45        | -0.01em     |
+| Answer letter hints  | Geist Mono     | 11px | 600    | 1           | 0.02em      |
+| Option text (back)   | Spectral       | 13px | 400*   | 1.35        | 0           |
+| Correct option text  | Spectral       | 13px | 600    | 1.35        | 0           |
+| Widget label         | Geist Mono     | 10px | 500    | 1           | 0.08em      |
+| Card counter         | Geist Mono     | 11px | 400    | 1           | 0.02em      |
+| Nav arrows           | Geist Mono     | 14px | 400    | 1           | 0           |
+| Star icon            | System         | 16px | —      | 1           | 0           |
+
+────────────────────────────────────────────────────────────────
+
+## 10. Responsive Considerations (Widget Context)
+
+At viewport widths ≤ 500px:
+- Widget: right: 12px, width: calc(100vw - 24px)
+- Card height remains 220px
+- Question text may need to be 14px at narrow widths
+- Navigation row stays fixed height
+
+────────────────────────────────────────────────────────────────
+
+End of specification.

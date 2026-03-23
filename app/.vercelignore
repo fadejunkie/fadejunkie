@@ -1,0 +1,9 @@
+_tmp_directory_repo
+.env.local
+tsconfig.tsbuildinfo
+vprojects.json
+phoenix_domains.json
+fj_domains.json
+fj_project.json
+fj_env.json
+vdeploys.json

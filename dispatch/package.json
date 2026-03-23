@@ -1,0 +1,19 @@
+{
+  "name": "dispatch",
+  "version": "1.0.0",
+  "description": "Dispatch — orchestration brain of the FadeJunkie ecosystem",
+  "type": "module",
+  "scripts": {
+    "start": "tsx dispatch.ts",
+    "dev": "tsx watch dispatch.ts",
+    "watch": "tsx dispatch.ts --watch"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "funkie",
+  "version": "1.0.0",
+  "description": "FadeJunkie Manager — Claude agent powered point of contact for all FadeJunkie operations",
+  "type": "module",
+  "scripts": {
+    "start": "tsx funkie.ts",
+    "dev": "tsx watch funkie.ts",
+    "watch": "tsx funkie.ts --watch"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
+  }
+}

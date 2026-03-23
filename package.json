@@ -1,0 +1,19 @@
+{
+  "name": "fadejunkie",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cc": "node control-center/cc-server.mjs",
+    "watch-drive": "node drive-watcher.mjs",
+    "check-drive": "node drive-watcher.mjs --once"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "stripe": "^20.4.1"
+  }
+}

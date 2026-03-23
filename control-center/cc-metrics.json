@@ -1,0 +1,63 @@
+{
+  "users": {
+    "count": 0,
+    "target": 10,
+    "label": "Real Barbers",
+    "unit": "users",
+    "updated": "2026-03-14"
+  },
+  "mrr": {
+    "count": 950,
+    "target": 950,
+    "label": "Monthly Revenue",
+    "unit": "USD",
+    "updated": "2026-03-14"
+  },
+  "prospects": {
+    "count": 1,
+    "target": 3,
+    "label": "Warm Prospects",
+    "unit": "leads",
+    "updated": "2026-03-14"
+  },
+  "outreach": {
+    "count": 1,
+    "target": 1,
+    "label": "Outreach Sent",
+    "unit": "msgs",
+    "updated": "2026-03-14"
+  },
+  "clients": {
+    "count": 2,
+    "target": 3,
+    "label": "Active Clients",
+    "unit": "clients",
+    "updated": "2026-03-18"
+  },
+  "affiliate": {
+    "count": 0,
+    "target": 0,
+    "label": "Affiliate Clicks",
+    "unit": "clicks",
+    "updated": ""
+  },
+  "profiles": {
+    "count": 0,
+    "target": 3,
+    "label": "Demo Profiles",
+    "unit": "live",
+    "updated": ""
+  },
+  "notes": [
+    {
+      "date": "2026-03-14",
+      "key": "users",
+      "note": "Starting baseline — tracking towards 10 real barbers Q1"
+    },
+    {
+      "date": "2026-03-18",
+      "key": "clients",
+      "note": "Arquero Co. signed — $2,500 brand build + Shopify launch. 3-week project. Pipeline now $2,500 one-time + $950/mo retainer (WCORWIN)."
+    }
+  ]
+}

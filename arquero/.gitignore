@@ -1,0 +1,5 @@
+node_modules
+dist
+.env.local
+.vercel
+# convex/_generated is committed so Vercel can build without the parent repo

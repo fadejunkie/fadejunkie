@@ -1,0 +1,93 @@
+# WCORWIN.md — Claude Agent Project Brief
+# Client: Weichert Realtors, Corwin & Associates
+# Site: wcorwin.com | Contact: Joe Corwin | Market: New Braunfels, TX
+
+---
+
+## Project Status
+- Agreement: SIGNED
+- Payment: PAID (Month 1 — $950, 2026-03-09, Visa -1802)
+- iHouseWeb Admin: GRANTED (2026-03-14)
+- Access Pending: Google Search Console, Google Business Profile
+
+---
+
+## Client Overview
+Veteran-owned real estate brokerage on the Weichert franchise platform.
+Serves: New Braunfels, Canyon Lake, Spring Branch, Seguin, and surrounding areas.
+USP: Discount fees + buyer rebate program + veteran-owned angle.
+Platform: Weichert-managed CMS (limited edit access — verify per task).
+
+---
+
+## Engagement Terms
+- Kickoff: $1,500 (audit already delivered; schema + GSC + GBP setup)
+- Month 1: $950 (2 content pieces, rank tracking, GBP mgmt, tech task, report)
+- Continuation: $950/mo, month-to-month, 30-day cancel notice
+- Ownership: Client owns all deliverables upon payment
+
+---
+
+## Core SEO Problems (from audit)
+1. Identical title tags and meta descriptions across ALL pages — critical
+2. Zero structured data / schema markup
+3. Sitemap status unconfirmed — likely not submitted to GSC
+4. No neighborhood landing pages — only homepage targets local keywords
+5. Agent pages thin/duplicated
+6. Veteran-owned + buyer rebate angles not leveraged in SEO
+7. No internal linking structure
+8. Backlink profile is weak — no local citations confirmed
+9. GBP optimization status unknown
+10. Core Web Vitals unverified (Weichert platform constraints)
+
+---
+
+## Kickoff Deliverables (do first, before Month 1 clock starts)
+- [ ] Rewrite title tags (homepage, agents, listings, about, foreclosure pages)
+- [ ] Rewrite meta descriptions (unique per page)
+- [ ] Implement LocalBusiness + RealEstateAgent JSON-LD schema on homepage
+- [ ] Confirm/submit sitemap to Google Search Console
+- [ ] Optimize Google Business Profile (categories, description, photos, posts)
+
+---
+
+## Month 1 Deliverables
+- [ ] 2 original content pieces (neighborhood guide OR landing page)
+      Suggested: "Living in Canyon Lake TX" + "Buyer Rebate Program New Braunfels TX"
+- [ ] Keyword rank tracking setup (target: "New Braunfels TX realtor", 
+      "homes for sale New Braunfels TX", "veteran realtor New Braunfels",
+      "discount real estate agent New Braunfels")
+- [ ] GBP management (1 post, review response if needed)
+- [ ] 1 additional technical SEO task (robots.txt review OR image alt tags OR internal linking)
+- [ ] Plain-English performance summary (email or PDF)
+
+---
+
+## Blocked / Waiting On Client
+- Google Search Console access (owner verification required)
+- Google Business Profile access (may be under Weichert corporate — confirm)
+- ~~Platform edit access confirmation~~ ✅ iHouseWeb admin access GRANTED (2026-03-14)
+
+---
+
+## Key Keyword Targets
+Primary:
+- "New Braunfels TX real estate"
+- "homes for sale New Braunfels TX"
+- "New Braunfels TX realtor"
+
+Secondary:
+- "veteran realtor New Braunfels"
+- "discount real estate agent New Braunfels TX"
+- "buyer rebate program New Braunfels TX"
+- "homes for sale Canyon Lake TX"
+- "Spring Branch TX homes for sale"
+
+---
+
+## Notes for Agent
+- Always write in "we" voice as Anthony's SEO Engine
+- Weichert platform may restrict technical changes — flag before scoping
+- Joe's veteran-owned angle is genuinely differentiated — push this in all content
+- Do NOT promise ranking timelines — local RE is competitive (Zillow, KW dominate)
+- Invoice goes through FadeJunkie entity

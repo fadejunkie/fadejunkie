@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PageWindow Demo</title>
+  <link rel="stylesheet" href="page-window.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: #111;
+      color: #e0e0e0;
+      font-family: 'SF Mono', 'Geist Mono', 'Fira Code', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666;
+      font-weight: 400;
+    }
+
+    .demo-controls {
+      display: flex;
+      gap: 8px;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .demo-controls input {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      font-family: inherit;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .demo-controls input:focus {
+      border-color: #444;
+    }
+
+    .demo-controls input::placeholder {
+      color: #555;
+    }
+
+    .demo-controls button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: #28c840;
+      color: #003d00;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: filter 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .demo-controls button:hover {
+      filter: brightness(1.15);
+    }
+
+    .demo-hint {
+      font-size: 11px;
+      color: #444;
+      max-width: 480px;
+      text-align: center;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>PageWindow Component</h1>
+
+  <div class="demo-controls">
+    <input
+      type="url"
+      id="urlInput"
+      placeholder="https://example.com"
+      value="https://fadejunkie.com"
+    >
+    <button id="openBtn">Open</button>
+  </div>
+
+  <p class="demo-hint">
+    Type any URL and hit Open. Drag the title bar. Try the traffic lights.
+  </p>
+
+  <script src="page-window.js"></script>
+  <script>
+    const input = document.getElementById('urlInput');
+    const btn   = document.getElementById('openBtn');
+
+    function openUrl() {
+      const url = input.value.trim();
+      if (!url) return;
+      PageWindow.open(url);
+    }
+
+    btn.addEventListener('click', openUrl);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') openUrl();
+    });
+  </script>
+
+</body>
+</html>

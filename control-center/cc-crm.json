@@ -1,0 +1,127 @@
+{
+  "prospects": [
+    {
+      "id": 1742256000002,
+      "name": "Arquero Co.",
+      "type": "Brand Build + Ecommerce Launch",
+      "contact": "TBD",
+      "location": "TBD",
+      "status": "active",
+      "value": 2500,
+      "domain": "arquero.co",
+      "platform": "Shopify",
+      "notes": "ACTIVE CLIENT. Contract signed 2026-03-18. $2,500 milestone or $2,250 upfront. 4 phases: Domain+TM ($400) → Brand Identity ($550) → Shopify Build ($1,300) → Launch+Handoff ($250). New apparel brand, <20 SKUs. 3-week timeline.",
+      "email": "",
+      "phone": "",
+      "lastContact": "2026-03-18",
+      "createdAt": "2026-03-18",
+      "phases": [
+        { "phase": 1, "name": "Domain Acquisition + Trademark", "value": 400, "status": "pending", "week": "Week 1" },
+        { "phase": 2, "name": "Brand Identity", "value": 550, "status": "pending", "week": "Weeks 1–2" },
+        { "phase": 3, "name": "Ecommerce Website Build", "value": 1300, "status": "pending", "week": "Weeks 2–3" },
+        { "phase": 4, "name": "Launch + Handoff", "value": 250, "status": "pending", "week": "Week 3" }
+      ],
+      "payments": [],
+      "history": [
+        {
+          "status": "active",
+          "date": "2026-03-18",
+          "note": "Contract signed. Service agreement + scope of work executed. 3-week delivery target."
+        }
+      ]
+    },
+    {
+      "id": 1773474446001,
+      "name": "Weichert Realtors — Corwin & Associates",
+      "type": "Real Estate SEO",
+      "contact": "Joe Corwin (Owner) · Deanna Bazan (Office Mgr)",
+      "location": "New Braunfels, TX",
+      "status": "active",
+      "value": 950,
+      "notes": "ACTIVE CLIENT. Month 1 paid $950 on 2026-03-09 (Visa -1802). Veteran-owned RE brokerage on Weichert franchise. Live site: wcorwin.anthonytatis.com. Original: wcorwin.com. iHouseWeb admin GRANTED 2026-03-14. Waiting on: GSC access, GBP access.",
+      "email": "Joe@joecorwin.com",
+      "phone": "",
+      "lastContact": "2026-03-14",
+      "createdAt": "2026-03-14",
+      "payments": [
+        {
+          "month": 1,
+          "amount": 950,
+          "date": "2026-03-09",
+          "invoiceNumber": "NPRYS7ZO-0001",
+          "receiptNumber": "2644-0954",
+          "method": "Visa -1802",
+          "receipt": "seo-engine/WCORWIN/WCORWIN MONTH 1 RECEIPT.pdf"
+        }
+      ],
+      "history": [
+        {
+          "status": "identified",
+          "date": "2026-03-01",
+          "note": "Initial contact"
+        },
+        {
+          "status": "contacted",
+          "date": "2026-03-05",
+          "note": "SEO audit delivered"
+        },
+        {
+          "status": "meeting",
+          "date": "2026-03-10",
+          "note": "Kickoff strategy discussion"
+        },
+        {
+          "status": "proposal",
+          "date": "2026-03-14",
+          "note": "Contract signed. Invoice sent — awaiting payment"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-14",
+          "note": "Month 1 paid ($950) — receipt NPRYS7ZO-0001"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-14",
+          "note": "iHouseWeb admin access granted — title tags, meta, schema work unblocked"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive watcher: ingested seo-audit-wcorwin.com.md (other)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: voice-examples.md (audit)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: seo-audit-wcorwin.com.md (audit)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: seo-retainer-proposal-wcorwin.pdf (proposal)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: wcorwin-service-agreement.pdf (agreement)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: seo-audit-client-summary-wcorwin.pdf (deliverable)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-15",
+          "note": "Drive: wcorwin-project-summary.pdf (deliverable)"
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2026-03-18T00:00:00.000Z"
+}

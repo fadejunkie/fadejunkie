@@ -1,0 +1,64 @@
+{
+  "client": "Arquero Co.",
+  "customer_id": "cus_UAm9HuXwaFHzak",
+  "contract_date": "2026-03-18",
+  "generated_at": "2026-03-19T21:23:39.939Z",
+  "expires_days": 7,
+  "invoices": [
+    {
+      "ref": "ARQCO-2026-P1",
+      "label": "Phase 1 — Domain Acquisition + Trademark",
+      "amount": "$400",
+      "due_date": "2026-03-26",
+      "stripe_invoice_id": "in_1TCo2GPhBvpkIVx0NZo0cCxS",
+      "stripe_invoice_number": "CAPLYORH-0011",
+      "status": "open",
+      "payment_link": "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFONXlpNTk4SzhMZnU0YUpaOHp6RWZpOThwb2dJLDE2NDQ5NjIwMw0200KanlRWLa?s=ap",
+      "pdf": "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFONXlpNTk4SzhMZnU0YUpaOHp6RWZpOThwb2dJLDE2NDQ5NjIwMw0200KanlRWLa/pdf?s=ap"
+    },
+    {
+      "ref": "ARQCO-2026-P2",
+      "label": "Phase 2 — Brand Identity",
+      "amount": "$550",
+      "due_date": "2026-03-26",
+      "stripe_invoice_id": "in_1TCo2JPhBvpkIVx0LR5F4hc6",
+      "stripe_invoice_number": "CAPLYORH-0012",
+      "status": "open",
+      "payment_link": "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOUGtKbVlsekdFQm84Y1dpakhUelhwc252Qm56LDE2NDQ5NjIwNg0200xlrcPCxM?s=ap",
+      "pdf": "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOUGtKbVlsekdFQm84Y1dpakhUelhwc252Qm56LDE2NDQ5NjIwNg0200xlrcPCxM/pdf?s=ap"
+    },
+    {
+      "ref": "ARQCO-2026-P3",
+      "label": "Phase 3 — Ecommerce Website Build (Shopify)",
+      "amount": "$1,300",
+      "due_date": "2026-03-26",
+      "stripe_invoice_id": "in_1TCo2NPhBvpkIVx0XnLhydwb",
+      "stripe_invoice_number": "CAPLYORH-0013",
+      "status": "open",
+      "payment_link": "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOTVlvYmtINWJTUW1BeEI4M1pudTlscWZnczRTLDE2NDQ5NjIxMQ0200eS6S4Q0Q?s=ap",
+      "pdf": "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOTVlvYmtINWJTUW1BeEI4M1pudTlscWZnczRTLDE2NDQ5NjIxMQ0200eS6S4Q0Q/pdf?s=ap"
+    },
+    {
+      "ref": "ARQCO-2026-P4",
+      "label": "Phase 4 — Launch + Handoff",
+      "amount": "$250",
+      "due_date": "2026-03-26",
+      "stripe_invoice_id": "in_1TCo2RPhBvpkIVx0s0xfh9xj",
+      "stripe_invoice_number": "CAPLYORH-0014",
+      "status": "open",
+      "payment_link": "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOWFhJQWpPU2hXU3NQZmdEOXo0aW91bmVDWUVpLDE2NDQ5NjIxNA02005ewFAD0u?s=ap",
+      "pdf": "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOWFhJQWpPU2hXU3NQZmdEOXo0aW91bmVDWUVpLDE2NDQ5NjIxNA02005ewFAD0u/pdf?s=ap"
+    },
+    {
+      "ref": "ARQCO-2026-UPFRONT",
+      "label": "Full Project — One-Time Upfront Payment (All 4 Phases)",
+      "amount": "$2,250",
+      "due_date": "2026-03-26",
+      "stripe_invoice_id": "in_1TCo2UPhBvpkIVx02C888yR6",
+      "stripe_invoice_number": "CAPLYORH-0015",
+      "status": "open",
+      "payment_link": "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOSjByZVdjN3dzSGlMR2U1MnBjNjFPaTVvclBnLDE2NDQ5NjIxOA020035G7bme6?s=ap",
+      "pdf": "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOSjByZVdjN3dzSGlMR2U1MnBjNjFPaTVvclBnLDE2NDQ5NjIxOA020035G7bme6/pdf?s=ap"
+    }
+  ]
+}
