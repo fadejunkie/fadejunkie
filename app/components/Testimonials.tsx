@@ -193,7 +193,7 @@ const Testimonials = () => {
     <section
       style={{
         backgroundColor: "#fff4ea",
-        padding: "5rem clamp(1.5rem, 5vw, 6rem)",
+        padding: "3.5rem clamp(1.5rem, 5vw, 6rem)",
         borderTop: "1px solid rgba(22,16,8,0.08)",
         borderBottom: "1px solid rgba(22,16,8,0.08)",
       }}
@@ -255,7 +255,7 @@ const Testimonials = () => {
           variants={stagger}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
+          viewport={{ once: true, margin: "0px" }}
         >
           {TESTIMONIALS.map((t) => (
             <TestimonialCard key={t.name} {...t} />

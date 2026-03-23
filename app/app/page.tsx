@@ -41,19 +41,30 @@ const stagger = {
 function AnimatedStatValue({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
-  const [displayed, setDisplayed] = useState<string>(value === "Free" ? "Free" : "0");
+
+  // Extract any non-numeric prefix (e.g. "$") before the digits
+  const prefix = value.match(/^[^0-9]*/)?.[0] ?? "";
+  const valueWithoutPrefix = value.slice(prefix.length);
+
+  const [displayed, setDisplayed] = useState<string>(
+    value === "Free" ? "Free" : prefix + "0"
+  );
 
   useEffect(() => {
     if (!isInView) return;
     if (value === "Free") { setDisplayed("Free"); return; }
+    // Values like "$0" that resolve to zero should just display as-is (no counter)
+    if (valueWithoutPrefix === "0" || valueWithoutPrefix === "0+") {
+      setDisplayed(value);
+      return;
+    }
 
-    const match = value.match(/([\d,.]+)([k+]*)/i);
+    const match = valueWithoutPrefix.match(/([\d,.]+)([k+]*)/i);
     if (!match) { setDisplayed(value); return; }
 
     const raw = parseFloat(match[1].replace(/,/g, ""));
     const isK = /k/i.test(match[2]);
-    const suffix = match[2].replace(/k/i, isK ? "k" : "").replace(/k/, "k");
-    const target = isK ? raw : raw;
+    const target = raw;
 
     const duration = 1400;
     const startTime = performance.now();
@@ -66,18 +77,18 @@ function AnimatedStatValue({ value }: { value: string }) {
       const current = eased * target;
 
       if (isK) {
-        setDisplayed(current.toFixed(current >= 10 ? 0 : 1).replace(/\.0$/, "") + "k+");
+        setDisplayed(prefix + current.toFixed(current >= 10 ? 0 : 1).replace(/\.0$/, "") + "k+");
       } else if (raw >= 1000) {
-        setDisplayed(Math.round(current).toLocaleString() + "+");
+        setDisplayed(prefix + Math.round(current).toLocaleString() + "+");
       } else {
-        setDisplayed(Math.round(current) + "+");
+        setDisplayed(prefix + Math.round(current) + "+");
       }
 
       if (t < 1) requestAnimationFrame(tick);
     };
 
     requestAnimationFrame(tick);
-  }, [isInView, value]);
+  }, [isInView, value, prefix, valueWithoutPrefix]);
 
   return <span ref={ref}>{displayed}</span>;
 }

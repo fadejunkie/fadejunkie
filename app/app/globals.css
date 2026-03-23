@@ -273,9 +273,10 @@ nav a:not([class*="btn"]):not([class*="Button"]):hover::after {
   transform: translateX(4px);
 }
 
-/* ─── Smooth scroll ──────────────────────────────────────────── */
+/* ─── Smooth scroll + stable layout ─────────────────────────── */
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable; /* reserves scrollbar space — prevents layout shift on page transitions */
 }
 
 /* ─── Text rendering sharpness ───────────────────────────────── */

@@ -84,7 +84,13 @@ const Footer2 = ({
         borderTop: "1px solid rgba(255,244,234,0.06)",
       }}
     >
-      <div className="container">
+      <div
+        className="container"
+        style={{
+          paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
+          paddingRight: "max(1.5rem, env(safe-area-inset-right))",
+        }}
+      >
         <footer>
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
             <div className="col-span-2 mb-8 lg:mb-0">
