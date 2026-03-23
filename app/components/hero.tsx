@@ -373,7 +373,7 @@ const HeroCard = () => {
 
       {/* ── Secondary floating card — recent post ── */}
       <motion.div
-        initial={{ opacity: 0, x: -24, y: -8 }}
+        initial={{ opacity: 0, x: -20, y: 8 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
         transition={{
           duration: 0.55,
@@ -382,7 +382,7 @@ const HeroCard = () => {
         }}
         style={{
           position: "absolute",
-          top: 32,
+          top: 195,
           left: -56,
           backgroundColor: "#fff4ea",
           borderRadius: "1rem",
@@ -484,7 +484,7 @@ const Hero = () => {
           </motion.p>
 
           {/* Headline — Spectral 300 light, editorial scale */}
-          <div style={{ overflow: "hidden", marginBottom: "1.5rem" }}>
+          <div style={{ marginBottom: "1.5rem" }}>
             <motion.h1
               style={{
                 fontFamily:
@@ -496,9 +496,9 @@ const Hero = () => {
                 color: "hsl(0, 0%, 8%)",
                 margin: 0,
               }}
-              initial={{ y: "105%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.75, ease, delay: 0.08 }}
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease, delay: 0.05 }}
             >
               Addicted
               <br />
