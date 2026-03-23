@@ -66,7 +66,7 @@ const BentoCard = ({
             "h-7 w-7 origin-left transition-all duration-300 ease-in-out group-hover:scale-90",
           )}
           style={{
-            color: isDark ? "rgba(255,244,234,0.3)" : "hsl(34, 22%, 50%)",
+            color: isDark ? "rgba(255,244,234,0.45)" : "hsl(34, 22%, 50%)",
             strokeWidth: 1.5,
           }}
         />
@@ -86,7 +86,7 @@ const BentoCard = ({
             fontFamily: "var(--font-inter), -apple-system, sans-serif",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            color: isDark ? "rgba(255,244,234,0.38)" : "hsl(34, 18%, 38%)",
+            color: isDark ? "rgba(255,244,234,0.55)" : "hsl(34, 18%, 38%)",
             maxWidth: "28rem",
           }}
         >

@@ -6,8 +6,9 @@ import { Cta13 } from "@/components/cta-13";
 import { Footer2 } from "@/components/ui/shadcnblocks-com-footer2";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { Manifesto } from "@/components/manifesto";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { useRef, useEffect, useState } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -18,6 +19,9 @@ import {
   Globe,
   GraduationCap,
   FolderOpen,
+  Star,
+  MapPin,
+  ExternalLink,
 } from "lucide-react";
 
 /* ─── Design constants ────────────────────────────────────────── */
@@ -31,6 +35,51 @@ const fadeUp = {
 const stagger = {
   visible: { transition: { staggerChildren: 0.08 } },
 };
+
+/* ─── Animated counter ───────────────────────────────────────── */
+function AnimatedStatValue({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-40px" });
+  const [displayed, setDisplayed] = useState<string>(value === "Free" ? "Free" : "0");
+
+  useEffect(() => {
+    if (!isInView) return;
+    if (value === "Free") { setDisplayed("Free"); return; }
+
+    const match = value.match(/([\d,.]+)([k+]*)/i);
+    if (!match) { setDisplayed(value); return; }
+
+    const raw = parseFloat(match[1].replace(/,/g, ""));
+    const isK = /k/i.test(match[2]);
+    const suffix = match[2].replace(/k/i, isK ? "k" : "").replace(/k/, "k");
+    const target = isK ? raw : raw;
+
+    const duration = 1400;
+    const startTime = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      // Ease out expo
+      const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      const current = eased * target;
+
+      if (isK) {
+        setDisplayed(current.toFixed(current >= 10 ? 0 : 1).replace(/\.0$/, "") + "k+");
+      } else if (raw >= 1000) {
+        setDisplayed(Math.round(current).toLocaleString() + "+");
+      } else {
+        setDisplayed(Math.round(current) + "+");
+      }
+
+      if (t < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }, [isInView, value]);
+
+  return <span ref={ref}>{displayed}</span>;
+}
 
 /* ─── Social proof stats ─────────────────────────────────────── */
 const STATS = [
@@ -144,7 +193,7 @@ export default function LandingPage() {
                 style={{
                   fontFamily:
                     "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                  fontSize: "clamp(1.25rem, 2.5vw, 1.875rem)",
+                  fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)",
                   fontWeight: 400,
                   fontStyle: "italic",
                   letterSpacing: "-0.015em",
@@ -152,7 +201,7 @@ export default function LandingPage() {
                   display: "block",
                 }}
               >
-                {stat.value}
+                <AnimatedStatValue value={stat.value} />
               </span>
               <span
                 style={{
@@ -220,7 +269,7 @@ export default function LandingPage() {
             >
               Three paths.
               <br />
-              <span style={{ fontStyle: "normal", fontWeight: 300 }}>
+              <span style={{ fontStyle: "normal", fontWeight: 400, color: "hsl(34, 22%, 44%)" }}>
                 One community.
               </span>
             </motion.h2>
@@ -255,7 +304,7 @@ export default function LandingPage() {
                     overflow: "hidden",
                     borderRadius: "1rem",
                     padding: "2.25rem",
-                    minHeight: 300,
+                    minHeight: 340,
                     backgroundColor: path.dark
                       ? "rgba(22,16,8,0.97)"
                       : "rgba(255,255,255,0.7)",
@@ -456,15 +505,15 @@ export default function LandingPage() {
                         key={i}
                         className="mb-2.5 rounded-xl p-3"
                         style={{
-                          backgroundColor: "rgba(255,244,234,0.03)",
-                          border: "1px solid rgba(255,244,234,0.06)",
+                          backgroundColor: "rgba(255,244,234,0.06)",
+                          border: "1px solid rgba(255,244,234,0.10)",
                         }}
                       >
                         <div className="mb-1.5 flex items-center gap-2">
                           <div
                             className="h-5 w-5 rounded-full flex-shrink-0"
                             style={{
-                              backgroundColor: "rgba(255,244,234,0.08)",
+                              backgroundColor: "rgba(255,244,234,0.12)",
                             }}
                           />
                           <span
@@ -472,7 +521,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-geist-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,244,234,0.35)",
+                              color: "rgba(255,244,234,0.60)",
                               letterSpacing: "0.06em",
                             }}
                           >
@@ -483,7 +532,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-geist-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,244,234,0.18)",
+                              color: "rgba(255,244,234,0.35)",
                               marginLeft: "auto",
                               letterSpacing: "0.04em",
                             }}
@@ -497,7 +546,7 @@ export default function LandingPage() {
                               "var(--font-inter), -apple-system, sans-serif",
                             fontSize: 11,
                             lineHeight: 1.5,
-                            color: "rgba(255,244,234,0.22)",
+                            color: "rgba(255,244,234,0.50)",
                           }}
                         >
                           {post.preview}
@@ -519,7 +568,51 @@ export default function LandingPage() {
               href="/signin?mode=signup"
               cta="Build yours"
               background={
-                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent">
+                  {/* Mock profile card */}
+                  <div
+                    className="absolute inset-x-4 top-4 rounded-xl p-3.5"
+                    style={{
+                      backgroundColor: "rgba(255,244,234,0.06)",
+                      border: "1px solid rgba(255,244,234,0.10)",
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5 mb-3">
+                      <div
+                        className="h-8 w-8 rounded-full flex-shrink-0 flex items-center justify-center"
+                        style={{ backgroundColor: "rgba(255,244,234,0.10)", border: "1px solid rgba(255,244,234,0.14)" }}
+                      >
+                        <span style={{ fontFamily: "var(--font-spectral), serif", fontSize: 11, color: "rgba(255,244,234,0.60)", fontStyle: "italic" }}>AM</span>
+                      </div>
+                      <div>
+                        <p style={{ fontFamily: "var(--font-spectral), serif", fontSize: 11, color: "rgba(255,244,234,0.85)", letterSpacing: "-0.01em" }}>Andre Mitchell</p>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <MapPin style={{ width: 8, height: 8, color: "hsl(34, 42%, 44%)" }} />
+                          <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,244,234,0.45)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
+                        </div>
+                      </div>
+                      <div className="ml-auto flex items-center gap-0.5">
+                        <Star style={{ width: 8, height: 8, color: "hsl(34, 42%, 44%)", fill: "hsl(34, 42%, 44%)" }} />
+                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "hsl(34, 42%, 44%)", letterSpacing: "0.06em" }}>4.9</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {["Skin Fades", "Tapers", "Beard Work"].map(tag => (
+                        <span key={tag} style={{
+                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontSize: 7,
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                          color: "rgba(255,244,234,0.50)",
+                          backgroundColor: "rgba(255,244,234,0.07)",
+                          border: "1px solid rgba(255,244,234,0.10)",
+                          borderRadius: "2rem",
+                          padding: "0.2rem 0.45rem",
+                        }}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               }
             />
 
@@ -533,7 +626,45 @@ export default function LandingPage() {
               href="/signin?mode=signup"
               cta="Launch a site"
               background={
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent">
+                  {/* Mock website browser chrome */}
+                  <div
+                    className="absolute inset-x-4 top-4 rounded-xl overflow-hidden"
+                    style={{
+                      backgroundColor: "rgba(255,244,234,0.06)",
+                      border: "1px solid rgba(255,244,234,0.10)",
+                    }}
+                  >
+                    {/* Browser top bar */}
+                    <div
+                      className="flex items-center gap-1.5 px-2.5 py-2"
+                      style={{ borderBottom: "1px solid rgba(255,244,234,0.08)" }}
+                    >
+                      {[1,2,3].map(i => (
+                        <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "rgba(255,244,234,0.20)" }} />
+                      ))}
+                      <div
+                        className="flex-1 h-3 rounded-sm mx-2 flex items-center justify-center"
+                        style={{ backgroundColor: "rgba(255,244,234,0.07)" }}
+                      >
+                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 6, color: "rgba(255,244,234,0.45)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
+                      </div>
+                      <ExternalLink style={{ width: 7, height: 7, color: "rgba(255,244,234,0.30)" }} />
+                    </div>
+                    {/* Mock site content */}
+                    <div className="p-3">
+                      <p style={{ fontFamily: "var(--font-spectral), serif", fontSize: 13, fontWeight: 300, fontStyle: "italic", color: "rgba(255,244,234,0.80)", letterSpacing: "-0.01em", marginBottom: "0.5rem" }}>Morales Cuts</p>
+                      <p style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,244,234,0.45)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
+                      <div
+                        className="inline-flex items-center gap-1 rounded-full px-2.5 py-1"
+                        style={{ backgroundColor: "rgba(255,244,234,0.12)", border: "1px solid rgba(255,244,234,0.16)" }}
+                      >
+                        <span style={{ fontFamily: "var(--font-inter), sans-serif", fontSize: 8, color: "rgba(255,244,234,0.70)", letterSpacing: "-0.01em" }}>Book a cut</span>
+                        <ArrowRight style={{ width: 7, height: 7, color: "rgba(255,244,234,0.50)" }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               }
             />
 
@@ -554,8 +685,8 @@ export default function LandingPage() {
                     className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl px-4 py-3"
                     style={{
                       width: "82%",
-                      backgroundColor: "rgba(255,244,234,0.03)",
-                      border: "1px solid rgba(255,244,234,0.06)",
+                      backgroundColor: "rgba(255,244,234,0.07)",
+                      border: "1px solid rgba(255,244,234,0.11)",
                     }}
                   >
                     <p
@@ -565,7 +696,7 @@ export default function LandingPage() {
                         fontSize: 8,
                         letterSpacing: "0.15em",
                         textTransform: "uppercase",
-                        color: "rgba(255,244,234,0.22)",
+                        color: "rgba(255,244,234,0.45)",
                         marginBottom: "0.5rem",
                       }}
                     >
@@ -577,7 +708,7 @@ export default function LandingPage() {
                           "var(--font-inter), -apple-system, sans-serif",
                         fontSize: 10,
                         lineHeight: 1.5,
-                        color: "rgba(255,244,234,0.35)",
+                        color: "rgba(255,244,234,0.65)",
                       }}
                     >
                       What angle produces a bevel cut when held flat against
@@ -589,7 +720,7 @@ export default function LandingPage() {
                         height: 2,
                         width: "100%",
                         borderRadius: 9999,
-                        backgroundColor: "rgba(255,244,234,0.06)",
+                        backgroundColor: "rgba(255,244,234,0.10)",
                       }}
                     >
                       <div
@@ -598,7 +729,7 @@ export default function LandingPage() {
                           borderRadius: 9999,
                           width: "23%",
                           backgroundColor: "hsl(34, 42%, 44%)",
-                          opacity: 0.6,
+                          opacity: 0.85,
                         }}
                       />
                     </div>
@@ -617,7 +748,54 @@ export default function LandingPage() {
               href="/directory"
               cta="Explore"
               background={
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent">
+                  {/* Mock directory rows */}
+                  <div className="absolute inset-x-4 top-4 space-y-1.5">
+                    {[
+                      { cat: "Clippers", name: "Wahl Senior Cordless" },
+                      { cat: "Styling", name: "Murray's Pomade" },
+                      { cat: "Education", name: "Pivot Point Cosmetology" },
+                    ].map((item, i) => (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, x: -8 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, ease, delay: 0.1 * i }}
+                        className="flex items-center gap-2 rounded-lg px-2.5 py-2"
+                        style={{
+                          backgroundColor: "rgba(255,244,234,0.06)",
+                          border: "1px solid rgba(255,244,234,0.09)",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "var(--font-geist-mono), monospace",
+                            fontSize: 7,
+                            letterSpacing: "0.1em",
+                            textTransform: "uppercase",
+                            color: "hsl(34, 42%, 44%)",
+                            opacity: 1.0,
+                            flexShrink: 0,
+                            width: 48,
+                          }}
+                        >
+                          {item.cat}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-inter), sans-serif",
+                            fontSize: 10,
+                            color: "rgba(255,244,234,0.65)",
+                            letterSpacing: "-0.005em",
+                          }}
+                        >
+                          {item.name}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               }
             />
           </BentoGrid>

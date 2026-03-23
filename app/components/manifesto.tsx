@@ -56,10 +56,10 @@ const Manifesto = () => {
               style={{
                 fontFamily:
                   "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(4rem, 8vw, 7rem)",
+                fontSize: "clamp(5rem, 10vw, 9rem)",
                 fontWeight: 300,
                 lineHeight: 0.8,
-                color: "hsl(34, 22%, 44%)",
+                color: "hsl(34, 42%, 44%)",
                 marginBottom: "0.5rem",
                 userSelect: "none",
               }}

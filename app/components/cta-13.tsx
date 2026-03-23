@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Cta13Props {
   heading: string;
@@ -66,7 +69,11 @@ const Cta13 = ({
         }}
       >
         {/* Small label */}
-        <p
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
           style={{
             fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
             fontSize: "0.625rem",
@@ -78,9 +85,13 @@ const Cta13 = ({
           }}
         >
           Ready to get in
-        </p>
+        </motion.p>
 
-        <h2
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1], delay: 0.07 }}
           style={{
             fontFamily:
               "var(--font-spectral), Georgia, 'Times New Roman', serif",
@@ -94,9 +105,13 @@ const Cta13 = ({
           }}
         >
           {heading}
-        </h2>
+        </motion.h2>
 
-        <p
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1], delay: 0.14 }}
           style={{
             fontFamily:
               "var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif",
@@ -108,9 +123,13 @@ const Cta13 = ({
           }}
         >
           {description}
-        </p>
+        </motion.p>
 
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.22 }}
           style={{
             display: "flex",
             alignItems: "center",
@@ -130,7 +149,7 @@ const Cta13 = ({
               {buttons.secondary.text}
             </Link>
           )}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
