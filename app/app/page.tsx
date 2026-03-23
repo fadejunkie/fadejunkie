@@ -1,11 +1,12 @@
 "use client";
 
 import { Hero } from "@/components/hero";
-import { Navbar1 } from "@/components/shadcnblocks-com-navbar1";
+import { StickyNav } from "@/components/StickyNav";
 import { Cta13 } from "@/components/cta-13";
 import { Footer2 } from "@/components/ui/shadcnblocks-com-footer2";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { Manifesto } from "@/components/manifesto";
+import { Testimonials } from "@/components/Testimonials";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { useRef, useEffect, useState } from "react";
@@ -128,26 +129,18 @@ export default function LandingPage() {
   return (
     <div style={{ backgroundColor: "#fff4ea", minHeight: "100vh" }}>
       {/* ── Navbar ─────────────────────────────────────────────── */}
-      <div
-        className="sticky top-0 z-50 backdrop-blur-md border-b"
-        style={{
-          backgroundColor: "rgba(255,244,234,0.88)",
-          borderColor: "rgba(22,16,8,0.08)",
+      <StickyNav
+        logo={{ url: "/", title: "fadejunkie" }}
+        menu={[
+          { title: "Community", url: "/signin?mode=signup" },
+          { title: "Tools", url: "/signin?mode=signup" },
+          { title: "Directory", url: "/directory" },
+        ]}
+        auth={{
+          login: { text: "Log in", url: "/signin" },
+          signup: { text: "Join free", url: "/signin?mode=signup" },
         }}
-      >
-        <Navbar1
-          logo={{ url: "/", title: "fadejunkie" }}
-          menu={[
-            { title: "Community", url: "/signin?mode=signup" },
-            { title: "Tools", url: "/signin?mode=signup" },
-            { title: "Directory", url: "/directory" },
-          ]}
-          auth={{
-            login: { text: "Log in", url: "/signin" },
-            signup: { text: "Join free", url: "/signin?mode=signup" },
-          }}
-        />
-      </div>
+      />
 
       {/* ── Hero ───────────────────────────────────────────────── */}
       <Hero />
@@ -403,7 +396,7 @@ export default function LandingPage() {
                       fontSize: "0.8125rem",
                       fontWeight: 600,
                       color: path.dark
-                        ? "rgba(255,244,234,0.5)"
+                        ? "rgba(255,244,234,0.75)"
                         : "hsl(34, 42%, 44%)",
                     }}
                   >
@@ -802,6 +795,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── Testimonials ───────────────────────────────────────── */}
+      <Testimonials />
+
       {/* ── Manifesto ──────────────────────────────────────────── */}
       <Manifesto />
 
@@ -846,8 +842,8 @@ export default function LandingPage() {
           {
             title: "Company",
             links: [
-              { text: "About", url: "#" },
-              { text: "Contact", url: "#" },
+              { text: "About", url: "/signin?mode=signup" },
+              { text: "Contact", url: "mailto:hello@fadejunkie.com" },
             ],
           },
           {
@@ -865,110 +861,6 @@ export default function LandingPage() {
         ]}
       />
 
-      <style>{`
-        /* ── Path card grid responsive ────────────── */
-        .paths-grid {
-          grid-template-columns: repeat(1, 1fr);
-        }
-        @media (min-width: 640px) {
-          .paths-grid {
-            grid-template-columns: repeat(3, 1fr) !important;
-          }
-        }
-
-        /* ── Path card hover ──────────────────────── */
-        .path-card {
-          cursor: pointer;
-        }
-        .path-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 20px 56px rgba(22,16,8,0.14), 0 4px 12px rgba(22,16,8,0.07) !important;
-        }
-        .path-card.dark-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 24px 64px rgba(22,16,8,0.45), 0 6px 16px rgba(22,16,8,0.28) !important;
-        }
-
-        /* ── Primary button (dark bg, cream text) ─── */
-        .fj-btn-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.875rem 1.75rem;
-          background-color: hsl(0, 0%, 8%);
-          color: #fff4ea;
-          border-radius: 5rem;
-          font-family: var(--font-inter), -apple-system, sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-decoration: none;
-          transition: background-color 0.15s ease, transform 0.15s ease;
-          border: none;
-          cursor: pointer;
-          letter-spacing: -0.01em;
-        }
-        .fj-btn-primary:hover {
-          background-color: hsl(0, 0%, 16%);
-          transform: scale(1.02);
-        }
-        .fj-btn-primary:active {
-          transform: scale(1.02) translateY(1px);
-        }
-
-        /* ── Cream button (on dark bg) ────────────── */
-        .fj-btn-cream {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.875rem 1.75rem;
-          background-color: #fff4ea;
-          color: hsl(0, 0%, 8%);
-          border-radius: 5rem;
-          font-family: var(--font-inter), -apple-system, sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-decoration: none;
-          transition: background-color 0.15s ease, transform 0.15s ease;
-          border: none;
-          cursor: pointer;
-          letter-spacing: -0.01em;
-        }
-        .fj-btn-cream:hover {
-          background-color: hsl(34, 60%, 95%);
-          transform: scale(1.02);
-        }
-        .fj-btn-cream:active {
-          transform: scale(1.02) translateY(1px);
-        }
-
-        /* ── Text link (olive) ────────────────────── */
-        .fj-btn-text {
-          font-family: var(--font-inter), -apple-system, sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: hsl(34, 42%, 44%);
-          text-decoration: none;
-          transition: color 0.15s ease;
-          letter-spacing: -0.01em;
-        }
-        .fj-btn-text:hover {
-          color: hsl(0, 0%, 8%);
-        }
-
-        /* ── Text link (on dark bg) ───────────────── */
-        .fj-btn-text-on-dark {
-          font-family: var(--font-inter), -apple-system, sans-serif;
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: rgba(255,244,234,0.45);
-          text-decoration: none;
-          transition: color 0.15s ease;
-          letter-spacing: -0.01em;
-        }
-        .fj-btn-text-on-dark:hover {
-          color: #fff4ea;
-        }
-      `}</style>
     </div>
   );
 }

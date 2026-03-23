@@ -39,7 +39,9 @@ export default function DevBanner() {
           animation: "fj-pulse 2s ease-in-out infinite",
         }}
       />
-      Building in public — poke around and watch us grow in real time.
+      <a href="/signin?mode=signup" style={{ color: "inherit", textDecoration: "none" }}>
+        Shop Websites just launched — build yours free →
+      </a>
       <button
         onClick={() => setDismissed(true)}
         aria-label="Dismiss banner"

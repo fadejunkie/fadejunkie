@@ -60,6 +60,48 @@ const Cta13 = ({
         <rect width="100%" height="100%" filter="url(#fj-grain-dark)" />
       </svg>
 
+      {/* Ambient radial glow — warm left-side depth */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 60% 70% at 15% 50%, rgba(180,130,70,0.07) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Halftone accent — bottom-right corner */}
+      <svg
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: 40,
+          right: 60,
+          opacity: 0.07,
+          pointerEvents: "none",
+        }}
+        width="148"
+        height="148"
+        viewBox="0 0 148 148"
+      >
+        {Array.from({ length: 6 }, (_, row) =>
+          Array.from({ length: 6 }, (_, col) => {
+            const r = 1.2 + (row + col) * 0.36;
+            return (
+              <circle
+                key={`${row}-${col}`}
+                cx={col * 24 + 12}
+                cy={row * 24 + 12}
+                r={r}
+                fill="rgba(255,244,234,1)"
+              />
+            );
+          })
+        )}
+      </svg>
+
       <div
         style={{
           maxWidth: 1200,

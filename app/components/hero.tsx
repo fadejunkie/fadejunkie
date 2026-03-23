@@ -558,6 +558,92 @@ const Hero = () => {
               />
             </Link>
           </motion.div>
+
+          {/* ── Mobile social proof strip ──────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease, delay: 0.6 }}
+            className="hero-mobile-proof"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              marginTop: "2.25rem",
+              paddingTop: "1.75rem",
+              borderTop: "1px solid rgba(22,16,8,0.08)",
+            }}
+          >
+            {/* Stacked avatars */}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {["JM", "DR", "KH", "MT"].map((initials, i) => (
+                <div
+                  key={initials}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    backgroundColor:
+                      i % 2 === 0
+                        ? "rgba(22,16,8,0.09)"
+                        : "rgba(22,16,8,0.06)",
+                    border: "1.5px solid #fff4ea",
+                    marginLeft: i > 0 ? -8 : 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    zIndex: 4 - i,
+                    position: "relative",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily:
+                        "var(--font-spectral), Georgia, serif",
+                      fontSize: "0.5rem",
+                      fontWeight: 400,
+                      fontStyle: "italic",
+                      color: "rgba(22,16,8,0.55)",
+                    }}
+                  >
+                    {initials}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Text */}
+            <div>
+              <p
+                style={{
+                  fontFamily:
+                    "var(--font-inter), -apple-system, sans-serif",
+                  fontSize: "0.8125rem",
+                  fontWeight: 600,
+                  color: "hsl(0, 0%, 8%)",
+                  letterSpacing: "-0.01em",
+                  lineHeight: 1.3,
+                }}
+              >
+                2,400+ barbers already in
+              </p>
+              <p
+                style={{
+                  fontFamily:
+                    "var(--font-geist-mono), ui-monospace, monospace",
+                  fontSize: "0.5rem",
+                  fontWeight: 500,
+                  letterSpacing: "0.13em",
+                  textTransform: "uppercase",
+                  color: "hsl(34, 22%, 44%)",
+                  marginTop: "0.2rem",
+                }}
+              >
+                Free to join · No credit card
+              </p>
+            </div>
+          </motion.div>
         </div>
 
         {/* ── Right: product visual ─────────── */}
@@ -641,6 +727,16 @@ const Hero = () => {
         /* Hero card col hidden on mobile */
         .hero-card-col {
           display: none;
+        }
+
+        /* Mobile proof strip — hidden on desktop (card shows instead) */
+        .hero-mobile-proof {
+          display: flex;
+        }
+        @media (min-width: 1024px) {
+          .hero-mobile-proof {
+            display: none !important;
+          }
         }
 
         /* Scroll cue — animated chevron at hero bottom */
