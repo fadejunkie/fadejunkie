@@ -377,7 +377,6 @@ const Hero = () => {
       className="relative overflow-hidden"
       style={{
         backgroundColor: "#fff4ea",
-        minHeight: "88vh",
         display: "flex",
         alignItems: "center",
       }}
@@ -399,7 +398,7 @@ const Hero = () => {
         className="relative mx-auto w-full hero-inner"
         style={{
           maxWidth: 1200,
-          padding: "7rem clamp(1.5rem, 5vw, 6rem) 6rem",
+          padding: "5rem clamp(1.5rem, 5vw, 6rem) 4rem",
           display: "grid",
           gridTemplateColumns: "1fr",
           gap: "4rem",
@@ -418,7 +417,7 @@ const Hero = () => {
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               color: "hsl(34, 22%, 44%)",
-              marginBottom: "2rem",
+              marginBottom: "1.25rem",
             }}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -428,12 +427,12 @@ const Hero = () => {
           </motion.p>
 
           {/* Headline — Spectral 300 light, editorial scale */}
-          <div style={{ overflow: "hidden", marginBottom: "2.25rem" }}>
+          <div style={{ overflow: "hidden", marginBottom: "1.5rem" }}>
             <motion.h1
               style={{
                 fontFamily:
                   "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(3.75rem, 10vw, 8.5rem)",
+                fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
                 fontWeight: 300,
                 letterSpacing: "-0.025em",
                 lineHeight: 0.95,
@@ -469,7 +468,7 @@ const Hero = () => {
               lineHeight: 1.65,
               color: "hsl(34, 20%, 38%)",
               maxWidth: "29rem",
-              marginBottom: "3.5rem",
+              marginBottom: "2rem",
             }}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -510,6 +509,19 @@ const Hero = () => {
           <HeroCard />
         </div>
       </div>
+
+      {/* ── Scroll cue ───────────────────────────────────────────────── */}
+      <motion.div
+        className="fj-scroll-cue"
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 0.7 }}
+      >
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M5.5 8.5L11 14L16.5 8.5" stroke="hsl(34, 22%, 44%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </motion.div>
 
       <style>{`
         /* Two-column layout on desktop */
@@ -573,6 +585,23 @@ const Hero = () => {
         /* Hero card col hidden on mobile */
         .hero-card-col {
           display: none;
+        }
+
+        /* Scroll cue — animated chevron at hero bottom */
+        .fj-scroll-cue {
+          position: absolute;
+          bottom: 1.5rem;
+          left: 50%;
+          transform: translateX(-50%);
+          opacity: 0.55;
+        }
+        @keyframes fj-bounce {
+          0%, 100% { transform: translateX(-50%) translateY(0px); }
+          50%       { transform: translateX(-50%) translateY(6px); }
+        }
+        .fj-scroll-cue {
+          animation: fj-bounce 2s ease-in-out infinite;
+          animation-delay: 2.5s;
         }
       `}</style>
     </section>

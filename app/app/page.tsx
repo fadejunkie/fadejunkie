@@ -296,7 +296,7 @@ export default function LandingPage() {
               >
                 <Link
                   href={path.href}
-                  className="path-card"
+                  className={`path-card${path.dark ? " dark-card" : ""}`}
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -462,7 +462,7 @@ export default function LandingPage() {
             >
               Built for
               <br />
-              <span style={{ fontStyle: "italic" }}>the grind.</span>
+              <span style={{ fontStyle: "italic", color: "hsl(34, 42%, 55%)" }}>the grind.</span>
             </motion.h2>
           </div>
 
@@ -877,9 +877,16 @@ export default function LandingPage() {
         }
 
         /* ── Path card hover ──────────────────────── */
+        .path-card {
+          cursor: pointer;
+        }
         .path-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(22,16,8,0.1) !important;
+          transform: translateY(-6px);
+          box-shadow: 0 20px 56px rgba(22,16,8,0.14), 0 4px 12px rgba(22,16,8,0.07) !important;
+        }
+        .path-card.dark-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 24px 64px rgba(22,16,8,0.45), 0 6px 16px rgba(22,16,8,0.28) !important;
         }
 
         /* ── Primary button (dark bg, cream text) ─── */

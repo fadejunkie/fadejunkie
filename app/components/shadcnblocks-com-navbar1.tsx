@@ -72,7 +72,7 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   return (
     <section className="py-4">
-      <div className="container">
+      <div className="container" style={{ paddingRight: "max(1rem, env(safe-area-inset-right))" }}>
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <a href={logo.url} className="flex items-center gap-2">

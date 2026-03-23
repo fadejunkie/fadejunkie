@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { cn } from "@/lib/utils";
+import DevBanner from "@/components/DevBanner";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -38,6 +39,7 @@ export default function RootLayout({
     <ConvexAuthNextjsServerProvider>
       <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
         <body className={`${inter.variable} ${spectral.variable} ${geistMono.variable}`}>
+          <DevBanner />
           <ConvexClientProvider>{children}</ConvexClientProvider>
         </body>
       </html>

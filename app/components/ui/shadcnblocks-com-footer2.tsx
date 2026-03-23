@@ -99,14 +99,19 @@ const Footer2 = ({
                     />
                   )}
                   <p
-                    className="font-serif text-xl font-bold tracking-tight"
-                    style={{ color: "#fff4ea" }}
+                    style={{
+                      fontFamily: "var(--font-spectral), Georgia, serif",
+                      fontSize: "1rem",
+                      fontWeight: 500,
+                      letterSpacing: "-0.01em",
+                      color: "#fff4ea",
+                    }}
                   >
                     {logo.title}
                   </p>
                 </a>
               </div>
-              <p className="mt-4 font-bold" style={{ color: "rgba(255,244,234,0.45)" }}>{tagline}</p>
+              <p className="mt-3" style={{ fontSize: "0.75rem", color: "rgba(255,244,234,0.38)", fontFamily: "var(--font-inter), sans-serif" }}>{tagline}</p>
             </div>
             {menuItems.map((section, sectionIdx) => (
               <div key={sectionIdx}>
