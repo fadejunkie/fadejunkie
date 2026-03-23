@@ -72,7 +72,13 @@ const Navbar1 = ({
 }: Navbar1Props) => {
   return (
     <section className="py-4">
-      <div className="container" style={{ paddingRight: "max(1rem, env(safe-area-inset-right))" }}>
+      <div
+        className="container"
+        style={{
+          paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
+          paddingRight: "max(1.5rem, env(safe-area-inset-right))",
+        }}
+      >
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             <a href={logo.url} className="flex items-center gap-2">
@@ -87,7 +93,7 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2" style={{ paddingRight: "1.25rem" }}>
+          <div className="flex gap-2">
             <Button variant="outline" size="sm" asChild>
               <a href={auth.login.url}>{auth.login.text}</a>
             </Button>

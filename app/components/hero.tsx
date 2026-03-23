@@ -247,31 +247,87 @@ const HeroCard = () => {
             gap: "0.375rem",
           }}
         >
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
+          {/* Thumbnail 1 — Fade gradient visual */}
+          <div
+            style={{
+              aspectRatio: "1",
+              borderRadius: "0.625rem",
+              backgroundColor: "rgba(255,244,234,0.07)",
+              border: "1px solid rgba(255,244,234,0.09)",
+              overflow: "hidden",
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "65%",
+              background: "linear-gradient(to top, rgba(255,244,234,0.11), transparent)",
+            }} />
+            <div style={{
+              width: 18,
+              height: 18,
+              borderRadius: "50%",
+              border: "1.5px solid rgba(255,244,234,0.18)",
+              position: "relative",
+              zIndex: 1,
+            }} />
+          </div>
+
+          {/* Thumbnail 2 — Scissors */}
+          <div
+            style={{
+              aspectRatio: "1",
+              borderRadius: "0.625rem",
+              backgroundColor: "rgba(255,244,234,0.10)",
+              border: "1px solid rgba(255,244,234,0.12)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Scissors
               style={{
-                aspectRatio: "1",
-                borderRadius: "0.625rem",
-                backgroundColor: i === 0 ? "rgba(255,244,234,0.07)" : i === 1 ? "rgba(255,244,234,0.10)" : "rgba(255,244,234,0.08)",
-                border: "1px solid rgba(255,244,234,0.09)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                width: 15,
+                height: 15,
+                color: "hsl(34, 42%, 55%)",
+                strokeWidth: 1.5,
               }}
-            >
-              {i === 1 && (
-                <Scissors
-                  style={{
-                    width: 14,
-                    height: 14,
-                    color: "rgba(255,244,234,0.30)",
-                    strokeWidth: 1.5,
-                  }}
-                />
-              )}
-            </div>
-          ))}
+            />
+          </div>
+
+          {/* Thumbnail 3 — Horizontal line pattern (comb / lineup) */}
+          <div
+            style={{
+              aspectRatio: "1",
+              borderRadius: "0.625rem",
+              backgroundColor: "rgba(255,244,234,0.07)",
+              border: "1px solid rgba(255,244,234,0.09)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "3px",
+              padding: "0.5rem",
+            }}
+          >
+            {[0.65, 1, 0.8, 0.5].map((w, i) => (
+              <div
+                key={i}
+                style={{
+                  height: 1.5,
+                  width: `${w * 100}%`,
+                  backgroundColor: "rgba(255,244,234,0.20)",
+                  borderRadius: 1,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -515,7 +571,7 @@ const Hero = () => {
         className="fj-scroll-cue"
         aria-hidden="true"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: 0.5 }}
         transition={{ delay: 1.8, duration: 0.7 }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
