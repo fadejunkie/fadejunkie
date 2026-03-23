@@ -87,7 +87,7 @@ const Navbar1 = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2" style={{ paddingRight: "1.25rem" }}>
             <Button variant="outline" size="sm" asChild>
               <a href={auth.login.url}>{auth.login.text}</a>
             </Button>
