@@ -531,7 +531,7 @@ const Hero = () => {
             transition={{ duration: 0.55, ease, delay: 0.28 }}
           >
             Study for boards. Build your brand. Find barbers who take it
-            seriously. FadeJunkie is where the craft lives online.
+            seriously. fadejunkie is where the craft lives online.
           </motion.p>
 
           {/* CTAs */}

@@ -36,7 +36,7 @@ export default function DevBanner() {
           borderRadius: "50%",
           backgroundColor: "hsl(34, 60%, 55%)",
           flexShrink: 0,
-          animation: "fj-pulse 2s ease-in-out infinite",
+          animation: "fj-banner-pulse 2s ease-in-out infinite",
         }}
       />
       <a href="/signin?mode=signup" style={{ color: "inherit", textDecoration: "none" }}>
@@ -52,7 +52,7 @@ export default function DevBanner() {
           transform: "translateY(-50%)",
           background: "none",
           border: "none",
-          color: "rgba(255,244,234,0.30)",
+          color: "rgba(255,244,234,0.50)",
           cursor: "pointer",
           padding: "0.25rem",
           display: "flex",
@@ -61,13 +61,13 @@ export default function DevBanner() {
           transition: "color 0.15s ease",
           lineHeight: 0,
         }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,244,234,0.70)")}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,244,234,0.30)")}
+        onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,244,234,0.90)")}
+        onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.color = "rgba(255,244,234,0.50)")}
       >
         <X size={11} strokeWidth={2} />
       </button>
       <style>{`
-        @keyframes fj-pulse {
+        @keyframes fj-banner-pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.35; }
         }

@@ -87,7 +87,7 @@ const STATS = [
   { value: "2,400+", label: "Barbers" },
   { value: "18k+", label: "Flashcards studied" },
   { value: "340+", label: "Shop sites" },
-  { value: "Free", label: "Always" },
+  { value: "$0", label: "Monthly fee" },
 ] as const;
 
 /* ─── Three paths data ───────────────────────────────────────── */

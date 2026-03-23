@@ -219,6 +219,31 @@ const Testimonials = () => {
           From the community
         </motion.p>
 
+        {/* Section headline */}
+        <motion.h2
+          style={{
+            fontFamily:
+              "var(--font-spectral), Georgia, 'Times New Roman', serif",
+            fontSize: "clamp(2.25rem, 5vw, 4rem)",
+            fontWeight: 300,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.1,
+            color: "hsl(0, 0%, 8%)",
+            marginBottom: "3rem",
+          }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, ease, delay: 0.06 }}
+        >
+          Barbers.
+          <br />
+          <span style={{ fontStyle: "normal", fontWeight: 400, color: "hsl(34, 22%, 44%)" }}>
+            In their own words.
+          </span>
+        </motion.h2>
+
         {/* Cards grid */}
         <motion.div
           className="testimonials-grid"
