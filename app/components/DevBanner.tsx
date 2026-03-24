@@ -39,7 +39,12 @@ export default function DevBanner() {
           animation: "fj-banner-pulse 2s ease-in-out infinite",
         }}
       />
-      <a href="/signin?mode=signup" style={{ color: "inherit", textDecoration: "none" }}>
+      <a
+        href="/signin?mode=signup"
+        style={{ color: "rgba(255,244,234,0.70)", textDecoration: "none", transition: "color 0.15s ease" }}
+        onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#fff4ea")}
+        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,244,234,0.70)")}
+      >
         Shop Websites just launched — build yours free →
       </a>
       <button

@@ -154,8 +154,19 @@ body {
 }
 
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: hsl(34, 42%, 44%);
+  color: #fff4ea;
+}
+
+/* ─── Thin custom scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(22,16,8,0.14);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(22,16,8,0.28);
 }
 
 textarea, input {
@@ -210,6 +221,15 @@ a { color: inherit; text-decoration: none; }
   html {
     @apply font-sans;
   }
+}
+
+/* ─── Nav link brand colour (override shadcn muted gray) ────── */
+nav a.group[class*="text-muted-foreground"] {
+  color: hsl(34, 22%, 44%) !important;
+}
+nav a.group[class*="text-muted-foreground"]:hover {
+  color: hsl(0, 0%, 8%) !important;
+  background-color: transparent !important;
 }
 
 /* ─── Apple-grade navigation polish ─────────────────────────── */

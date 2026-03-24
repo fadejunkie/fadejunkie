@@ -1,0 +1,18 @@
+{
+  "name": "email-agent",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "tsx email-agent.ts",
+    "dev": "tsx watch email-agent.ts",
+    "watch": "tsx email-agent.ts --watch"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
+  }
+}

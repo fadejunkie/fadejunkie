@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FadeJunkie Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Spectral:wght@400;600;700&family=Geist+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0e0a06;
+    color: #fff4ea;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .header {
+    text-align: center;
+    padding: 60px 40px 20px;
+  }
+
+  .header h1 {
+    font-family: 'Spectral', serif;
+    font-weight: 700;
+    font-size: 3.2rem;
+    letter-spacing: -0.02em;
+    color: #fff4ea;
+    margin-bottom: 8px;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+    color: hsl(34 22% 54%);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: hsl(34 22% 60%);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 40px 30px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 8px 20px;
+    border: 1px solid hsl(34 22% 20%);
+    background: transparent;
+    color: hsl(34 22% 54%);
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+  }
+
+  .tab:hover { border-color: hsl(34 42% 44%); color: #fff4ea; }
+  .tab.active { background: hsl(34 42% 44%); color: #0e0a06; border-color: hsl(34 42% 44%); }
+
+  .canvas {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    position: relative;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── System Overview ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .tier {
+    border: 1px solid hsl(34 22% 16%);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    background: rgba(22,16,8,0.5);
+  }
+
+  .tier-label {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: #0e0a06;
+    padding: 0 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: hsl(34 42% 44%);
+  }
+
+  .tier-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .node {
+    border: 1px solid hsl(34 22% 20%);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 160px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    background: rgba(22,16,8,0.8);
+  }
+
+  .node:hover {
+    border-color: hsl(34 42% 44%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  .node-icon {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .node-name {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .node-role {
+    font-size: 0.75rem;
+    color: hsl(34 22% 50%);
+    line-height: 1.4;
+  }
+
+  .node-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: hsl(34 22% 16%);
+    color: hsl(34 22% 54%);
+  }
+
+  .node.dispatch { border-left: 3px solid #e8a855; }
+  .node.frontend { border-left: 3px solid #7aa2f7; }
+  .node.backend { border-left: 3px solid #9ece6a; }
+  .node.copy { border-left: 3px solid #bb9af7; }
+  .node.strategy { border-left: 3px solid #f7768e; }
+  .node.seo { border-left: 3px solid #ff9e64; }
+  .node.qa { border-left: 3px solid #73daca; }
+  .node.app { border-left: 3px solid #7aa2f7; }
+  .node.data { border-left: 3px solid #9ece6a; }
+  .node.dash { border-left: 3px solid #ff9e64; }
+  .node.client { border-left: 3px solid #bb9af7; }
+
+  /* ── Flow arrows ── */
+  .flow-section {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .flow-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: hsl(34 22% 40%);
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.75rem;
+    padding: 6px 16px;
+    border: 1px dashed hsl(34 22% 20%);
+    border-radius: 8px;
+    margin: 0 6px;
+  }
+
+  .flow-arrow .arrow { color: hsl(34 42% 44%); }
+
+  /* ── Detail Panels ── */
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+
+  .detail-card {
+    border: 1px solid hsl(34 22% 16%);
+    border-radius: 14px;
+    padding: 28px;
+    background: rgba(22,16,8,0.5);
+    transition: border-color 0.2s;
+  }
+
+  .detail-card:hover { border-color: hsl(34 22% 28%); }
+
+  .detail-card h3 {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .detail-card .tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    padding: 2px 10px;
+    border-radius: 99px;
+    border: 1px solid hsl(34 22% 24%);
+    color: hsl(34 22% 60%);
+  }
+
+  .detail-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .detail-list li {
+    font-size: 0.85rem;
+    color: hsl(34 22% 65%);
+    line-height: 1.5;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .detail-list li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: hsl(34 42% 44%);
+    font-weight: 700;
+  }
+
+  .detail-list li strong {
+    color: #fff4ea;
+    font-weight: 500;
+  }
+
+  /* ── Schema View ── */
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .schema-table {
+    border: 1px solid hsl(34 22% 16%);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(22,16,8,0.6);
+  }
+
+  .schema-table-header {
+    padding: 12px 16px;
+    background: rgba(22,16,8,0.9);
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-bottom: 1px solid hsl(34 22% 16%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .schema-table-header .count {
+    font-weight: 400;
+    font-size: 0.7rem;
+    color: hsl(34 22% 44%);
+  }
+
+  .schema-field {
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    color: hsl(34 22% 60%);
+    font-family: 'Geist Mono', monospace;
+    border-bottom: 1px solid hsl(34 22% 10%);
+  }
+
+  .schema-field:last-child { border-bottom: none; }
+  .schema-field .type { color: hsl(34 42% 44%); margin-left: 6px; font-size: 0.7rem; }
+
+  .section-title {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid hsl(34 22% 16%);
+  }
+
+  .subsection-title {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: hsl(34 42% 44%);
+    margin: 32px 0 16px;
+  }
+
+  /* ── Workflow View ── */
+  .workflow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .workflow-step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    position: relative;
+  }
+
+  .workflow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 60px;
+    bottom: 0;
+    width: 1px;
+    background: hsl(34 22% 20%);
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid hsl(34 42% 44%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    background: #0e0a06;
+    z-index: 1;
+  }
+
+  .step-content h4 {
+    font-family: 'Spectral', serif;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  .step-content p {
+    font-size: 0.85rem;
+    color: hsl(34 22% 55%);
+    line-height: 1.6;
+  }
+
+  .step-agents {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  .step-agent-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.68rem;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid;
+  }
+
+  .step-agent-tag.dispatch { border-color: #e8a855; color: #e8a855; }
+  .step-agent-tag.lobe { border-color: #7aa2f7; color: #7aa2f7; }
+  .step-agent-tag.convex { border-color: #9ece6a; color: #9ece6a; }
+  .step-agent-tag.ink { border-color: #bb9af7; color: #bb9af7; }
+  .step-agent-tag.funkie { border-color: #f7768e; color: #f7768e; }
+  .step-agent-tag.seo { border-color: #ff9e64; color: #ff9e64; }
+  .step-agent-tag.sentinel { border-color: #73daca; color: #73daca; }
+
+  /* ── Trust Matrix ── */
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .trust-card {
+    border: 1px solid hsl(34 22% 16%);
+    border-radius: 12px;
+    padding: 20px;
+    background: rgba(22,16,8,0.5);
+  }
+
+  .trust-card h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+  }
+
+  .trust-level {
+    font-size: 0.7rem;
+    font-family: 'Geist Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .trust-high { background: rgba(158,206,106,0.15); color: #9ece6a; }
+  .trust-medium { background: rgba(232,168,85,0.15); color: #e8a855; }
+  .trust-low { background: rgba(247,118,142,0.15); color: #f7768e; }
+  .trust-auto { background: rgba(115,218,202,0.15); color: #73daca; }
+
+  .trust-desc {
+    font-size: 0.8rem;
+    color: hsl(34 22% 55%);
+    line-height: 1.5;
+  }
+
+  /* ── File Tree ── */
+  .tree {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 2;
+    color: hsl(34 22% 60%);
+    padding: 24px;
+    border: 1px solid hsl(34 22% 16%);
+    border-radius: 12px;
+    background: rgba(22,16,8,0.6);
+    overflow-x: auto;
+  }
+
+  .tree .dir { color: hsl(34 42% 55%); font-weight: 600; }
+  .tree .comment { color: hsl(34 22% 35%); }
+
+  @media (max-width: 768px) {
+    .header h1 { font-size: 2.2rem; }
+    .canvas { padding: 0 20px 60px; }
+    .tier { padding: 20px; }
+    .detail-grid { grid-template-columns: 1fr; }
+    .schema-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>fadejunkie.com</h1>
+  <p>Multi-agent autonomous platform for the modern barber. Next.js 15 + Convex + 7 AI agents orchestrated by Dispatch.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#e8a855"></div>Orchestration</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7aa2f7"></div>Frontend</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9ece6a"></div>Backend</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#bb9af7"></div>Copy & Voice</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f7768e"></div>Strategy</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff9e64"></div>SEO</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#73daca"></div>QA</div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showView('overview')">System Overview</button>
+  <button class="tab" onclick="showView('agents')">Agent Details</button>
+  <button class="tab" onclick="showView('schema')">Data Schema</button>
+  <button class="tab" onclick="showView('workflow')">Task Workflow</button>
+  <button class="tab" onclick="showView('tree')">File Tree</button>
+</div>
+
+<div class="canvas">
+
+  <!-- ═══════ SYSTEM OVERVIEW ═══════ -->
+  <div class="view active" id="view-overview">
+    <div class="overview-grid">
+
+      <div class="tier">
+        <span class="tier-label">Human Layer</span>
+        <div class="tier-nodes">
+          <div class="node dispatch">
+            <div class="node-icon">👤</div>
+            <div class="node-name">Anthony</div>
+            <div class="node-role">Drops tasks, reviews escalations, approves plans</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-section">
+        <span class="flow-arrow"><span class="arrow">↓</span> task brief to dispatch/inbox/ <span class="arrow">↓</span></span>
+      </div>
+
+      <div class="tier">
+        <span class="tier-label">Orchestration Layer</span>
+        <div class="tier-nodes">
+          <div class="node dispatch">
+            <div class="node-badge">opus</div>
+            <div class="node-icon">🎯</div>
+            <div class="node-name">Dispatch</div>
+            <div class="node-role">Decomposes tasks, routes to agents, manages dependencies</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-section">
+        <span class="flow-arrow"><span class="arrow">↓</span> subtasks to agent/inbox/ <span class="arrow">↓</span></span>
+        <span class="flow-arrow"><span class="arrow">↑</span> results from agent/outbox/ <span class="arrow">↑</span></span>
+      </div>
+
+      <div class="tier">
+        <span class="tier-label">Specialist Agents</span>
+        <div class="tier-nodes">
+          <div class="node strategy">
+            <div class="node-badge">sonnet</div>
+            <div class="node-icon">🧠</div>
+            <div class="node-name">Funkie</div>
+            <div class="node-role">Strategy & product decisions</div>
+          </div>
+          <div class="node frontend">
+            <div class="node-badge">sonnet</div>
+            <div class="node-icon">🎨</div>
+            <div class="node-name">Lobe</div>
+            <div class="node-role">Frontend UI/UX & design</div>
+          </div>
+          <div class="node backend">
+            <div class="node-badge">sonnet</div>
+            <div class="node-icon">⚙️</div>
+            <div class="node-name">Convex Agent</div>
+            <div class="node-role">Backend schema & functions</div>
+          </div>
+          <div class="node copy">
+            <div class="node-badge">opus</div>
+            <div class="node-icon">✍️</div>
+            <div class="node-name">Ink</div>
+            <div class="node-role">Copywriting & brand voice</div>
+          </div>
+          <div class="node seo">
+            <div class="node-badge">opus</div>
+            <div class="node-icon">📈</div>
+            <div class="node-name">SEO Engine</div>
+            <div class="node-role">SEO strategy & audits</div>
+          </div>
+          <div class="node qa">
+            <div class="node-badge">sonnet</div>
+            <div class="node-icon">🛡️</div>
+            <div class="node-name">Sentinel</div>
+            <div class="node-role">QA, builds & deploy gate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-section">
+        <span class="flow-arrow"><span class="arrow">↓</span> code changes, copy, strategies <span class="arrow">↓</span></span>
+      </div>
+
+      <div class="tier">
+        <span class="tier-label">Application Layer</span>
+        <div class="tier-nodes">
+          <div class="node app">
+            <div class="node-icon">🌐</div>
+            <div class="node-name">Next.js 15 App</div>
+            <div class="node-role">fadejunkie.com — App Router, SSR, auth</div>
+          </div>
+          <div class="node data">
+            <div class="node-icon">🗄️</div>
+            <div class="node-name">Convex Backend</div>
+            <div class="node-role">12 tables, real-time sync, auth</div>
+          </div>
+          <div class="node dash">
+            <div class="node-icon">📊</div>
+            <div class="node-name">Control Center</div>
+            <div class="node-role">CRM, metrics, content calendar</div>
+          </div>
+          <div class="node client">
+            <div class="node-icon">🏪</div>
+            <div class="node-name">Arquero Storefront</div>
+            <div class="node-role">Vite + Convex client project</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier" style="margin-top: 24px;">
+        <span class="tier-label">Shared Context</span>
+        <div class="tier-nodes">
+          <div class="node" style="border-left: 3px solid hsl(34 42% 44%);">
+            <div class="node-icon">📝</div>
+            <div class="node-name">context/</div>
+            <div class="node-role">fadejunkie.md (strategy) + fadejunkie_ui.md (design system)</div>
+          </div>
+          <div class="node" style="border-left: 3px solid hsl(34 42% 44%);">
+            <div class="node-icon">🧪</div>
+            <div class="node-name">browser-agent/</div>
+            <div class="node-role">Playwright visual QA & screenshots</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ AGENT DETAILS ═══════ -->
+  <div class="view" id="view-agents">
+    <div class="section-title">Agent Roster — V2 Orchestration</div>
+    <div class="detail-grid">
+
+      <div class="detail-card">
+        <h3>🎯 Dispatch <span class="tag">opus</span> <span class="tag">execute</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> Orchestrator — decomposes high-level tasks into atomic subtasks</li>
+          <li><strong>Routes to:</strong> All 6 specialist agents based on task type</li>
+          <li><strong>Manages:</strong> Dependency chains, manifests, escalations</li>
+          <li><strong>Escalation:</strong> Ambiguous decisions → dispatch/escalations/ → Anthony</li>
+          <li><strong>CWD:</strong> Workspace root</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>🧠 Funkie <span class="tag">sonnet</span> <span class="tag">plan</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> Strategy, product decisions, Q1 goals, client relationships</li>
+          <li><strong>Default mode:</strong> Plan — writes to outbox/pending/ for review</li>
+          <li><strong>Trust:</strong> LOW — always plan mode unless updating context/goals</li>
+          <li><strong>Memory:</strong> funkie/memory/goals.md (Q1 2026 goals)</li>
+          <li><strong>CWD:</strong> app/</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>🎨 Lobe <span class="tag">sonnet</span> <span class="tag">execute</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> ALL frontend/UI code — components, design, visual polish</li>
+          <li><strong>Trust:</strong> HIGH — auto-execute, trusted to deliver without review</li>
+          <li><strong>Tools:</strong> 21st.dev API, Framer API, shadcn/ui, Tailwind 4</li>
+          <li><strong>Rule:</strong> Lobe owns all HTML/CSS/React. No exceptions, even one-liners.</li>
+          <li><strong>CWD:</strong> app/ (overridable with project: header)</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>⚙️ Convex Agent <span class="tag">sonnet</span> <span class="tag">execute</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> Backend — schema, mutations, queries, auth, data modeling</li>
+          <li><strong>Trust:</strong> MEDIUM — auto-execute additions, plan for destructive ops</li>
+          <li><strong>Schema:</strong> Read-only by default. Additive changes OK.</li>
+          <li><strong>Git protocol:</strong> Snapshots before + descriptive commits after</li>
+          <li><strong>CWD:</strong> app/ (where convex/ lives)</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>✍️ Ink <span class="tag">opus</span> <span class="tag">execute</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> All customer-facing words — copy, proposals, contracts, social</li>
+          <li><strong>Trust:</strong> HIGH — auto-execute, delivers without review</li>
+          <li><strong>Voice:</strong> Direct, punk, culture-native. Not corporate. Not safe.</li>
+          <li><strong>Per-client:</strong> <!-- client: slug --> loads custom voice context</li>
+          <li><strong>CWD:</strong> ink/</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>📈 SEO Engine <span class="tag">opus</span> <span class="tag">plan</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> SEO audits, keyword research, strategy, client deliverables</li>
+          <li><strong>Trust:</strong> MEDIUM — plan mode for client-facing changes</li>
+          <li><strong>Max turns:</strong> 40 (higher for deep analysis)</li>
+          <li><strong>Clients:</strong> Weichert Realtors — Corwin & Associates ($950/mo)</li>
+          <li><strong>Rule:</strong> Does NOT edit Next.js code. Produces briefs for Funkie.</li>
+        </ul>
+      </div>
+
+      <div class="detail-card">
+        <h3>🛡️ Sentinel <span class="tag">sonnet</span> <span class="tag">execute</span></h3>
+        <ul class="detail-list">
+          <li><strong>Role:</strong> QA — build verification, visual tests, deploy gate</li>
+          <li><strong>Trust:</strong> AUTO — always execute, QA is always action</li>
+          <li><strong>Protocol:</strong> Build → Lint → Visual QA → Verdict (SHIP or FIX)</li>
+          <li><strong>Failure:</strong> Same agent fails twice → escalate to Dispatch</li>
+          <li><strong>Tools:</strong> Playwright for browser automation & screenshots</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="subsection-title">Trust Matrix</div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <h4>Lobe & Ink</h4>
+        <span class="trust-level trust-high">HIGH TRUST</span>
+        <p class="trust-desc">Auto-execute everything. Trusted to deliver without pre-approval. Opus for Ink's deeper copy quality.</p>
+      </div>
+      <div class="trust-card">
+        <h4>Convex & SEO Engine</h4>
+        <span class="trust-level trust-medium">MEDIUM TRUST</span>
+        <p class="trust-desc">Auto-execute additions and reads. Plan mode for destructive changes or client-facing deliverables.</p>
+      </div>
+      <div class="trust-card">
+        <h4>Funkie</h4>
+        <span class="trust-level trust-low">LOW TRUST</span>
+        <p class="trust-desc">Always plan mode. Strategy decisions require human review before execution.</p>
+      </div>
+      <div class="trust-card">
+        <h4>Sentinel</h4>
+        <span class="trust-level trust-auto">AUTO</span>
+        <p class="trust-desc">Always execute. QA is always action — no reason to plan a test.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ DATA SCHEMA ═══════ -->
+  <div class="view" id="view-schema">
+    <div class="section-title">Convex Database — 12 Domain Tables + 6 Internal</div>
+
+    <div class="subsection-title">Core Platform</div>
+    <div class="schema-grid">
+      <div class="schema-table">
+        <div class="schema-table-header">barbers <span class="count">idx: by_userId, by_slug</span></div>
+        <div class="schema-field">userId <span class="type">id("users")</span></div>
+        <div class="schema-field">slug <span class="type">string</span></div>
+        <div class="schema-field">name, bio <span class="type">string</span></div>
+        <div class="schema-field">services <span class="type">string[]</span></div>
+        <div class="schema-field">avatarStorageId <span class="type">id("_storage")?</span></div>
+        <div class="schema-field">shopName, shopAddress <span class="type">string?</span></div>
+        <div class="schema-field">instagram, website <span class="type">string?</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">posts <span class="count">idx: by_createdAt, by_authorId</span></div>
+        <div class="schema-field">authorId <span class="type">id("users")</span></div>
+        <div class="schema-field">content <span class="type">string</span></div>
+        <div class="schema-field">imageStorageId <span class="type">id("_storage")?</span></div>
+        <div class="schema-field">createdAt <span class="type">number</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">shops <span class="count">idx: by_userId</span></div>
+        <div class="schema-field">userId <span class="type">id("users")</span></div>
+        <div class="schema-field">shopName <span class="type">string</span></div>
+        <div class="schema-field">primaryColor, font <span class="type">string</span></div>
+        <div class="schema-field">barberIds <span class="type">id("barbers")[]</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">gallery <span class="count">idx: by_barberId</span></div>
+        <div class="schema-field">barberId <span class="type">id("barbers")</span></div>
+        <div class="schema-field">storageId <span class="type">id("_storage")</span></div>
+        <div class="schema-field">caption <span class="type">string?</span></div>
+        <div class="schema-field">order <span class="type">number</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">likes <span class="count">idx: by_postId, by_postId_userId</span></div>
+        <div class="schema-field">postId <span class="type">id("posts")</span></div>
+        <div class="schema-field">userId <span class="type">id("users")</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">resources <span class="count">26 seeded</span></div>
+        <div class="schema-field">name, url <span class="type">string</span></div>
+        <div class="schema-field">category <span class="type">string</span></div>
+        <div class="schema-field">audience <span class="type">string (legacy)</span></div>
+        <div class="schema-field">audiences <span class="type">string[]</span></div>
+        <div class="schema-field">isActive <span class="type">boolean</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">State Board Exam Tools</div>
+    <div class="schema-grid">
+      <div class="schema-table">
+        <div class="schema-table-header">flashcardDecks <span class="count">Milady 300 + TDLR 44</span></div>
+        <div class="schema-field">name, source <span class="type">string</span></div>
+        <div class="schema-field">description <span class="type">string</span></div>
+        <div class="schema-field">cardCount <span class="type">number</span></div>
+        <div class="schema-field">isActive <span class="type">boolean</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">flashcards <span class="count">Q&A with 4 options</span></div>
+        <div class="schema-field">deckId <span class="type">id("flashcardDecks")</span></div>
+        <div class="schema-field">question, topic <span class="type">string</span></div>
+        <div class="schema-field">options <span class="type">string[4]</span></div>
+        <div class="schema-field">correctIndex <span class="type">number</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">testResults <span class="count">idx: by_userId</span></div>
+        <div class="schema-field">userId <span class="type">id("users")</span></div>
+        <div class="schema-field">deckId <span class="type">id("flashcardDecks")</span></div>
+        <div class="schema-field">score, totalQuestions <span class="type">number</span></div>
+        <div class="schema-field">answers <span class="type">object[]</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">starredCards + examProgress</div>
+        <div class="schema-field">userId <span class="type">id("users")</span></div>
+        <div class="schema-field">cardId / serviceId <span class="type">id</span></div>
+        <div class="schema-field">progress tracking <span class="type">number</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Directory & Locations</div>
+    <div class="schema-grid">
+      <div class="schema-table">
+        <div class="schema-table-header">locations <span class="count">geo-tagged</span></div>
+        <div class="schema-field">name, type <span class="type">string</span></div>
+        <div class="schema-field">address, city, state <span class="type">string</span></div>
+        <div class="schema-field">lat, lng <span class="type">number</span></div>
+        <div class="schema-field">phone, website <span class="type">string?</span></div>
+        <div class="schema-field">isActive <span class="type">boolean</span></div>
+      </div>
+    </div>
+
+    <div class="subsection-title">Internal / Control Center</div>
+    <div class="schema-grid">
+      <div class="schema-table">
+        <div class="schema-table-header">ccMetrics</div>
+        <div class="schema-field">KPI tracking <span class="type">users, revenue</span></div>
+      </div>
+      <div class="schema-table">
+        <div class="schema-table-header">ccProspects</div>
+        <div class="schema-field">CRM <span class="type">clients, payments</span></div>
+      </div>
+      <div class="schema-table">
+        <div class="schema-table-header">ccContent</div>
+        <div class="schema-field">Content calendar <span class="type">status, priority</span></div>
+      </div>
+      <div class="schema-table">
+        <div class="schema-table-header">ccNotes</div>
+        <div class="schema-field">Quick notes <span class="type">ops</span></div>
+      </div>
+      <div class="schema-table">
+        <div class="schema-table-header">arqueroTasks</div>
+        <div class="schema-field">Client project tracking <span class="type">Arquero Co.</span></div>
+      </div>
+      <div class="schema-table">
+        <div class="schema-table-header">arqueroAgreements</div>
+        <div class="schema-field">Contracts & invoices <span class="type">payment tracking</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ TASK WORKFLOW ═══════ -->
+  <div class="view" id="view-workflow">
+    <div class="section-title">Task Lifecycle — Drop to Deploy</div>
+
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Task Arrives</h4>
+          <p>Anthony drops a high-level .md task brief into dispatch/inbox/. Task headers control mode, model, turn limits, and dependency chains.</p>
+          <div class="step-agents"><span class="step-agent-tag dispatch">Anthony → Dispatch</span></div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Dispatch Decomposes</h4>
+          <p>Dispatch reads the task, identifies required specialties, creates atomic subtasks, sets dependency order, and writes a manifest to dispatch/outbox/.</p>
+          <div class="step-agents"><span class="step-agent-tag dispatch">Dispatch</span></div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Subtasks Route to Specialists</h4>
+          <p>Each subtask drops into the right agent's inbox/. Trust level determines execute vs. plan mode. Dependencies are respected — Lobe waits for Convex if backend is needed first.</p>
+          <div class="step-agents">
+            <span class="step-agent-tag funkie">Funkie</span>
+            <span class="step-agent-tag lobe">Lobe</span>
+            <span class="step-agent-tag convex">Convex</span>
+            <span class="step-agent-tag ink">Ink</span>
+            <span class="step-agent-tag seo">SEO Engine</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Agents Execute</h4>
+          <p>Each agent runs via its REPL: reads inbox → executes task → writes code/copy/strategy → commits to git → writes result to outbox/. Plan-mode agents write to outbox/pending/ for review.</p>
+          <div class="step-agents">
+            <span class="step-agent-tag lobe">Lobe writes code</span>
+            <span class="step-agent-tag convex">Convex writes functions</span>
+            <span class="step-agent-tag ink">Ink writes copy</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Sentinel QA Gate</h4>
+          <p>Sentinel runs the QA protocol: npm run build → npm run lint → Playwright visual comparison → writes verdict. SHIP or FIX REQUIRED.</p>
+          <div class="step-agents"><span class="step-agent-tag sentinel">Sentinel</span></div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>Resolution or Escalation</h4>
+          <p>If SHIP → done. If FIX → Sentinel writes fix-task back to the originating agent. If same agent fails twice → escalate to dispatch/escalations/ for Anthony to review.</p>
+          <div class="step-agents">
+            <span class="step-agent-tag sentinel">Sentinel</span>
+            <span class="step-agent-tag dispatch">Dispatch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ FILE TREE ═══════ -->
+  <div class="view" id="view-tree">
+    <div class="section-title">Workspace Layout</div>
+    <pre class="tree"><span class="dir">fadejunkie/</span>                        <span class="comment">← git root</span>
+├── <span class="dir">app/</span>                            <span class="comment">← Next.js 15 + Convex product</span>
+│   ├── <span class="dir">app/</span>                        <span class="comment">← App Router pages</span>
+│   │   ├── page.tsx                <span class="comment">← Landing page (711 lines)</span>
+│   │   ├── signin/                 <span class="comment">← Email + password auth</span>
+│   │   ├── <span class="dir">(auth)/</span>                <span class="comment">← Protected route group</span>
+│   │   │   ├── home/               <span class="comment">← Community feed</span>
+│   │   │   ├── profile/            <span class="comment">← Barber profile editor</span>
+│   │   │   ├── website/            <span class="comment">← Shop builder</span>
+│   │   │   ├── resources/          <span class="comment">← Affiliate directory</span>
+│   │   │   └── tools/              <span class="comment">← Flashcards, practice test, exam guide</span>
+│   │   ├── barber/[slug]/          <span class="comment">← Public barber profiles</span>
+│   │   ├── shop/[userId]/          <span class="comment">← Public shop pages</span>
+│   │   └── directory/              <span class="comment">← School/barber map (Leaflet)</span>
+│   ├── <span class="dir">components/</span>                 <span class="comment">← React components</span>
+│   │   ├── ui/                     <span class="comment">← shadcn/ui primitives</span>
+│   │   ├── AppHeader, AppSidebar   <span class="comment">← Layout</span>
+│   │   ├── PostCard, PostComposer  <span class="comment">← Feed</span>
+│   │   ├── ResourceCard            <span class="comment">← Affiliates</span>
+│   │   ├── GalleryGrid             <span class="comment">← Portfolio</span>
+│   │   ├── DirectoryMap             <span class="comment">← Geo search</span>
+│   │   └── ShopTemplate            <span class="comment">← Shop builder</span>
+│   ├── <span class="dir">convex/</span>                     <span class="comment">← Convex backend</span>
+│   │   ├── schema.ts               <span class="comment">← 12 domain + 6 internal tables</span>
+│   │   ├── auth.config.ts          <span class="comment">← Password provider</span>
+│   │   ├── barbers.ts, posts.ts    <span class="comment">← Core CRUD</span>
+│   │   ├── flashcards.ts           <span class="comment">← 344 exam cards</span>
+│   │   ├── resources.ts            <span class="comment">← 26 affiliate resources</span>
+│   │   └── cc*.ts                  <span class="comment">← Control center data</span>
+│   └── lib/                        <span class="comment">← Utilities (cn, etc.)</span>
+│
+├── <span class="dir">dispatch/</span>                       <span class="comment">← Orchestrator agent (opus)</span>
+│   ├── dispatch.ts                 <span class="comment">← Entry point</span>
+│   ├── inbox/ outbox/              <span class="comment">← Task I/O</span>
+│   └── escalations/                <span class="comment">← Human review queue</span>
+│
+├── <span class="dir">funkie/</span>                         <span class="comment">← Strategy agent (sonnet, plan)</span>
+├── <span class="dir">lobe/</span>                           <span class="comment">← Frontend agent (sonnet, execute)</span>
+├── <span class="dir">convex-agent/</span>                   <span class="comment">← Backend agent (sonnet, execute)</span>
+├── <span class="dir">ink/</span>                            <span class="comment">← Copy agent (opus, execute)</span>
+├── <span class="dir">seo-engine/</span>                     <span class="comment">← SEO agent (opus, plan)</span>
+│   └── WCORWIN/                    <span class="comment">← Client: Weichert Realtors ($950/mo)</span>
+├── <span class="dir">sentinel/</span>                       <span class="comment">← QA agent (sonnet, execute)</span>
+│   └── shots/                      <span class="comment">← Visual baseline screenshots</span>
+│
+├── <span class="dir">control-center/</span>                 <span class="comment">← Dashboard @ localhost:4747</span>
+│   ├── cc-server.mjs               <span class="comment">← Node server (JSON API + SSE)</span>
+│   ├── cc-dashboard.html           <span class="comment">← React frontend</span>
+│   └── cc-*.json                   <span class="comment">← CRM, metrics, content, notes</span>
+│
+├── <span class="dir">arquero/</span>                        <span class="comment">← Vite + Convex client storefront</span>
+├── <span class="dir">browser-agent/</span>                  <span class="comment">← Playwright QA scripts</span>
+├── <span class="dir">context/</span>                        <span class="comment">← Shared agent context</span>
+│   ├── fadejunkie.md               <span class="comment">← Strategic brief, injected every prompt</span>
+│   └── fadejunkie_ui.md            <span class="comment">← Design system living doc</span>
+└── <span class="dir">_archive/</span>                       <span class="comment">← Dead scripts, old concepts (gitignored)</span></pre>
+  </div>
+
+</div>
+
+<script>
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

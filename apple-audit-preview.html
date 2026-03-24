@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fadejunkie — Apple Audit Improvements Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #fff4ea;
+    --dark: rgba(22,16,8,0.97);
+    --olive: hsl(34, 42%, 44%);
+    --olive-muted: hsl(34, 22%, 44%);
+    --text: hsl(0, 0%, 8%);
+    --border: rgba(22,16,8,0.08);
+  }
+  html { font-family: 'Inter', -apple-system, sans-serif; scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--text); }
+
+  /* ─── IMPROVEMENT 1: Hero with product visual ─ */
+  .hero {
+    background: var(--cream);
+    min-height: 88vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 7rem 5vw 6rem;
+    gap: 4rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--olive-muted);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-h1 {
+    font-family: 'Spectral', serif;
+    font-size: clamp(3.75rem, 10vw, 8.5rem);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+    color: var(--text);
+    margin-bottom: 2.25rem;
+    animation: slideUp 0.75s cubic-bezier(0.25,0.1,0.25,1) 0.08s both;
+    overflow: hidden;
+  }
+  .hero-h1 em { font-style: italic; color: var(--olive-muted); }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: hsl(34, 20%, 38%);
+    max-width: 29rem;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.55s ease 0.28s both;
+  }
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    animation: fadeUp 0.5s ease 0.42s both;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: hsl(0, 0%, 8%);
+    color: var(--cream);
+    border-radius: 5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
+    letter-spacing: -0.01em;
+  }
+  .btn-primary:hover { background: hsl(0,0%,16%); transform: scale(1.02); }
+  .btn-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--olive);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.15s ease;
+  }
+  .btn-text:hover { color: var(--text); }
+  .btn-text .arrow { transition: transform 0.2s ease; }
+  .btn-text:hover .arrow { transform: translateX(4px); }
+
+  /* ─── Hero profile card ─── */
+  .hero-card-col {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .hero-card-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 316px;
+    animation: slideInRight 1s cubic-bezier(0.22,1,0.36,1) 0.38s both;
+  }
+  .profile-card {
+    background: var(--dark);
+    border-radius: 1.375rem;
+    padding: 1.875rem;
+    border: 1px solid rgba(255,244,234,0.07);
+    box-shadow: 0 40px 80px rgba(22,16,8,0.18), 0 12px 32px rgba(22,16,8,0.1);
+    animation: floatGently 7s ease-in-out infinite;
+  }
+  .profile-header { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 1.625rem; }
+  .avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: rgba(255,244,234,0.07);
+    border: 1px solid rgba(255,244,234,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .avatar-initials {
+    font-family: 'Spectral', serif;
+    font-size: 1.125rem; font-weight: 300;
+    color: rgba(255,244,234,0.45); font-style: italic;
+  }
+  .profile-name {
+    font-family: 'Spectral', serif;
+    font-size: 1.0625rem; font-weight: 400;
+    color: #fff4ea; letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 0.25rem;
+  }
+  .profile-meta {
+    font-size: 0.5625rem; font-weight: 500;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--olive);
+  }
+
+  .skill-row { margin-bottom: 0.7rem; }
+  .skill-label {
+    font-size: 0.6875rem; color: rgba(255,244,234,0.38);
+    display: block; margin-bottom: 0.3rem; letter-spacing: -0.005em;
+  }
+  .skill-track {
+    height: 2px; border-radius: 9999px;
+    background: rgba(255,244,234,0.05);
+  }
+  .skill-fill {
+    height: 2px; border-radius: 9999px;
+    background: var(--olive); opacity: 0.65;
+    width: 0;
+    transition: width 1.1s cubic-bezier(0.22,1,0.36,1);
+  }
+  .skills-block { margin-bottom: 1.5rem; }
+
+  .stats-row {
+    display: flex; gap: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,244,234,0.06);
+    margin-bottom: 1.375rem;
+  }
+  .stat-val {
+    font-family: 'Spectral', serif;
+    font-size: 1.125rem; font-weight: 300; font-style: italic;
+    color: #fff4ea; letter-spacing: -0.02em; line-height: 1; margin-bottom: 0.2rem;
+  }
+  .stat-lbl {
+    font-size: 0.5rem; font-weight: 500;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: rgba(255,244,234,0.22);
+  }
+
+  .thumbnails {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 0.375rem;
+  }
+  .thumb {
+    aspect-ratio: 1; border-radius: 0.625rem;
+    background: rgba(255,244,234,0.04);
+    border: 1px solid rgba(255,244,234,0.05);
+  }
+
+  .active-pill {
+    position: absolute; bottom: -18px; right: -18px;
+    background: var(--cream); border-radius: 3rem;
+    padding: 0.5rem 1rem;
+    display: flex; align-items: center; gap: 0.45rem;
+    box-shadow: 0 4px 24px rgba(22,16,8,0.14);
+    border: 1px solid rgba(22,16,8,0.07);
+    animation: popIn 0.45s cubic-bezier(0.22,1,0.36,1) 1.05s both;
+  }
+  .active-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: #22c55e;
+    animation: pulse 2.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .pill-text {
+    font-size: 0.5rem; font-weight: 500;
+    letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--olive-muted);
+  }
+
+  .post-pill {
+    position: absolute; top: 32px; left: -56px;
+    background: var(--cream); border-radius: 1rem;
+    padding: 0.875rem 1rem;
+    box-shadow: 0 8px 32px rgba(22,16,8,0.12);
+    border: 1px solid rgba(22,16,8,0.07);
+    max-width: 176px;
+    animation: popInLeft 0.55s cubic-bezier(0.22,1,0.36,1) 1.2s both;
+    animation-delay: 1.2s;
+  }
+  .post-cat {
+    font-size: 0.5rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--olive); margin-bottom: 0.3rem;
+  }
+  .post-txt { font-size: 0.6875rem; line-height: 1.45; color: var(--text); }
+
+  /* ─── IMPROVEMENT 2: Stats strip with counter ─ */
+  .stats-strip {
+    background: rgba(22,16,8,0.03);
+    border-top: 1px solid rgba(22,16,8,0.08);
+    border-bottom: 1px solid rgba(22,16,8,0.08);
+  }
+  .stats-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: stretch;
+  }
+  .stat-cell {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem 1rem; text-align: center;
+    border-left: 1px solid rgba(22,16,8,0.07);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .stat-cell:first-child { border-left: none; }
+  .stat-cell.visible { opacity: 1; transform: translateY(0); }
+  .stat-cell-val {
+    font-family: 'Spectral', serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+    font-weight: 400; font-style: italic;
+    letter-spacing: -0.015em; color: var(--text); display: block;
+  }
+  .stat-cell-lbl {
+    font-size: 0.5625rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--olive-muted); margin-top: 0.3rem; display: block;
+  }
+
+  /* ─── IMPROVEMENT 3: Bento card enriched ─ */
+  .bento-section {
+    background: var(--dark);
+    padding: 7rem clamp(1.5rem, 5vw, 6rem);
+  }
+  .bento-head { max-width: 1200px; margin: 0 auto 4rem; }
+  .section-label {
+    font-size: 0.625rem; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--olive); margin-bottom: 1rem;
+  }
+  .section-h2 {
+    font-family: 'Spectral', serif;
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: #fff4ea;
+  }
+  .section-h2 em { font-style: italic; }
+  .bento-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 16rem 16rem;
+    gap: 1rem;
+  }
+  .bento-card {
+    position: relative; overflow: hidden;
+    border-radius: 1rem; border: 1px solid rgba(255,244,234,0.07);
+    background: rgba(255,255,255,0.02);
+    padding: 1.5rem;
+    transition: transform 0.22s cubic-bezier(0.25,0.1,0.25,1),
+                box-shadow 0.22s cubic-bezier(0.25,0.1,0.25,1);
+    cursor: pointer;
+  }
+  .bento-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(22,16,8,0.18);
+  }
+  .bento-card.span-2 { grid-column: span 2; }
+  .bento-icon { margin-bottom: 0.75rem; color: rgba(255,244,234,0.3); }
+  .bento-name {
+    font-family: 'Spectral', serif;
+    font-size: 1.125rem; font-weight: 400;
+    color: #fff4ea; letter-spacing: -0.01em; margin-bottom: 0.5rem;
+  }
+  .bento-desc { font-size: 0.8125rem; line-height: 1.55; color: rgba(255,244,234,0.38); max-width: 24rem; }
+  .bento-bg { position: absolute; inset: 0; pointer-events: none; }
+
+  /* Barber profile mock */
+  .mock-profile {
+    position: absolute; inset: 3rem 1rem 0;
+    background: rgba(255,244,234,0.03);
+    border: 1px solid rgba(255,244,234,0.06);
+    border-radius: 0.75rem;
+    padding: 0.875rem;
+  }
+  .mock-row { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.75rem; }
+  .mock-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,244,234,0.06);
+    border: 1px solid rgba(255,244,234,0.08);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .mock-nm { font-family: 'Spectral', serif; font-size: 0.6875rem; color: rgba(255,244,234,0.55); }
+  .mock-loc { font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,244,234,0.25); margin-top: 1px; }
+  .mock-star { margin-left: auto; font-size: 0.5rem; color: var(--olive); }
+  .mock-tags { display: flex; gap: 0.375rem; flex-wrap: wrap; }
+  .mock-tag {
+    font-size: 0.4375rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,244,234,0.25);
+    background: rgba(255,244,234,0.04);
+    border: 1px solid rgba(255,244,234,0.06);
+    border-radius: 2rem; padding: 0.15rem 0.4rem;
+  }
+
+  /* Website mock */
+  .mock-browser {
+    position: absolute; inset: 3rem 1rem 0;
+    background: rgba(255,244,234,0.03);
+    border: 1px solid rgba(255,244,234,0.06);
+    border-radius: 0.75rem; overflow: hidden;
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 0.375rem;
+    padding: 0.5rem 0.625rem;
+    border-bottom: 1px solid rgba(255,244,234,0.05);
+  }
+  .browser-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,244,234,0.1); }
+  .browser-url {
+    flex: 1; height: 12px; border-radius: 3px;
+    background: rgba(255,244,234,0.04); margin: 0 0.5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.375rem; letter-spacing: 0.08em; color: rgba(255,244,234,0.2);
+  }
+  .browser-body { padding: 0.75rem; }
+  .site-title { font-family: 'Spectral', serif; font-size: 0.8125rem; font-weight: 300; font-style: italic; color: rgba(255,244,234,0.55); letter-spacing: -0.01em; margin-bottom: 0.3rem; }
+  .site-sub { font-size: 0.4375rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,244,234,0.2); margin-bottom: 0.5rem; }
+  .site-btn {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    background: rgba(255,244,234,0.07);
+    border: 1px solid rgba(255,244,234,0.1);
+    border-radius: 2rem; padding: 0.25rem 0.625rem;
+    font-size: 0.5rem; color: rgba(255,244,234,0.45); letter-spacing: -0.01em;
+  }
+
+  /* Directory mock */
+  .mock-dir {
+    position: absolute; inset: 3rem 1rem 0;
+    display: flex; flex-direction: column; gap: 0.375rem;
+  }
+  .dir-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,244,234,0.03);
+    border: 1px solid rgba(255,244,234,0.05);
+    border-radius: 0.5rem; padding: 0.5rem 0.625rem;
+    transform: translateX(-8px);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  .dir-row.visible { transform: translateX(0); opacity: 1; }
+  .dir-cat { font-size: 0.4375rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--olive); opacity: 0.7; width: 48px; flex-shrink: 0; }
+  .dir-name { font-size: 0.625rem; color: rgba(255,244,234,0.4); letter-spacing: -0.005em; }
+
+  /* ─── IMPROVEMENT 4: CTA with animation ─ */
+  .cta-section {
+    background: var(--dark);
+    padding: 8rem clamp(1.5rem, 5vw, 6rem);
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+  .cta-label {
+    font-size: 0.625rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--olive); margin-bottom: 1.5rem;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .cta-h2 {
+    font-family: 'Spectral', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 300; font-style: italic;
+    letter-spacing: -0.025em; line-height: 1.05;
+    color: #fff4ea; margin-bottom: 1.5rem;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.65s ease 0.07s, transform 0.65s ease 0.07s;
+  }
+  .cta-desc {
+    font-size: 0.9375rem; line-height: 1.65;
+    color: rgba(255,244,234,0.5); max-width: 28rem;
+    margin: 0 auto 3rem;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.55s ease 0.14s, transform 0.55s ease 0.14s;
+  }
+  .cta-btns {
+    display: flex; align-items: center; justify-content: center;
+    gap: 2rem; flex-wrap: wrap;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s ease 0.22s, transform 0.5s ease 0.22s;
+  }
+  .cta-section.visible .cta-label,
+  .cta-section.visible .cta-h2,
+  .cta-section.visible .cta-desc,
+  .cta-section.visible .cta-btns {
+    opacity: 1; transform: translateY(0);
+  }
+  .btn-cream {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.875rem 1.75rem; background: var(--cream);
+    color: var(--text); border-radius: 5rem;
+    font-size: 0.875rem; font-weight: 600;
+    text-decoration: none; letter-spacing: -0.01em;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .btn-cream:hover { transform: scale(1.02); }
+  .btn-text-dark {
+    font-size: 0.875rem; font-weight: 600;
+    color: rgba(255,244,234,0.45); text-decoration: none;
+    letter-spacing: -0.01em; transition: color 0.15s ease;
+  }
+  .btn-text-dark:hover { color: #fff4ea; }
+
+  /* ─── Dividers / section labels ─ */
+  .section-divider {
+    background: #fff4ea;
+    padding: 7rem clamp(1.5rem, 5vw, 6rem);
+    border-top: 1px solid rgba(22,16,8,0.1);
+    border-bottom: 1px solid rgba(22,16,8,0.1);
+  }
+  .improvement-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    background: rgba(22,16,8,0.05);
+    border: 1px solid rgba(22,16,8,0.1);
+    border-radius: 2rem;
+    font-size: 0.625rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--olive);
+    margin-bottom: 1.5rem;
+  }
+  .dot-new { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+
+  /* ─── Keyframes ─ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(105%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translate(48px, 12px); }
+    to { opacity: 1; transform: translate(0, 0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.75) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes popInLeft {
+    from { opacity: 0; transform: translate(-24px, -8px); }
+    to { opacity: 1; transform: translate(0, 0); }
+  }
+  @keyframes floatGently {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50% { box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+  }
+
+  .nav-preview {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(255,244,234,0.88);
+    border-bottom: 1px solid rgba(22,16,8,0.08);
+    padding: 1rem 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Spectral', serif;
+    font-size: 1.25rem; font-weight: 400;
+    color: var(--text); text-decoration: none;
+    transition: opacity 0.15s ease;
+  }
+  .nav-logo:hover { opacity: 0.65; }
+  .nav-links { display: flex; gap: 0.25rem; }
+  .nav-link {
+    position: relative; padding: 0.4rem 0.75rem;
+    font-size: 0.875rem; color: var(--text);
+    text-decoration: none; letter-spacing: -0.005em;
+    transition: opacity 0.15s ease;
+  }
+  .nav-link::after {
+    content: ""; position: absolute;
+    bottom: -1px; left: 0.75rem; right: 0.75rem;
+    height: 1px; background: var(--text);
+    transform: scaleX(0); transform-origin: right center;
+    transition: transform 0.22s cubic-bezier(0.25,0.1,0.25,1);
+    opacity: 0.4;
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left center; }
+  .nav-btns { display: flex; gap: 0.5rem; }
+  .nav-btn-outline {
+    padding: 0.4rem 1rem; border-radius: 2rem;
+    border: 1px solid rgba(22,16,8,0.15);
+    font-size: 0.8125rem; font-weight: 500;
+    background: transparent; cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    text-decoration: none; color: var(--text);
+  }
+  .nav-btn-outline:hover { background: rgba(22,16,8,0.05); transform: translateY(-1px); }
+  .nav-btn-solid {
+    padding: 0.4rem 1rem; border-radius: 2rem;
+    background: hsl(0,0%,8%); color: var(--cream);
+    font-size: 0.8125rem; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+    text-decoration: none;
+  }
+  .nav-btn-solid:hover { background: hsl(0,0%,16%); transform: translateY(-1px); }
+
+  .section-header { margin-bottom: 3rem; }
+  .section-header h3 {
+    font-family: 'Spectral', serif;
+    font-size: 2rem; font-weight: 300; font-style: italic;
+    color: var(--text); margin-bottom: 0.5rem;
+  }
+  .section-header p { font-size: 0.9375rem; color: hsl(34, 18%, 38%); line-height: 1.6; }
+
+  .improvements-list {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem; max-width: 700px;
+  }
+  .improvement-item {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: white; border: 1px solid rgba(22,16,8,0.07);
+    border-radius: 0.75rem;
+  }
+  .check { font-size: 0.875rem; color: #22c55e; margin-top: 1px; flex-shrink: 0; }
+  .item-title { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+  .item-desc { font-size: 0.75rem; color: hsl(34, 18%, 38%); line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION (improved) -->
+<nav class="nav-preview">
+  <a href="#" class="nav-logo">fadejunkie</a>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Community</a>
+    <a href="#" class="nav-link">Tools</a>
+    <a href="#" class="nav-link">Directory</a>
+  </div>
+  <div class="nav-btns">
+    <a href="#" class="nav-btn-outline">Log in</a>
+    <a href="#" class="nav-btn-solid">Join free</a>
+  </div>
+</nav>
+
+<!-- IMPROVEMENT 1: Hero with product visual -->
+<div class="hero">
+  <!-- Left: copy -->
+  <div>
+    <p class="hero-eyebrow">The barber community</p>
+    <h1 class="hero-h1">
+      Addicted<br>
+      <em>to the</em><br>
+      craft.
+    </h1>
+    <p class="hero-desc">
+      Study for boards. Build your brand. Find barbers who take it seriously. FadeJunkie is where the craft lives online.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary">Join free <span>→</span></a>
+      <a href="#" class="btn-text">Browse barbers <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <!-- Right: profile card visual (NEW) -->
+  <div class="hero-card-col">
+    <div class="hero-card-wrap">
+      <!-- Post pill (floating) -->
+      <div class="post-pill">
+        <p class="post-cat">Board exam</p>
+        <p class="post-txt">Just passed.<br>First client tomorrow 🔥</p>
+      </div>
+
+      <!-- Main profile card -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar">
+            <span class="avatar-initials">JM</span>
+          </div>
+          <div>
+            <p class="profile-name">Jordan Morales</p>
+            <p class="profile-meta">Brooklyn, NY · Licensed 2019</p>
+          </div>
+        </div>
+        <div class="skills-block">
+          <div class="skill-row">
+            <span class="skill-label">Skin fades</span>
+            <div class="skill-track"><div class="skill-fill" style="width:0%" data-width="94%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Tapers</span>
+            <div class="skill-track"><div class="skill-fill" style="width:0%" data-width="87%"></div></div>
+          </div>
+          <div class="skill-row">
+            <span class="skill-label">Beard sculpting</span>
+            <div class="skill-track"><div class="skill-fill" style="width:0%" data-width="76%"></div></div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div><p class="stat-val">847</p><p class="stat-lbl">Clients</p></div>
+          <div><p class="stat-val">2.1k</p><p class="stat-lbl">Posts</p></div>
+          <div><p class="stat-val">4.9</p><p class="stat-lbl">Rating</p></div>
+        </div>
+        <div class="thumbnails">
+          <div class="thumb"></div>
+          <div class="thumb"></div>
+          <div class="thumb"></div>
+        </div>
+      </div>
+
+      <!-- Active pill -->
+      <div class="active-pill">
+        <div class="active-dot"></div>
+        <span class="pill-text">2,400+ barbers online</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPROVEMENT 2: Stats strip with animated counters -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-cell" style="border-left:none">
+      <span class="stat-cell-val" data-target="2400" data-suffix="k+" data-type="thousands">0</span>
+      <span class="stat-cell-lbl">Barbers</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-cell-val" data-target="18" data-suffix="k+" data-type="direct">0k+</span>
+      <span class="stat-cell-lbl">Flashcards studied</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-cell-val" data-target="340" data-suffix="+" data-type="direct">0+</span>
+      <span class="stat-cell-lbl">Shop sites</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-cell-val">Free</span>
+      <span class="stat-cell-lbl">Always</span>
+    </div>
+  </div>
+</div>
+
+<!-- IMPROVEMENT 3: Bento grid with rich card content -->
+<div class="bento-section">
+  <div class="bento-head">
+    <p class="section-label">What's inside</p>
+    <h2 class="section-h2">Built for<br><em>the grind.</em></h2>
+  </div>
+  <div class="bento-grid">
+    <!-- Community Feed (spans 2) -->
+    <div class="bento-card span-2">
+      <div class="bento-bg">
+        <div style="position:absolute;inset:5rem 1.25rem 0;overflow:hidden;display:flex;flex-direction:column;gap:0.625rem;">
+          <div style="background:rgba(255,244,234,0.03);border:1px solid rgba(255,244,234,0.06);border-radius:0.75rem;padding:0.75rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.375rem;">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,244,234,0.08);"></div>
+              <span style="font-size:9px;color:rgba(255,244,234,0.35);letter-spacing:0.06em;">E. Riviera</span>
+              <span style="font-size:9px;color:rgba(255,244,234,0.18);margin-left:auto;">2m</span>
+            </div>
+            <p style="font-size:11px;line-height:1.5;color:rgba(255,244,234,0.22);">That bald fade detail on the temple tho 🔥</p>
+          </div>
+          <div style="background:rgba(255,244,234,0.03);border:1px solid rgba(255,244,234,0.06);border-radius:0.75rem;padding:0.75rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.375rem;">
+              <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,244,234,0.08);"></div>
+              <span style="font-size:9px;color:rgba(255,244,234,0.35);letter-spacing:0.06em;">K. Harris</span>
+              <span style="font-size:9px;color:rgba(255,244,234,0.18);margin-left:auto;">14m</span>
+            </div>
+            <p style="font-size:11px;line-height:1.5;color:rgba(255,244,234,0.22);">Just passed boards. First client tomorrow.</p>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div class="bento-icon">👥</div>
+        <h3 class="bento-name">Community Feed</h3>
+        <p class="bento-desc">Post your work. Get real feedback from barbers who understand the craft. No fluff, no algorithm — just the community.</p>
+      </div>
+    </div>
+
+    <!-- Barber Profiles (now with mock card) -->
+    <div class="bento-card">
+      <div class="bento-bg">
+        <div class="mock-profile">
+          <div class="mock-row">
+            <div class="mock-avatar">
+              <span style="font-family:'Spectral',serif;font-size:11px;color:rgba(255,244,234,0.35);font-style:italic;">AM</span>
+            </div>
+            <div>
+              <p class="mock-nm">Andre Mitchell</p>
+              <p class="mock-loc">📍 Atlanta, GA</p>
+            </div>
+            <span class="mock-star">★ 4.9</span>
+          </div>
+          <div class="mock-tags">
+            <span class="mock-tag">Skin Fades</span>
+            <span class="mock-tag">Tapers</span>
+            <span class="mock-tag">Beard Work</span>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div class="bento-icon">👤</div>
+        <h3 class="bento-name">Barber Profiles</h3>
+        <p class="bento-desc">Your portfolio, your way. Showcase cuts, list services, share your story.</p>
+      </div>
+    </div>
+
+    <!-- Shop Websites (now with browser mock) -->
+    <div class="bento-card">
+      <div class="bento-bg">
+        <div class="mock-browser">
+          <div class="browser-bar">
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <div class="browser-dot"></div>
+            <div class="browser-url">cuts.by/morales</div>
+          </div>
+          <div class="browser-body">
+            <p class="site-title">Morales Cuts</p>
+            <p class="site-sub">Brooklyn, NY · Walk-ins welcome</p>
+            <div class="site-btn">Book a cut →</div>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div class="bento-icon">🌐</div>
+        <h3 class="bento-name">Shop Websites</h3>
+        <p class="bento-desc">A clean, fast site for your shop. No drag-and-drop builders. No monthly fees.</p>
+      </div>
+    </div>
+
+    <!-- Study Tools -->
+    <div class="bento-card">
+      <div class="bento-icon">📖</div>
+      <h3 class="bento-name">Study Tools</h3>
+      <p class="bento-desc">Flashcards and exam prep built specifically for state board licensing.</p>
+    </div>
+
+    <!-- Resource Directory (now with directory rows) -->
+    <div class="bento-card">
+      <div class="bento-bg">
+        <div class="mock-dir">
+          <div class="dir-row" style="transition-delay:0s">
+            <span class="dir-cat">Clippers</span>
+            <span class="dir-name">Wahl Senior Cordless</span>
+          </div>
+          <div class="dir-row" style="transition-delay:0.1s">
+            <span class="dir-cat">Styling</span>
+            <span class="dir-name">Murray's Pomade</span>
+          </div>
+          <div class="dir-row" style="transition-delay:0.2s">
+            <span class="dir-cat">Education</span>
+            <span class="dir-name">Pivot Point Cosmetology</span>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div class="bento-icon">📂</div>
+        <h3 class="bento-name">Resource Directory</h3>
+        <p class="bento-desc">Curated tools, products, and vendors — vetted by the community, not sponsored.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPROVEMENT 4: CTA with entrance animation -->
+<div class="cta-section" id="cta">
+  <div class="cta-inner">
+    <p class="cta-label">Ready to get in</p>
+    <h2 class="cta-h2">Your chair is waiting.</h2>
+    <p class="cta-desc">Free to join. Built for barbers who take this seriously.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-cream">Create your account →</a>
+      <a href="#" class="btn-text-dark">Browse the directory</a>
+    </div>
+  </div>
+</div>
+
+<!-- Summary panel -->
+<div style="background:#fff4ea;padding:5rem clamp(1.5rem,5vw,6rem);border-top:1px solid rgba(22,16,8,0.08)">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="improvement-tag"><div class="dot-new"></div>Apple Audit — Changes Applied</div>
+    <div class="section-header">
+      <h3>What was improved</h3>
+      <p>Five targeted upgrades to push the site to award-winning quality.</p>
+    </div>
+    <div class="improvements-list">
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">Hero visual anchor</p>
+          <p class="item-desc">Added a floating barber profile card to the empty right half. Apple never wastes 50% of the first fold.</p>
+        </div>
+      </div>
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">Animated stat counters</p>
+          <p class="item-desc">Numbers count up with ease-out-expo on scroll using IntersectionObserver + requestAnimationFrame.</p>
+        </div>
+      </div>
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">Rich bento card content</p>
+          <p class="item-desc">Barber Profiles, Shop Websites, and Resource Directory now have real UI mockups inside each card.</p>
+        </div>
+      </div>
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">CTA entrance animation</p>
+          <p class="item-desc">Label, heading, description, and buttons now each animate in staggered on scroll entry.</p>
+        </div>
+      </div>
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">Nav hover polish</p>
+          <p class="item-desc">Slide-in underlines on nav links, translateY(-1px) on buttons, arrow translation on text links.</p>
+        </div>
+      </div>
+      <div class="improvement-item">
+        <span class="check">✓</span>
+        <div>
+          <p class="item-title">Global CSS precision</p>
+          <p class="item-desc">font-feature-settings kern/liga, focus-visible ring, smooth scroll, bento card hover depth.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Animate skill fills on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.skill-fill').forEach(el => {
+        el.style.width = el.dataset.width;
+      });
+    }, 900);
+  });
+
+  // Animated stat counters
+  function animateCounter(el) {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const type = el.dataset.type;
+    const duration = 1400;
+    const start = performance.now();
+
+    const tick = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(2, -10 * t);
+      const current = eased * target;
+
+      if (type === 'thousands') {
+        el.textContent = (current >= 1000 ? Math.round(current).toLocaleString() : Math.round(current)) + '+';
+      } else {
+        el.textContent = Math.round(current) + suffix;
+      }
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  // IntersectionObserver for scroll reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+
+        // Counter animation for stat cells
+        const val = entry.target.querySelector('[data-target]');
+        if (val) animateCounter(val);
+      }
+    });
+  }, { margin: '-40px' });
+
+  document.querySelectorAll('.stat-cell, .cta-section, .dir-row').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

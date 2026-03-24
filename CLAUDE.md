@@ -14,6 +14,7 @@ C:/Users/twani/fadejunkie/   ← root (git repo)
   ink/                        ← Ink agent — copywriter & voice (has its own CLAUDE.md)
   seo-engine/                 ← SEO Engine agent — SEO strategist (has its own CLAUDE.md)
   sentinel/                   ← Sentinel agent — QA & deploy gate (has its own CLAUDE.md)
+  email-agent/                ← Mailwatch agent — read-only Gmail monitor for Wcorwin (has its own CLAUDE.md)
   control-center/             ← Dashboard server, CRM, metrics, content calendar
   arquero/                    ← Arquero Co. client project (Vite + Convex storefront)
   browser-agent/              ← Playwright browser agent — screenshots, visual QA
@@ -47,6 +48,7 @@ All seven agents share the same communication pattern:
 | Ink | `ink/` | Copywriting — proposals, social, contracts, brand voice | execute | opus |
 | SEO Engine | `seo-engine/` | SEO strategy, audits, keywords, client deliverables | plan | opus |
 | Sentinel | `sentinel/` | QA — build verification, visual QA, deploy gate | execute | sonnet |
+| Mailwatch | `email-agent/` | Read-only Gmail monitor — Wcorwin contacts only | execute | sonnet |
 
 **Running agents from within a Claude Code session** (nested session bypass required):
 ```bash
@@ -63,6 +65,7 @@ Examples for each agent:
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx ink/ink.ts
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx seo-engine/seo-engine.ts
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx sentinel/sentinel.ts
+(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx email-agent/email-agent.ts
 ```
 
 ### Task file headers
@@ -97,6 +100,7 @@ Trust levels determine whether Dispatch auto-executes or sends plan-mode tasks:
 - **MEDIUM** (Convex, SEO Engine): Auto-execute additions/reads. Plan mode for destructive/client-facing changes.
 - **LOW** (Funkie): Always plan mode unless updating context/goals.
 - **AUTO** (Sentinel): Always execute. QA is always action.
+- **READ-ONLY** (Mailwatch): Always execute. Read-only Gmail access — no send capability. Scoped to two contacts.
 
 ### Escalation Path
 Agent → Dispatch → Anthony. When an agent can't resolve something, Dispatch writes to `dispatch/escalations/`. Anthony reviews escalations and provides direction.

@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fadejunkie.com — User Journey & Page Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Spectral:wght@400;600;700&family=Geist+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0e0a06;
+    --cream: #fff4ea;
+    --muted: hsl(34 22% 50%);
+    --dim: hsl(34 22% 35%);
+    --border: hsl(34 22% 16%);
+    --border-hover: hsl(34 22% 28%);
+    --accent: hsl(34 42% 44%);
+    --card-bg: rgba(22,16,8,0.55);
+    --card-bg-hover: rgba(22,16,8,0.8);
+
+    --student: #7aa2f7;
+    --barber: #e8a855;
+    --client: #bb9af7;
+    --public: hsl(34 22% 50%);
+    --auth: #9ece6a;
+    --tool: #73daca;
+    --community: #f7768e;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding: 56px 40px 12px;
+  }
+
+  .header h1 {
+    font-family: 'Spectral', serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .header p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 28px 40px 32px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.76rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+  }
+
+  .tab:hover { border-color: var(--accent); color: var(--cream); }
+  .tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  .canvas {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── Shared ── */
+  .section-title {
+    font-family: 'Spectral', serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .mono {
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .badge {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.62rem;
+    padding: 2px 9px;
+    border-radius: 99px;
+    display: inline-block;
+    border: 1px solid;
+    vertical-align: middle;
+  }
+
+  .badge-public { border-color: var(--public); color: var(--public); }
+  .badge-auth { border-color: var(--auth); color: var(--auth); }
+  .badge-student { border-color: var(--student); color: var(--student); }
+  .badge-barber { border-color: var(--barber); color: var(--barber); }
+  .badge-client { border-color: var(--client); color: var(--client); }
+  .badge-tool { border-color: var(--tool); color: var(--tool); }
+
+  /* ── SITEMAP VIEW ── */
+  .sitemap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sitemap-tier {
+    position: relative;
+    padding: 28px 0;
+  }
+
+  .sitemap-tier:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+    transform: translateY(100%);
+    z-index: 0;
+  }
+
+  .tier-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .tier-header h3 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .tier-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .page-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .page-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    min-width: 190px;
+    max-width: 260px;
+    flex: 1;
+    background: var(--card-bg);
+    transition: all 0.25s;
+    cursor: default;
+    position: relative;
+  }
+
+  .page-card:hover {
+    border-color: var(--border-hover);
+    background: var(--card-bg-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  }
+
+  .page-card .route {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .page-card h4 {
+    font-family: 'Spectral', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .page-card .desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .page-card .tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .page-card.landing { border-top: 3px solid var(--cream); }
+  .page-card.auth-page { border-top: 3px solid var(--auth); }
+  .page-card.community-page { border-top: 3px solid var(--community); }
+  .page-card.profile-page { border-top: 3px solid var(--barber); }
+  .page-card.tool-page { border-top: 3px solid var(--tool); }
+  .page-card.resource-page { border-top: 3px solid var(--client); }
+  .page-card.public-page { border-top: 3px solid var(--student); }
+
+  /* ── JOURNEY VIEW ── */
+  .journeys {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .journey {
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    background: var(--card-bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .journey::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .journey.student::before { background: var(--student); }
+  .journey.barber::before { background: var(--barber); }
+  .journey.client::before { background: var(--client); }
+
+  .journey-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+
+  .journey-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .journey.student .journey-icon { background: rgba(122,162,247,0.12); }
+  .journey.barber .journey-icon { background: rgba(232,168,85,0.12); }
+  .journey.client .journey-icon { background: rgba(187,154,247,0.12); }
+
+  .journey-header h3 {
+    font-family: 'Spectral', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .journey-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .journey-steps {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .journey-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 140px;
+    max-width: 160px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .journey-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 22px;
+    right: -2px;
+    width: calc(100% - 44px);
+    height: 1px;
+    transform: translateX(50%);
+  }
+
+  .journey.student .journey-step::after { background: rgba(122,162,247,0.25); }
+  .journey.barber .journey-step::after { background: rgba(232,168,85,0.25); }
+  .journey.client .journey-step::after { background: rgba(187,154,247,0.25); }
+
+  .step-dot {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    border: 2px solid var(--border);
+    background: var(--bg);
+    position: relative;
+    z-index: 1;
+    transition: all 0.2s;
+  }
+
+  .journey-step:hover .step-dot {
+    transform: scale(1.1);
+  }
+
+  .journey.student .journey-step:hover .step-dot { border-color: var(--student); box-shadow: 0 0 16px rgba(122,162,247,0.2); }
+  .journey.barber .journey-step:hover .step-dot { border-color: var(--barber); box-shadow: 0 0 16px rgba(232,168,85,0.2); }
+  .journey.client .journey-step:hover .step-dot { border-color: var(--client); box-shadow: 0 0 16px rgba(187,154,247,0.2); }
+
+  .step-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .step-route {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+  }
+
+  /* ── FEATURES VIEW ── */
+  .feature-clusters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-cluster {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 26px;
+    background: var(--card-bg);
+    transition: border-color 0.2s;
+  }
+
+  .feature-cluster:hover { border-color: var(--border-hover); }
+
+  .cluster-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .cluster-icon {
+    font-size: 1.3rem;
+  }
+
+  .cluster-header h3 {
+    font-family: 'Spectral', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: hsl(34 22% 62%);
+    line-height: 1.5;
+  }
+
+  .feature-bullet {
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .feature-item strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+
+  .feature-item .soon {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  /* ── CONNECTIONS VIEW ── */
+  .conn-section {
+    margin-bottom: 40px;
+  }
+
+  .conn-section h3 {
+    font-family: 'Spectral', serif;
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+  }
+
+  .conn-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .conn-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    font-size: 0.84rem;
+    transition: border-color 0.2s;
+    flex-wrap: wrap;
+  }
+
+  .conn-row:hover { border-color: var(--border-hover); }
+
+  .conn-from, .conn-to {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.76rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(22,16,8,0.9);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .conn-arrow {
+    color: var(--accent);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .conn-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    flex: 1;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 20px 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Spectral', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  .stat-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .header h1 { font-size: 2rem; }
+    .canvas { padding: 0 16px 80px; }
+    .page-card { min-width: 160px; }
+    .journey { padding: 22px; }
+    .feature-clusters { grid-template-columns: 1fr; }
+    .stats-bar { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>fadejunkie<span>.com</span></h1>
+  <p>How visitors discover, learn, build, and connect on the platform — every page, every path, every user type.</p>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">14</div><div class="stat-label">Pages</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-label">User Paths</div></div>
+  <div class="stat"><div class="stat-num">6</div><div class="stat-label">Auth Routes</div></div>
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">Public Routes</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showView('sitemap')">Sitemap</button>
+  <button class="tab" onclick="showView('journeys')">User Journeys</button>
+  <button class="tab" onclick="showView('features')">Feature Map</button>
+  <button class="tab" onclick="showView('connections')">Page Connections</button>
+</div>
+
+<div class="canvas">
+
+  <!-- ═══════ SITEMAP ═══════ -->
+  <div class="view active" id="view-sitemap">
+    <div class="section-title">Every Page on fadejunkie.com</div>
+    <div class="section-sub">Public pages are open to anyone. Authenticated pages require sign-in. Public profiles are created by users but viewable by everyone.</div>
+
+    <div class="sitemap">
+
+      <!-- Public Entry -->
+      <div class="sitemap-tier">
+        <div class="tier-header">
+          <h3>Public — Entry Points</h3>
+          <div class="tier-line"></div>
+        </div>
+        <div class="page-grid">
+          <div class="page-card landing">
+            <span class="route">/</span>
+            <h4>Landing Page</h4>
+            <div class="desc">Brand manifesto, three user paths (Student / Barber / Client), feature showcase, social proof stats, CTA to join.</div>
+            <div class="tags"><span class="badge badge-public">public</span></div>
+          </div>
+          <div class="page-card auth-page">
+            <span class="route">/signin</span>
+            <h4>Sign In / Sign Up</h4>
+            <div class="desc">Tab toggle between login and registration. Email + password. Supports ?mode=signup from CTAs. Redirects to /home on success.</div>
+            <div class="tags"><span class="badge badge-public">public</span></div>
+          </div>
+          <div class="page-card public-page">
+            <span class="route">/directory</span>
+            <h4>Directory</h4>
+            <div class="desc">Interactive Leaflet map with barber schools, shops, and supply stores. Search by city, filter by radius. Texas-focused.</div>
+            <div class="tags"><span class="badge badge-public">public</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth Core -->
+      <div class="sitemap-tier">
+        <div class="tier-header">
+          <h3>Authenticated — Core Experience</h3>
+          <div class="tier-line"></div>
+        </div>
+        <div class="page-grid">
+          <div class="page-card community-page">
+            <span class="route">/home</span>
+            <h4>Community Feed</h4>
+            <div class="desc">Post composer with image upload. Infinite paginated feed of barber posts. Likes, timestamps, barber handles. The social hub.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-barber">all users</span></div>
+          </div>
+          <div class="page-card profile-page">
+            <span class="route">/profile</span>
+            <h4>My Profile</h4>
+            <div class="desc">Build your barber identity. Avatar upload, handle/slug, bio, services, booking link, phone, Instagram, shop info. Gallery management.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-barber">barber</span></div>
+          </div>
+          <div class="page-card profile-page">
+            <span class="route">/website</span>
+            <h4>Shop Website Builder</h4>
+            <div class="desc">Create a public storefront. Edit/preview toggle. Shop name, tagline, hours, address, team members. Live preview of ShopTemplate.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-barber">barber</span></div>
+          </div>
+          <div class="page-card resource-page">
+            <span class="route">/resources</span>
+            <h4>Resource Directory</h4>
+            <div class="desc">Curated affiliate directory. 26 resources across Barbers, Students, Schools, Shops. Category pills, price badges, affiliate links.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-barber">all users</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="sitemap-tier">
+        <div class="tier-header">
+          <h3>Authenticated — State Board Study Tools</h3>
+          <div class="tier-line"></div>
+        </div>
+        <div class="page-grid">
+          <div class="page-card tool-page">
+            <span class="route">/tools</span>
+            <h4>Tools Hub</h4>
+            <div class="desc">Gateway to all tools. Links to website builder, flashcards, practice tests. Previews coming-soon tools (sanitation checklist, intake forms).</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-student">student</span></div>
+          </div>
+          <div class="page-card tool-page">
+            <span class="route">/tools/flashcards</span>
+            <h4>Flashcards</h4>
+            <div class="desc">344 exam prep cards (300 Milady + 44 TDLR). Deck/topic filters, star favorites, shuffle, 3D flip animation. Progress tracking.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-student">student</span></div>
+          </div>
+          <div class="page-card tool-page">
+            <span class="route">/tools/practice-test</span>
+            <h4>Practice Test</h4>
+            <div class="desc">Simulated exams with scoring. Choose deck + question count. Flag tricky questions. Results with topic breakdown, review missed questions. 70% pass threshold.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-student">student</span></div>
+          </div>
+          <div class="page-card tool-page">
+            <span class="route">/tools/exam-guide</span>
+            <h4>Exam Guide</h4>
+            <div class="desc">Step-by-step state board walkthrough. Service tasks, time limits, bag contents checklist, procedures, pro tips. Manicuring focus.</div>
+            <div class="tags"><span class="badge badge-auth">auth</span> <span class="badge badge-student">student</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Public Profiles -->
+      <div class="sitemap-tier">
+        <div class="tier-header">
+          <h3>Public — User-Generated Pages</h3>
+          <div class="tier-line"></div>
+        </div>
+        <div class="page-grid">
+          <div class="page-card public-page">
+            <span class="route">/barber/[slug]</span>
+            <h4>Barber Profile</h4>
+            <div class="desc">Public portfolio. Name, bio, services, gallery grid, booking/phone/Instagram buttons. ISR with 60s revalidation. SEO-indexed.</div>
+            <div class="tags"><span class="badge badge-public">public</span> <span class="badge badge-barber">user-generated</span></div>
+          </div>
+          <div class="page-card public-page">
+            <span class="route">/shop/[userId]</span>
+            <h4>Shop Storefront</h4>
+            <div class="desc">Public shop page built via /website. Shop name, tagline, about, hours, address, team roster. ISR with 60s revalidation.</div>
+            <div class="tags"><span class="badge badge-public">public</span> <span class="badge badge-barber">user-generated</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════ USER JOURNEYS ═══════ -->
+  <div class="view" id="view-journeys">
+    <div class="section-title">Three Paths Into FadeJunkie</div>
+    <div class="section-sub">The landing page segments visitors into three personas. Each has a distinct journey through the platform with different primary destinations.</div>
+
+    <div class="journeys">
+
+      <!-- Student -->
+      <div class="journey student">
+        <div class="journey-header">
+          <div class="journey-icon">📚</div>
+          <h3>The Student</h3>
+        </div>
+        <p class="journey-desc">Cosmetology students prepping for state board exams. They need flashcards, practice tests, and a study community. They discover FadeJunkie through SEO on exam-related searches.</p>
+        <div class="journey-steps">
+          <div class="journey-step">
+            <div class="step-dot">🔍</div>
+            <div class="step-label">Google Search</div>
+            <div class="step-route">organic / SEO</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🏠</div>
+            <div class="step-label">Landing Page</div>
+            <div class="step-route">/</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🔑</div>
+            <div class="step-label">Sign Up</div>
+            <div class="step-route">/signin?mode=signup</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🃏</div>
+            <div class="step-label">Flashcards</div>
+            <div class="step-route">/tools/flashcards</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">📝</div>
+            <div class="step-label">Practice Test</div>
+            <div class="step-route">/tools/practice-test</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">📖</div>
+            <div class="step-label">Exam Guide</div>
+            <div class="step-route">/tools/exam-guide</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">💬</div>
+            <div class="step-label">Community</div>
+            <div class="step-route">/home</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barber -->
+      <div class="journey barber">
+        <div class="journey-header">
+          <div class="journey-icon">✂️</div>
+          <h3>The Barber</h3>
+        </div>
+        <p class="journey-desc">Working barbers and apprentices building their brand. They want a portfolio, a shop website, and a community of peers. They come from word-of-mouth, social media, or the directory.</p>
+        <div class="journey-steps">
+          <div class="journey-step">
+            <div class="step-dot">📱</div>
+            <div class="step-label">Social / Word of Mouth</div>
+            <div class="step-route">referral</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🏠</div>
+            <div class="step-label">Landing Page</div>
+            <div class="step-route">/</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🔑</div>
+            <div class="step-label">Sign Up</div>
+            <div class="step-route">/signin?mode=signup</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">👤</div>
+            <div class="step-label">Build Profile</div>
+            <div class="step-route">/profile</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🌐</div>
+            <div class="step-label">Build Shop Site</div>
+            <div class="step-route">/website</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">💬</div>
+            <div class="step-label">Post Work</div>
+            <div class="step-route">/home</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🔗</div>
+            <div class="step-label">Share Profile</div>
+            <div class="step-route">/barber/[slug]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client / Visitor -->
+      <div class="journey client">
+        <div class="journey-header">
+          <div class="journey-icon">🗺️</div>
+          <h3>The Client / Visitor</h3>
+        </div>
+        <p class="journey-desc">People looking for barbers, schools, or supplies. They browse the public directory and barber profiles. Some convert to full accounts to engage with the community.</p>
+        <div class="journey-steps">
+          <div class="journey-step">
+            <div class="step-dot">🔍</div>
+            <div class="step-label">Search / Link</div>
+            <div class="step-route">organic / direct</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🗺️</div>
+            <div class="step-label">Directory</div>
+            <div class="step-route">/directory</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">✂️</div>
+            <div class="step-label">Barber Profile</div>
+            <div class="step-route">/barber/[slug]</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">🏪</div>
+            <div class="step-label">Shop Page</div>
+            <div class="step-route">/shop/[userId]</div>
+          </div>
+          <div class="journey-step">
+            <div class="step-dot">📞</div>
+            <div class="step-label">Book / Contact</div>
+            <div class="step-route">external link</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════ FEATURES ═══════ -->
+  <div class="view" id="view-features">
+    <div class="section-title">Feature Map by Domain</div>
+    <div class="section-sub">Everything fadejunkie.com does today, organized by product area. "Soon" features are designed but not yet shipped.</div>
+
+    <div class="feature-clusters">
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">💬</span>
+          <h3>Community Feed</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Post composer</strong> — text + image upload to share work</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Infinite feed</strong> — paginated (20/page) with "load more"</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Likes</strong> — per-post engagement with count display</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Barber identity</strong> — posts show name, @handle, avatar</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Ownership badge</strong> — indicates your own posts</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">👤</span>
+          <h3>Barber Identity</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Profile editor</strong> — avatar, slug, bio, services, socials</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Slug validation</strong> — real-time availability check for @handle</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Gallery</strong> — portfolio image grid, reorderable</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Public profile</strong> — SEO-indexed at /barber/[slug] with ISR</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Booking link</strong> — external booking integration</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">🌐</span>
+          <h3>Shop Website Builder</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Edit / preview toggle</strong> — real-time live preview</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Shop data form</strong> — name, tagline, hours, address, team</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>ShopTemplate</strong> — styled public storefront component</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Team roster</strong> — link barber profiles by slug</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Public page</strong> — accessible at /shop/[userId]</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">📚</span>
+          <h3>State Board Exam Tools</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Flashcards</strong> — 344 cards (Milady + TDLR), 3D flip, star/shuffle</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Practice tests</strong> — timed exams, 20–150 questions, topic breakdown</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Exam guide</strong> — step-by-step procedures, checklists, pro tips</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Score history</strong> — past results with percentage badges</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Review mode</strong> — see missed questions with correct answers</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">🗺️</span>
+          <h3>Directory & Discovery</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Interactive map</strong> — Leaflet with markers, search center pin</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Type tabs</strong> — Schools / Shops / Supply stores</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Geo search</strong> — city search + geocoding + radius filter</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Location modal</strong> — details, hours, contact, website</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Dual layout</strong> — scrollable list + map side-by-side</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">🔗</span>
+          <h3>Resource Directory</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>26 curated resources</strong> — tools, products, services, vendors</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Audience tabs</strong> — Barbers / Students / Schools / Shops</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Affiliate links</strong> — tracked outbound clicks (revenue stream)</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Price badges</strong> — cost visibility per resource</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>"Soon" badges</strong> — upcoming resources visible but not active</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">🔐</span>
+          <h3>Auth & Infrastructure</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Email + password</strong> — Convex Auth, open signup</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>ISR (60s)</strong> — barber profiles and shop pages revalidate</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Convex real-time</strong> — live data sync across all pages</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>File storage</strong> — Convex cloud for avatars, gallery, post images</li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Route protection</strong> — (auth) layout group guards all dashboard routes</li>
+        </ul>
+      </div>
+
+      <div class="feature-cluster">
+        <div class="cluster-header">
+          <span class="cluster-icon">🚧</span>
+          <h3>Coming Soon</h3>
+        </div>
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Sanitation checklist</strong> — OSHA-compliant daily checklist <span class="soon">soon</span></li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Client intake forms</strong> — printable consultation cards <span class="soon">soon</span></li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Pro tier</strong> — paid subscription with premium features <span class="soon">Q1 goal</span></li>
+          <li class="feature-item"><span class="feature-bullet">›</span><strong>Affiliate tracking</strong> — click-level analytics for revenue <span class="soon">Q1 goal</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════ CONNECTIONS ═══════ -->
+  <div class="view" id="view-connections">
+    <div class="section-title">How Pages Connect</div>
+    <div class="section-sub">Every navigation path, CTA, and cross-link between pages on fadejunkie.com.</div>
+
+    <div class="conn-section">
+      <h3>Landing Page CTAs</h3>
+      <div class="conn-grid">
+        <div class="conn-row">
+          <span class="conn-from">/</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/signin?mode=signup</span>
+          <span class="conn-label">"Join free" and "Start studying" buttons — all auth-gated CTAs</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/directory</span>
+          <span class="conn-label">"Browse directory" — only CTA that doesn't require auth</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/signin</span>
+          <span class="conn-label">"Log in" nav link</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conn-section">
+      <h3>Post-Auth Redirect</h3>
+      <div class="conn-grid">
+        <div class="conn-row">
+          <span class="conn-from">/signin</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/home</span>
+          <span class="conn-label">Default redirect after successful login or signup</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conn-section">
+      <h3>Dashboard Navigation (Sidebar)</h3>
+      <div class="conn-grid">
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/home</span>
+          <span class="conn-label">Home — community feed</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/profile</span>
+          <span class="conn-label">My Profile — barber identity editor</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/website</span>
+          <span class="conn-label">Website — shop site builder</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/tools</span>
+          <span class="conn-label">Tools — study hub & utilities</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/resources</span>
+          <span class="conn-label">Resources — curated affiliate directory</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">sidebar</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/directory</span>
+          <span class="conn-label">Directory — school/shop/supply map</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conn-section">
+      <h3>Cross-Page Links</h3>
+      <div class="conn-grid">
+        <div class="conn-row">
+          <span class="conn-from">/home</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/barber/[slug]</span>
+          <span class="conn-label">Post author @handle links to their public profile</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/profile</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/barber/[slug]</span>
+          <span class="conn-label">"View your live page" card shows public profile URL</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/website</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/shop/[userId]</span>
+          <span class="conn-label">"View your live page" card shows public shop URL</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/tools</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/tools/flashcards</span>
+          <span class="conn-label">Flashcards tool card</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/tools</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/tools/practice-test</span>
+          <span class="conn-label">Practice test tool card</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/tools</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/tools/exam-guide</span>
+          <span class="conn-label">Exam guide tool card</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/tools</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">/website</span>
+          <span class="conn-label">Website builder tool card</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="conn-section">
+      <h3>External Exits</h3>
+      <div class="conn-grid">
+        <div class="conn-row">
+          <span class="conn-from">/barber/[slug]</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">external</span>
+          <span class="conn-label">Booking link, phone call, Instagram profile</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/resources</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">external</span>
+          <span class="conn-label">Affiliate links to vendor/tool websites</span>
+        </div>
+        <div class="conn-row">
+          <span class="conn-from">/directory</span>
+          <span class="conn-arrow">→</span>
+          <span class="conn-to">external</span>
+          <span class="conn-label">Location website, phone number from modal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

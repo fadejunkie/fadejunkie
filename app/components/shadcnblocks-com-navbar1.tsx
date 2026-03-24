@@ -198,8 +198,11 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <NavigationMenuItem key={item.title}>
       <a
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-accent-foreground"
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors"
         href={item.url}
+        style={{ color: "hsl(34, 22%, 44%)" }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "hsl(0, 0%, 8%)"; (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "hsl(34, 22%, 44%)"; (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
       >
         {item.title}
       </a>

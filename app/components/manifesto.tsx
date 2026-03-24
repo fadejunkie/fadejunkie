@@ -31,7 +31,6 @@ const Manifesto = () => {
         backgroundColor: "#fff4ea",
         padding: "7rem clamp(1.5rem, 5vw, 6rem)",
         borderTop: "1px solid rgba(22,16,8,0.1)",
-        borderBottom: "1px solid rgba(22,16,8,0.1)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>

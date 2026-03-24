@@ -15,5 +15,8 @@
   "type": "commonjs",
   "dependencies": {
     "stripe": "^20.4.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
   }
 }
