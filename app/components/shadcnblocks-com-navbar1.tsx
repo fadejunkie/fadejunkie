@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { Book, Lock, Menu, Sunset, Trees, Zap } from "lucide-react";
 
 import {
   Accordion,
@@ -205,6 +205,9 @@ const renderMenuItem = (item: MenuItem) => {
         onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "hsl(34, 22%, 44%)"; (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
       >
         {item.title}
+        {item.url.includes("signin") && (
+          <Lock size={10} style={{ opacity: 0.4, marginLeft: "0.3rem", display: "inline", verticalAlign: "middle" }} />
+        )}
       </a>
     </NavigationMenuItem>
   );
@@ -241,8 +244,11 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="font-semibold">
+    <a key={item.title} href={item.url} className="font-semibold inline-flex items-center gap-1">
       {item.title}
+      {item.url.includes("signin") && (
+        <Lock size={10} style={{ opacity: 0.4 }} />
+      )}
     </a>
   );
 };

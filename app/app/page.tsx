@@ -857,15 +857,15 @@ export default function LandingPage() {
           {
             title: "Social",
             links: [
-              { text: "Instagram", url: "#" },
-              { text: "Twitter", url: "#" },
+              { text: "Instagram", url: "https://instagram.com/fadejunkie" },
+              { text: "Twitter", url: "https://twitter.com/fadejunkie" },
             ],
           },
         ]}
         copyright="© 2026 FadeJunkie. All rights reserved."
         bottomLinks={[
-          { text: "Privacy Policy", url: "#" },
-          { text: "Terms of Service", url: "#" },
+          { text: "Privacy Policy", url: "/privacy" },
+          { text: "Terms of Service", url: "/terms" },
         ]}
       />
 

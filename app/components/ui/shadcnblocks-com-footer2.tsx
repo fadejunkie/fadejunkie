@@ -138,6 +138,7 @@ const Footer2 = ({
                     <li key={linkIdx}>
                       <a
                         href={link.url}
+                        {...(link.url.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         style={{
                           fontFamily: "var(--font-inter), -apple-system, sans-serif",
                           fontSize: "0.875rem",

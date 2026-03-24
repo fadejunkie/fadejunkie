@@ -490,7 +490,7 @@ const Hero = () => {
                 fontFamily:
                   "var(--font-spectral), Georgia, 'Times New Roman', serif",
                 fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
-                fontWeight: 300,
+                fontWeight: 400,
                 letterSpacing: "-0.025em",
                 lineHeight: 0.95,
                 color: "hsl(0, 0%, 8%)",
@@ -505,8 +505,8 @@ const Hero = () => {
               <span
                 style={{
                   fontStyle: "italic",
-                  fontWeight: 300,
-                  color: "hsl(34, 22%, 44%)",
+                  fontWeight: 400,
+                  color: "hsl(34, 32%, 36%)",
                 }}
               >
                 to the
