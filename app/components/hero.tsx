@@ -447,7 +447,7 @@ const Hero = () => {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden lg:block"
         style={{
-          background: "radial-gradient(ellipse 55% 50% at 75% 55%, rgba(255,220,170,0.12) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 55% 50% at 75% 55%, rgba(255,210,150,0.18) 0%, transparent 70%)",
         }}
       />
 
@@ -658,7 +658,7 @@ const Hero = () => {
         className="fj-scroll-cue"
         aria-hidden="true"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
+        animate={{ opacity: 0.65 }}
         transition={{ delay: 1.8, duration: 0.7 }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -686,7 +686,7 @@ const Hero = () => {
           50%       { transform: translateY(-9px); }
         }
         .hero-profile-card {
-          animation: fj-float 7s ease-in-out infinite;
+          animation: fj-float 9s ease-in-out infinite;
         }
 
         /* Side pill float (offset phase) */
