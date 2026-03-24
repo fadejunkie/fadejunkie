@@ -46,13 +46,10 @@ function AnimatedStatValue({ value }: { value: string }) {
   const prefix = value.match(/^[^0-9]*/)?.[0] ?? "";
   const valueWithoutPrefix = value.slice(prefix.length);
 
-  const [displayed, setDisplayed] = useState<string>(
-    value === "Free" ? "Free" : prefix + "0"
-  );
+  const [displayed, setDisplayed] = useState<string>(prefix + "0");
 
   useEffect(() => {
     if (!isInView) return;
-    if (value === "Free") { setDisplayed("Free"); return; }
     // Values like "$0" that resolve to zero should just display as-is (no counter)
     if (valueWithoutPrefix === "0" || valueWithoutPrefix === "0+") {
       setDisplayed(value);
@@ -66,7 +63,7 @@ function AnimatedStatValue({ value }: { value: string }) {
     const isK = /k/i.test(match[2]);
     const target = raw;
 
-    const duration = 1400;
+    const duration = 1900;
     const startTime = performance.now();
 
     const tick = (now: number) => {
@@ -316,7 +313,7 @@ export default function LandingPage() {
                       ? "1px solid rgba(255,255,255,0.06)"
                       : "1px solid rgba(22,16,8,0.08)",
                     boxShadow: path.dark
-                      ? "none"
+                      ? "0 24px 72px rgba(22,16,8,0.28), 0 8px 24px rgba(22,16,8,0.16)"
                       : "0 2px 16px rgba(22,16,8,0.06)",
                     textDecoration: "none",
                     transition: "transform 0.18s ease, box-shadow 0.18s ease",
