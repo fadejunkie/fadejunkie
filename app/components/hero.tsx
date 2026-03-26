@@ -477,13 +477,14 @@ const Hero = () => {
             <motion.h1
               style={{
                 fontFamily:
-                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  "var(--font-heading), 'League Spartan', system-ui, sans-serif",
                 fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
                 lineHeight: 0.95,
                 color: "#000000",
                 margin: 0,
+                textTransform: "lowercase",
               }}
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
