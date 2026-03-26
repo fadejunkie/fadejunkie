@@ -58,7 +58,7 @@ const Manifesto = () => {
                 fontSize: "clamp(3.5rem, 7vw, 5.5rem)",
                 fontWeight: 800,
                 lineHeight: 0.8,
-                color: "rgba(0,0,0,0.1)",
+                color: "var(--border)",
                 marginBottom: "0.5rem",
                 userSelect: "none",
                 letterSpacing: "-0.04em",
@@ -93,7 +93,7 @@ const Manifesto = () => {
                 style={{
                   height: 1,
                   width: 36,
-                  backgroundColor: "rgba(0,0,0,0.2)",
+                  backgroundColor: "var(--border)",
                 }}
               />
               <span
@@ -104,7 +104,7 @@ const Manifesto = () => {
                   fontWeight: 500,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.4)",
+                  color: "var(--muted-foreground)",
                 }}
               >
                 Shop Talk
@@ -131,7 +131,7 @@ const Manifesto = () => {
                     fontWeight: 500,
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.4)",
+                    color: "var(--muted-foreground)",
                     marginBottom: "0.75rem",
                   }}
                 >
@@ -143,7 +143,7 @@ const Manifesto = () => {
                       "var(--font-body), 'Courier Prime', monospace",
                     fontSize: "0.9375rem",
                     lineHeight: 1.65,
-                    color: "rgba(0,0,0,0.65)",
+                    color: "var(--muted-foreground)",
                   }}
                 >
                   {pillar.text}

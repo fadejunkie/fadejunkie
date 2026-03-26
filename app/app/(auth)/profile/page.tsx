@@ -5,12 +5,11 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/button";
+import { Input, Textarea } from "@/components/ui/Input";
 import GalleryGrid from "@/components/GalleryGrid";
 import LivePageCard from "@/components/LivePageCard";
 import { cn } from "@/lib/utils";
 
-const inputCls =
-  "w-full border border-input rounded-md px-3 py-2.5 text-sm bg-background text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none transition-colors";
 
 export default function ProfilePage() {
   const barber = useQuery(api.barbers.getMyBarberProfile);
@@ -130,7 +129,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={() => avatarRef.current?.click()}
-                  className="text-sm text-blue-600 hover:text-blue-700 underline underline-offset-2"
+                  className="text-sm text-foreground/70 hover:text-foreground underline underline-offset-2 transition-colors"
                 >
                   Upload photo
                 </button>
@@ -141,8 +140,7 @@ export default function ProfilePage() {
           {/* Handle */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Handle (URL slug)</label>
-            <input
-              className={inputCls}
+            <Input
               placeholder="yourhandle"
               value={form.slug}
               onChange={(e) => handleSlugChange(e.target.value)}
@@ -150,7 +148,7 @@ export default function ProfilePage() {
             />
             {form.slug.length >= 3 && (
               <p className={cn("text-xs mt-1", {
-                "text-green-600": slugStatus === "ok",
+                "text-foreground": slugStatus === "ok",
                 "text-destructive": slugStatus === "taken",
                 "text-muted-foreground": slugStatus === "checking" || slugStatus === "idle",
               })}>
@@ -164,8 +162,7 @@ export default function ProfilePage() {
           {/* Name */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Name</label>
-            <input
-              className={inputCls}
+            <Input
               placeholder="Your full name"
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
@@ -176,12 +173,12 @@ export default function ProfilePage() {
           {/* Bio */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Bio</label>
-            <textarea
-              className={cn(inputCls, "resize-none")}
+            <Textarea
               placeholder="Tell the community about yourself..."
               value={form.bio}
               onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value }))}
               rows={3}
+              className="resize-none"
             />
           </div>
 
@@ -189,8 +186,7 @@ export default function ProfilePage() {
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Services</label>
             <div className="flex gap-2">
-              <input
-                className={inputCls}
+              <Input
                 placeholder="e.g. Fades, Lineups, Braids"
                 value={serviceInput}
                 onChange={(e) => setServiceInput(e.target.value)}
@@ -214,8 +210,7 @@ export default function ProfilePage() {
           {/* Booking URL */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Booking link</label>
-            <input
-              className={inputCls}
+            <Input
               type="url"
               placeholder="https://..."
               value={form.bookingUrl}
@@ -226,8 +221,7 @@ export default function ProfilePage() {
           {/* Phone */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Phone</label>
-            <input
-              className={inputCls}
+            <Input
               type="tel"
               placeholder="+1 (555) 000-0000"
               value={form.phone}
@@ -238,8 +232,7 @@ export default function ProfilePage() {
           {/* Instagram */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Instagram</label>
-            <input
-              className={inputCls}
+            <Input
               placeholder="@yourhandle"
               value={form.instagram}
               onChange={(e) => setForm((f) => ({ ...f, instagram: e.target.value }))}
@@ -249,8 +242,7 @@ export default function ProfilePage() {
           {/* Shop name */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Shop name</label>
-            <input
-              className={inputCls}
+            <Input
               placeholder="The Fade House"
               value={form.shopName}
               onChange={(e) => setForm((f) => ({ ...f, shopName: e.target.value }))}
@@ -260,8 +252,7 @@ export default function ProfilePage() {
           {/* Location */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Location</label>
-            <input
-              className={inputCls}
+            <Input
               placeholder="City, State"
               value={form.location}
               onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
@@ -274,7 +265,7 @@ export default function ProfilePage() {
 
           <div className="flex items-center gap-3 pt-1">
             <Button type="submit" loading={saving}>Save profile</Button>
-            {saved && !barber?.slug && <span className="text-sm text-green-600">Saved!</span>}
+            {saved && !barber?.slug && <span className="text-sm text-foreground">Saved!</span>}
           </div>
         </form>
       </Card>

@@ -65,7 +65,7 @@ const TestimonialCard = ({
       border: "1px solid var(--border)",
       borderRadius: "var(--radius-2xl)",
       padding: "1.75rem",
-      boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+      boxShadow: "var(--shadow-xs)",
       display: "flex",
       flexDirection: "column",
       gap: "1.25rem",
@@ -111,8 +111,8 @@ const TestimonialCard = ({
           width: 36,
           height: 36,
           borderRadius: "50%",
-          backgroundColor: "rgba(0,0,0,0.06)",
-          border: "1px solid rgba(0,0,0,0.09)",
+          backgroundColor: "var(--muted)",
+          border: "1px solid var(--border)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -125,7 +125,7 @@ const TestimonialCard = ({
               "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "0.5625rem",
             fontWeight: 700,
-            color: "rgba(0,0,0,0.55)",
+            color: "var(--foreground)",
             letterSpacing: "-0.01em",
           }}
         >
@@ -155,7 +155,7 @@ const TestimonialCard = ({
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "rgba(0,0,0,0.45)",
+              color: "var(--muted-foreground)",
             }}
           >
             {specialty}
@@ -164,7 +164,7 @@ const TestimonialCard = ({
             style={{
               fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
-              color: "rgba(0,0,0,0.18)",
+              color: "var(--border)",
             }}
           >
             ·
@@ -176,7 +176,7 @@ const TestimonialCard = ({
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "rgba(0,0,0,0.3)",
+              color: "var(--muted-foreground)",
             }}
           >
             {location}
@@ -207,7 +207,7 @@ const Testimonials = () => {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "rgba(0,0,0,0.4)",
+            color: "var(--muted-foreground)",
             marginBottom: "1rem",
           }}
           initial={{ opacity: 0 }}
@@ -245,7 +245,7 @@ const Testimonials = () => {
               fontStyle: "italic",
               fontSize: "0.72em",
               letterSpacing: "0.01em",
-              color: "rgba(0,0,0,0.45)",
+              color: "var(--muted-foreground)",
             }}
           >
             In their own words.
