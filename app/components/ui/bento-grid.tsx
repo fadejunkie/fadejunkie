@@ -45,6 +45,7 @@ const BentoCard = ({
   return (
     <a
       href={href}
+      data-slot="bento-card"
       className={cn(
         "group relative col-span-3 flex flex-col justify-end overflow-hidden cursor-pointer transition-all duration-300",
         isDark
@@ -53,10 +54,10 @@ const BentoCard = ({
         className,
       )}
       style={{
-        borderRadius: "1rem",
+        borderRadius: "var(--radius-3xl, 1.375rem)",
         backgroundColor: isDark ? "rgba(0,0,0,0.88)" : "rgba(255,255,255,0.7)",
         border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
-        boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.05)",
+        boxShadow: isDark ? "none" : "var(--shadow-sm)",
       }}
     >
       <div className="absolute inset-0">{background}</div>
@@ -116,7 +117,7 @@ const BentoCard = ({
           "pointer-events-none absolute inset-0 transition-all duration-300",
           isDark ? "group-hover:bg-white/[.03]" : "group-hover:bg-black/[.01]",
         )}
-        style={{ borderRadius: "1rem" }}
+        style={{ borderRadius: "var(--radius-3xl, 1.375rem)" }}
       />
     </a>
   );

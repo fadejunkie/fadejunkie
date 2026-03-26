@@ -28,9 +28,9 @@ const Manifesto = () => {
   return (
     <section
       style={{
-        backgroundColor: "#ffffff",
-        padding: "7rem clamp(1.5rem, 5vw, 6rem)",
-        borderTop: "1px solid rgba(0,0,0,0.08)",
+        backgroundColor: "var(--background)",
+        padding: "var(--section-gap-lg) var(--container-px)",
+        borderTop: "1px solid var(--border)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -77,7 +77,7 @@ const Manifesto = () => {
                 fontStyle: "italic",
                 letterSpacing: "0",
                 lineHeight: 1.35,
-                color: "#000000",
+                color: "var(--foreground)",
                 marginBottom: "2.5rem",
               }}
             >
@@ -154,14 +154,6 @@ const Manifesto = () => {
         </div>
       </div>
 
-      <style>{`
-        @media (min-width: 768px) {
-          .manifesto-grid {
-            grid-template-columns: 1fr 1fr !important;
-            gap: 6rem !important;
-          }
-        }
-      `}</style>
     </section>
   );
 };

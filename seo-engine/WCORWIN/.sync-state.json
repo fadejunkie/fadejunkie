@@ -1,0 +1,263 @@
+{
+  "syncedAt": "2026-03-26T17:00:09.167Z",
+  "overrides": {
+    "kickoff:0": {
+      "status": "done"
+    },
+    "kickoff:3": {
+      "status": "done"
+    },
+    "kickoff:4": {
+      "doc": "Verified March 26, 2026. 5.0 rating, 116 reviews. Description, hours, 20 service areas, veteran-owned attribute all set. Next: enable chat, add categories, start weekly posts, request photos.",
+      "name": "GBP account access granted",
+      "status": "done"
+    },
+    "kickoff:6": {
+      "status": "done"
+    },
+    "month1:0": {
+      "status": "done"
+    },
+    "month1:1": {
+      "status": "pending"
+    },
+    "month1:2": {
+      "status": "active"
+    },
+    "month1:3": {
+      "status": "active"
+    },
+    "month1:4": {
+      "status": "active"
+    },
+    "month1:5": {
+      "status": "active"
+    }
+  },
+  "merged": {
+    "kickoff": [
+      {
+        "key": "kickoff:0",
+        "name": "SEO audit delivered",
+        "status": "done",
+        "detail": "Full 5-pillar audit completed"
+      },
+      {
+        "key": "kickoff:1",
+        "name": "Contract signed & returned",
+        "status": "done",
+        "detail": "Month-to-month at $950/mo"
+      },
+      {
+        "key": "kickoff:2",
+        "name": "Invoice paid — $950 received",
+        "status": "done",
+        "detail": "Paid March 9, 2026 · Visa -1802 · Receipt #2644-0954"
+      },
+      {
+        "key": "kickoff:3",
+        "name": "GSC access requested",
+        "status": "done",
+        "detail": "Follow up with Deanna — still waiting"
+      },
+      {
+        "key": "kickoff:4",
+        "name": "GBP account access granted",
+        "status": "done",
+        "detail": "Manager access granted 2026-03-26",
+        "doc": "Verified March 26, 2026. 5.0 rating, 116 reviews. Description, hours, 20 service areas, veteran-owned attribute all set. Next: enable chat, add categories, start weekly posts, request photos."
+      },
+      {
+        "key": "kickoff:5",
+        "name": "iHouseWeb admin access",
+        "status": "done",
+        "detail": "Admin access granted 2026-03-14"
+      },
+      {
+        "key": "kickoff:6",
+        "name": "Kickoff strategy call",
+        "status": "done",
+        "detail": "Align on Month 1 priorities"
+      }
+    ],
+    "month1": [
+      {
+        "key": "month1:0",
+        "name": "Rewrite all title tags",
+        "status": "done",
+        "detail": "Unique title for every key non-IDX page"
+      },
+      {
+        "key": "month1:1",
+        "name": "Write unique meta descriptions",
+        "status": "pending",
+        "detail": "Eliminate site-wide duplication"
+      },
+      {
+        "key": "month1:2",
+        "name": "Implement LocalBusiness schema",
+        "status": "active",
+        "detail": "JSON-LD: RealEstateAgent + Person for Joe"
+      },
+      {
+        "key": "month1:3",
+        "name": "Verify & submit XML sitemap",
+        "status": "active",
+        "detail": "Confirm at /sitemap.xml → GSC + Bing"
+      },
+      {
+        "key": "month1:4",
+        "name": "Optimize Google Business Profile",
+        "status": "active",
+        "detail": "Photos, messaging, categories, hours"
+      },
+      {
+        "key": "month1:5",
+        "name": "Baseline keyword tracking setup",
+        "status": "active",
+        "detail": "Top 20 target keywords documented"
+      },
+      {
+        "key": "month1:6",
+        "name": "Client sign-off on foundation",
+        "status": "pending",
+        "detail": "Required before Month 2 begins"
+      }
+    ],
+    "month2": [
+      {
+        "key": "month2:0",
+        "name": "Canyon Lake neighborhood guide",
+        "status": "pending",
+        "detail": "500+ words + internal links"
+      },
+      {
+        "key": "month2:1",
+        "name": "Gruene, TX neighborhood guide",
+        "status": "pending",
+        "detail": "500+ words + internal links"
+      },
+      {
+        "key": "month2:2",
+        "name": "Buyer Rebate Program page",
+        "status": "pending",
+        "detail": "Dedicated landing page — own this keyword"
+      },
+      {
+        "key": "month2:3",
+        "name": "VA / Military Homebuyer page",
+        "status": "pending",
+        "detail": "Perfect brand fit: veteran-owned office"
+      },
+      {
+        "key": "month2:4",
+        "name": "Homepage content expansion",
+        "status": "pending",
+        "detail": "Add 400-600 words above IDX feed"
+      },
+      {
+        "key": "month2:5",
+        "name": "First keyword movement report",
+        "status": "pending",
+        "detail": "Rankings vs. baseline comparison"
+      }
+    ],
+    "month3": [
+      {
+        "key": "month3:0",
+        "name": "Chamber of Commerce listing",
+        "status": "pending",
+        "detail": "NB Chamber — citation + backlink"
+      },
+      {
+        "key": "month3:1",
+        "name": "Military directory submissions",
+        "status": "pending",
+        "detail": "VetBiz + 4 military relocation sites"
+      },
+      {
+        "key": "month3:2",
+        "name": "FAQ schema implementation",
+        "status": "pending",
+        "detail": "Buyer/seller FAQ → featured snippet potential"
+      },
+      {
+        "key": "month3:3",
+        "name": "Market Report 2026 published",
+        "status": "pending",
+        "detail": "NB TX real estate market data"
+      },
+      {
+        "key": "month3:4",
+        "name": "First-Time Homebuyer Guide",
+        "status": "pending",
+        "detail": "Long-form content play"
+      },
+      {
+        "key": "month3:5",
+        "name": "90-day performance review",
+        "status": "pending",
+        "detail": "Impressions, clicks, rankings vs. baseline"
+      }
+    ],
+    "ongoing": [
+      {
+        "key": "ongoing:0",
+        "name": "2 content pieces per month",
+        "status": "pending",
+        "detail": "Guides, blog posts, market reports"
+      },
+      {
+        "key": "ongoing:1",
+        "name": "Monthly rank tracking report",
+        "status": "pending",
+        "detail": "Top 20 keywords + movement"
+      },
+      {
+        "key": "ongoing:2",
+        "name": "GBP management",
+        "status": "pending",
+        "detail": "Posts, Q&A, review responses"
+      },
+      {
+        "key": "ongoing:3",
+        "name": "1 technical SEO task/month",
+        "status": "pending",
+        "detail": "Schema, internal linking, speed fixes"
+      },
+      {
+        "key": "ongoing:4",
+        "name": "Monthly performance summary",
+        "status": "pending",
+        "detail": "Plain-English report to client"
+      }
+    ]
+  },
+  "summary": {
+    "kickoff": {
+      "done": 7,
+      "active": 0,
+      "pending": 0
+    },
+    "month1": {
+      "done": 1,
+      "active": 4,
+      "pending": 2
+    },
+    "month2": {
+      "done": 0,
+      "active": 0,
+      "pending": 6
+    },
+    "month3": {
+      "done": 0,
+      "active": 0,
+      "pending": 6
+    },
+    "ongoing": {
+      "done": 0,
+      "active": 0,
+      "pending": 5
+    }
+  }
+}

@@ -30,8 +30,8 @@ const Cta13 = ({
   return (
     <section
       style={{
-        backgroundColor: "#000000",
-        padding: "8rem clamp(1.5rem, 5vw, 6rem)",
+        backgroundColor: "var(--foreground)",
+        padding: "var(--section-gap-lg) var(--container-px)",
         position: "relative",
         overflow: "hidden",
       }}

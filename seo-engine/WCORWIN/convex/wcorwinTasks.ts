@@ -8,12 +8,13 @@ export const getOverrides = query({
       .query("wcorwinTasks")
       .withIndex("by_project_key", (q) => q.eq("projectId", projectId))
       .collect();
-    const map: Record<string, { status?: string; name?: string; detail?: string }> = {};
+    const map: Record<string, { status?: string; name?: string; detail?: string; doc?: string }> = {};
     for (const row of rows) {
       map[row.taskKey] = {};
       if (row.status) map[row.taskKey].status = row.status;
       if (row.name) map[row.taskKey].name = row.name;
       if (row.detail) map[row.taskKey].detail = row.detail;
+      if (row.doc) map[row.taskKey].doc = row.doc;
     }
     return map;
   },
@@ -61,6 +62,27 @@ export const setText = mutation({
       await ctx.db.patch(existing._id, patch);
     } else {
       await ctx.db.insert("wcorwinTasks", { projectId, taskKey, ...patch });
+    }
+  },
+});
+
+export const setDoc = mutation({
+  args: {
+    projectId: v.string(),
+    taskKey: v.string(),
+    doc: v.string(),
+  },
+  handler: async (ctx, { projectId, taskKey, doc }) => {
+    const existing = await ctx.db
+      .query("wcorwinTasks")
+      .withIndex("by_project_key", (q) =>
+        q.eq("projectId", projectId).eq("taskKey", taskKey)
+      )
+      .unique();
+    if (existing) {
+      await ctx.db.patch(existing._id, { doc });
+    } else {
+      await ctx.db.insert("wcorwinTasks", { projectId, taskKey, doc });
     }
   },
 });

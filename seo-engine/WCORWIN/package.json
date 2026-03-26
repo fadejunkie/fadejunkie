@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "build:admin": "VITE_ADMIN=true vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sync": "node sync-state.mjs"
   },
   "dependencies": {
     "convex": "^1.34.0",

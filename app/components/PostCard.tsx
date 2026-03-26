@@ -81,11 +81,18 @@ export default function PostCard({
             <button
               onClick={handleLike}
               className={cn(
-                "flex items-center gap-1.5 text-xs transition-colors",
-                liked ? "text-red-500" : "text-muted-foreground hover:text-red-400"
+                "flex items-center gap-1.5 text-xs transition-colors duration-150",
+                liked
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
               )}
+              style={{ letterSpacing: "-0.01em" }}
             >
-              <Heart size={14} fill={liked ? "currentColor" : "none"} />
+              <Heart
+                size={14}
+                fill={liked ? "currentColor" : "none"}
+                strokeWidth={liked ? 2 : 1.5}
+              />
               {count > 0 && count}
             </button>
 

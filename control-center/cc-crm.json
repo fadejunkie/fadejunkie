@@ -38,10 +38,10 @@
       "location": "New Braunfels, TX",
       "status": "active",
       "value": 950,
-      "notes": "ACTIVE CLIENT. Month 1 paid $950 on 2026-03-09 (Visa -1802). Veteran-owned RE brokerage on Weichert franchise. Live site: wcorwin.anthonytatis.com. Original: wcorwin.com. iHouseWeb admin GRANTED 2026-03-14. Waiting on: GSC access, GBP access.",
+      "notes": "ACTIVE CLIENT. Month 1 paid $950 on 2026-03-09 (Visa -1802). Veteran-owned RE brokerage on Weichert franchise. Live site: wcorwin.anthonytatis.com. Original: wcorwin.com. iHouseWeb admin GRANTED 2026-03-14. GBP manager access GRANTED 2026-03-26. Waiting on: GSC access.",
       "email": "Joe@joecorwin.com",
       "phone": "",
-      "lastContact": "2026-03-14",
+      "lastContact": "2026-03-26",
       "createdAt": "2026-03-14",
       "payments": [
         {
@@ -119,6 +119,11 @@
           "status": "active",
           "date": "2026-03-15",
           "note": "Drive: wcorwin-project-summary.pdf (deliverable)"
+        },
+        {
+          "status": "active",
+          "date": "2026-03-26",
+          "note": "GBP manager access granted — verified 5.0 rating, 116 reviews, 20 service areas. Optimization scheduled for Month 1."
         }
       ]
     },

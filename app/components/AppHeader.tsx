@@ -33,8 +33,20 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
         <Menu size={17} />
       </button>
 
-      <Link href="/home" className="text-sm font-semibold text-foreground tracking-tight mr-auto">
-        FadeJunkie
+      <Link
+        href="/home"
+        className="mr-auto"
+        style={{
+          fontFamily: "var(--font-display), 'League Spartan', sans-serif",
+          fontSize: "1rem",
+          fontWeight: 700,
+          letterSpacing: "-0.04em",
+          color: "var(--foreground)",
+          textTransform: "lowercase",
+          lineHeight: 1,
+        }}
+      >
+        fadejunkie
       </Link>
 
       <div className="flex items-center gap-3">

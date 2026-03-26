@@ -132,7 +132,7 @@ const PATHS = [
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function LandingPage() {
   return (
-    <div style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "var(--background)", minHeight: "100vh" }}>
       {/* ── Navbar ─────────────────────────────────────────────── */}
       <StickyNav
         logo={{ url: "/", title: "fadejunkie" }}
@@ -194,7 +194,7 @@ export default function LandingPage() {
                   fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)",
                   fontWeight: 800,
                   letterSpacing: "-0.04em",
-                  color: "#000000",
+                  color: "var(--foreground)",
                   display: "block",
                 }}
               >
@@ -223,8 +223,8 @@ export default function LandingPage() {
       {/* ── Three Paths ────────────────────────────────────────── */}
       <section
         style={{
-          backgroundColor: "#ffffff",
-          padding: "7rem clamp(1.5rem, 5vw, 6rem)",
+          backgroundColor: "var(--background)",
+          padding: "var(--section-gap-lg) var(--container-px)",
         }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -256,7 +256,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
                 lineHeight: 1.0,
-                color: "#000000",
+                color: "var(--foreground)",
                 textTransform: "lowercase",
               }}
               initial={{ opacity: 0, y: 16 }}
@@ -309,11 +309,11 @@ export default function LandingPage() {
                     flexDirection: "column",
                     justifyContent: "space-between",
                     overflow: "hidden",
-                    borderRadius: "1rem",
+                    borderRadius: "var(--radius-2xl)",
                     padding: "2.25rem",
                     minHeight: 340,
                     backgroundColor: path.dark
-                      ? "#000000"
+                      ? "var(--foreground)"
                       : "rgba(255,255,255,0.8)",
                     border: path.dark
                       ? "1px solid rgba(255,255,255,0.06)"
@@ -361,7 +361,7 @@ export default function LandingPage() {
                         fontSize: "1.5rem",
                         fontWeight: 800,
                         letterSpacing: "-0.03em",
-                        color: path.dark ? "#ffffff" : "#000000",
+                        color: path.dark ? "var(--background)" : "var(--foreground)",
                         marginBottom: "0.3rem",
                         textTransform: "lowercase",
                       }}
@@ -412,7 +412,7 @@ export default function LandingPage() {
                       fontWeight: 600,
                       color: path.dark
                         ? "rgba(255,255,255,0.7)"
-                        : "#000000",
+                        : "var(--foreground)",
                     }}
                   >
                     {path.cta}
@@ -428,8 +428,8 @@ export default function LandingPage() {
       {/* ── Features — pure black section ───────────────────────── */}
       <section
         style={{
-          backgroundColor: "#000000",
-          padding: "7rem clamp(1.5rem, 5vw, 6rem)",
+          backgroundColor: "var(--foreground)",
+          padding: "var(--section-gap-lg) var(--container-px)",
         }}
       >
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -461,7 +461,7 @@ export default function LandingPage() {
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
                 lineHeight: 1.0,
-                color: "#ffffff",
+                color: "var(--background)",
                 textTransform: "lowercase",
               }}
               initial={{ opacity: 0, y: 16 }}

@@ -430,7 +430,7 @@ const Hero = () => {
     <section
       className="relative overflow-hidden"
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--background)",
         display: "flex",
         alignItems: "center",
         minHeight: "calc(100dvh - 57px)",
@@ -482,7 +482,7 @@ const Hero = () => {
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
                 lineHeight: 0.95,
-                color: "#000000",
+                color: "var(--foreground)",
                 margin: 0,
                 textTransform: "lowercase",
               }}
@@ -693,16 +693,16 @@ const Hero = () => {
           animation-delay: 1.2s;
         }
 
-        /* Active dot pulse */
+        /* Active dot pulse — B&W: jet black pulse, no color */
         @keyframes fj-pulse {
-          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
-          50%       { opacity: 0.8; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,0,0,0.32); }
+          50%       { opacity: 0.7; box-shadow: 0 0 0 4px rgba(0,0,0,0); }
         }
         .hero-active-dot {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background-color: #22c55e;
+          background-color: #000000;
           animation: fj-pulse 2.2s ease-in-out infinite;
           flex-shrink: 0;
         }

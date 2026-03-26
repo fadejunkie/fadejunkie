@@ -8,5 +8,6 @@ export default defineSchema({
     status: v.optional(v.string()),
     name: v.optional(v.string()),
     detail: v.optional(v.string()),
+    doc: v.optional(v.string()),
   }).index("by_project_key", ["projectId", "taskKey"]),
 });

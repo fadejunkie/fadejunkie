@@ -83,7 +83,17 @@ const Navbar1 = ({
           <div className="flex items-center gap-6">
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-              <span className="font-serif text-xl tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
+              <span
+                style={{
+                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
+                  fontSize: "1.1875rem",
+                  fontWeight: 700,
+                  letterSpacing: "-0.04em",
+                  color: "var(--foreground)",
+                  textTransform: "lowercase",
+                  lineHeight: 1,
+                }}
+              >{logo.title}</span>
             </a>
             <div className="flex items-center">
               <NavigationMenu>
@@ -106,7 +116,17 @@ const Navbar1 = ({
           <div className="flex items-center justify-between">
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-              <span className="font-serif text-lg tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
+              <span
+                style={{
+                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
+                  fontSize: "1.0625rem",
+                  fontWeight: 700,
+                  letterSpacing: "-0.04em",
+                  color: "var(--foreground)",
+                  textTransform: "lowercase",
+                  lineHeight: 1,
+                }}
+              >{logo.title}</span>
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -119,7 +139,17 @@ const Navbar1 = ({
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
                       {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
-                      <span className="font-serif text-lg tracking-[-0.02em]" style={{ fontWeight: 400 }}>{logo.title}</span>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-display), 'League Spartan', sans-serif",
+                          fontSize: "1.0625rem",
+                          fontWeight: 700,
+                          letterSpacing: "-0.04em",
+                          color: "var(--foreground)",
+                          textTransform: "lowercase",
+                          lineHeight: 1,
+                        }}
+                      >{logo.title}</span>
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -198,11 +228,17 @@ const renderMenuItem = (item: MenuItem) => {
   return (
     <NavigationMenuItem key={item.title}>
       <a
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors"
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium"
         href={item.url}
-        style={{ color: "hsl(34, 22%, 44%)" }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "hsl(0, 0%, 8%)"; (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "hsl(34, 22%, 44%)"; (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
+        style={{
+          fontFamily: "var(--font-sans), system-ui, sans-serif",
+          color: "var(--muted-foreground)",
+          letterSpacing: "-0.01em",
+          transition: "color var(--duration-base, 200ms) var(--ease-standard, ease)",
+          position: "relative",
+        }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--foreground)"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--muted-foreground)"; }}
       >
         {item.title}
         {item.url.includes("signin") && (

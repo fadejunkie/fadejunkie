@@ -23,6 +23,7 @@ function applyOverrides(phases, overrides) {
         ...(ov.status ? { status: ov.status } : {}),
         ...(ov.name ? { name: ov.name } : {}),
         ...(ov.detail ? { detail: ov.detail } : {}),
+        ...(ov.doc ? { doc: ov.doc } : {}),
       };
     }),
   }));
@@ -123,14 +124,67 @@ function InlineEdit({ value, onSave, style }) {
   );
 }
 
+function InlineTextarea({ value, onSave, style }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value || "");
+  const textareaRef = useRef(null);
+
+  useEffect(() => { setDraft(value || ""); }, [value]);
+  useEffect(() => { if (editing && textareaRef.current) textareaRef.current.focus(); }, [editing]);
+
+  const save = () => {
+    setEditing(false);
+    const trimmed = draft.trim();
+    if (trimmed !== (value || "")) onSave(trimmed);
+    else setDraft(value || "");
+  };
+
+  if (!editing) {
+    return (
+      <div
+        onDoubleClick={(e) => { e.stopPropagation(); setEditing(true); }}
+        style={{ ...style, cursor: "text", whiteSpace: "pre-wrap" }}
+        title="Double-click to edit"
+      >
+        {value || "Click to add documentation..."}
+      </div>
+    );
+  }
+
+  return (
+    <textarea
+      ref={textareaRef}
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={save}
+      onClick={(e) => e.stopPropagation()}
+      rows={4}
+      style={{
+        ...style,
+        border: `1px solid ${ACCENT}`,
+        borderRadius: 4,
+        padding: "6px 8px",
+        outline: "none",
+        width: "100%",
+        fontFamily: "inherit",
+        background: WHITE,
+        resize: "vertical",
+        whiteSpace: "pre-wrap",
+      }}
+    />
+  );
+}
+
 export default function SEOJourneyTracker() {
   const overrides = useQuery(api.wcorwinTasks.getOverrides, { projectId: PROJECT_ID });
   const setStatus = useMutation(api.wcorwinTasks.setStatus);
   const setText = useMutation(api.wcorwinTasks.setText);
+  const setDocMut = useMutation(api.wcorwinTasks.setDoc);
 
   const phases = applyOverrides(PHASES, overrides);
   const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
   const [hoveredTask, setHoveredTask] = useState(null);
+  const [expandedDoc, setExpandedDoc] = useState(null);
   const phase = phases[activePhase];
   const progress = getPhaseProgress(phase.tasks);
 
@@ -379,88 +433,147 @@ export default function SEOJourneyTracker() {
               const cfg = STATUS_CONFIG[task.status];
               const isHovered = hoveredTask === `${activePhase}-${i}`;
               const taskKey = `${phase.id}:${i}`;
+              const hasDoc = task.status === "done" && (task.doc || IS_ADMIN);
+              const isExpanded = expandedDoc === taskKey;
               return (
-                <div key={i}
-                  onMouseEnter={() => setHoveredTask(`${activePhase}-${i}`)}
-                  onMouseLeave={() => setHoveredTask(null)}
-                  onClick={() => IS_ADMIN && cycleStatus(phase.id, i)}
-                  style={{
-                    padding: "14px 24px", display: "flex",
-                    alignItems: "flex-start", gap: 14,
-                    borderBottom: i < phase.tasks.length - 1 ? `1px solid #f0f0f0` : "none",
-                    background: isHovered ? "#fafafa" : "transparent",
-                    transition: "background 0.15s",
-                    cursor: IS_ADMIN ? "pointer" : "default",
-                    userSelect: IS_ADMIN ? "none" : "auto",
-                  }}
-                >
-                  <div style={{
-                    width: 26, height: 26, borderRadius: "50%",
-                    background: cfg.bg, display: "flex",
-                    alignItems: "center", justifyContent: "center",
-                    flexShrink: 0, marginTop: 1,
-                    border: task.status === "active" ? `2px solid ${cfg.color}` : "none",
-                    ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
-                  }}>
-                    <span style={{
-                      fontSize: task.status === "done" ? 14 : 12,
-                      color: cfg.color, fontWeight: 700,
+                <div key={i} style={{
+                  borderBottom: i < phase.tasks.length - 1 ? `1px solid #f0f0f0` : "none",
+                }}>
+                  <div
+                    onMouseEnter={() => setHoveredTask(`${activePhase}-${i}`)}
+                    onMouseLeave={() => setHoveredTask(null)}
+                    onClick={() => IS_ADMIN && cycleStatus(phase.id, i)}
+                    style={{
+                      padding: "14px 24px", display: "flex",
+                      alignItems: "flex-start", gap: 14,
+                      background: isHovered ? "#fafafa" : "transparent",
+                      transition: "background 0.15s",
+                      cursor: IS_ADMIN ? "pointer" : "default",
+                      userSelect: IS_ADMIN ? "none" : "auto",
+                    }}
+                  >
+                    <div style={{
+                      width: 26, height: 26, borderRadius: "50%",
+                      background: cfg.bg, display: "flex",
+                      alignItems: "center", justifyContent: "center",
+                      flexShrink: 0, marginTop: 1,
+                      border: task.status === "active" ? `2px solid ${cfg.color}` : "none",
+                      ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
                     }}>
-                      {cfg.icon}
-                    </span>
-                  </div>
+                      <span style={{
+                        fontSize: task.status === "done" ? 14 : 12,
+                        color: cfg.color, fontWeight: 700,
+                      }}>
+                        {cfg.icon}
+                      </span>
+                    </div>
 
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    {IS_ADMIN ? (
-                      <InlineEdit
-                        value={task.name}
-                        onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, name: val })}
-                        style={{
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      {IS_ADMIN ? (
+                        <InlineEdit
+                          value={task.name}
+                          onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, name: val })}
+                          style={{
+                            fontSize: 14, fontWeight: 500,
+                            color: task.status === "done" ? GREEN : INK,
+                            textDecoration: task.status === "done" ? "line-through" : "none",
+                            opacity: task.status === "pending" ? 0.7 : 1,
+                            display: "block",
+                          }}
+                        />
+                      ) : (
+                        <div style={{
                           fontSize: 14, fontWeight: 500,
                           color: task.status === "done" ? GREEN : INK,
                           textDecoration: task.status === "done" ? "line-through" : "none",
                           opacity: task.status === "pending" ? 0.7 : 1,
-                          display: "block",
-                        }}
-                      />
-                    ) : (
-                      <div style={{
-                        fontSize: 14, fontWeight: 500,
-                        color: task.status === "done" ? GREEN : INK,
-                        textDecoration: task.status === "done" ? "line-through" : "none",
-                        opacity: task.status === "pending" ? 0.7 : 1,
-                      }}>
-                        {task.name}
-                      </div>
-                    )}
-                    {IS_ADMIN ? (
-                      <InlineEdit
-                        value={task.detail}
-                        onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, detail: val })}
-                        style={{
+                        }}>
+                          {task.name}
+                        </div>
+                      )}
+                      {IS_ADMIN ? (
+                        <InlineEdit
+                          value={task.detail}
+                          onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, detail: val })}
+                          style={{
+                            fontSize: 12, color: MUTED, marginTop: 3,
+                            lineHeight: 1.4, display: "block",
+                          }}
+                        />
+                      ) : (
+                        <div style={{
                           fontSize: 12, color: MUTED, marginTop: 3,
-                          lineHeight: 1.4, display: "block",
-                        }}
-                      />
-                    ) : (
-                      <div style={{
-                        fontSize: 12, color: MUTED, marginTop: 3,
-                        lineHeight: 1.4,
+                          lineHeight: 1.4,
+                        }}>
+                          {task.detail}
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 3 }}>
+                      {hasDoc && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedDoc(isExpanded ? null : taskKey);
+                          }}
+                          style={{
+                            background: "none", border: "none", cursor: "pointer",
+                            padding: "2px 6px", fontSize: 12, color: MUTED,
+                            transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                            transition: "transform 0.2s",
+                            display: "flex", alignItems: "center",
+                          }}
+                          title={isExpanded ? "Collapse" : "View details"}
+                        >
+                          &#9660;
+                        </button>
+                      )}
+                      <span style={{
+                        fontSize: 10, padding: "3px 8px", borderRadius: 20,
+                        background: cfg.bg, color: cfg.color,
+                        fontWeight: 600, whiteSpace: "nowrap",
+                        fontFamily: "'DM Mono', monospace",
+                        ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
                       }}>
-                        {task.detail}
-                      </div>
-                    )}
+                        {cfg.label}
+                      </span>
+                    </div>
                   </div>
 
-                  <span style={{
-                    fontSize: 10, padding: "3px 8px", borderRadius: 20,
-                    background: cfg.bg, color: cfg.color,
-                    fontWeight: 600, whiteSpace: "nowrap", marginTop: 3,
-                    fontFamily: "'DM Mono', monospace",
-                    ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
-                  }}>
-                    {cfg.label}
-                  </span>
+                  {/* Expandable Task Doc panel */}
+                  {hasDoc && (
+                    <div style={{
+                      maxHeight: isExpanded ? 400 : 0,
+                      overflow: "hidden",
+                      transition: "max-height 0.3s ease",
+                    }}>
+                      <div style={{
+                        margin: "0 24px 14px 64px",
+                        padding: "12px 16px",
+                        background: BG,
+                        borderRadius: 8,
+                        border: `1px solid ${LIGHT}`,
+                      }}>
+                        {IS_ADMIN ? (
+                          <InlineTextarea
+                            value={task.doc}
+                            onSave={(val) => setDocMut({ projectId: PROJECT_ID, taskKey, doc: val })}
+                            style={{
+                              fontSize: 12, color: BODY, lineHeight: 1.6,
+                            }}
+                          />
+                        ) : (
+                          <div style={{
+                            fontSize: 12, color: BODY, lineHeight: 1.6,
+                            whiteSpace: "pre-wrap",
+                          }}>
+                            {task.doc}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
