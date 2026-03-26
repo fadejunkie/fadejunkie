@@ -11,6 +11,8 @@
   --card:            oklch(1 0 0);
   --card-foreground: oklch(0 0 0);
 
+
+
   --popover:            oklch(1 0 0);
   --popover-foreground: oklch(0 0 0);
 
@@ -56,6 +58,38 @@
   --sidebar-accent-foreground:  oklch(0 0 0);
   --sidebar-border:             oklch(0.85 0 0);
   --sidebar-ring:               oklch(0 0 0);
+
+  /* ── Motion / Easing tokens ──────────────────────────────── */
+  /* Standard ease — Apple-like deceleration */
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  /* Expressive ease — overshoots slightly for physical feel */
+  --ease-expressive: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Entrance ease — elements entering the viewport */
+  --ease-enter: cubic-bezier(0.0, 0.0, 0.2, 1);
+  /* Exit ease — elements leaving */
+  --ease-exit: cubic-bezier(0.4, 0.0, 1, 1);
+  /* Duration scale */
+  --duration-fast:    120ms;
+  --duration-base:    200ms;
+  --duration-moderate: 320ms;
+  --duration-slow:    600ms;
+  --duration-reveal:  900ms;
+
+  /* ── Shadow tokens ───────────────────────────────────────── */
+  --shadow-xs:  0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.10), 0 3px 10px rgba(0,0,0,0.05);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.14), 0 6px 16px rgba(0,0,0,0.06);
+  --shadow-2xl: 0 24px 64px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.08);
+  /* Inset for pressed states */
+  --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.10);
+
+  /* ── Section spacing ─────────────────────────────────────── */
+  --section-gap-sm: clamp(3rem, 5vw, 4rem);
+  --section-gap:    clamp(4rem, 7vw, 7rem);
+  --section-gap-lg: clamp(6rem, 10vw, 10rem);
+  --container-px:   clamp(1.5rem, 5vw, 6rem);
 }
 
 /* ─── Tailwind v4 theme ──────────────────────────────────────── */
@@ -86,6 +120,18 @@
   --color-ring:                 var(--ring);
   --color-link:                 var(--link);
   --color-sidebar-ring:                 var(--sidebar-ring);
+  /* Shadow scale */
+  --shadow-xs:  var(--shadow-xs);
+  --shadow-sm:  var(--shadow-sm);
+  --shadow-md:  var(--shadow-md);
+  --shadow-lg:  var(--shadow-lg);
+  --shadow-xl:  var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+  /* Easing */
+  --ease-standard:   var(--ease-standard);
+  --ease-expressive: var(--ease-expressive);
+  --ease-enter:      var(--ease-enter);
+  --ease-exit:       var(--ease-exit);
   --color-sidebar-border:               var(--sidebar-border);
   --color-sidebar-accent-foreground:    var(--sidebar-accent-foreground);
   --color-sidebar-accent:               var(--sidebar-accent);
@@ -185,6 +231,7 @@ a { color: inherit; text-decoration: none; }
   --border:             oklch(1 0 0 / 12%);
   --input:              oklch(1 0 0 / 15%);
   --ring:               oklch(1 0 0);
+  --link:               oklch(1 0 0);
   --sidebar:            oklch(0.08 0 0);
   --sidebar-foreground: oklch(1 0 0);
   --sidebar-primary:    oklch(1 0 0);
@@ -281,7 +328,7 @@ html {
 
 /* ─── Focus ring — accessible, stark ────────────────────────── */
 :focus-visible {
-  outline: 2px solid #000000;
+  outline: 2px solid var(--foreground);
   outline-offset: 3px;
   border-radius: 3px;
 }
