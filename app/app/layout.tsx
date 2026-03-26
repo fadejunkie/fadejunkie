@@ -1,25 +1,30 @@
 import type { Metadata } from "next";
-import { Inter, Spectral, Geist_Mono, Geist } from "next/font/google";
+import { Geist_Mono, Geist, Courier_Prime, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { cn } from "@/lib/utils";
 import DevBanner from "@/components/DevBanner";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+/* ── UI / Navigation font ─── */
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
-const inter = Inter({
-  variable: "--font-inter",
+/* ── Display / Headlines font ─── */
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const spectral = Spectral({
-  variable: "--font-spectral",
+/* ── Body / Typewriter font ─── */
+const courierPrime = Courier_Prime({
+  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "700"],
   style: ["normal", "italic"],
 });
 
+/* ── Code / Label accent font ─── */
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -37,8 +42,18 @@ export default function RootLayout({
 }>) {
   return (
     <ConvexAuthNextjsServerProvider>
-      <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
-        <body className={`${inter.variable} ${spectral.variable} ${geistMono.variable}`}>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={cn(
+          "font-sans",
+          geist.variable,
+          bricolage.variable,
+          courierPrime.variable,
+          geistMono.variable,
+        )}
+      >
+        <body>
           <DevBanner />
           <ConvexClientProvider>{children}</ConvexClientProvider>
         </body>

@@ -5,12 +5,12 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
 import Link from "next/link";
 
-/* ── Grain texture — same SVG noise as hero.tsx ─────────────────────── */
+/* ── Grain texture ───────────────────────────────────────────────────── */
 const GrainOverlay = () => (
   <svg
     aria-hidden="true"
     className="pointer-events-none absolute inset-0 h-full w-full"
-    style={{ opacity: 0.035, mixBlendMode: "multiply" }}
+    style={{ opacity: 0.04, mixBlendMode: "multiply" }}
   >
     <filter id="signin-grain">
       <feTurbulence
@@ -25,7 +25,7 @@ const GrainOverlay = () => (
   </svg>
 );
 
-/* ── Halftone dot cluster — decorative accent ───────────────────────── */
+/* ── Halftone dot cluster ─────────────────────────────────────────────── */
 const HalftoneAccent = () => (
   <svg
     aria-hidden="true"
@@ -33,7 +33,7 @@ const HalftoneAccent = () => (
     width="140"
     height="140"
     viewBox="0 0 140 140"
-    style={{ opacity: 0.06 }}
+    style={{ opacity: 0.07 }}
   >
     {Array.from({ length: 6 }, (_, row) =>
       Array.from({ length: 6 }, (_, col) => {
@@ -44,7 +44,7 @@ const HalftoneAccent = () => (
             cx={col * 24 + 10}
             cy={row * 24 + 10}
             r={r}
-            fill="rgba(22,16,8,1)"
+            fill="rgba(0,0,0,1)"
           />
         );
       })
@@ -63,7 +63,7 @@ function BrandPanel() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "clamp(2.5rem, 4vw, 4rem)",
-        backgroundColor: "#fff4ea",
+        backgroundColor: "#ffffff",
         overflow: "hidden",
         minHeight: "100vh",
       }}
@@ -71,27 +71,16 @@ function BrandPanel() {
       <GrainOverlay />
       <HalftoneAccent />
 
-      {/* Ambient warmth */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 30% 70%, rgba(255,210,150,0.14) 0%, transparent 70%)",
-        }}
-      />
-
       {/* Top: wordmark */}
       <div style={{ position: "relative", zIndex: 1 }}>
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-spectral), Georgia, 'Times New Roman', serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "1.375rem",
-            fontWeight: 400,
-            fontStyle: "italic",
-            color: "hsl(0, 0%, 8%)",
-            letterSpacing: "-0.02em",
+            fontWeight: 800,
+            color: "#000000",
+            letterSpacing: "-0.04em",
             textDecoration: "none",
           }}
         >
@@ -108,7 +97,7 @@ function BrandPanel() {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "hsl(34, 42%, 44%)",
+            color: "rgba(0,0,0,0.4)",
             marginBottom: "1.5rem",
           }}
         >
@@ -117,13 +106,12 @@ function BrandPanel() {
 
         <h1
           style={{
-            fontFamily: "var(--font-spectral), Georgia, 'Times New Roman', serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "clamp(2.25rem, 3.5vw, 3.5rem)",
-            fontWeight: 300,
-            fontStyle: "italic",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.12,
-            color: "hsl(0, 0%, 8%)",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.05,
+            color: "#000000",
             margin: 0,
             marginBottom: "1.25rem",
           }}
@@ -137,10 +125,10 @@ function BrandPanel() {
 
         <p
           style={{
-            fontFamily: "var(--font-inter), -apple-system, sans-serif",
+            fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            color: "hsl(34, 20%, 38%)",
+            color: "rgba(0,0,0,0.55)",
             maxWidth: "22rem",
           }}
         >
@@ -168,8 +156,8 @@ function BrandPanel() {
                 height: 30,
                 borderRadius: "50%",
                 backgroundColor:
-                  i % 2 === 0 ? "rgba(22,16,8,0.09)" : "rgba(22,16,8,0.06)",
-                border: "1.5px solid #fff4ea",
+                  i % 2 === 0 ? "rgba(0,0,0,0.07)" : "rgba(0,0,0,0.05)",
+                border: "1.5px solid #ffffff",
                 marginLeft: i > 0 ? -8 : 0,
                 display: "flex",
                 alignItems: "center",
@@ -181,11 +169,11 @@ function BrandPanel() {
             >
               <span
                 style={{
-                  fontFamily: "var(--font-spectral), Georgia, serif",
-                  fontSize: "0.5rem",
-                  fontWeight: 400,
-                  fontStyle: "italic",
-                  color: "rgba(22,16,8,0.55)",
+                  fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  fontSize: "0.4375rem",
+                  fontWeight: 700,
+                  color: "rgba(0,0,0,0.55)",
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {initials}
@@ -197,11 +185,11 @@ function BrandPanel() {
         <div>
           <p
             style={{
-              fontFamily: "var(--font-inter), -apple-system, sans-serif",
+              fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
               fontSize: "0.8125rem",
-              fontWeight: 600,
-              color: "hsl(0, 0%, 8%)",
-              letterSpacing: "-0.01em",
+              fontWeight: 700,
+              color: "#000000",
+              letterSpacing: "-0.02em",
               lineHeight: 1.3,
             }}
           >
@@ -214,7 +202,7 @@ function BrandPanel() {
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "hsl(34, 22%, 44%)",
+              color: "rgba(0,0,0,0.4)",
               marginTop: "0.2rem",
             }}
           >
@@ -256,7 +244,7 @@ function SignInForm() {
   return (
     <div
       className="signin-page-root"
-      style={{ backgroundColor: "#fff4ea", minHeight: "100vh" }}
+      style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}
     >
       {/* Two-column layout: brand (left) + form (right) */}
       <div className="signin-layout">
@@ -273,22 +261,21 @@ function SignInForm() {
             justifyContent: "center",
             padding: "3rem clamp(1.5rem, 5vw, 3.5rem)",
             minHeight: "100vh",
-            backgroundColor: "rgba(22,16,8,0.025)",
+            backgroundColor: "rgba(0,0,0,0.018)",
             position: "relative",
           }}
         >
           <div style={{ width: "100%", maxWidth: 380 }}>
-            {/* Wordmark + subtitle (always visible — acts as header on mobile) */}
+            {/* Wordmark + subtitle */}
             <div style={{ marginBottom: "2.5rem" }}>
               <Link
                 href="/"
                 style={{
-                  fontFamily: "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                  fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                   fontSize: "1.5rem",
-                  fontWeight: 400,
-                  fontStyle: "italic",
-                  color: "hsl(0, 0%, 8%)",
-                  letterSpacing: "-0.02em",
+                  fontWeight: 800,
+                  color: "#000000",
+                  letterSpacing: "-0.04em",
                   textDecoration: "none",
                   display: "block",
                   marginBottom: "0.375rem",
@@ -303,7 +290,7 @@ function SignInForm() {
                   fontWeight: 500,
                   letterSpacing: "0.16em",
                   textTransform: "uppercase",
-                  color: "hsl(34, 22%, 44%)",
+                  color: "rgba(0,0,0,0.4)",
                 }}
               >
                 The barber community
@@ -316,7 +303,7 @@ function SignInForm() {
                 display: "flex",
                 gap: 0,
                 marginBottom: "2rem",
-                borderBottom: "1px solid rgba(22,16,8,0.1)",
+                borderBottom: "1px solid rgba(0,0,0,0.09)",
               }}
             >
               {(["signin", "signup"] as const).map((t) => (
@@ -327,15 +314,15 @@ function SignInForm() {
                   style={{
                     flex: 1,
                     padding: "0.75rem 0",
-                    fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                    fontFamily: "var(--font-sans), system-ui, sans-serif",
                     fontSize: "0.875rem",
                     fontWeight: tab === t ? 600 : 400,
-                    color: tab === t ? "hsl(0, 0%, 8%)" : "hsl(34, 20%, 50%)",
+                    color: tab === t ? "#000000" : "rgba(0,0,0,0.4)",
                     background: "transparent",
                     border: "none",
                     borderBottom:
                       tab === t
-                        ? "2px solid hsl(0, 0%, 8%)"
+                        ? "2px solid #000000"
                         : "2px solid transparent",
                     cursor: "pointer",
                     transition: "color 0.15s ease, border-color 0.15s ease",
@@ -362,7 +349,7 @@ function SignInForm() {
                     fontWeight: 500,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color: "hsl(34, 22%, 44%)",
+                    color: "rgba(0,0,0,0.45)",
                     display: "block",
                     marginBottom: "0.5rem",
                   }}
@@ -381,11 +368,11 @@ function SignInForm() {
                   style={{
                     width: "100%",
                     padding: "0.75rem 0.875rem",
-                    fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                    fontFamily: "var(--font-body), 'Courier Prime', monospace",
                     fontSize: "0.875rem",
-                    color: "hsl(0, 0%, 8%)",
-                    backgroundColor: "#fff4ea",
-                    border: "1px solid rgba(22,16,8,0.15)",
+                    color: "#000000",
+                    backgroundColor: "#ffffff",
+                    border: "1px solid rgba(0,0,0,0.14)",
                     borderRadius: "0.625rem",
                     outline: "none",
                     transition: "border-color 0.15s ease, box-shadow 0.15s ease",
@@ -403,7 +390,7 @@ function SignInForm() {
                     fontWeight: 500,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color: "hsl(34, 22%, 44%)",
+                    color: "rgba(0,0,0,0.45)",
                     display: "block",
                     marginBottom: "0.5rem",
                   }}
@@ -422,11 +409,11 @@ function SignInForm() {
                   style={{
                     width: "100%",
                     padding: "0.75rem 0.875rem",
-                    fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                    fontFamily: "var(--font-body), 'Courier Prime', monospace",
                     fontSize: "0.875rem",
-                    color: "hsl(0, 0%, 8%)",
-                    backgroundColor: "#fff4ea",
-                    border: "1px solid rgba(22,16,8,0.15)",
+                    color: "#000000",
+                    backgroundColor: "#ffffff",
+                    border: "1px solid rgba(0,0,0,0.14)",
                     borderRadius: "0.625rem",
                     outline: "none",
                     transition: "border-color 0.15s ease, box-shadow 0.15s ease",
@@ -438,7 +425,7 @@ function SignInForm() {
               {error && (
                 <p
                   style={{
-                    fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                    fontFamily: "var(--font-body), 'Courier Prime', monospace",
                     fontSize: "0.8125rem",
                     color: "hsl(0, 65%, 48%)",
                     backgroundColor: "hsla(0, 70%, 50%, 0.06)",
@@ -460,10 +447,10 @@ function SignInForm() {
                 style={{
                   width: "100%",
                   padding: "0.875rem 1.75rem",
-                  backgroundColor: "hsl(0, 0%, 8%)",
-                  color: "#fff4ea",
+                  backgroundColor: "#000000",
+                  color: "#ffffff",
                   borderRadius: "0.625rem",
-                  fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                  fontFamily: "var(--font-sans), system-ui, sans-serif",
                   fontSize: "0.875rem",
                   fontWeight: 600,
                   border: "none",
@@ -512,9 +499,9 @@ function SignInForm() {
             <p
               style={{
                 textAlign: "center",
-                fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                fontFamily: "var(--font-body), 'Courier Prime', monospace",
                 fontSize: "0.8125rem",
-                color: "hsl(34, 18%, 42%)",
+                color: "rgba(0,0,0,0.5)",
                 marginTop: "1.75rem",
               }}
             >
@@ -530,8 +517,8 @@ function SignInForm() {
                       padding: 0,
                       fontFamily: "inherit",
                       fontSize: "inherit",
-                      fontWeight: 600,
-                      color: "hsl(34, 42%, 44%)",
+                      fontWeight: 700,
+                      color: "#000000",
                       cursor: "pointer",
                       textDecoration: "none",
                     }}
@@ -552,8 +539,8 @@ function SignInForm() {
                       padding: 0,
                       fontFamily: "inherit",
                       fontSize: "inherit",
-                      fontWeight: 600,
-                      color: "hsl(34, 42%, 44%)",
+                      fontWeight: 700,
+                      color: "#000000",
                       cursor: "pointer",
                       textDecoration: "none",
                     }}
@@ -592,18 +579,18 @@ function SignInForm() {
           }
         }
 
-        /* Input focus states — warm, not blue */
+        /* Input focus states — black, not blue */
         .signin-input:focus {
-          border-color: rgba(22, 16, 8, 0.35) !important;
-          box-shadow: 0 0 0 3px rgba(22, 16, 8, 0.06) !important;
+          border-color: rgba(0, 0, 0, 0.4) !important;
+          box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06) !important;
         }
         .signin-input::placeholder {
-          color: rgba(22, 16, 8, 0.3);
+          color: rgba(0, 0, 0, 0.25);
         }
 
         /* Submit hover */
         .signin-submit:hover:not(:disabled) {
-          background-color: hsl(0, 0%, 16%) !important;
+          background-color: #1a1a1a !important;
           transform: translateY(-1px);
         }
         .signin-submit:active:not(:disabled) {

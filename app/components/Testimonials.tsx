@@ -61,11 +61,11 @@ const TestimonialCard = ({
     transition={{ duration: 0.5, ease }}
     className="fj-testimonial-card"
     style={{
-      backgroundColor: "rgba(255,255,255,0.7)",
-      border: "1px solid rgba(22,16,8,0.08)",
+      backgroundColor: "#ffffff",
+      border: "1px solid rgba(0,0,0,0.08)",
       borderRadius: "1rem",
       padding: "1.75rem",
-      boxShadow: "0 2px 12px rgba(22,16,8,0.05)",
+      boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
       display: "flex",
       flexDirection: "column",
       gap: "1.25rem",
@@ -79,8 +79,8 @@ const TestimonialCard = ({
           style={{
             width: 12,
             height: 12,
-            fill: "hsl(34, 42%, 44%)",
-            color: "hsl(34, 42%, 44%)",
+            fill: "#000000",
+            color: "#000000",
             strokeWidth: 0,
           }}
         />
@@ -91,13 +91,12 @@ const TestimonialCard = ({
     <p
       style={{
         fontFamily:
-          "var(--font-spectral), Georgia, 'Times New Roman', serif",
-        fontSize: "clamp(1rem, 1.5vw, 1.0625rem)",
-        fontWeight: 300,
+          "var(--font-body), 'Courier Prime', monospace",
+        fontSize: "clamp(0.9375rem, 1.5vw, 1rem)",
+        fontWeight: 400,
         fontStyle: "italic",
-        letterSpacing: "-0.01em",
-        lineHeight: 1.6,
-        color: "hsl(0, 0%, 8%)",
+        lineHeight: 1.65,
+        color: "#000000",
         flex: 1,
       }}
     >
@@ -112,8 +111,8 @@ const TestimonialCard = ({
           width: 36,
           height: 36,
           borderRadius: "50%",
-          backgroundColor: "rgba(22,16,8,0.07)",
-          border: "1px solid rgba(22,16,8,0.10)",
+          backgroundColor: "rgba(0,0,0,0.06)",
+          border: "1px solid rgba(0,0,0,0.09)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -123,11 +122,11 @@ const TestimonialCard = ({
         <span
           style={{
             fontFamily:
-              "var(--font-spectral), Georgia, 'Times New Roman', serif",
-            fontSize: "0.6875rem",
-            fontWeight: 400,
-            fontStyle: "italic",
-            color: "rgba(22,16,8,0.55)",
+              "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontSize: "0.5625rem",
+            fontWeight: 700,
+            color: "rgba(0,0,0,0.55)",
+            letterSpacing: "-0.01em",
           }}
         >
           {initials}
@@ -138,11 +137,11 @@ const TestimonialCard = ({
       <div>
         <p
           style={{
-            fontFamily: "var(--font-inter), -apple-system, sans-serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "0.8125rem",
-            fontWeight: 600,
-            color: "hsl(0, 0%, 8%)",
-            letterSpacing: "-0.01em",
+            fontWeight: 700,
+            color: "#000000",
+            letterSpacing: "-0.02em",
             lineHeight: 1.2,
           }}
         >
@@ -156,7 +155,7 @@ const TestimonialCard = ({
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "hsl(34, 22%, 44%)",
+              color: "rgba(0,0,0,0.45)",
             }}
           >
             {specialty}
@@ -165,7 +164,7 @@ const TestimonialCard = ({
             style={{
               fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
-              color: "rgba(22,16,8,0.20)",
+              color: "rgba(0,0,0,0.18)",
             }}
           >
             ·
@@ -177,7 +176,7 @@ const TestimonialCard = ({
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "rgba(22,16,8,0.35)",
+              color: "rgba(0,0,0,0.3)",
             }}
           >
             {location}
@@ -192,10 +191,10 @@ const Testimonials = () => {
   return (
     <section
       style={{
-        backgroundColor: "#fff4ea",
+        backgroundColor: "#ffffff",
         padding: "3.5rem clamp(1.5rem, 5vw, 6rem) 5rem",
-        borderTop: "1px solid rgba(22,16,8,0.08)",
-        borderBottom: "1px solid rgba(22,16,8,0.08)",
+        borderTop: "1px solid rgba(0,0,0,0.07)",
+        borderBottom: "1px solid rgba(0,0,0,0.07)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -208,7 +207,7 @@ const Testimonials = () => {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "hsl(34, 42%, 44%)",
+            color: "rgba(0,0,0,0.4)",
             marginBottom: "1rem",
           }}
           initial={{ opacity: 0 }}
@@ -223,13 +222,12 @@ const Testimonials = () => {
         <motion.h2
           style={{
             fontFamily:
-              "var(--font-spectral), Georgia, 'Times New Roman', serif",
+              "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "clamp(2.25rem, 5vw, 4rem)",
-            fontWeight: 300,
-            fontStyle: "italic",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.1,
-            color: "hsl(0, 0%, 8%)",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.0,
+            color: "#000000",
             marginBottom: "3rem",
           }}
           initial={{ opacity: 0, y: 16 }}
@@ -239,7 +237,17 @@ const Testimonials = () => {
         >
           Barbers.
           <br />
-          <span style={{ fontStyle: "normal", fontWeight: 400, color: "hsl(34, 22%, 44%)" }}>
+          <span
+            style={{
+              fontFamily:
+                "var(--font-body), 'Courier Prime', monospace",
+              fontWeight: 400,
+              fontStyle: "italic",
+              fontSize: "0.72em",
+              letterSpacing: "0.01em",
+              color: "rgba(0,0,0,0.45)",
+            }}
+          >
             In their own words.
           </span>
         </motion.h2>
@@ -275,7 +283,7 @@ const Testimonials = () => {
         }
         .fj-testimonial-card:hover {
           transform: translateY(-3px);
-          box-shadow: 0 8px 32px rgba(22,16,8,0.10) !important;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.09) !important;
         }
       `}</style>
     </section>

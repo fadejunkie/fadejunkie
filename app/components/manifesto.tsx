@@ -28,9 +28,9 @@ const Manifesto = () => {
   return (
     <section
       style={{
-        backgroundColor: "#fff4ea",
+        backgroundColor: "#ffffff",
         padding: "7rem clamp(1.5rem, 5vw, 6rem)",
-        borderTop: "1px solid rgba(22,16,8,0.1)",
+        borderTop: "1px solid rgba(0,0,0,0.08)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -54,13 +54,14 @@ const Manifesto = () => {
             <div
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                 fontSize: "clamp(3.5rem, 7vw, 5.5rem)",
-                fontWeight: 300,
+                fontWeight: 800,
                 lineHeight: 0.8,
-                color: "hsl(34, 42%, 44%)",
+                color: "rgba(0,0,0,0.1)",
                 marginBottom: "0.5rem",
                 userSelect: "none",
+                letterSpacing: "-0.04em",
               }}
               aria-hidden="true"
             >
@@ -70,13 +71,13 @@ const Manifesto = () => {
             <p
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "clamp(1.75rem, 4vw, 3rem)",
-                fontWeight: 300,
+                  "var(--font-body), 'Courier Prime', monospace",
+                fontSize: "clamp(1.375rem, 3vw, 2.25rem)",
+                fontWeight: 400,
                 fontStyle: "italic",
-                letterSpacing: "-0.015em",
-                lineHeight: 1.25,
-                color: "hsl(0, 0%, 8%)",
+                letterSpacing: "0",
+                lineHeight: 1.35,
+                color: "#000000",
                 marginBottom: "2.5rem",
               }}
             >
@@ -92,7 +93,7 @@ const Manifesto = () => {
                 style={{
                   height: 1,
                   width: 36,
-                  backgroundColor: "rgba(22,16,8,0.2)",
+                  backgroundColor: "rgba(0,0,0,0.2)",
                 }}
               />
               <span
@@ -103,7 +104,7 @@ const Manifesto = () => {
                   fontWeight: 500,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "hsl(34, 22%, 44%)",
+                  color: "rgba(0,0,0,0.4)",
                 }}
               >
                 Shop Talk
@@ -130,7 +131,7 @@ const Manifesto = () => {
                     fontWeight: 500,
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
-                    color: "hsl(34, 42%, 44%)",
+                    color: "rgba(0,0,0,0.4)",
                     marginBottom: "0.75rem",
                   }}
                 >
@@ -139,10 +140,10 @@ const Manifesto = () => {
                 <p
                   style={{
                     fontFamily:
-                      "var(--font-inter), -apple-system, sans-serif",
+                      "var(--font-body), 'Courier Prime', monospace",
                     fontSize: "0.9375rem",
                     lineHeight: 1.65,
-                    color: "hsl(34, 18%, 38%)",
+                    color: "rgba(0,0,0,0.65)",
                   }}
                 >
                   {pillar.text}

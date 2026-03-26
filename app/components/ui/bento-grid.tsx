@@ -48,15 +48,15 @@ const BentoCard = ({
       className={cn(
         "group relative col-span-3 flex flex-col justify-end overflow-hidden cursor-pointer transition-all duration-300",
         isDark
-          ? "hover:bg-[rgba(22,16,8,1)]"
-          : "hover:shadow-[0_4px_20px_rgba(22,16,8,0.1)]",
+          ? "hover:bg-black"
+          : "hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)]",
         className,
       )}
       style={{
         borderRadius: "1rem",
-        backgroundColor: isDark ? "rgba(22,16,8,0.85)" : "rgba(255,255,255,0.65)",
-        border: isDark ? "1px solid rgba(255,244,234,0.07)" : "1px solid rgba(22,16,8,0.08)",
-        boxShadow: isDark ? "none" : "0 2px 16px rgba(22,16,8,0.06)",
+        backgroundColor: isDark ? "rgba(0,0,0,0.88)" : "rgba(255,255,255,0.7)",
+        border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+        boxShadow: isDark ? "none" : "0 2px 16px rgba(0,0,0,0.05)",
       }}
     >
       <div className="absolute inset-0">{background}</div>
@@ -66,27 +66,27 @@ const BentoCard = ({
             "h-7 w-7 origin-left transition-all duration-300 ease-in-out group-hover:scale-90",
           )}
           style={{
-            color: isDark ? "rgba(255,244,234,0.45)" : "hsl(34, 22%, 50%)",
+            color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
             strokeWidth: 1.5,
           }}
         />
         <h3
           style={{
-            fontFamily: "var(--font-spectral), Georgia, 'Times New Roman', serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "1.125rem",
-            fontWeight: 400,
-            letterSpacing: "-0.01em",
-            color: isDark ? "#fff4ea" : "hsl(0, 0%, 8%)",
+            fontWeight: 800,
+            letterSpacing: "-0.03em",
+            color: isDark ? "#ffffff" : "#000000",
           }}
         >
           {name}
         </h3>
         <p
           style={{
-            fontFamily: "var(--font-inter), -apple-system, sans-serif",
+            fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            color: isDark ? "rgba(255,244,234,0.55)" : "hsl(34, 18%, 38%)",
+            color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.55)",
             maxWidth: "28rem",
           }}
         >
@@ -100,10 +100,10 @@ const BentoCard = ({
             display: "inline-flex",
             alignItems: "center",
             gap: "0.375rem",
-            fontFamily: "var(--font-inter), -apple-system, sans-serif",
+            fontFamily: "var(--font-sans), system-ui, sans-serif",
             fontSize: "0.8125rem",
             fontWeight: 600,
-            color: isDark ? "#fff4ea" : "hsl(34, 42%, 44%)",
+            color: isDark ? "#ffffff" : "#000000",
           }}
         >
           {cta}

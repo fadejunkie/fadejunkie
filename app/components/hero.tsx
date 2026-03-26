@@ -7,12 +7,12 @@ import { Scissors } from "lucide-react";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
-/* Grain texture — SVG noise at 3.5% opacity over the cream background */
+/* Grain texture — SVG noise at 4% opacity over white */
 const GrainOverlay = () => (
   <svg
     aria-hidden="true"
     className="pointer-events-none absolute inset-0 h-full w-full"
-    style={{ opacity: 0.035, mixBlendMode: "multiply" }}
+    style={{ opacity: 0.04, mixBlendMode: "multiply" }}
   >
     <filter id="fj-grain">
       <feTurbulence
@@ -35,7 +35,7 @@ const HalftoneAccent = () => (
     width="180"
     height="180"
     viewBox="0 0 180 180"
-    style={{ opacity: 0.07 }}
+    style={{ opacity: 0.08 }}
   >
     {Array.from({ length: 7 }, (_, row) =>
       Array.from({ length: 7 }, (_, col) => {
@@ -46,7 +46,7 @@ const HalftoneAccent = () => (
             cx={col * 26 + 14}
             cy={row * 26 + 14}
             r={r}
-            fill="rgba(22,16,8,1)"
+            fill="rgba(0,0,0,1)"
           />
         );
       })
@@ -73,12 +73,12 @@ const HeroCard = () => {
       <div
         className="hero-profile-card"
         style={{
-          backgroundColor: "rgba(22,16,8,0.97)",
+          backgroundColor: "#000000",
           borderRadius: "1.375rem",
           padding: "1.875rem",
-          border: "1px solid rgba(255,244,234,0.07)",
+          border: "1px solid rgba(255,255,255,0.08)",
           boxShadow:
-            "0 40px 80px rgba(22,16,8,0.18), 0 12px 32px rgba(22,16,8,0.1), 0 2px 8px rgba(22,16,8,0.08)",
+            "0 40px 80px rgba(0,0,0,0.22), 0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
         }}
       >
         {/* Header: avatar + meta */}
@@ -95,8 +95,8 @@ const HeroCard = () => {
               width: 46,
               height: 46,
               borderRadius: "50%",
-              backgroundColor: "rgba(255,244,234,0.07)",
-              border: "1px solid rgba(255,244,234,0.1)",
+              backgroundColor: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -106,11 +106,11 @@ const HeroCard = () => {
             <span
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "1.125rem",
-                fontWeight: 300,
-                color: "rgba(255,244,234,0.45)",
-                fontStyle: "italic",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                fontSize: "0.875rem",
+                fontWeight: 700,
+                color: "rgba(255,255,255,0.55)",
+                letterSpacing: "-0.01em",
               }}
             >
               JM
@@ -120,11 +120,11 @@ const HeroCard = () => {
             <p
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                fontSize: "1.0625rem",
-                fontWeight: 400,
-                color: "#fff4ea",
-                letterSpacing: "-0.01em",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                fontSize: "1rem",
+                fontWeight: 700,
+                color: "#ffffff",
+                letterSpacing: "-0.02em",
                 lineHeight: 1.2,
                 marginBottom: "0.25rem",
               }}
@@ -139,7 +139,7 @@ const HeroCard = () => {
                 fontWeight: 500,
                 letterSpacing: "0.13em",
                 textTransform: "uppercase",
-                color: "hsl(34, 42%, 44%)",
+                color: "rgba(255,255,255,0.4)",
               }}
             >
               Brooklyn, NY · Licensed 2019
@@ -154,10 +154,9 @@ const HeroCard = () => {
               <span
                 style={{
                   fontFamily:
-                    "var(--font-inter), -apple-system, sans-serif",
+                    "var(--font-body), 'Courier Prime', monospace",
                   fontSize: "0.6875rem",
-                  color: "rgba(255,244,234,0.55)",
-                  letterSpacing: "-0.005em",
+                  color: "rgba(255,255,255,0.5)",
                   display: "block",
                   marginBottom: "0.3rem",
                 }}
@@ -168,7 +167,7 @@ const HeroCard = () => {
                 style={{
                   height: 2,
                   borderRadius: 9999,
-                  backgroundColor: "rgba(255,244,234,0.05)",
+                  backgroundColor: "rgba(255,255,255,0.07)",
                 }}
               >
                 <motion.div
@@ -182,8 +181,8 @@ const HeroCard = () => {
                   style={{
                     height: 2,
                     borderRadius: 9999,
-                    backgroundColor: "hsl(34, 42%, 44%)",
-                    opacity: 0.65,
+                    backgroundColor: "#ffffff",
+                    opacity: 0.55,
                   }}
                 />
               </div>
@@ -197,7 +196,7 @@ const HeroCard = () => {
             display: "flex",
             gap: "1.5rem",
             paddingTop: "1.25rem",
-            borderTop: "1px solid rgba(255,244,234,0.06)",
+            borderTop: "1px solid rgba(255,255,255,0.07)",
             marginBottom: "1.375rem",
           }}
         >
@@ -210,12 +209,11 @@ const HeroCard = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                   fontSize: "1.125rem",
-                  fontWeight: 300,
-                  fontStyle: "italic",
-                  color: "#fff4ea",
-                  letterSpacing: "-0.02em",
+                  fontWeight: 800,
+                  color: "#ffffff",
+                  letterSpacing: "-0.03em",
                   lineHeight: 1,
                   marginBottom: "0.2rem",
                 }}
@@ -230,7 +228,7 @@ const HeroCard = () => {
                   fontWeight: 500,
                   letterSpacing: "0.13em",
                   textTransform: "uppercase",
-                  color: "rgba(255,244,234,0.38)",
+                  color: "rgba(255,255,255,0.32)",
                 }}
               >
                 {stat.l}
@@ -247,13 +245,13 @@ const HeroCard = () => {
             gap: "0.375rem",
           }}
         >
-          {/* Thumbnail 1 — Fade gradient visual */}
+          {/* Thumbnail 1 */}
           <div
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,244,234,0.07)",
-              border: "1px solid rgba(255,244,234,0.09)",
+              backgroundColor: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.09)",
               overflow: "hidden",
               position: "relative",
               display: "flex",
@@ -267,13 +265,13 @@ const HeroCard = () => {
               left: 0,
               right: 0,
               height: "65%",
-              background: "linear-gradient(to top, rgba(255,244,234,0.11), transparent)",
+              background: "linear-gradient(to top, rgba(255,255,255,0.09), transparent)",
             }} />
             <div style={{
               width: 18,
               height: 18,
               borderRadius: "50%",
-              border: "1.5px solid rgba(255,244,234,0.18)",
+              border: "1.5px solid rgba(255,255,255,0.22)",
               position: "relative",
               zIndex: 1,
             }} />
@@ -284,8 +282,8 @@ const HeroCard = () => {
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,244,234,0.10)",
-              border: "1px solid rgba(255,244,234,0.12)",
+              backgroundColor: "rgba(255,255,255,0.09)",
+              border: "1px solid rgba(255,255,255,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -295,19 +293,19 @@ const HeroCard = () => {
               style={{
                 width: 15,
                 height: 15,
-                color: "hsl(34, 42%, 55%)",
+                color: "rgba(255,255,255,0.55)",
                 strokeWidth: 1.5,
               }}
             />
           </div>
 
-          {/* Thumbnail 3 — Horizontal line pattern (comb / lineup) */}
+          {/* Thumbnail 3 — lines */}
           <div
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,244,234,0.07)",
-              border: "1px solid rgba(255,244,234,0.09)",
+              backgroundColor: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.09)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -322,7 +320,7 @@ const HeroCard = () => {
                 style={{
                   height: 1.5,
                   width: `${w * 100}%`,
-                  backgroundColor: "rgba(255,244,234,0.20)",
+                  backgroundColor: "rgba(255,255,255,0.25)",
                   borderRadius: 1,
                 }}
               />
@@ -344,15 +342,15 @@ const HeroCard = () => {
           position: "absolute",
           bottom: -18,
           right: -18,
-          backgroundColor: "#fff4ea",
+          backgroundColor: "#ffffff",
           borderRadius: "3rem",
           padding: "0.5rem 1rem",
           display: "flex",
           alignItems: "center",
           gap: "0.45rem",
           boxShadow:
-            "0 4px 24px rgba(22,16,8,0.14), 0 1px 6px rgba(22,16,8,0.06)",
-          border: "1px solid rgba(22,16,8,0.07)",
+            "0 4px 24px rgba(0,0,0,0.12), 0 1px 6px rgba(0,0,0,0.06)",
+          border: "1px solid rgba(0,0,0,0.08)",
         }}
       >
         <div className="hero-active-dot" />
@@ -364,7 +362,7 @@ const HeroCard = () => {
             fontWeight: 500,
             letterSpacing: "0.13em",
             textTransform: "uppercase",
-            color: "hsl(34, 22%, 44%)",
+            color: "rgba(0,0,0,0.55)",
           }}
         >
           2,400+ barbers online
@@ -384,12 +382,12 @@ const HeroCard = () => {
           position: "absolute",
           top: 195,
           left: -56,
-          backgroundColor: "#fff4ea",
+          backgroundColor: "#ffffff",
           borderRadius: "1rem",
           padding: "0.875rem 1rem",
           boxShadow:
-            "0 8px 32px rgba(22,16,8,0.12), 0 2px 8px rgba(22,16,8,0.06)",
-          border: "1px solid rgba(22,16,8,0.07)",
+            "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)",
+          border: "1px solid rgba(0,0,0,0.08)",
           maxWidth: 176,
         }}
         className="hero-side-pill"
@@ -402,7 +400,7 @@ const HeroCard = () => {
             fontWeight: 500,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
-            color: "hsl(34, 42%, 44%)",
+            color: "rgba(0,0,0,0.4)",
             marginBottom: "0.3rem",
           }}
         >
@@ -411,10 +409,10 @@ const HeroCard = () => {
         <p
           style={{
             fontFamily:
-              "var(--font-inter), -apple-system, sans-serif",
+              "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.6875rem",
             lineHeight: 1.45,
-            color: "hsl(0, 0%, 8%)",
+            color: "#000000",
           }}
         >
           Just passed.
@@ -432,7 +430,7 @@ const Hero = () => {
     <section
       className="relative overflow-hidden"
       style={{
-        backgroundColor: "#fff4ea",
+        backgroundColor: "#ffffff",
         display: "flex",
         alignItems: "center",
         minHeight: "calc(100dvh - 57px)",
@@ -441,15 +439,6 @@ const Hero = () => {
       {/* Texture layers */}
       <GrainOverlay />
       <HalftoneAccent />
-
-      {/* Ambient glow — warmth behind the card on desktop */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 hidden lg:block"
-        style={{
-          background: "radial-gradient(ellipse 55% 50% at 75% 55%, rgba(255,210,150,0.18) 0%, transparent 70%)",
-        }}
-      />
 
       <div
         className="relative mx-auto w-full hero-inner"
@@ -464,7 +453,7 @@ const Hero = () => {
       >
         {/* ── Left: copy ──────────────────────── */}
         <div>
-          {/* Eyebrow — Geist Mono label */}
+          {/* Eyebrow */}
           <motion.p
             style={{
               fontFamily:
@@ -473,7 +462,7 @@ const Hero = () => {
               fontWeight: 500,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
-              color: "hsl(34, 22%, 44%)",
+              color: "rgba(0,0,0,0.4)",
               marginBottom: "1.25rem",
             }}
             initial={{ opacity: 0, y: 8 }}
@@ -483,17 +472,17 @@ const Hero = () => {
             The barber community
           </motion.p>
 
-          {/* Headline — Spectral 300 light, editorial scale */}
+          {/* Headline — Bricolage Grotesque 800, tight tracking */}
           <div style={{ marginBottom: "1.5rem" }}>
             <motion.h1
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                 fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
-                fontWeight: 400,
-                letterSpacing: "-0.025em",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
                 lineHeight: 0.95,
-                color: "hsl(0, 0%, 8%)",
+                color: "#000000",
                 margin: 0,
               }}
               initial={{ opacity: 0, y: 28 }}
@@ -504,9 +493,13 @@ const Hero = () => {
               <br />
               <span
                 style={{
-                  fontStyle: "italic",
+                  fontFamily:
+                    "var(--font-body), 'Courier Prime', monospace",
                   fontWeight: 400,
-                  color: "hsl(34, 32%, 36%)",
+                  fontStyle: "italic",
+                  fontSize: "0.72em",
+                  letterSpacing: "0.01em",
+                  color: "rgba(0,0,0,0.5)",
                 }}
               >
                 to the
@@ -520,10 +513,10 @@ const Hero = () => {
           <motion.p
             style={{
               fontFamily:
-                "var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif",
+                "var(--font-body), 'Courier Prime', 'Courier New', monospace",
               fontSize: "1rem",
               lineHeight: 1.65,
-              color: "hsl(34, 20%, 38%)",
+              color: "rgba(0,0,0,0.6)",
               maxWidth: "29rem",
               marginBottom: "2rem",
             }}
@@ -572,7 +565,7 @@ const Hero = () => {
               gap: "0.75rem",
               marginTop: "2.25rem",
               paddingTop: "1.75rem",
-              borderTop: "1px solid rgba(22,16,8,0.08)",
+              borderTop: "1px solid rgba(0,0,0,0.08)",
             }}
           >
             {/* Stacked avatars */}
@@ -586,9 +579,9 @@ const Hero = () => {
                     borderRadius: "50%",
                     backgroundColor:
                       i % 2 === 0
-                        ? "rgba(22,16,8,0.09)"
-                        : "rgba(22,16,8,0.06)",
-                    border: "1.5px solid #fff4ea",
+                        ? "rgba(0,0,0,0.08)"
+                        : "rgba(0,0,0,0.05)",
+                    border: "1.5px solid #ffffff",
                     marginLeft: i > 0 ? -8 : 0,
                     display: "flex",
                     alignItems: "center",
@@ -601,11 +594,11 @@ const Hero = () => {
                   <span
                     style={{
                       fontFamily:
-                        "var(--font-spectral), Georgia, serif",
-                      fontSize: "0.5rem",
-                      fontWeight: 400,
-                      fontStyle: "italic",
-                      color: "rgba(22,16,8,0.55)",
+                        "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                      fontSize: "0.4375rem",
+                      fontWeight: 700,
+                      color: "rgba(0,0,0,0.55)",
+                      letterSpacing: "-0.01em",
                     }}
                   >
                     {initials}
@@ -619,11 +612,11 @@ const Hero = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-inter), -apple-system, sans-serif",
+                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                   fontSize: "0.8125rem",
-                  fontWeight: 600,
-                  color: "hsl(0, 0%, 8%)",
-                  letterSpacing: "-0.01em",
+                  fontWeight: 700,
+                  color: "#000000",
+                  letterSpacing: "-0.02em",
                   lineHeight: 1.3,
                 }}
               >
@@ -637,7 +630,7 @@ const Hero = () => {
                   fontWeight: 500,
                   letterSpacing: "0.13em",
                   textTransform: "uppercase",
-                  color: "hsl(34, 22%, 44%)",
+                  color: "rgba(0,0,0,0.4)",
                   marginTop: "0.2rem",
                 }}
               >
@@ -658,11 +651,11 @@ const Hero = () => {
         className="fj-scroll-cue"
         aria-hidden="true"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.65 }}
+        animate={{ opacity: 0.5 }}
         transition={{ delay: 1.8, duration: 0.7 }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <path d="M5.5 8.5L11 14L16.5 8.5" stroke="hsl(34, 22%, 44%)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M5.5 8.5L11 14L16.5 8.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </motion.div>
 
@@ -730,7 +723,7 @@ const Hero = () => {
           display: none;
         }
 
-        /* Mobile proof strip — hidden on desktop (card shows instead) */
+        /* Mobile proof strip — hidden on desktop */
         .hero-mobile-proof {
           display: flex;
         }
@@ -740,13 +733,12 @@ const Hero = () => {
           }
         }
 
-        /* Scroll cue — animated chevron at hero bottom */
+        /* Scroll cue */
         .fj-scroll-cue {
           position: absolute;
           bottom: 1.5rem;
           left: 50%;
           transform: translateX(-50%);
-          opacity: 0.55;
         }
         @keyframes fj-bounce {
           0%, 100% { transform: translateX(-50%) translateY(0px); }

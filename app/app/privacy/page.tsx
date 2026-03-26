@@ -8,7 +8,7 @@ export default function PrivacyPage() {
   return (
     <div
       style={{
-        backgroundColor: "#fff4ea",
+        backgroundColor: "#ffffff",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column" as const,
@@ -18,18 +18,18 @@ export default function PrivacyPage() {
       <nav
         style={{
           padding: "1.5rem clamp(1.5rem, 5vw, 6rem)",
-          borderBottom: "1px solid rgba(22,16,8,0.08)",
+          borderBottom: "1px solid rgba(0,0,0,0.07)",
         }}
       >
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-spectral), Georgia, serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "1.125rem",
-            fontWeight: 400,
-            color: "hsl(0, 0%, 8%)",
+            fontWeight: 800,
+            color: "#000000",
             textDecoration: "none",
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.03em",
           }}
         >
           fadejunkie
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "hsl(34, 42%, 44%)",
+            color: "rgba(0,0,0,0.4)",
             marginBottom: "1.25rem",
           }}
         >
@@ -62,12 +62,12 @@ export default function PrivacyPage() {
 
         <h1
           style={{
-            fontFamily: "var(--font-spectral), Georgia, serif",
+            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
-            fontWeight: 400,
-            letterSpacing: "-0.025em",
-            lineHeight: 1.05,
-            color: "hsl(0, 0%, 8%)",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.0,
+            color: "#000000",
             marginBottom: "2.5rem",
           }}
         >
@@ -76,10 +76,10 @@ export default function PrivacyPage() {
 
         <div
           style={{
-            fontFamily: "var(--font-inter), -apple-system, sans-serif",
+            fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "1rem",
             lineHeight: 1.75,
-            color: "hsl(34, 18%, 32%)",
+            color: "rgba(0,0,0,0.65)",
           }}
         >
           <p style={{ marginBottom: "1.5rem" }}>
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
             <a
               href="mailto:hello@fadejunkie.com"
               style={{
-                color: "hsl(34, 42%, 44%)",
+                color: "#000000",
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
           style={{
             marginTop: "4rem",
             paddingTop: "2rem",
-            borderTop: "1px solid rgba(22,16,8,0.08)",
+            borderTop: "1px solid rgba(0,0,0,0.07)",
           }}
         >
           <Link
@@ -123,7 +123,7 @@ export default function PrivacyPage() {
               fontWeight: 500,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "hsl(34, 22%, 44%)",
+              color: "rgba(0,0,0,0.45)",
               textDecoration: "none",
             }}
           >

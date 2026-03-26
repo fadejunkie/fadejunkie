@@ -42,7 +42,6 @@ function AnimatedStatValue({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
-  // Extract any non-numeric prefix (e.g. "$") before the digits
   const prefix = value.match(/^[^0-9]*/)?.[0] ?? "";
   const valueWithoutPrefix = value.slice(prefix.length);
 
@@ -50,7 +49,6 @@ function AnimatedStatValue({ value }: { value: string }) {
 
   useEffect(() => {
     if (!isInView) return;
-    // Values like "$0" that resolve to zero should just display as-is (no counter)
     if (valueWithoutPrefix === "0" || valueWithoutPrefix === "0+") {
       setDisplayed(value);
       return;
@@ -69,7 +67,6 @@ function AnimatedStatValue({ value }: { value: string }) {
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / duration, 1);
-      // Ease out expo
       const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
       const current = eased * target;
 
@@ -135,7 +132,7 @@ const PATHS = [
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function LandingPage() {
   return (
-    <div style={{ backgroundColor: "#fff4ea", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}>
       {/* ── Navbar ─────────────────────────────────────────────── */}
       <StickyNav
         logo={{ url: "/", title: "fadejunkie" }}
@@ -156,9 +153,9 @@ export default function LandingPage() {
       {/* ── Social proof strip ─────────────────────────────────── */}
       <div
         style={{
-          backgroundColor: "rgba(22,16,8,0.03)",
-          borderTop: "1px solid rgba(22,16,8,0.08)",
-          borderBottom: "1px solid rgba(22,16,8,0.08)",
+          backgroundColor: "rgba(0,0,0,0.02)",
+          borderTop: "1px solid rgba(0,0,0,0.07)",
+          borderBottom: "1px solid rgba(0,0,0,0.07)",
         }}
       >
         <motion.div
@@ -185,7 +182,7 @@ export default function LandingPage() {
                 padding: "2rem 1rem",
                 textAlign: "center",
                 borderLeft:
-                  i > 0 ? "1px solid rgba(22,16,8,0.07)" : undefined,
+                  i > 0 ? "1px solid rgba(0,0,0,0.06)" : undefined,
               }}
               variants={fadeUp}
               transition={{ duration: 0.5, ease }}
@@ -193,12 +190,11 @@ export default function LandingPage() {
               <span
                 style={{
                   fontFamily:
-                    "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                   fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)",
-                  fontWeight: 400,
-                  fontStyle: "italic",
-                  letterSpacing: "-0.015em",
-                  color: "hsl(0, 0%, 8%)",
+                  fontWeight: 800,
+                  letterSpacing: "-0.04em",
+                  color: "#000000",
                   display: "block",
                 }}
               >
@@ -212,7 +208,7 @@ export default function LandingPage() {
                   fontWeight: 500,
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "hsl(34, 22%, 44%)",
+                  color: "rgba(0,0,0,0.4)",
                   marginTop: "0.3rem",
                   display: "block",
                 }}
@@ -227,7 +223,7 @@ export default function LandingPage() {
       {/* ── Three Paths ────────────────────────────────────────── */}
       <section
         style={{
-          backgroundColor: "#fff4ea",
+          backgroundColor: "#ffffff",
           padding: "7rem clamp(1.5rem, 5vw, 6rem)",
         }}
       >
@@ -242,7 +238,7 @@ export default function LandingPage() {
                 fontWeight: 500,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "hsl(34, 42%, 44%)",
+                color: "rgba(0,0,0,0.4)",
                 marginBottom: "1rem",
               }}
               initial={{ opacity: 0 }}
@@ -255,13 +251,12 @@ export default function LandingPage() {
             <motion.h2
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                 fontSize: "clamp(2.25rem, 5vw, 4rem)",
-                fontWeight: 300,
-                fontStyle: "italic",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                color: "hsl(0, 0%, 8%)",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.0,
+                color: "#000000",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -270,7 +265,17 @@ export default function LandingPage() {
             >
               Three paths.
               <br />
-              <span style={{ fontStyle: "normal", fontWeight: 400, color: "hsl(34, 22%, 44%)" }}>
+              <span
+                style={{
+                  fontFamily:
+                    "var(--font-body), 'Courier Prime', monospace",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  fontSize: "0.72em",
+                  letterSpacing: "0.01em",
+                  color: "rgba(0,0,0,0.45)",
+                }}
+              >
                 One community.
               </span>
             </motion.h2>
@@ -307,14 +312,14 @@ export default function LandingPage() {
                     padding: "2.25rem",
                     minHeight: 340,
                     backgroundColor: path.dark
-                      ? "rgba(22,16,8,0.97)"
-                      : "rgba(255,255,255,0.7)",
+                      ? "#000000"
+                      : "rgba(255,255,255,0.8)",
                     border: path.dark
                       ? "1px solid rgba(255,255,255,0.06)"
-                      : "1px solid rgba(22,16,8,0.08)",
+                      : "1px solid rgba(0,0,0,0.08)",
                     boxShadow: path.dark
-                      ? "0 24px 72px rgba(22,16,8,0.28), 0 8px 24px rgba(22,16,8,0.16)"
-                      : "0 2px 16px rgba(22,16,8,0.06)",
+                      ? "0 24px 72px rgba(0,0,0,0.32), 0 8px 24px rgba(0,0,0,0.18)"
+                      : "0 2px 16px rgba(0,0,0,0.05)",
                     textDecoration: "none",
                     transition: "transform 0.18s ease, box-shadow 0.18s ease",
                   }}
@@ -328,8 +333,8 @@ export default function LandingPage() {
                       fontWeight: 500,
                       letterSpacing: "0.18em",
                       color: path.dark
-                        ? "rgba(255,244,234,0.2)"
-                        : "rgba(22,16,8,0.2)",
+                        ? "rgba(255,255,255,0.18)"
+                        : "rgba(0,0,0,0.18)",
                     }}
                   >
                     {path.num}
@@ -342,8 +347,8 @@ export default function LandingPage() {
                         width: 26,
                         height: 26,
                         color: path.dark
-                          ? "rgba(255,244,234,0.3)"
-                          : "hsl(34, 22%, 50%)",
+                          ? "rgba(255,255,255,0.28)"
+                          : "rgba(0,0,0,0.3)",
                         strokeWidth: 1.5,
                         marginBottom: "1.25rem",
                       }}
@@ -351,11 +356,11 @@ export default function LandingPage() {
                     <h3
                       style={{
                         fontFamily:
-                          "var(--font-spectral), Georgia, 'Times New Roman', serif",
-                        fontSize: "1.375rem",
-                        fontWeight: 400,
-                        letterSpacing: "-0.01em",
-                        color: path.dark ? "#fff4ea" : "hsl(0, 0%, 8%)",
+                          "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                        fontSize: "1.5rem",
+                        fontWeight: 800,
+                        letterSpacing: "-0.03em",
+                        color: path.dark ? "#ffffff" : "#000000",
                         marginBottom: "0.3rem",
                       }}
                     >
@@ -370,8 +375,8 @@ export default function LandingPage() {
                         letterSpacing: "0.14em",
                         textTransform: "uppercase",
                         color: path.dark
-                          ? "hsl(34, 42%, 44%)"
-                          : "hsl(34, 42%, 44%)",
+                          ? "rgba(255,255,255,0.4)"
+                          : "rgba(0,0,0,0.4)",
                         marginBottom: "0.875rem",
                       }}
                     >
@@ -380,12 +385,12 @@ export default function LandingPage() {
                     <p
                       style={{
                         fontFamily:
-                          "var(--font-inter), -apple-system, sans-serif",
+                          "var(--font-body), 'Courier Prime', monospace",
                         fontSize: "0.875rem",
                         lineHeight: 1.6,
                         color: path.dark
-                          ? "rgba(255,244,234,0.45)"
-                          : "hsl(34, 18%, 38%)",
+                          ? "rgba(255,255,255,0.45)"
+                          : "rgba(0,0,0,0.55)",
                         maxWidth: "22rem",
                       }}
                     >
@@ -400,12 +405,12 @@ export default function LandingPage() {
                       alignItems: "center",
                       gap: "0.375rem",
                       fontFamily:
-                        "var(--font-inter), -apple-system, sans-serif",
+                        "var(--font-sans), system-ui, sans-serif",
                       fontSize: "0.8125rem",
                       fontWeight: 600,
                       color: path.dark
-                        ? "rgba(255,244,234,0.75)"
-                        : "hsl(34, 42%, 44%)",
+                        ? "rgba(255,255,255,0.7)"
+                        : "#000000",
                     }}
                   >
                     {path.cta}
@@ -418,10 +423,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Features — warm dark section ───────────────────────── */}
+      {/* ── Features — pure black section ───────────────────────── */}
       <section
         style={{
-          backgroundColor: "rgba(22,16,8,0.97)",
+          backgroundColor: "#000000",
           padding: "7rem clamp(1.5rem, 5vw, 6rem)",
         }}
       >
@@ -436,7 +441,7 @@ export default function LandingPage() {
                 fontWeight: 500,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "hsl(34, 42%, 44%)",
+                color: "rgba(255,255,255,0.4)",
                 marginBottom: "1rem",
               }}
               initial={{ opacity: 0 }}
@@ -449,12 +454,12 @@ export default function LandingPage() {
             <motion.h2
               style={{
                 fontFamily:
-                  "var(--font-spectral), Georgia, 'Times New Roman', serif",
+                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                 fontSize: "clamp(2.25rem, 5vw, 4rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                lineHeight: 1.1,
-                color: "#fff4ea",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.0,
+                color: "#ffffff",
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -463,7 +468,19 @@ export default function LandingPage() {
             >
               Built for
               <br />
-              <span style={{ fontStyle: "italic", color: "hsl(34, 42%, 55%)" }}>the grind.</span>
+              <span
+                style={{
+                  fontFamily:
+                    "var(--font-body), 'Courier Prime', monospace",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  fontSize: "0.72em",
+                  letterSpacing: "0.01em",
+                  color: "rgba(255,255,255,0.45)",
+                }}
+              >
+                the grind.
+              </span>
             </motion.h2>
           </div>
 
@@ -506,15 +523,15 @@ export default function LandingPage() {
                         key={i}
                         className="mb-2.5 rounded-xl p-3"
                         style={{
-                          backgroundColor: "rgba(255,244,234,0.06)",
-                          border: "1px solid rgba(255,244,234,0.10)",
+                          backgroundColor: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.09)",
                         }}
                       >
                         <div className="mb-1.5 flex items-center gap-2">
                           <div
                             className="h-5 w-5 rounded-full flex-shrink-0"
                             style={{
-                              backgroundColor: "rgba(255,244,234,0.12)",
+                              backgroundColor: "rgba(255,255,255,0.11)",
                             }}
                           />
                           <span
@@ -522,7 +539,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-geist-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,244,234,0.60)",
+                              color: "rgba(255,255,255,0.55)",
                               letterSpacing: "0.06em",
                             }}
                           >
@@ -533,7 +550,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-geist-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,244,234,0.35)",
+                              color: "rgba(255,255,255,0.3)",
                               marginLeft: "auto",
                               letterSpacing: "0.04em",
                             }}
@@ -544,10 +561,10 @@ export default function LandingPage() {
                         <p
                           style={{
                             fontFamily:
-                              "var(--font-inter), -apple-system, sans-serif",
+                              "var(--font-body), 'Courier Prime', monospace",
                             fontSize: 11,
                             lineHeight: 1.5,
-                            color: "rgba(255,244,234,0.50)",
+                            color: "rgba(255,255,255,0.45)",
                           }}
                         >
                           {post.preview}
@@ -574,27 +591,27 @@ export default function LandingPage() {
                   <div
                     className="absolute inset-x-4 top-4 rounded-xl p-3.5"
                     style={{
-                      backgroundColor: "rgba(255,244,234,0.06)",
-                      border: "1px solid rgba(255,244,234,0.10)",
+                      backgroundColor: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.09)",
                     }}
                   >
                     <div className="flex items-center gap-2.5 mb-3">
                       <div
                         className="h-8 w-8 rounded-full flex-shrink-0 flex items-center justify-center"
-                        style={{ backgroundColor: "rgba(255,244,234,0.10)", border: "1px solid rgba(255,244,234,0.14)" }}
+                        style={{ backgroundColor: "rgba(255,255,255,0.09)", border: "1px solid rgba(255,255,255,0.13)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-spectral), serif", fontSize: 11, color: "rgba(255,244,234,0.60)", fontStyle: "italic" }}>AM</span>
+                        <span style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em" }}>AM</span>
                       </div>
                       <div>
-                        <p style={{ fontFamily: "var(--font-spectral), serif", fontSize: 11, color: "rgba(255,244,234,0.85)", letterSpacing: "-0.01em" }}>Andre Mitchell</p>
+                        <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.02em" }}>Andre Mitchell</p>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <MapPin style={{ width: 8, height: 8, color: "hsl(34, 42%, 44%)" }} />
-                          <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,244,234,0.45)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
+                          <MapPin style={{ width: 8, height: 8, color: "rgba(255,255,255,0.35)" }} />
+                          <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
                         </div>
                       </div>
                       <div className="ml-auto flex items-center gap-0.5">
-                        <Star style={{ width: 8, height: 8, color: "hsl(34, 42%, 44%)", fill: "hsl(34, 42%, 44%)" }} />
-                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "hsl(34, 42%, 44%)", letterSpacing: "0.06em" }}>4.9</span>
+                        <Star style={{ width: 8, height: 8, color: "rgba(255,255,255,0.55)", fill: "rgba(255,255,255,0.55)" }} />
+                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.55)", letterSpacing: "0.06em" }}>4.9</span>
                       </div>
                     </div>
                     <div className="flex gap-1.5 flex-wrap">
@@ -604,9 +621,9 @@ export default function LandingPage() {
                           fontSize: 7,
                           letterSpacing: "0.1em",
                           textTransform: "uppercase",
-                          color: "rgba(255,244,234,0.50)",
-                          backgroundColor: "rgba(255,244,234,0.07)",
-                          border: "1px solid rgba(255,244,234,0.10)",
+                          color: "rgba(255,255,255,0.45)",
+                          backgroundColor: "rgba(255,255,255,0.06)",
+                          border: "1px solid rgba(255,255,255,0.09)",
                           borderRadius: "2rem",
                           padding: "0.2rem 0.45rem",
                         }}>{tag}</span>
@@ -632,36 +649,36 @@ export default function LandingPage() {
                   <div
                     className="absolute inset-x-4 top-4 rounded-xl overflow-hidden"
                     style={{
-                      backgroundColor: "rgba(255,244,234,0.06)",
-                      border: "1px solid rgba(255,244,234,0.10)",
+                      backgroundColor: "rgba(255,255,255,0.06)",
+                      border: "1px solid rgba(255,255,255,0.09)",
                     }}
                   >
                     {/* Browser top bar */}
                     <div
                       className="flex items-center gap-1.5 px-2.5 py-2"
-                      style={{ borderBottom: "1px solid rgba(255,244,234,0.08)" }}
+                      style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
                     >
                       {[1,2,3].map(i => (
-                        <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "rgba(255,244,234,0.20)" }} />
+                        <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.18)" }} />
                       ))}
                       <div
                         className="flex-1 h-3 rounded-sm mx-2 flex items-center justify-center"
-                        style={{ backgroundColor: "rgba(255,244,234,0.07)" }}
+                        style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 6, color: "rgba(255,244,234,0.45)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
+                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 6, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
                       </div>
-                      <ExternalLink style={{ width: 7, height: 7, color: "rgba(255,244,234,0.30)" }} />
+                      <ExternalLink style={{ width: 7, height: 7, color: "rgba(255,255,255,0.28)" }} />
                     </div>
                     {/* Mock site content */}
                     <div className="p-3">
-                      <p style={{ fontFamily: "var(--font-spectral), serif", fontSize: 13, fontWeight: 300, fontStyle: "italic", color: "rgba(255,244,234,0.80)", letterSpacing: "-0.01em", marginBottom: "0.5rem" }}>Morales Cuts</p>
-                      <p style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,244,234,0.45)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
+                      <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 13, fontWeight: 800, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.80)", marginBottom: "0.5rem" }}>Morales Cuts</p>
+                      <p style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
                       <div
                         className="inline-flex items-center gap-1 rounded-full px-2.5 py-1"
-                        style={{ backgroundColor: "rgba(255,244,234,0.12)", border: "1px solid rgba(255,244,234,0.16)" }}
+                        style={{ backgroundColor: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.14)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-inter), sans-serif", fontSize: 8, color: "rgba(255,244,234,0.70)", letterSpacing: "-0.01em" }}>Book a cut</span>
-                        <ArrowRight style={{ width: 7, height: 7, color: "rgba(255,244,234,0.50)" }} />
+                        <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: 8, color: "rgba(255,255,255,0.65)", letterSpacing: "-0.01em" }}>Book a cut</span>
+                        <ArrowRight style={{ width: 7, height: 7, color: "rgba(255,255,255,0.45)" }} />
                       </div>
                     </div>
                   </div>
@@ -686,8 +703,8 @@ export default function LandingPage() {
                     className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl px-4 py-3"
                     style={{
                       width: "82%",
-                      backgroundColor: "rgba(255,244,234,0.07)",
-                      border: "1px solid rgba(255,244,234,0.11)",
+                      backgroundColor: "rgba(255,255,255,0.07)",
+                      border: "1px solid rgba(255,255,255,0.10)",
                     }}
                   >
                     <p
@@ -697,7 +714,7 @@ export default function LandingPage() {
                         fontSize: 8,
                         letterSpacing: "0.15em",
                         textTransform: "uppercase",
-                        color: "rgba(255,244,234,0.45)",
+                        color: "rgba(255,255,255,0.4)",
                         marginBottom: "0.5rem",
                       }}
                     >
@@ -706,10 +723,10 @@ export default function LandingPage() {
                     <p
                       style={{
                         fontFamily:
-                          "var(--font-inter), -apple-system, sans-serif",
+                          "var(--font-body), 'Courier Prime', monospace",
                         fontSize: 10,
                         lineHeight: 1.5,
-                        color: "rgba(255,244,234,0.65)",
+                        color: "rgba(255,255,255,0.6)",
                       }}
                     >
                       What angle produces a bevel cut when held flat against
@@ -721,7 +738,7 @@ export default function LandingPage() {
                         height: 2,
                         width: "100%",
                         borderRadius: 9999,
-                        backgroundColor: "rgba(255,244,234,0.10)",
+                        backgroundColor: "rgba(255,255,255,0.08)",
                       }}
                     >
                       <div
@@ -729,8 +746,8 @@ export default function LandingPage() {
                           height: 2,
                           borderRadius: 9999,
                           width: "23%",
-                          backgroundColor: "hsl(34, 42%, 44%)",
-                          opacity: 0.85,
+                          backgroundColor: "#ffffff",
+                          opacity: 0.4,
                         }}
                       />
                     </div>
@@ -765,8 +782,8 @@ export default function LandingPage() {
                         transition={{ duration: 0.4, ease, delay: 0.1 * i }}
                         className="flex items-center gap-2 rounded-lg px-2.5 py-2"
                         style={{
-                          backgroundColor: "rgba(255,244,234,0.06)",
-                          border: "1px solid rgba(255,244,234,0.09)",
+                          backgroundColor: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.08)",
                         }}
                       >
                         <span
@@ -775,8 +792,7 @@ export default function LandingPage() {
                             fontSize: 7,
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
-                            color: "hsl(34, 42%, 44%)",
-                            opacity: 1.0,
+                            color: "rgba(255,255,255,0.45)",
                             flexShrink: 0,
                             width: 48,
                           }}
@@ -785,10 +801,9 @@ export default function LandingPage() {
                         </span>
                         <span
                           style={{
-                            fontFamily: "var(--font-inter), sans-serif",
+                            fontFamily: "var(--font-body), 'Courier Prime', monospace",
                             fontSize: 10,
-                            color: "rgba(255,244,234,0.65)",
-                            letterSpacing: "-0.005em",
+                            color: "rgba(255,255,255,0.6)",
                           }}
                         >
                           {item.name}

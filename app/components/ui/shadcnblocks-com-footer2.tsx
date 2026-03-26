@@ -80,8 +80,8 @@ const Footer2 = ({
     <section
       className="py-16"
       style={{
-        backgroundColor: "rgba(22,16,8,0.97)",
-        borderTop: "1px solid rgba(255,244,234,0.06)",
+        backgroundColor: "#000000",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
       }}
     >
       <div
@@ -106,18 +106,27 @@ const Footer2 = ({
                   )}
                   <p
                     style={{
-                      fontFamily: "var(--font-spectral), Georgia, serif",
+                      fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
                       fontSize: "1rem",
-                      fontWeight: 500,
-                      letterSpacing: "-0.01em",
-                      color: "#fff4ea",
+                      fontWeight: 800,
+                      letterSpacing: "-0.03em",
+                      color: "#ffffff",
                     }}
                   >
                     {logo.title}
                   </p>
                 </a>
               </div>
-              <p className="mt-3" style={{ fontSize: "0.75rem", color: "rgba(255,244,234,0.38)", fontFamily: "var(--font-inter), sans-serif" }}>{tagline}</p>
+              <p
+                className="mt-3"
+                style={{
+                  fontSize: "0.75rem",
+                  color: "rgba(255,255,255,0.35)",
+                  fontFamily: "var(--font-body), 'Courier Prime', monospace",
+                }}
+              >
+                {tagline}
+              </p>
             </div>
             {menuItems.map((section, sectionIdx) => (
               <div key={sectionIdx}>
@@ -128,7 +137,7 @@ const Footer2 = ({
                     fontSize: "0.5625rem",
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
-                    color: "rgba(255,244,234,0.85)",
+                    color: "rgba(255,255,255,0.55)",
                   }}
                 >
                   {section.title}
@@ -140,14 +149,14 @@ const Footer2 = ({
                         href={link.url}
                         {...(link.url.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         style={{
-                          fontFamily: "var(--font-inter), -apple-system, sans-serif",
+                          fontFamily: "var(--font-body), 'Courier Prime', monospace",
                           fontSize: "0.875rem",
-                          color: "rgba(255,244,234,0.45)",
+                          color: "rgba(255,255,255,0.4)",
                           textDecoration: "none",
                           transition: "color 0.15s ease",
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,244,234,0.80)")}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,244,234,0.45)")}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.85)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
                       >
                         {link.text}
                       </a>
@@ -159,9 +168,17 @@ const Footer2 = ({
           </div>
           <div
             className="mt-16 flex flex-col justify-between gap-4 pt-8 md:flex-row md:items-center"
-            style={{ borderTop: "1px solid rgba(255,244,234,0.06)" }}
+            style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
           >
-            <p style={{ fontSize: "0.8125rem", color: "rgba(255,244,234,0.28)" }}>{copyright}</p>
+            <p
+              style={{
+                fontSize: "0.8125rem",
+                color: "rgba(255,255,255,0.25)",
+                fontFamily: "var(--font-body), 'Courier Prime', monospace",
+              }}
+            >
+              {copyright}
+            </p>
             <ul className="flex gap-4">
               {bottomLinks.map((link, linkIdx) => (
                 <li key={linkIdx}>
@@ -169,8 +186,9 @@ const Footer2 = ({
                     href={link.url}
                     style={{
                       fontSize: "0.8125rem",
-                      color: "rgba(255,244,234,0.35)",
+                      color: "rgba(255,255,255,0.3)",
                       textDecoration: "underline",
+                      fontFamily: "var(--font-body), 'Courier Prime', monospace",
                     }}
                   >
                     {link.text}

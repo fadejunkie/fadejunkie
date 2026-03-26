@@ -30,13 +30,13 @@ const Cta13 = ({
   return (
     <section
       style={{
-        backgroundColor: "rgba(22,16,8,0.97)",
+        backgroundColor: "#000000",
         padding: "8rem clamp(1.5rem, 5vw, 6rem)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Subtle grain on dark */}
+      {/* Subtle grain on black */}
       <svg
         aria-hidden="true"
         style={{
@@ -60,18 +60,6 @@ const Cta13 = ({
         <rect width="100%" height="100%" filter="url(#fj-grain-dark)" />
       </svg>
 
-      {/* Ambient radial glow — warm left-side depth */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse 60% 70% at 15% 50%, rgba(180,130,70,0.07) 0%, transparent 65%)",
-          pointerEvents: "none",
-        }}
-      />
-
       {/* Halftone accent — bottom-right corner */}
       <svg
         aria-hidden="true"
@@ -79,7 +67,7 @@ const Cta13 = ({
           position: "absolute",
           bottom: 40,
           right: 60,
-          opacity: 0.07,
+          opacity: 0.08,
           pointerEvents: "none",
         }}
         width="148"
@@ -95,7 +83,7 @@ const Cta13 = ({
                 cx={col * 24 + 12}
                 cy={row * 24 + 12}
                 r={r}
-                fill="rgba(255,244,234,1)"
+                fill="rgba(255,255,255,1)"
               />
             );
           })
@@ -122,7 +110,7 @@ const Cta13 = ({
             fontWeight: 500,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "hsl(34, 42%, 44%)",
+            color: "rgba(255,255,255,0.4)",
             marginBottom: "1.5rem",
           }}
         >
@@ -136,13 +124,12 @@ const Cta13 = ({
           transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1], delay: 0.07 }}
           style={{
             fontFamily:
-              "var(--font-spectral), Georgia, 'Times New Roman', serif",
+              "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
             fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            fontWeight: 300,
-            fontStyle: "italic",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.05,
-            color: "#fff4ea",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 0.98,
+            color: "#ffffff",
             marginBottom: "1.5rem",
           }}
         >
@@ -156,10 +143,10 @@ const Cta13 = ({
           transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1], delay: 0.14 }}
           style={{
             fontFamily:
-              "var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif",
+              "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.9375rem",
             lineHeight: 1.65,
-            color: "rgba(255,244,234,0.65)",
+            color: "rgba(255,255,255,0.55)",
             maxWidth: "28rem",
             margin: "0 auto 3rem",
           }}
@@ -181,7 +168,7 @@ const Cta13 = ({
           }}
         >
           {buttons.primary && (
-            <Link href={buttons.primary.url} className="fj-btn-cream">
+            <Link href={buttons.primary.url} className="fj-btn-light">
               {buttons.primary.text}
               <ArrowRight style={{ width: 15, height: 15 }} />
             </Link>
