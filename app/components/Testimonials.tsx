@@ -122,7 +122,7 @@ const TestimonialCard = ({
         <span
           style={{
             fontFamily:
-              "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+              "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "0.5625rem",
             fontWeight: 700,
             color: "rgba(0,0,0,0.55)",
@@ -137,7 +137,7 @@ const TestimonialCard = ({
       <div>
         <p
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "0.8125rem",
             fontWeight: 700,
             color: "#000000",
@@ -222,7 +222,7 @@ const Testimonials = () => {
         <motion.h2
           style={{
             fontFamily:
-              "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+              "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2.25rem, 5vw, 4rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",

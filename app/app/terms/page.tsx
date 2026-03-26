@@ -24,7 +24,7 @@ export default function TermsPage() {
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "1.125rem",
             fontWeight: 800,
             color: "#000000",
@@ -62,7 +62,7 @@ export default function TermsPage() {
 
         <h1
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",

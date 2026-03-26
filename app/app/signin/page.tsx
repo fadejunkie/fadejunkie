@@ -76,7 +76,7 @@ function BrandPanel() {
         <Link
           href="/"
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "1.375rem",
             fontWeight: 800,
             color: "#000000",
@@ -106,7 +106,7 @@ function BrandPanel() {
 
         <h1
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2.25rem, 3.5vw, 3.5rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",
@@ -169,7 +169,7 @@ function BrandPanel() {
             >
               <span
                 style={{
-                  fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "0.4375rem",
                   fontWeight: 700,
                   color: "rgba(0,0,0,0.55)",
@@ -185,7 +185,7 @@ function BrandPanel() {
         <div>
           <p
             style={{
-              fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+              fontFamily: "var(--font-display), 'League Spartan', sans-serif",
               fontSize: "0.8125rem",
               fontWeight: 700,
               color: "#000000",
@@ -271,7 +271,7 @@ function SignInForm() {
               <Link
                 href="/"
                 style={{
-                  fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "1.5rem",
                   fontWeight: 800,
                   color: "#000000",

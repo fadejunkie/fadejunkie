@@ -72,7 +72,7 @@ const BentoCard = ({
         />
         <h3
           style={{
-            fontFamily: "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "1.125rem",
             fontWeight: 800,
             letterSpacing: "-0.03em",

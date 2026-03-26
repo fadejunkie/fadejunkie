@@ -106,7 +106,7 @@ const HeroCard = () => {
             <span
               style={{
                 fontFamily:
-                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: 700,
                 color: "rgba(255,255,255,0.55)",
@@ -120,7 +120,7 @@ const HeroCard = () => {
             <p
               style={{
                 fontFamily:
-                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "1rem",
                 fontWeight: 700,
                 color: "#ffffff",
@@ -209,7 +209,7 @@ const HeroCard = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                    "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "1.125rem",
                   fontWeight: 800,
                   color: "#ffffff",
@@ -472,12 +472,12 @@ const Hero = () => {
             The barber community
           </motion.p>
 
-          {/* Headline — Bricolage Grotesque 800, tight tracking */}
+          {/* Headline — League Spartan 800, tight tracking */}
           <div style={{ marginBottom: "1.5rem" }}>
             <motion.h1
               style={{
                 fontFamily:
-                  "var(--font-heading), 'League Spartan', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
@@ -595,7 +595,7 @@ const Hero = () => {
                   <span
                     style={{
                       fontFamily:
-                        "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                        "var(--font-display), 'League Spartan', sans-serif",
                       fontSize: "0.4375rem",
                       fontWeight: 700,
                       color: "rgba(0,0,0,0.55)",
@@ -613,7 +613,7 @@ const Hero = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                    "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
                   color: "#000000",

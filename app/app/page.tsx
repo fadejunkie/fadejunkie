@@ -190,7 +190,7 @@ export default function LandingPage() {
               <span
                 style={{
                   fontFamily:
-                    "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                    "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)",
                   fontWeight: 800,
                   letterSpacing: "-0.04em",
@@ -251,7 +251,7 @@ export default function LandingPage() {
             <motion.h2
               style={{
                 fontFamily:
-                  "var(--font-heading), 'League Spartan', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(2.25rem, 5vw, 4rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
@@ -357,7 +357,7 @@ export default function LandingPage() {
                     <h3
                       style={{
                         fontFamily:
-                          "var(--font-heading), 'League Spartan', system-ui, sans-serif",
+                          "var(--font-display), 'League Spartan', sans-serif",
                         fontSize: "1.5rem",
                         fontWeight: 800,
                         letterSpacing: "-0.03em",
@@ -456,7 +456,7 @@ export default function LandingPage() {
             <motion.h2
               style={{
                 fontFamily:
-                  "var(--font-heading), 'League Spartan', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(2.25rem, 5vw, 4rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Geist, Courier_Prime, Bricolage_Grotesque, League_Spartan } from "next/font/google";
+import { Geist_Mono, Geist, Courier_Prime, League_Spartan } from "next/font/google";
 import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
@@ -10,10 +10,10 @@ import DevBanner from "@/components/DevBanner";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 /* ── Display / Headlines font ─── */
-const bricolage = Bricolage_Grotesque({
+const leagueSpartan = League_Spartan({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "600", "700", "800", "900"],
 });
 
 /* ── Body / Typewriter font ─── */
@@ -22,13 +22,6 @@ const courierPrime = Courier_Prime({
   subsets: ["latin"],
   weight: ["400", "700"],
   style: ["normal", "italic"],
-});
-
-/* ── Heading font — League Spartan ─── */
-const leagueSpartan = League_Spartan({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800", "900"],
 });
 
 /* ── Code / Label accent font ─── */
@@ -55,10 +48,9 @@ export default function RootLayout({
         className={cn(
           "font-sans",
           geist.variable,
-          bricolage.variable,
+          leagueSpartan.variable,
           courierPrime.variable,
           geistMono.variable,
-          leagueSpartan.variable,
         )}
       >
         <body>

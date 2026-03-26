@@ -54,7 +54,7 @@ const Manifesto = () => {
             <div
               style={{
                 fontFamily:
-                  "var(--font-display), 'Bricolage Grotesque', system-ui, sans-serif",
+                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(3.5rem, 7vw, 5.5rem)",
                 fontWeight: 800,
                 lineHeight: 0.8,

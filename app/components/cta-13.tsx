@@ -124,7 +124,7 @@ const Cta13 = ({
           transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1], delay: 0.07 }}
           style={{
             fontFamily:
-              "var(--font-heading), 'League Spartan', system-ui, sans-serif",
+              "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2.5rem, 6vw, 5rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",
