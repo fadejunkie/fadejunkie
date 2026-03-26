@@ -7,4 +7,16 @@ export default defineSchema({
     taskKey: v.string(),
     completed: v.boolean(),
   }).index("by_project_key", ["projectId", "taskKey"]),
+
+  agreements: defineTable({
+    projectId: v.string(),
+    agreementType: v.string(),
+    sigData: v.string(),
+    signedDate: v.string(),
+    signedAt: v.number(),
+    invoiceNumber: v.string(),
+    paymentStatus: v.optional(v.string()),
+    receiptUrl: v.optional(v.string()),
+    paidAt: v.optional(v.number()),
+  }).index("by_project", ["projectId"]),
 });

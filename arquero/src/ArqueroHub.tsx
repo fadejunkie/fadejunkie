@@ -21,16 +21,7 @@ function SparkCanvas(){
 
 /* ── phases data ── */
 const phases=[
-  {id:1,name:"FOUNDATION",subtitle:"Domain Acquisition + Trademark Filing",week:"WEEK 1",fee:"$400",short:"DOMAIN · TM",icon:"\⚡",
-    milestones:[
-      {title:"SECURE THE NAME",clientDesc:"Lock down the domain and begin trademark protection.",
-        tasks:[{label:"Research arqueroco.com and arquero.co — availability, pricing, and registrar options"},{label:"Purchase selected domain — configure DNS, domain lock, WHOIS privacy"},{label:"Send registration confirmation + credentials to client"}]},
-      {title:"TRADEMARK SEARCH",clientDesc:"Verify no existing trademarks conflict with Arquero.",
-        tasks:[{label:"Run comprehensive TESS database search for 'Arquero' conflicts"},{label:"Check Class 025 (Clothing) and Class 009 (Protective equipment/welding gear)"},{label:"Document findings — flag any potential conflicts for client review"}]},
-      {title:"FILE TRADEMARK",clientDesc:"Submit USPTO application to protect the Arquero Co. name.",
-        tasks:[{label:"Prepare goods/services description using USPTO ID Manual language"},{label:"File electronic application — Class 025 minimum (add Class 009 if applicable)"},{label:"Deliver filing receipt + serial number to client"},{label:"Queue logo trademark filing for after Phase 2 brand delivery"}]},
-    ]},
-  {id:2,name:"IDENTITY",subtitle:"Brand Discovery + Visual System",week:"WEEKS 1–2",fee:"$550",short:"BRAND · KIT",icon:"🎨",
+  {id:1,name:"BRAND",subtitle:"Brand Discovery + Visual System",week:"WEEKS 1–2",fee:"$550",short:"BRAND · KIT",icon:"🎨",
     milestones:[
       {title:"DISCOVERY SESSION",clientDesc:"Define what Arquero stands for — positioning, audience, and brand voice for the welding lifestyle market.",
         tasks:[{label:"Client intake call — brand story, values, target customer profile"},{label:"Define brand positioning: where does Arquero sit in the welding lifestyle space?"},{label:"Identify tone: rugged craftsmanship? modern industrial? streetwear-meets-trade?"},{label:"Competitor audit — 5 comparable welding/trade lifestyle brands"}]},
@@ -41,8 +32,10 @@ const phases=[
       {title:"BRAND SYSTEM",clientDesc:"Complete brand kit — colors, fonts, usage rules.",
         tasks:[{label:"Define primary palette — dark/steel tones + signature accent (welding orange/amber)"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (heavy/industrial) + body font (clean/readable)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — tags, labels, packaging mockups, social templates"},{label:"Deliver complete brand kit to client"}]},
     ]},
-  {id:3,name:"BUILD",subtitle:"Shopify Ecommerce Storefront",week:"WEEKS 2–3",fee:"$1,300",short:"SHOPIFY · STORE",icon:"\⚙️",
+  {id:2,name:"BUILD",subtitle:"Domain + Ecommerce Storefront",week:"WEEKS 2–3",fee:"$1,700",short:"DOMAIN · SHOPIFY",icon:"\⚙️",
     milestones:[
+      {title:"DOMAIN ACQUISITION",clientDesc:"Secure the domain and configure DNS for launch.",
+        tasks:[{label:"Research arqueroco.com and arquero.co — availability, pricing, and registrar options"},{label:"Purchase selected domain — configure DNS, domain lock, WHOIS privacy"},{label:"Send registration confirmation + credentials to client"}]},
       {title:"STORE FOUNDATION",clientDesc:"Shopify account live, theme installed, and branded.",
         tasks:[{label:"Create Shopify account — Basic plan ($39/mo, client-paid)"},{label:"Evaluate and select theme that fits industrial/lifestyle aesthetic"},{label:"Customize theme — colors, typography, logo placement per brand guidelines"},{label:"Configure store settings — currency, units, tax, checkout branding"},{label:"Connect arquero.co domain to Shopify"}]},
       {title:"CORE PAGES",clientDesc:"All essential storefront pages built, styled, and populated.",
@@ -54,7 +47,7 @@ const phases=[
       {title:"SEO FOUNDATION",clientDesc:"Search optimization baked into every page from day one.",
         tasks:[{label:"Keyword research — welding apparel, welder lifestyle, trade clothing terms"},{label:"Write title tags + meta descriptions for all pages and collections"},{label:"Add descriptive alt text to all product and lifestyle images"},{label:"Configure URL structure — clean, keyword-aware slugs"},{label:"Submit XML sitemap to Google Search Console"}]},
     ]},
-  {id:4,name:"LAUNCH",subtitle:"QA, Go-Live + Client Handoff",week:"WEEK 3",fee:"$250",short:"QA · HANDOFF",icon:"🚀",
+  {id:3,name:"LAUNCH",subtitle:"QA, Go-Live + Client Handoff",week:"WEEK 3",fee:"$250",short:"QA · HANDOFF",icon:"🚀",
     milestones:[
       {title:"QUALITY ASSURANCE",clientDesc:"Every page and feature tested across devices.",
         tasks:[{label:"Cross-browser testing — Chrome, Safari, Firefox, Edge"},{label:"Mobile responsive QA — iOS Safari, Android Chrome, tablet"},{label:"Test all links, navigation, forms, and interactive elements"},{label:"Full checkout flow test — add to cart → payment → confirmation"},{label:"Page speed audit — optimize images and assets if needed"}]},
@@ -111,7 +104,7 @@ function ScopePage({colors}){
 
       <Section title="PROJECT OVERVIEW">
         <div style={{fontSize:13,color:LIGHT,lineHeight:1.7,fontFamily:"'IBM Plex Mono',monospace",padding:"0 4px"}}>
-          Arquero Co. is a welding lifestyle apparel brand launching from a blank slate. This engagement covers the full brand-to-launch pipeline: domain acquisition, USPTO trademark filing, brand identity design, and a production-ready Shopify ecommerce storefront. The goal is to deliver a cohesive, launch-ready brand and online store within 3 weeks.
+          Arquero Co. is a welding lifestyle apparel brand launching from a blank slate. This engagement covers the full brand-to-launch pipeline: brand identity design, domain acquisition, and a production-ready Shopify ecommerce storefront. The goal is to deliver a cohesive, launch-ready brand and online store within 3 weeks.
         </div>
         <div className="ovv-grid">
           {[{l:"CLIENT",v:"Arquero Co."},{l:"DOMAIN",v:"arquero.co"},{l:"PLATFORM",v:"Shopify"},{l:"PRODUCTS",v:"Apparel — Under 20 SKUs"}].map(i=>(
@@ -124,21 +117,20 @@ function ScopePage({colors}){
       </Section>
 
       <Section title="MILESTONE PRICING">
-        <Row label="Phase 1 — Domain Acquisition + Trademark" value="$400" sub="Purchase & secure arquero.co • USPTO trademark filing for name + logo"/>
-        <Row label="Phase 2 — Brand Identity" value="$550" sub="Logo design • Color palette • Typography • Brand guidelines PDF"/>
-        <Row label="Phase 3 — Ecommerce Website Build" value="$1,300" sub="Shopify storefront • Product pages (up to 20) • Collections • Checkout config"/>
-        <Row label="Phase 4 — Launch + Handoff" value="$250" sub="QA • DNS cutover • GA4 + GSC setup • Client training • Asset handoff"/>
+        <Row label="Phase 1 — Brand Identity" value="$550" sub="Logo design • Color palette • Typography • Brand guidelines PDF"/>
+        <Row label="Phase 2 — Website Build + Domain" value="$1,700" sub="Domain acquisition • Shopify storefront • Product pages (up to 20) • Collections • Checkout config"/>
+        <Row label="Phase 3 — Launch + Handoff" value="$250" sub="QA • DNS cutover • GA4 + GSC setup • Client training • Asset handoff"/>
         <div style={{background:WELD,borderRadius:6,padding:"14px 16px",marginTop:8,display:"flex",justifyContent:"space-between",alignItems:"center",border:`1px solid ${O}33`}}>
           <div style={{fontSize:14,fontWeight:800,color:LIGHT,letterSpacing:1}}>TOTAL PROJECT FEE</div>
           <div style={{fontSize:22,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,500</div>
         </div>
         <div style={{fontSize:11,color:SMOKE,fontStyle:"italic",textAlign:"center",marginTop:8,fontFamily:"'IBM Plex Mono',monospace"}}>
-          One-time upfront payment option: $2,250 (save $250)
+          One-time upfront payment option: $2,250 (save $250) · 3 phases
         </div>
       </Section>
 
       <Section title="ESTIMATED TIMELINE">
-        {[{p:"Phase 1",n:"Domain + Trademark",t:"Phase 1"},{p:"Phase 2",n:"Brand Identity",t:"Phase 2"},{p:"Phase 3",n:"Ecommerce Build",t:"Phase 3"},{p:"Phase 4",n:"Launch + Handoff",t:"Phase 4"}].map(i=>(
+        {[{p:"Phase 1",n:"Brand Identity",t:"Weeks 1–2"},{p:"Phase 2",n:"Website Build + Domain",t:"Weeks 2–3"},{p:"Phase 3",n:"Launch + Handoff",t:"Week 3"}].map(i=>(
           <div key={i.p} style={{display:"flex",justifyContent:"space-between",padding:"8px 16px",borderBottom:`1px solid ${RIVET}`}}>
             <div><span style={{fontSize:11,color:O,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace",marginRight:10}}>{i.p}</span><span style={{fontSize:13,color:LIGHT}}>{i.n}</span></div>
             <span style={{fontSize:11,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>{i.t}</span>
@@ -148,12 +140,11 @@ function ScopePage({colors}){
 
       <Section title="ESTIMATED THIRD-PARTY COSTS (PAID BY CLIENT)">
         <div style={{fontSize:11,color:SMOKE,marginBottom:12,fontFamily:"'IBM Plex Mono',monospace"}}>Not included in project fee. Paid directly to provider or passed through at cost.</div>
-        <Row label="USPTO Trademark Filing" value="$350/class" sub="Base electronic filing fee per class of goods/services"/>
-        <Row label="USPTO Free-Form Text Surcharge" value="$200/class" sub="If custom description used instead of ID Manual"/>
         <Row label="Shopify Basic Plan" value="$39/mo" sub="Recommended — full storefront, checkout, shipping, analytics"/>
+        <Row label="Domain Registration" value="$14–$20/yr" sub="arquero.co — annual renewal via registrar or Shopify"/>
         <div style={{background:WELD,borderRadius:6,padding:"12px 16px",marginTop:8,display:"flex",justifyContent:"space-between",alignItems:"center",border:`1px solid ${RIVET}`}}>
           <div style={{fontSize:12,fontWeight:700,color:LIGHT}}>EST. FIRST-YEAR THIRD-PARTY TOTAL</div>
-          <div style={{fontSize:16,fontWeight:800,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$818 – $1,018+</div>
+          <div style={{fontSize:16,fontWeight:800,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$482 – $488</div>
         </div>
       </Section>
 
@@ -182,7 +173,7 @@ function ScopePage({colors}){
           {l:"Payment",b:"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $2,250 is due in full before Phase 1 begins."},
           {l:"Revisions",b:"Revision rounds are included as noted per phase. Additional revisions billed at $75/hr."},
           {l:"Client Responsibilities",b:"Client is responsible for providing product images, copy, and content as needed. Delays may extend delivery."},
-          {l:"Pass-Through Costs",b:"USPTO filing fees (est. $350–$550+ per class) and Shopify subscription ($39/mo) are paid by client and not included."},
+          {l:"Pass-Through Costs",b:"Shopify subscription ($39/mo) and domain registration ($14–$20/yr) are paid by client and not included."},
           {l:"Ownership",b:"Client retains full ownership of all deliverables upon receipt of payment."},
           {l:"Cancellation",b:"Either party may cancel with written notice. Client pays for completed phases. No refunds on completed work."},
         ].map(t=>(
@@ -202,16 +193,16 @@ function ScopePage({colors}){
 
 const INVOICE_MAP = {
   "one-time": {
-    number:"CAPLYORH-0010",
-    label:"Full Project — One-Time Upfront Payment (All 4 Phases)",
+    number:"CAPLYORH-0015",
+    label:"Full Project — One-Time Upfront Payment (All 3 Phases)",
     amount:"$2,250",
     ref:"ARQCO-2026-UPFRONT",
     url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOSjByZVdjN3dzSGlMR2U1MnBjNjFPaTVvclBnLDE2NDQ5NjIxOA020035G7bme6?s=ap",
   },
   "monthly": {
-    number:"CAPLYORH-0006",
-    label:"Phase 1 — Domain Acquisition + Trademark",
-    amount:"$400",
+    number:"CAPLYORH-0011",
+    label:"Phase 1 — Brand Identity",
+    amount:"$550",
     ref:"ARQCO-2026-P1",
     url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFONXlpNTk4SzhMZnU0YUpaOHp6RWZpOThwb2dJLDE2NDQ5NjIwMw0200KanlRWLa?s=ap",
   },
@@ -341,10 +332,9 @@ function AgreementPage({colors}){
     :"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $2,250 is due in full before Phase 1 begins.";
 
   const scopePhases=[
-    {p:"Phase 1",n:"Domain Acquisition + Trademark",price:"$400",when:"Invoiced at project start",desc:"Purchase and secure arquero.co domain. File USPTO trademark application for name and logo. Filing fees passed through at cost."},
-    {p:"Phase 2",n:"Brand Identity",price:"$550",when:"Invoiced when Phase 1 is complete",desc:"Logo design (3 concepts, 2 revision rounds), color palette, typography selection, and brand guidelines PDF."},
-    {p:"Phase 3",n:"Ecommerce Website Build",price:"$1,300",when:"Invoiced when Phase 2 is complete",desc:"Shopify store setup and customization. Product pages for up to 20 SKUs. Collection pages, checkout config, mobile QA, and basic on-page SEO."},
-    {p:"Phase 4",n:"Launch + Handoff",price:"$250",when:"Invoiced when Phase 3 is complete",desc:"Full QA, DNS cutover, GA4 + GSC setup, client training session, and full asset handoff."},
+    {p:"Phase 1",n:"Brand Identity",price:"$550",when:"Invoiced at project start",desc:"Logo design (3 concepts, 2 revision rounds), color palette, typography selection, and brand guidelines PDF."},
+    {p:"Phase 2",n:"Website Build + Domain",price:"$1,700",when:"Invoiced when Phase 1 is complete",desc:"Domain acquisition and configuration. Shopify store setup and customization. Product pages for up to 20 SKUs. Collection pages, checkout config, mobile QA, and basic on-page SEO."},
+    {p:"Phase 3",n:"Launch + Handoff",price:"$250",when:"Invoiced when Phase 2 is complete",desc:"Full QA, DNS cutover, GA4 + GSC setup, client training session, and full asset handoff."},
   ];
 
   return(
@@ -354,7 +344,7 @@ function AgreementPage({colors}){
       {payStatus!=="paid"&&<div style={{marginBottom:28}}>
         <div style={{fontSize:10,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:8}}>PAYMENT STRUCTURE</div>
         <div style={{display:"flex",background:STEEL,borderRadius:6,border:`1px solid ${RIVET}`,overflow:"hidden"}}>
-          {([["one-time","ONE-TIME","$2,500 total · $2,250 upfront option"],["monthly","MONTH BY MONTH","Per-phase · pay as each phase starts"]] as const).map(([val,label,sub])=>(
+          {([["one-time","ONE-TIME","$2,500 total · $2,250 upfront option · 3 phases"],["monthly","MONTH BY MONTH","Per-phase · pay as each phase starts"]] as const).map(([val,label,sub])=>(
             <button key={val} onClick={()=>{if(!signed)setPayType(val)}} style={{
               flex:1,padding:"12px 16px",border:"none",cursor:signed?"default":"pointer",
               background:payType===val?O:"transparent",
@@ -434,7 +424,7 @@ function AgreementPage({colors}){
               </div>
             ))}
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",marginTop:4}}>
-              <span style={{fontSize:13,fontWeight:800,color:LIGHT}}>{isMonthly?"TOTAL (4 Per-Phase Invoices)":"TOTAL (Milestone Invoicing)"}</span>
+              <span style={{fontSize:13,fontWeight:800,color:LIGHT}}>{isMonthly?"TOTAL (3 Per-Phase Invoices)":"TOTAL (Milestone Invoicing)"}</span>
               <span style={{fontSize:18,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,500</span>
             </div>
             {!isMonthly&&(
@@ -447,7 +437,7 @@ function AgreementPage({colors}){
 
           <div style={{marginBottom:24}}>
             <div style={{fontSize:11,fontWeight:800,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${RIVET}`}}>TIMELINE</div>
-            {[{p:"Phase 1",n:"Domain + Trademark",t:"Phase 1"},{p:"Phase 2",n:"Brand Identity",t:"Phase 2"},{p:"Phase 3",n:"Ecommerce Build",t:"Phase 3"},{p:"Phase 4",n:"Launch + Handoff",t:"Phase 4"}].map(i=>(
+            {[{p:"Phase 1",n:"Brand Identity",t:"Weeks 1–2"},{p:"Phase 2",n:"Website Build + Domain",t:"Weeks 2–3"},{p:"Phase 3",n:"Launch + Handoff",t:"Week 3"}].map(i=>(
               <div key={i.p} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${RIVET}`}}>
                 <div><span style={{fontSize:10,color:O,fontWeight:700,fontFamily:"'IBM Plex Mono',monospace",marginRight:8}}>{i.p}</span><span style={{fontSize:12,color:LIGHT}}>{i.n}</span></div>
                 <span style={{fontSize:10,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>{i.t}</span>
@@ -458,13 +448,13 @@ function AgreementPage({colors}){
           <div style={{marginBottom:24}}>
             <div style={{fontSize:11,fontWeight:800,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:8,paddingBottom:8,borderBottom:`1px solid ${RIVET}`}}>ESTIMATED THIRD-PARTY COSTS (PAID BY CLIENT)</div>
             <div style={{fontSize:10,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginBottom:10}}>Not included in project fee. Paid directly to provider or passed through at cost.</div>
-            {[{l:"USPTO Trademark Filing (per class)",v:"$350"},{l:"USPTO Free-Form Text Surcharge (per class)",v:"$200"},{l:"Shopify Basic Plan (monthly)",v:"$39/mo"},{l:"Domain (if via Shopify)",v:"$14–$20/yr"}].map(c=>(
+            {[{l:"Shopify Basic Plan (monthly)",v:"$39/mo"},{l:"Domain Registration (annual)",v:"$14–$20/yr"}].map(c=>(
               <div key={c.l} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${RIVET}`}}>
                 <span style={{fontSize:11,color:LIGHT}}>{c.l}</span>
                 <span style={{fontSize:11,fontWeight:700,color:LIGHT,fontFamily:"'IBM Plex Mono',monospace"}}>{c.v}</span>
               </div>
             ))}
-            <div style={{fontSize:10,color:SMOKE,fontStyle:"italic",marginTop:8,fontFamily:"'IBM Plex Mono',monospace"}}>Estimated first-year: $818–$1,018+</div>
+            <div style={{fontSize:10,color:SMOKE,fontStyle:"italic",marginTop:8,fontFamily:"'IBM Plex Mono',monospace"}}>Estimated first-year: $482–$488</div>
           </div>
 
           <div style={{marginBottom:24}}>
@@ -472,7 +462,7 @@ function AgreementPage({colors}){
             <Term label="Payment" text={paymentTerm}/>
             <Term label="Revisions" text="Revision rounds are included as noted per phase. Additional revisions beyond included rounds billed at $75/hr."/>
             <Term label="Client Responsibilities" text="Client is responsible for providing product images, copy, and content as needed. Delays in client feedback may extend delivery."/>
-            <Term label="Pass-Through Costs" text="USPTO filing fees (est. $350–$550+ per class) and Shopify subscription ($39/mo for Basic) are paid by client and not included."/>
+            <Term label="Pass-Through Costs" text="Shopify subscription ($39/mo for Basic) and domain registration ($14–$20/yr) are paid by client and not included."/>
             <Term label="Ownership" text="Client retains full ownership of all deliverables — brand assets, website, content, and documentation — upon receipt of payment."/>
             <Term label="Cancellation" text="Either party may cancel with written notice. Client is responsible for payment of any completed phases. No refunds on completed work."/>
           </div>

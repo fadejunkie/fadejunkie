@@ -1,8 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
 import {
   ACCENT, ACCENT_SOFT, INK, BODY, MUTED, LIGHT, BG, WHITE, GREEN,
   PROJECT, PHASES, STATUS_CONFIG,
 } from "./data";
+
+const IS_ADMIN = import.meta.env.VITE_ADMIN === "true";
+const PROJECT_ID = "wcorwin";
+const STATUS_CYCLE = ["pending", "active", "done"];
+
+function applyOverrides(phases, overrides) {
+  if (!overrides) return phases;
+  return phases.map((phase) => ({
+    ...phase,
+    tasks: phase.tasks.map((task, ti) => {
+      const key = `${phase.id}:${ti}`;
+      const ov = overrides[key];
+      if (!ov) return task;
+      return {
+        ...task,
+        ...(ov.status ? { status: ov.status } : {}),
+        ...(ov.name ? { name: ov.name } : {}),
+        ...(ov.detail ? { detail: ov.detail } : {}),
+      };
+    }),
+  }));
+}
 
 function getPhaseProgress(tasks) {
   const done = tasks.filter((t) => t.status === "done").length;
@@ -47,22 +71,112 @@ function Ring({ pct, color, size = 48, stroke = 4 }) {
   );
 }
 
-export default function SEOJourneyTracker({ onLogout }) {
-  const [activePhase, setActivePhase] = useState(getCurrentPhase(PHASES));
+function InlineEdit({ value, onSave, style }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const inputRef = useRef(null);
+
+  useEffect(() => { setDraft(value); }, [value]);
+  useEffect(() => { if (editing && inputRef.current) inputRef.current.focus(); }, [editing]);
+
+  const save = () => {
+    setEditing(false);
+    const trimmed = draft.trim();
+    if (trimmed && trimmed !== value) onSave(trimmed);
+    else setDraft(value);
+  };
+
+  if (!editing) {
+    return (
+      <span
+        onDoubleClick={(e) => { e.stopPropagation(); setEditing(true); }}
+        style={{ ...style, cursor: "text" }}
+        title="Double-click to edit"
+      >
+        {value}
+      </span>
+    );
+  }
+
+  return (
+    <input
+      ref={inputRef}
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={save}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") save();
+        if (e.key === "Escape") { setDraft(value); setEditing(false); }
+      }}
+      onClick={(e) => e.stopPropagation()}
+      style={{
+        ...style,
+        border: `1px solid ${ACCENT}`,
+        borderRadius: 4,
+        padding: "2px 6px",
+        outline: "none",
+        width: "100%",
+        fontFamily: "inherit",
+        background: WHITE,
+      }}
+    />
+  );
+}
+
+export default function SEOJourneyTracker() {
+  const overrides = useQuery(api.wcorwinTasks.getOverrides, { projectId: PROJECT_ID });
+  const setStatus = useMutation(api.wcorwinTasks.setStatus);
+  const setText = useMutation(api.wcorwinTasks.setText);
+
+  const phases = applyOverrides(PHASES, overrides);
+  const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
   const [hoveredTask, setHoveredTask] = useState(null);
-  const phase = PHASES[activePhase];
+  const phase = phases[activePhase];
   const progress = getPhaseProgress(phase.tasks);
 
-  const totalTasks = PHASES.reduce((a, p) => a + p.tasks.length, 0);
-  const totalDone = PHASES.reduce((a, p) => a + p.tasks.filter(t => t.status === "done").length, 0);
-  const totalActive = PHASES.reduce((a, p) => a + p.tasks.filter(t => t.status === "active").length, 0);
+  const cycleStatus = useCallback((phaseId, taskIdx) => {
+    if (!IS_ADMIN) return;
+    const key = `${phaseId}:${taskIdx}`;
+    const currentPhase = applyOverrides(PHASES, overrides).find(p => p.id === phaseId);
+    const currentStatus = currentPhase.tasks[taskIdx].status;
+    const nextIdx = (STATUS_CYCLE.indexOf(currentStatus) + 1) % STATUS_CYCLE.length;
+    setStatus({ projectId: PROJECT_ID, taskKey: key, status: STATUS_CYCLE[nextIdx] });
+  }, [overrides, setStatus]);
+
+  const totalTasks = phases.reduce((a, p) => a + p.tasks.length, 0);
+  const totalDone = phases.reduce((a, p) => a + p.tasks.filter(t => t.status === "done").length, 0);
+  const totalActive = phases.reduce((a, p) => a + p.tasks.filter(t => t.status === "active").length, 0);
   const overallPct = Math.round(((totalDone + totalActive * 0.5) / totalTasks) * 100);
+
+  // Loading state while Convex connects
+  if (overrides === undefined) {
+    return (
+      <div style={{
+        fontFamily: "'DM Sans', 'Satoshi', -apple-system, sans-serif",
+        background: BG, minHeight: "100vh", color: INK,
+        display: "flex", alignItems: "center", justifyContent: "center",
+      }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{
+            width: 8, height: 8, borderRadius: "50%",
+            background: ACCENT, margin: "0 auto 12px",
+            animation: "pulse 1.5s infinite",
+          }} />
+          <div style={{ fontSize: 13, color: MUTED, fontFamily: "'DM Mono', monospace" }}>
+            Loading...
+          </div>
+          <style>{`@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.3 } }`}</style>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{
       fontFamily: "'DM Sans', 'Satoshi', -apple-system, sans-serif",
       background: BG, minHeight: "100vh", color: INK,
     }}>
+      <style>{`@keyframes livePulse { 0%,100% { opacity:1 } 50% { opacity:0.5 } }`}</style>
       {/* Top Bar */}
       <div style={{
         background: INK, padding: "14px 24px", display: "flex",
@@ -83,22 +197,22 @@ export default function SEOJourneyTracker({ onLogout }) {
           </span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {IS_ADMIN && (
+            <span style={{
+              color: ACCENT, fontSize: 10, fontWeight: 700,
+              fontFamily: "'DM Mono', monospace",
+              background: "rgba(232,84,26,0.15)", padding: "3px 8px",
+              borderRadius: 4, letterSpacing: "0.08em",
+            }}>
+              OPS
+            </span>
+          )}
           <span style={{
             color: "rgba(255,255,255,0.4)", fontSize: 11,
             fontFamily: "'DM Mono', monospace",
           }}>
             Anthony's SEO Engine
           </span>
-          {onLogout && (
-            <button onClick={onLogout} style={{
-              background: "transparent", border: "1px solid rgba(255,255,255,0.2)",
-              color: "rgba(255,255,255,0.5)", fontSize: 11, padding: "4px 10px",
-              borderRadius: 6, cursor: "pointer", fontFamily: "'DM Mono', monospace",
-              letterSpacing: "0.04em",
-            }}>
-              sign out
-            </button>
-          )}
         </div>
       </div>
 
@@ -173,10 +287,11 @@ export default function SEOJourneyTracker({ onLogout }) {
       {/* Phase Navigation */}
       <div style={{ padding: "16px 24px 0", overflowX: "auto" }}>
         <div style={{ display: "flex", gap: 6, minWidth: "max-content" }}>
-          {PHASES.map((p, i) => {
+          {phases.filter((p) => ["kickoff", "month1"].includes(p.id)).map((p) => {
+            const i = phases.indexOf(p);
             const prog = getPhaseProgress(p.tasks);
             const isActive = i === activePhase;
-            const isCurrent = i === getCurrentPhase(PHASES);
+            const isCurrent = i === getCurrentPhase(phases);
             return (
               <button key={p.id} onClick={() => setActivePhase(i)} style={{
                 border: isActive ? `2px solid ${p.color}` : `1px solid ${LIGHT}`,
@@ -263,16 +378,20 @@ export default function SEOJourneyTracker({ onLogout }) {
             {phase.tasks.map((task, i) => {
               const cfg = STATUS_CONFIG[task.status];
               const isHovered = hoveredTask === `${activePhase}-${i}`;
+              const taskKey = `${phase.id}:${i}`;
               return (
                 <div key={i}
                   onMouseEnter={() => setHoveredTask(`${activePhase}-${i}`)}
                   onMouseLeave={() => setHoveredTask(null)}
+                  onClick={() => IS_ADMIN && cycleStatus(phase.id, i)}
                   style={{
                     padding: "14px 24px", display: "flex",
                     alignItems: "flex-start", gap: 14,
                     borderBottom: i < phase.tasks.length - 1 ? `1px solid #f0f0f0` : "none",
                     background: isHovered ? "#fafafa" : "transparent",
-                    transition: "background 0.15s", cursor: "default",
+                    transition: "background 0.15s",
+                    cursor: IS_ADMIN ? "pointer" : "default",
+                    userSelect: IS_ADMIN ? "none" : "auto",
                   }}
                 >
                   <div style={{
@@ -281,6 +400,7 @@ export default function SEOJourneyTracker({ onLogout }) {
                     alignItems: "center", justifyContent: "center",
                     flexShrink: 0, marginTop: 1,
                     border: task.status === "active" ? `2px solid ${cfg.color}` : "none",
+                    ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
                   }}>
                     <span style={{
                       fontSize: task.status === "done" ? 14 : 12,
@@ -291,20 +411,45 @@ export default function SEOJourneyTracker({ onLogout }) {
                   </div>
 
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      fontSize: 14, fontWeight: 500,
-                      color: task.status === "done" ? GREEN : INK,
-                      textDecoration: task.status === "done" ? "line-through" : "none",
-                      opacity: task.status === "pending" ? 0.7 : 1,
-                    }}>
-                      {task.name}
-                    </div>
-                    <div style={{
-                      fontSize: 12, color: MUTED, marginTop: 3,
-                      lineHeight: 1.4,
-                    }}>
-                      {task.detail}
-                    </div>
+                    {IS_ADMIN ? (
+                      <InlineEdit
+                        value={task.name}
+                        onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, name: val })}
+                        style={{
+                          fontSize: 14, fontWeight: 500,
+                          color: task.status === "done" ? GREEN : INK,
+                          textDecoration: task.status === "done" ? "line-through" : "none",
+                          opacity: task.status === "pending" ? 0.7 : 1,
+                          display: "block",
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        fontSize: 14, fontWeight: 500,
+                        color: task.status === "done" ? GREEN : INK,
+                        textDecoration: task.status === "done" ? "line-through" : "none",
+                        opacity: task.status === "pending" ? 0.7 : 1,
+                      }}>
+                        {task.name}
+                      </div>
+                    )}
+                    {IS_ADMIN ? (
+                      <InlineEdit
+                        value={task.detail}
+                        onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, detail: val })}
+                        style={{
+                          fontSize: 12, color: MUTED, marginTop: 3,
+                          lineHeight: 1.4, display: "block",
+                        }}
+                      />
+                    ) : (
+                      <div style={{
+                        fontSize: 12, color: MUTED, marginTop: 3,
+                        lineHeight: 1.4,
+                      }}>
+                        {task.detail}
+                      </div>
+                    )}
                   </div>
 
                   <span style={{
@@ -312,6 +457,7 @@ export default function SEOJourneyTracker({ onLogout }) {
                     background: cfg.bg, color: cfg.color,
                     fontWeight: 600, whiteSpace: "nowrap", marginTop: 3,
                     fontFamily: "'DM Mono', monospace",
+                    ...(task.status === "active" ? { animation: "livePulse 2s ease-in-out infinite" } : {}),
                   }}>
                     {cfg.label}
                   </span>
