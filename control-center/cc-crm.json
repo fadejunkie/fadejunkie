@@ -121,7 +121,36 @@
           "note": "Drive: wcorwin-project-summary.pdf (deliverable)"
         }
       ]
+    },
+    {
+      "id": 1742860800003,
+      "name": "Wizardry Ink Tattoo Studio",
+      "type": "Website Rebuild + Booking App + Automations",
+      "contact": "Daiisy (Owner)",
+      "location": "San Antonio, TX",
+      "status": "active",
+      "value": 0,
+      "domain": "wizardryink.com",
+      "platform": "Custom (standalone)",
+      "notes": "ACTIVE CLIENT. Trade deal — web dev for tattoos. Three deliverables: (1) Rebuild wizardryink.com (currently Squarespace), (2) In-house Venue.ink clone (booking/scheduling/payments), (3) Custom automations for shop-specific pain points. Hosted at wizardryink.anthonytatis.com → wizardryink.com. Deadline: before September 2026.",
+      "email": "",
+      "phone": "",
+      "lastContact": "2026-03-25",
+      "createdAt": "2026-03-25",
+      "phases": [
+        { "phase": 1, "name": "Website Rebuild (wizardryink.com)", "value": 0, "status": "pending", "week": "TBD" },
+        { "phase": 2, "name": "Booking App (Venue.ink clone)", "value": 0, "status": "pending", "week": "TBD" },
+        { "phase": 3, "name": "In-House Automations", "value": 0, "status": "pending", "week": "TBD" }
+      ],
+      "payments": [],
+      "history": [
+        {
+          "status": "active",
+          "date": "2026-03-25",
+          "note": "Deal landed — trade agreement (tattoos for development). Scope: website rebuild + booking app + automations."
+        }
+      ]
     }
   ],
-  "lastUpdated": "2026-03-18T00:00:00.000Z"
+  "lastUpdated": "2026-03-25T00:00:00.000Z"
 }
