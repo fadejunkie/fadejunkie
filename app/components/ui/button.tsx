@@ -34,10 +34,10 @@ import { cn } from "@/lib/utils"
 const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-2 whitespace-nowrap",
-    "font-sans font-semibold tracking-tight",
+    "font-sans font-semibold",
     "rounded-full",
     "transition-colors",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    "focus-visible:outline-none focus-visible:ring-0",
     "disabled:pointer-events-none disabled:opacity-40",
     "cursor-pointer select-none",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -58,9 +58,9 @@ const buttonVariants = cva(
         link: "bg-transparent text-foreground underline-offset-4 hover:underline p-0 h-auto rounded-none",
       },
       size: {
-        sm:      "h-8 px-3.5 text-xs gap-1.5",
-        default: "h-10 px-7 text-sm",
-        lg:      "h-12 px-8 text-sm",
+        sm:      "h-8 px-3.5 text-xs gap-1.5 tracking-[-0.01em]",
+        default: "h-10 px-7 text-sm tracking-[-0.01em]",
+        lg:      "h-12 px-8 text-sm tracking-[-0.01em]",
         icon:    "h-10 w-10 p-0 text-sm",
       },
     },

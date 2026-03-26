@@ -61,9 +61,9 @@ const TestimonialCard = ({
     transition={{ duration: 0.5, ease }}
     className="fj-testimonial-card"
     style={{
-      backgroundColor: "#ffffff",
-      border: "1px solid rgba(0,0,0,0.08)",
-      borderRadius: "1rem",
+      backgroundColor: "var(--card)",
+      border: "1px solid var(--border)",
+      borderRadius: "var(--radius-2xl)",
       padding: "1.75rem",
       boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
       display: "flex",
@@ -79,8 +79,8 @@ const TestimonialCard = ({
           style={{
             width: 12,
             height: 12,
-            fill: "#000000",
-            color: "#000000",
+            fill: "var(--foreground)",
+            color: "var(--foreground)",
             strokeWidth: 0,
           }}
         />
@@ -96,7 +96,7 @@ const TestimonialCard = ({
         fontWeight: 400,
         fontStyle: "italic",
         lineHeight: 1.65,
-        color: "#000000",
+        color: "var(--foreground)",
         flex: 1,
       }}
     >
@@ -140,7 +140,7 @@ const TestimonialCard = ({
             fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "0.8125rem",
             fontWeight: 700,
-            color: "#000000",
+            color: "var(--foreground)",
             letterSpacing: "-0.02em",
             lineHeight: 1.2,
           }}
@@ -191,10 +191,10 @@ const Testimonials = () => {
   return (
     <section
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--background)",
         padding: "3.5rem clamp(1.5rem, 5vw, 6rem) 5rem",
-        borderTop: "1px solid rgba(0,0,0,0.07)",
-        borderBottom: "1px solid rgba(0,0,0,0.07)",
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -227,7 +227,7 @@ const Testimonials = () => {
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1.0,
-            color: "#000000",
+            color: "var(--foreground)",
             marginBottom: "3rem",
           }}
           initial={{ opacity: 0, y: 16 }}
@@ -271,21 +271,6 @@ const Testimonials = () => {
         </motion.div>
       </div>
 
-      <style>{`
-        @media (min-width: 768px) {
-          .testimonials-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        .fj-testimonial-card {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          cursor: default;
-        }
-        .fj-testimonial-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.09) !important;
-        }
-      `}</style>
     </section>
   );
 };

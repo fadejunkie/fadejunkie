@@ -4,6 +4,8 @@ import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthActions } from "@convex-dev/auth/react";
 import Link from "next/link";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/button";
 
 /* ── Grain texture ───────────────────────────────────────────────────── */
 const GrainOverlay = () => (
@@ -356,7 +358,7 @@ function SignInForm() {
                 >
                   Email
                 </label>
-                <input
+                <Input
                   id="signin-email"
                   type="email"
                   placeholder="you@example.com"
@@ -364,19 +366,7 @@ function SignInForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete={tab === "signup" ? "email" : "username"}
-                  className="signin-input"
-                  style={{
-                    width: "100%",
-                    padding: "0.75rem 0.875rem",
-                    fontFamily: "var(--font-body), 'Courier Prime', monospace",
-                    fontSize: "0.875rem",
-                    color: "#000000",
-                    backgroundColor: "#ffffff",
-                    border: "1px solid rgba(0,0,0,0.14)",
-                    borderRadius: "0.625rem",
-                    outline: "none",
-                    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
-                  }}
+                  className="font-body text-sm"
                 />
               </div>
 
@@ -397,7 +387,7 @@ function SignInForm() {
                 >
                   Password
                 </label>
-                <input
+                <Input
                   id="signin-password"
                   type="password"
                   placeholder={tab === "signup" ? "Create a password" : "Your password"}
@@ -405,19 +395,7 @@ function SignInForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete={tab === "signup" ? "new-password" : "current-password"}
-                  className="signin-input"
-                  style={{
-                    width: "100%",
-                    padding: "0.75rem 0.875rem",
-                    fontFamily: "var(--font-body), 'Courier Prime', monospace",
-                    fontSize: "0.875rem",
-                    color: "#000000",
-                    backgroundColor: "#ffffff",
-                    border: "1px solid rgba(0,0,0,0.14)",
-                    borderRadius: "0.625rem",
-                    outline: "none",
-                    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
-                  }}
+                  className="font-body text-sm"
                 />
               </div>
 
@@ -440,59 +418,15 @@ function SignInForm() {
               )}
 
               {/* Submit */}
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="signin-submit"
-                style={{
-                  width: "100%",
-                  padding: "0.875rem 1.75rem",
-                  backgroundColor: "#000000",
-                  color: "#ffffff",
-                  borderRadius: "0.625rem",
-                  fontFamily: "var(--font-sans), system-ui, sans-serif",
-                  fontSize: "0.875rem",
-                  fontWeight: 600,
-                  border: "none",
-                  cursor: loading ? "not-allowed" : "pointer",
-                  opacity: loading ? 0.65 : 1,
-                  transition: "background-color 0.15s ease, transform 0.12s ease, opacity 0.15s ease",
-                  marginTop: "0.25rem",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "0.5rem",
-                }}
+                loading={loading}
+                size="lg"
+                className="w-full mt-1"
               >
-                {loading && (
-                  <svg
-                    className="signin-spinner"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      opacity="0.25"
-                    />
-                    <path
-                      d="M4 12a8 8 0 018-8"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      opacity="0.75"
-                    />
-                  </svg>
-                )}
                 {tab === "signup" ? "Create account" : "Sign in"}
-              </button>
+              </Button>
             </form>
 
             {/* Toggle link */}
@@ -579,36 +513,9 @@ function SignInForm() {
           }
         }
 
-        /* Input focus states — black, not blue */
-        .signin-input:focus {
-          border-color: rgba(0, 0, 0, 0.4) !important;
-          box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06) !important;
-        }
-        .signin-input::placeholder {
-          color: rgba(0, 0, 0, 0.25);
-        }
-
-        /* Submit hover */
-        .signin-submit:hover:not(:disabled) {
-          background-color: #1a1a1a !important;
-          transform: translateY(-1px);
-        }
-        .signin-submit:active:not(:disabled) {
-          transform: translateY(0px);
-        }
-
         /* Toggle link hover */
         .signin-toggle-link:hover {
           text-decoration: underline;
-        }
-
-        /* Spinner */
-        @keyframes signin-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .signin-spinner {
-          animation: signin-spin 0.7s linear infinite;
         }
 
         /* Mobile form panel adjustments */
