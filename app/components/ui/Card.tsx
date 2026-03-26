@@ -5,6 +5,7 @@ const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, style, ...props }, ref) => (
     <div
       ref={ref}
+      data-slot="card"
       className={cn("border bg-card text-card-foreground", className)}
       style={{ borderRadius: "var(--radius-3xl, 1.375rem)", ...style }}
       {...props}

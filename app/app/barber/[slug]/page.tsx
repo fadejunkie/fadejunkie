@@ -23,7 +23,11 @@ export default async function BarberProfilePage({ params }: PageProps) {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border px-5 h-14 flex items-center justify-between">
-        <Link href="/" className="font-serif text-lg font-semibold text-foreground">fadejunkie</Link>
+        <Link
+          href="/"
+          className="font-display lowercase text-lg"
+          style={{ fontWeight: 700, letterSpacing: "-0.04em" }}
+        >fadejunkie</Link>
         <Button variant="outline" size="sm" asChild>
           <Link href="/signin?mode=signup">Join</Link>
         </Button>

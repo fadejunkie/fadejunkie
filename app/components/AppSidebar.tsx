@@ -29,7 +29,7 @@ export default function AppSidebar() {
               "before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2",
               "before:h-[60%] before:w-[2px] before:rounded-full before:transition-all before:duration-150",
               isActive
-                ? "font-semibold text-foreground bg-accent/60 before:bg-foreground before:opacity-100"
+                ? "font-normal text-foreground bg-accent/60 before:bg-foreground before:opacity-100"
                 : "font-normal text-muted-foreground before:opacity-0 hover:text-foreground hover:bg-accent/40"
             )}
             style={{
