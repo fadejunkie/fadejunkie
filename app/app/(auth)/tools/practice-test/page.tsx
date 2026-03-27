@@ -140,7 +140,7 @@ export default function PracticeTestPage() {
           </div>
         </div>
 
-        <Card className="p-5 space-y-5">
+        <Card className="p-6 space-y-5">
           <h2 className="text-base font-semibold text-foreground">Configure Test</h2>
 
           <div className="space-y-2">
@@ -189,7 +189,7 @@ export default function PracticeTestPage() {
         </Card>
 
         {(pastResults ?? []).length > 0 && (
-          <Card className="p-5 space-y-3">
+          <Card className="p-6 space-y-3">
             <h2 className="text-base font-semibold text-foreground">Recent Scores</h2>
             <div className="space-y-2">
               {(pastResults ?? []).map((r) => (

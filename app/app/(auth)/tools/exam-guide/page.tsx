@@ -426,7 +426,7 @@ function ServiceCard({
               <Badge variant="muted" className="text-xs">Bag prep only</Badge>
             )}
             {allChecked && (
-              <span className="text-xs text-green-600 font-medium">Bag packed</span>
+              <span className="text-xs text-foreground font-medium">Bag packed ✓</span>
             )}
             {progress && (
               <span className="text-xs text-muted-foreground">
@@ -586,7 +586,7 @@ export default function ExamGuidePage() {
       </div>
 
       {/* Time summary + progress */}
-      <Card className="p-4">
+      <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Exam at a Glance</p>
           {practicedCount > 0 && (
@@ -634,14 +634,14 @@ export default function ExamGuidePage() {
       </div>
 
       {/* End of exam */}
-      <Card className="p-5 bg-muted">
+      <Card className="p-6 bg-muted">
         <h3 className="text-sm font-semibold text-foreground mb-1">End of Exam Disinfection</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
           After completing Single Color Retouch, there is no special end-of-exam bag. Await the proctor's final nod, then: (1) Pack up -- return all tools to their labeled bags. (2) Disinfect -- wipe down your station, tools, and kit one last time. (3) Depart -- once everything is bagged and sanitized, exit the exam area.
         </p>
       </Card>
 
-      <Card className="p-5 bg-muted">
+      <Card className="p-6 bg-muted">
         <h3 className="text-sm font-semibold text-foreground mb-1">Study with Flashcards</h3>
         <p className="text-sm text-muted-foreground mb-3">
           Test your knowledge on time limits, bag requirements, and procedures with the TDLR Practical Exam flashcard deck.

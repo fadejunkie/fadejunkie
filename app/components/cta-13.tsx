@@ -129,7 +129,7 @@ const Cta13 = ({
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 0.98,
-            color: "#ffffff",
+            color: "var(--background)",
             marginBottom: "1.5rem",
             textTransform: "lowercase",
           }}

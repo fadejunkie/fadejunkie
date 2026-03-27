@@ -38,10 +38,10 @@ export default function ResourcesPage() {
             onClick={() => setActive(t.id)}
             className="text-[13px] px-4 py-1.5 rounded-full border transition-colors"
             style={{
-              borderColor: active === t.id ? "#111" : "var(--border)",
+              borderColor: active === t.id ? "var(--foreground)" : "var(--border)",
               fontWeight: active === t.id ? 600 : 400,
-              color: active === t.id ? "#111" : "var(--muted-foreground)",
-              background: "#fff",
+              color: active === t.id ? "var(--foreground)" : "var(--muted-foreground)",
+              background: "var(--background)",
             }}
           >
             {t.label}

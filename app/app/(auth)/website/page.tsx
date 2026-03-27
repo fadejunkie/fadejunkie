@@ -84,7 +84,7 @@ export default function WebsitePage() {
         </div>
       ) : (
         <form onSubmit={handleSave} className="space-y-5">
-          <Card className="p-5">
+          <Card className="p-6">
             <h2 className="text-sm font-semibold text-foreground mb-4">Shop Identity</h2>
             <div className="space-y-4">
               <Input label="Shop name *" placeholder="The Fade House" required {...f("shopName")} />
@@ -92,12 +92,12 @@ export default function WebsitePage() {
             </div>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6">
             <h2 className="text-sm font-semibold text-foreground mb-4">About</h2>
             <Textarea label="About your shop" placeholder="Tell visitors what makes your shop special..." rows={4} {...f("about")} />
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-6">
             <h2 className="text-sm font-semibold text-foreground mb-4">Contact & Hours</h2>
             <div className="space-y-4">
               <Input label="Address" placeholder="123 Main St, City, State 00000" {...f("address")} />
@@ -112,7 +112,7 @@ export default function WebsitePage() {
 
           <div className="flex items-center gap-3">
             <Button type="submit" loading={saving} size="lg">Save website</Button>
-            {saved && <span className="text-sm text-green-600">Saved!</span>}
+            {saved && <span className="text-sm text-muted-foreground">Saved!</span>}
           </div>
         </form>
       )}

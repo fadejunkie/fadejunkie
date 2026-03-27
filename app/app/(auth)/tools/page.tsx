@@ -29,7 +29,7 @@ export default function ToolsPage() {
 
       {/* Website Builder — primary tool card */}
       <Link href="/website">
-        <Card className="p-5 hover:border-foreground/20 hover:shadow-sm transition-all cursor-pointer group">
+        <Card className="p-6 hover:border-foreground/20 hover:shadow-sm transition-all cursor-pointer group">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>Shop</p>
@@ -45,7 +45,7 @@ export default function ToolsPage() {
 
       <div className="grid gap-3">
         {tools.map((tool) => (
-          <Card key={tool.id} className="p-5">
+          <Card key={tool.id} className="p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>{tool.category}</p>
@@ -58,7 +58,7 @@ export default function ToolsPage() {
         ))}
       </div>
 
-      <Card className="p-5 bg-secondary">
+      <Card className="p-6 bg-secondary">
         <h3 className="text-[13.5px] font-semibold text-foreground mb-1">Have a tool idea?</h3>
         <p className="text-[13px] text-muted-foreground leading-[1.6]">
           Post in the community feed and tag it{" "}

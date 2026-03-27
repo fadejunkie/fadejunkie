@@ -65,7 +65,7 @@ function BrandPanel() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: "clamp(2.5rem, 4vw, 4rem)",
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--background)",
         overflow: "hidden",
         minHeight: "100vh",
       }}
@@ -81,7 +81,7 @@ function BrandPanel() {
             fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "1.375rem",
             fontWeight: 800,
-            color: "#000000",
+            color: "var(--foreground)",
             letterSpacing: "-0.04em",
             textDecoration: "none",
           }}
@@ -99,7 +99,7 @@ function BrandPanel() {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "rgba(0,0,0,0.4)",
+            color: "var(--muted-foreground)",
             marginBottom: "1.5rem",
           }}
         >
@@ -113,7 +113,7 @@ function BrandPanel() {
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1.05,
-            color: "#000000",
+            color: "var(--foreground)",
             margin: 0,
             marginBottom: "1.25rem",
           }}
@@ -130,7 +130,7 @@ function BrandPanel() {
             fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            color: "rgba(0,0,0,0.55)",
+            color: "var(--muted-foreground)",
             maxWidth: "22rem",
           }}
         >
@@ -159,7 +159,7 @@ function BrandPanel() {
                 borderRadius: "50%",
                 backgroundColor:
                   i % 2 === 0 ? "rgba(0,0,0,0.07)" : "rgba(0,0,0,0.05)",
-                border: "1.5px solid #ffffff",
+                border: "1.5px solid var(--background)",
                 marginLeft: i > 0 ? -8 : 0,
                 display: "flex",
                 alignItems: "center",
@@ -174,7 +174,7 @@ function BrandPanel() {
                   fontFamily: "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "0.4375rem",
                   fontWeight: 700,
-                  color: "rgba(0,0,0,0.55)",
+                  color: "var(--muted-foreground)",
                   letterSpacing: "-0.01em",
                 }}
               >
@@ -190,7 +190,7 @@ function BrandPanel() {
               fontFamily: "var(--font-display), 'League Spartan', sans-serif",
               fontSize: "0.8125rem",
               fontWeight: 700,
-              color: "#000000",
+              color: "var(--foreground)",
               letterSpacing: "-0.02em",
               lineHeight: 1.3,
             }}
@@ -204,7 +204,7 @@ function BrandPanel() {
               fontWeight: 500,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
-              color: "rgba(0,0,0,0.4)",
+              color: "var(--muted-foreground)",
               marginTop: "0.2rem",
             }}
           >
@@ -246,7 +246,7 @@ function SignInForm() {
   return (
     <div
       className="signin-page-root"
-      style={{ backgroundColor: "#ffffff", minHeight: "100vh" }}
+      style={{ backgroundColor: "var(--background)", minHeight: "100vh" }}
     >
       {/* Two-column layout: brand (left) + form (right) */}
       <div className="signin-layout">
@@ -276,7 +276,7 @@ function SignInForm() {
                   fontFamily: "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "1.5rem",
                   fontWeight: 800,
-                  color: "#000000",
+                  color: "var(--foreground)",
                   letterSpacing: "-0.04em",
                   textDecoration: "none",
                   display: "block",
@@ -292,7 +292,7 @@ function SignInForm() {
                   fontWeight: 500,
                   letterSpacing: "0.16em",
                   textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.4)",
+                  color: "var(--muted-foreground)",
                 }}
               >
                 The barber community
@@ -452,7 +452,7 @@ function SignInForm() {
                       fontFamily: "inherit",
                       fontSize: "inherit",
                       fontWeight: 700,
-                      color: "#000000",
+                      color: "var(--foreground)",
                       cursor: "pointer",
                       textDecoration: "none",
                     }}
@@ -474,7 +474,7 @@ function SignInForm() {
                       fontFamily: "inherit",
                       fontSize: "inherit",
                       fontWeight: 700,
-                      color: "#000000",
+                      color: "var(--foreground)",
                       cursor: "pointer",
                       textDecoration: "none",
                     }}

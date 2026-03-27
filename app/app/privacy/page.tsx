@@ -8,7 +8,7 @@ export default function PrivacyPage() {
   return (
     <div
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--background)",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column" as const,
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <nav
         style={{
           padding: "1.5rem clamp(1.5rem, 5vw, 6rem)",
-          borderBottom: "1px solid rgba(0,0,0,0.07)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <Link
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
             fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "1.125rem",
             fontWeight: 800,
-            color: "#000000",
+            color: "var(--foreground)",
             textDecoration: "none",
             letterSpacing: "-0.03em",
           }}
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
             fontWeight: 500,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
-            color: "rgba(0,0,0,0.4)",
+            color: "var(--muted-foreground)",
             marginBottom: "1.25rem",
           }}
         >
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
             fontWeight: 800,
             letterSpacing: "-0.04em",
             lineHeight: 1.0,
-            color: "#000000",
+            color: "var(--foreground)",
             marginBottom: "2.5rem",
           }}
         >
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
             fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "1rem",
             lineHeight: 1.75,
-            color: "rgba(0,0,0,0.65)",
+            color: "var(--muted-foreground)",
           }}
         >
           <p style={{ marginBottom: "1.5rem" }}>
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
             <a
               href="mailto:hello@fadejunkie.com"
               style={{
-                color: "#000000",
+                color: "var(--foreground)",
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
           style={{
             marginTop: "4rem",
             paddingTop: "2rem",
-            borderTop: "1px solid rgba(0,0,0,0.07)",
+            borderTop: "1px solid var(--border)",
           }}
         >
           <Link
@@ -123,7 +123,7 @@ export default function PrivacyPage() {
               fontWeight: 500,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "rgba(0,0,0,0.45)",
+              color: "var(--muted-foreground)",
               textDecoration: "none",
             }}
           >
