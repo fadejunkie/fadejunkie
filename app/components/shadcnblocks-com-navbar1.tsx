@@ -232,17 +232,18 @@ const renderMenuItem = (item: MenuItem) => {
         href={item.url}
         style={{
           fontFamily: "var(--font-sans), system-ui, sans-serif",
-          color: "var(--muted-foreground)",
+          color: "var(--foreground)",
           letterSpacing: "-0.01em",
-          transition: "color var(--duration-base, 200ms) var(--ease-standard, ease)",
+          transition: "opacity var(--duration-base, 200ms) var(--ease-standard, ease)",
           position: "relative",
+          opacity: 0.75,
         }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--foreground)"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = "var(--muted-foreground)"; }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.75"; }}
       >
         {item.title}
         {item.url.includes("signin") && (
-          <Lock size={10} style={{ opacity: 0.4, marginLeft: "0.3rem", display: "inline", verticalAlign: "middle" }} />
+          <Lock size={14} style={{ opacity: 0.4, marginLeft: "0.3rem", display: "inline", verticalAlign: "middle" }} />
         )}
       </a>
     </NavigationMenuItem>
@@ -283,7 +284,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
     <a key={item.title} href={item.url} className="font-semibold inline-flex items-center gap-1">
       {item.title}
       {item.url.includes("signin") && (
-        <Lock size={10} style={{ opacity: 0.4 }} />
+        <Lock size={14} className="text-muted-foreground" style={{ opacity: 0.5 }} />
       )}
     </a>
   );

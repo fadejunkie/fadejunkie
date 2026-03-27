@@ -49,9 +49,9 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
         fadejunkie
       </Link>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 ml-4">
         {handle && (
-          <span className="hidden sm:block text-xs font-mono" style={{ color: "var(--link)" }}>
+          <span className="hidden sm:block text-xs font-mono text-muted-foreground">
             {handle}
           </span>
         )}

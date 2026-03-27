@@ -112,7 +112,9 @@ export default function ProfilePage() {
       <Card className="rounded-xl shadow-sm p-6 sm:p-8">
         <h2 className="text-lg font-bold text-foreground mb-6">Your Profile</h2>
 
-        <form onSubmit={handleSave} className="space-y-5">
+        <form onSubmit={handleSave} className="space-y-6">
+          {/* ── Identity ──────────────────────────────────── */}
+          <div className="space-y-5">
           {/* Headshot */}
           <div>
             <label className="text-sm font-semibold text-foreground block mb-2">Headshot</label>
@@ -129,7 +131,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={() => avatarRef.current?.click()}
-                  className="text-sm text-foreground/70 hover:text-foreground underline underline-offset-2 transition-colors"
+                  className="text-sm text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
                   Upload photo
                 </button>
@@ -148,9 +150,8 @@ export default function ProfilePage() {
             />
             {form.slug.length >= 3 && (
               <p className={cn("text-xs mt-1", {
-                "text-foreground": slugStatus === "ok",
+                "text-muted-foreground": slugStatus === "ok" || slugStatus === "checking" || slugStatus === "idle",
                 "text-destructive": slugStatus === "taken",
-                "text-muted-foreground": slugStatus === "checking" || slugStatus === "idle",
               })}>
                 {slugStatus === "ok" && `✓ @${form.slug} is available`}
                 {slugStatus === "taken" && `✗ @${form.slug} is already taken`}
@@ -182,7 +183,10 @@ export default function ProfilePage() {
             />
           </div>
 
-          {/* Services */}
+          </div>{/* /Identity */}
+
+          {/* ── Services ──────────────────────────────────── */}
+          <div className="pt-5 border-t border-border space-y-5">
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Services</label>
             <div className="flex gap-2">
@@ -207,7 +211,10 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Booking URL */}
+          </div>{/* /Services */}
+
+          {/* ── Contact & Social ──────────────────────────── */}
+          <div className="pt-5 border-t border-border space-y-5">
           <div>
             <label className="text-sm font-semibold text-foreground block mb-1.5">Booking link</label>
             <Input
@@ -258,6 +265,8 @@ export default function ProfilePage() {
               onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
             />
           </div>
+
+          </div>{/* /Contact & Social */}
 
           {error && (
             <p className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md px-3 py-2">{error}</p>

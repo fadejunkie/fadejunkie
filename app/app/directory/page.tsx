@@ -112,13 +112,13 @@ export default function DirectoryPage() {
   return (
     <>
       {/* Page header */}
-      <div className="border-b border-border px-6 py-4">
-        <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="border-b border-border px-6 py-5 sm:py-6">
+        <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-lg font-semibold text-foreground capitalize">
+            <h1 className="text-xl font-semibold text-foreground capitalize">
               Texas Barber {plural.charAt(0).toUpperCase() + plural.slice(1)}
             </h1>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground mt-0.5">
               {rawLocations == null
                 ? "Loading..."
                 : `${rawLocations.length.toLocaleString()} ${plural} across Texas`}
@@ -128,17 +128,17 @@ export default function DirectoryPage() {
           {/* Filters */}
           <div className="flex items-center gap-2 flex-wrap">
             {/* Type tabs */}
-            <div className="flex items-center border border-border rounded-md overflow-hidden h-8 text-xs shrink-0">
+            <div className="flex items-center border border-foreground rounded-md overflow-hidden h-8 text-xs shrink-0">
               {TYPE_TABS.map(({ type, label }, i) => (
                 <button
                   key={type}
                   onClick={() => handleTypeChange(type)}
                   className={cn(
-                    "px-3 h-full transition-colors",
-                    i > 0 && "border-l border-border",
+                    "px-3.5 h-full font-semibold transition-colors",
+                    i > 0 && "border-l border-foreground",
                     activeType === type
-                      ? "bg-foreground text-background font-medium"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      ? "bg-foreground text-background"
+                      : "bg-background text-foreground hover:bg-accent"
                   )}
                 >
                   {label}

@@ -30,12 +30,12 @@ export default function LocationCard({
       onClick={() => onSelect(location)}
       onKeyDown={(e) => e.key === "Enter" && onSelect(location)}
       className={cn(
-        "group p-4 border-b border-border cursor-pointer transition-colors hover:bg-accent/50",
+        "group p-5 border-b border-border cursor-pointer transition-colors hover:bg-accent/50",
         isSelected && "bg-accent"
       )}
     >
-      <div className="flex items-start justify-between gap-2 mb-1.5">
-        <p className="text-sm font-semibold text-foreground leading-snug">
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <p className="text-base font-semibold text-foreground leading-snug">
           {location.name}
         </p>
         <div className="flex gap-1 shrink-0">
@@ -50,13 +50,13 @@ export default function LocationCard({
         </div>
       </div>
 
-      <div className="flex items-start gap-1.5 text-xs text-muted-foreground mb-3">
+      <div className="flex items-start gap-1.5 text-sm text-muted-foreground mb-3">
         <MapPin size={12} className="mt-0.5 shrink-0" />
         <span className="leading-relaxed">{location.address}</span>
       </div>
 
       {distance != null && (
-        <p className="text-xs text-muted-foreground mb-3">
+        <p className="text-sm text-muted-foreground mb-3">
           {distance.toFixed(1)} mi away
         </p>
       )}

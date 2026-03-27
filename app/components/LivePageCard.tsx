@@ -22,7 +22,7 @@ export default function LivePageCard({ url, label = "Your page is live" }: LiveP
     <Card className="p-4 bg-card border-border">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+          <span className="w-2 h-2 rounded-full bg-foreground shrink-0" />
           <div className="min-w-0">
             <p className="text-sm font-semibold text-foreground">{label}</p>
             <p className="text-xs text-muted-foreground font-mono truncate mt-0.5">{url}</p>
@@ -32,7 +32,7 @@ export default function LivePageCard({ url, label = "Your page is live" }: LiveP
           <button
             type="button"
             onClick={copyLink}
-            className="text-xs px-3 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+            className="text-xs px-3 py-1.5 rounded-full border border-foreground bg-background hover:bg-accent text-foreground transition-colors font-semibold"
           >
             {copied ? "Copied!" : "Copy link"}
           </button>

@@ -83,9 +83,9 @@ export default function WebsitePage() {
           <ShopTemplate shop={{ ...form, logoUrl: shop?.logoUrl }} preview />
         </div>
       ) : (
-        <form onSubmit={handleSave} className="space-y-5">
+        <form onSubmit={handleSave} className="space-y-6">
           <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground mb-4">Shop Identity</h2>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Shop Identity</h2>
             <div className="space-y-4">
               <Input label="Shop name *" placeholder="The Fade House" required {...f("shopName")} />
               <Input label="Tagline" placeholder="A short line describing your shop" {...f("tagline")} />
@@ -93,12 +93,12 @@ export default function WebsitePage() {
           </Card>
 
           <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground mb-4">About</h2>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">About</h2>
             <Textarea label="About your shop" placeholder="Tell visitors what makes your shop special..." rows={4} {...f("about")} />
           </Card>
 
           <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground mb-4">Contact & Hours</h2>
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Contact & Hours</h2>
             <div className="space-y-4">
               <Input label="Address" placeholder="123 Main St, City, State 00000" {...f("address")} />
               <Input label="Phone" type="tel" placeholder="+1 (555) 000-0000" {...f("phone")} />
