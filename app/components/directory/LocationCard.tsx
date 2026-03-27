@@ -40,12 +40,10 @@ export default function LocationCard({
         </p>
         <div className="flex gap-1 shrink-0">
           {location.status === "featured" && (
-            <Badge className="bg-amber-100 text-amber-800 border-amber-200 border">
-              Featured
-            </Badge>
+            <Badge variant="secondary">Featured</Badge>
           )}
           {location.status === "verified" && (
-            <Badge variant="default">Verified</Badge>
+            <Badge variant="outline">Verified</Badge>
           )}
         </div>
       </div>

@@ -117,7 +117,7 @@ export default function ProfilePage() {
           <div className="space-y-5">
           {/* Headshot */}
           <div>
-            <label className="text-sm font-semibold text-foreground block mb-2">Headshot</label>
+            <label className="text-sm font-semibold text-foreground block mb-1.5">Headshot</label>
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-muted border border-border flex items-center justify-center shrink-0 overflow-hidden">
                 {avatarPreview ? (

@@ -49,12 +49,10 @@ export default function LocationModal({ location, onClose }: LocationModalProps)
             <div className="flex flex-wrap gap-1.5 mt-1.5">
               <Badge variant="muted">{TYPE_LABEL[location.type] ?? location.type}</Badge>
               {location.status === "featured" && (
-                <Badge className="bg-amber-100 text-amber-800 border-amber-200 border">
-                  Featured
-                </Badge>
+                <Badge variant="secondary">Featured</Badge>
               )}
               {location.status === "verified" && (
-                <Badge variant="default">Verified</Badge>
+                <Badge variant="outline">Verified</Badge>
               )}
             </div>
           </div>

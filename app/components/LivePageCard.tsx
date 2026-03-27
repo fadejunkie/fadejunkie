@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/button";
 
 interface LivePageCardProps {
   url: string;
@@ -29,21 +30,19 @@ export default function LivePageCard({ url, label = "Your page is live" }: LiveP
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="sm"
             onClick={copyLink}
-            className="text-xs px-3 py-1.5 rounded-full border border-foreground bg-background hover:bg-accent text-foreground transition-colors font-semibold"
           >
             {copied ? "Copied!" : "Copy link"}
-          </button>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs px-3 py-1.5 rounded-full bg-primary hover:bg-primary/85 text-primary-foreground transition-colors"
-          >
-            View live ↗
-          </a>
+          </Button>
+          <Button size="sm" asChild>
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              View live ↗
+            </a>
+          </Button>
         </div>
       </div>
     </Card>

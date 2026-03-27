@@ -236,14 +236,11 @@ const renderMenuItem = (item: MenuItem) => {
           letterSpacing: "-0.01em",
           transition: "opacity var(--duration-base, 200ms) var(--ease-standard, ease)",
           position: "relative",
-          opacity: 0.75,
         }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.75"; }}
       >
         {item.title}
         {item.url.includes("signin") && (
-          <Lock size={14} style={{ opacity: 0.4, marginLeft: "0.3rem", display: "inline", verticalAlign: "middle" }} />
+          <Lock size={16} className="text-muted-foreground" style={{ marginLeft: "0.3rem", display: "inline", verticalAlign: "middle" }} />
         )}
       </a>
     </NavigationMenuItem>
@@ -281,10 +278,10 @@ const renderMobileMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <a key={item.title} href={item.url} className="font-semibold inline-flex items-center gap-1">
+    <a key={item.title} href={item.url} className="font-semibold inline-flex items-center gap-1.5">
       {item.title}
       {item.url.includes("signin") && (
-        <Lock size={14} className="text-muted-foreground" style={{ opacity: 0.5 }} />
+        <Lock size={16} className="text-muted-foreground" />
       )}
     </a>
   );
