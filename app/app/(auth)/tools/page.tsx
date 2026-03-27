@@ -21,7 +21,7 @@ const tools = [
 
 export default function ToolsPage() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div>
         <h1 className="text-[22px] font-bold text-foreground tracking-tight">Tools</h1>
         <p className="text-[13.5px] text-muted-foreground mt-1">Daily operations resources and more.</p>
@@ -43,7 +43,7 @@ export default function ToolsPage() {
         </Card>
       </Link>
 
-      <div className="grid gap-3">
+      <div className="grid gap-4">
         {tools.map((tool) => (
           <Card key={tool.id} className="p-6">
             <div className="flex items-start justify-between gap-4">

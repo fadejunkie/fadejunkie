@@ -16,7 +16,7 @@ export default function HomePage() {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <PostComposer />
 
       {status === "LoadingFirstPage" && (
@@ -33,7 +33,7 @@ export default function HomePage() {
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {results.map((post) => (
           <PostCard
             key={post._id}

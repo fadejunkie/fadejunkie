@@ -107,7 +107,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Profile card */}
       <Card className="rounded-xl shadow-sm p-6 sm:p-8">
         <h2 className="text-lg font-bold text-foreground mb-6">Your Profile</h2>

@@ -115,7 +115,7 @@ export default function FlashcardsPage() {
   const isLoading = decks === undefined || allCards === undefined;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-7">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/tools" className="text-muted-foreground hover:text-foreground transition-colors">

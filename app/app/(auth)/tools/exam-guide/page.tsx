@@ -413,7 +413,7 @@ function ServiceCard({
       {/* Header -- always visible */}
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-start justify-between gap-3 p-5 text-left hover:bg-muted/30 transition-colors"
+        className="w-full flex items-start justify-between gap-3 p-6 text-left hover:bg-muted/30 transition-colors"
       >
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -455,7 +455,7 @@ function ServiceCard({
         <div className="border-t border-border divide-y divide-border">
 
           {/* Section 1: Bag Contents */}
-          <div className="p-5">
+          <div className="p-6">
             <div className="flex items-center justify-between mb-3">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide">Bag Contents</p>
               <p className="text-xs font-mono text-muted-foreground">Label: &ldquo;{service.bagLabel}&rdquo;</p>
@@ -494,7 +494,7 @@ function ServiceCard({
 
           {/* Section 2: Exam Steps */}
           {service.steps.length > 0 && (
-            <div className="p-5">
+            <div className="p-6">
               <p className="text-xs font-semibold text-foreground uppercase tracking-wide mb-3">Exam Steps</p>
               <ol className="space-y-3">
                 {service.steps.map((step, idx) => (
@@ -573,7 +573,7 @@ export default function ExamGuidePage() {
   const totalServices = SERVICES.length;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-7">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/tools" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -586,7 +586,7 @@ export default function ExamGuidePage() {
       </div>
 
       {/* Time summary + progress */}
-      <Card className="p-5">
+      <Card className="p-6">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Exam at a Glance</p>
           {practicedCount > 0 && (

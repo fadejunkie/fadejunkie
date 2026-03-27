@@ -33,7 +33,7 @@ export default async function BarberProfilePage({ params }: PageProps) {
         </Button>
       </header>
 
-      <div className="max-w-2xl mx-auto px-4 py-10">
+      <div className="max-w-2xl mx-auto px-6 py-12">
         {/* Hero */}
         <div className="flex items-start gap-5 mb-8">
           <Avatar src={barber.avatarUrl} name={barber.name} size={80} />

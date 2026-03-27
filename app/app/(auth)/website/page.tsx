@@ -59,7 +59,7 @@ export default function WebsitePage() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Website Builder</h1>
@@ -84,22 +84,22 @@ export default function WebsitePage() {
         </div>
       ) : (
         <form onSubmit={handleSave} className="space-y-6">
-          <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Shop Identity</h2>
-            <div className="space-y-4">
+          <Card className="p-8">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5">Shop Identity</h2>
+            <div className="space-y-5">
               <Input label="Shop name *" placeholder="The Fade House" required {...f("shopName")} />
               <Input label="Tagline" placeholder="A short line describing your shop" {...f("tagline")} />
             </div>
           </Card>
 
-          <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">About</h2>
+          <Card className="p-8">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5">About</h2>
             <Textarea label="About your shop" placeholder="Tell visitors what makes your shop special..." rows={4} {...f("about")} />
           </Card>
 
-          <Card className="p-6">
-            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-4">Contact & Hours</h2>
-            <div className="space-y-4">
+          <Card className="p-8">
+            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-5">Contact & Hours</h2>
+            <div className="space-y-5">
               <Input label="Address" placeholder="123 Main St, City, State 00000" {...f("address")} />
               <Input label="Phone" type="tel" placeholder="+1 (555) 000-0000" {...f("phone")} />
               <Textarea label="Hours" placeholder={"Mon–Fri: 9am – 7pm\nSat: 9am – 5pm\nSun: Closed"} rows={4} {...f("hours")} />

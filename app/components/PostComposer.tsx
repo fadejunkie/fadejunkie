@@ -28,7 +28,7 @@ export default function PostComposer() {
   const remaining = 500 - content.length;
 
   return (
-    <form onSubmit={handleSubmit} className="bg-card border border-border p-5" style={{ borderRadius: "20px" }}>
+    <form onSubmit={handleSubmit} className="bg-card border border-border p-6" style={{ borderRadius: "20px" }}>
       <div className="flex gap-3">
         <Avatar src={barber?.avatarUrl} name={barber?.name ?? "?"} size={36} />
         <div className="flex-1">

@@ -17,7 +17,7 @@ export default function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden md:flex flex-col w-48 shrink-0 border-r border-border bg-card pt-6 pb-8 px-3 gap-0.5">
+    <nav className="hidden md:flex flex-col w-48 shrink-0 border-r border-border bg-card pt-8 pb-10 px-3 gap-1">
       {navItems.map(({ href, label }) => {
         const isActive = pathname === href || pathname.startsWith(href + "/");
         return (
@@ -25,7 +25,7 @@ export default function AppSidebar() {
             key={href}
             href={href}
             className={cn(
-              "relative text-sm py-1.5 px-3 rounded-md transition-colors duration-150",
+              "relative text-sm py-2.5 px-3 rounded-md transition-colors duration-150",
               "before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2",
               "before:h-[60%] before:w-[2px] before:rounded-full before:transition-all before:duration-150",
               isActive

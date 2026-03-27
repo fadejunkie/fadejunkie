@@ -129,7 +129,7 @@ export default function PracticeTestPage() {
   // ── Setup ──────────────────────────────────────────────────────────────────
   if (phase === "setup") {
     return (
-      <div className="space-y-5">
+      <div className="space-y-7">
         <div className="flex items-center gap-3">
           <Link href="/tools" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
@@ -212,7 +212,7 @@ export default function PracticeTestPage() {
   // ── Test ───────────────────────────────────────────────────────────────────
   if (phase === "test") {
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Sticky header */}
         <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border pb-3 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6">
           <div className="flex items-center justify-between mb-2">
@@ -288,7 +288,7 @@ export default function PracticeTestPage() {
 
   // ── Results ────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-5">
+    <div className="space-y-7">
       <div className="flex items-center gap-3">
         <button
           onClick={() => setPhase("setup")}
@@ -314,7 +314,7 @@ export default function PracticeTestPage() {
 
       {/* Topic breakdown */}
       {topicBreakdown.length > 0 && (
-        <Card className="p-5 space-y-4">
+        <Card className="p-6 space-y-5">
           <h2 className="text-base font-semibold text-foreground">By Topic</h2>
           <div className="space-y-3">
             {topicBreakdown.map(({ topic, correct, total, pct }) => (
@@ -353,7 +353,7 @@ export default function PracticeTestPage() {
                 const q = testQuestions.find((q) => q._id === entry.cardId);
                 if (!q) return null;
                 return (
-                  <Card key={String(entry.cardId)} className="p-5">
+                  <Card key={String(entry.cardId)} className="p-6">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <Badge variant="muted" className="text-xs">{q.topic}</Badge>
                       {entry.selectedAnswer ? (

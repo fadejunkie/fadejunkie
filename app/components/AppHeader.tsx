@@ -21,7 +21,7 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
   const handle = barber?.slug ? `@${barber.slug}` : null;
 
   return (
-    <header className="sticky top-0 z-40 h-12 bg-card border-b border-border flex items-center px-5">
+    <header className="sticky top-0 z-40 h-14 bg-card border-b border-border flex items-center px-5">
       <button
         onClick={onMenuClick}
         className={cn(
