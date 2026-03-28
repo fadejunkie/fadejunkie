@@ -1,14 +1,4 @@
 
-[2026-03-26T17:36:03.624Z] SKIP: Lobe inbox has 3 unprocessed task(s): fj-design-system-iteration-02-2026-03-26.md, fj-design-system-iteration-03-2026-03-26.md, fj-design-system-polish-2026-03-26.md
-
-[2026-03-28T06:00:01.895Z] SKIP: Lobe inbox has 1 unprocessed task(s): dev-banner.md
-
-[2026-03-28T06:15:01.644Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T06:15:01.648Z] SKIP: Lobe inbox has 1 unprocessed task(s): dev-banner.md
-
-[2026-03-28T06:30:01.661Z] WARN: Stale lockfile detected, removing
-
 [2026-03-28T06:30:01.666Z] SKIP: Lobe inbox has 1 unprocessed task(s): dev-banner.md
 
 [2026-03-28T06:45:01.899Z] WARN: Stale lockfile detected, removing
@@ -479,3 +469,33 @@ Node.js v24.13.1
 twanii → 
 
 [2026-03-28T16:23:02.251Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T16:23:03.925Z] Safety push complete
+
+[2026-03-28T16:23:03.926Z] Cron run complete
+
+[2026-03-28T16:30:02.021Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T16:30:02.026Z] Task created: cron-spot-fix-2026-03-28T16-30-02.md
+
+[2026-03-28T16:30:02.028Z] Spawning Lobe agent...
+
+[2026-03-28T16:30:02Z] SKIP: last cron commit was 7 minutes ago (< 10 min threshold) — commit 7ca3a59 at 16:23:02Z
+  Next eligible run: 2026-03-28T16:33:02Z
+
+[2026-03-28T16:38:02.113Z] Lobe exited with code: 0
+
+[2026-03-28T16:38:02.114Z] STDOUT (last 500 chars): Z] task: cron-spot-fix-2026-03-28T16-30-02.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
+lobe → Cycle skipped — the previous cron commit (`7ca3a59`) landed only 7 minutes ago, which is under the 10-minute guard. This prevents overlap with work that hasn't settled yet.
+
+**Next eligible run:** `2026-03-28T16:33:02Z`
+
+The skip was logged to `lobe/cron/cron.log`. Everything is clean — the guard is working as intended.
+
+  [outbox] cron-spot-fix-2026-03-28T16-30-02-2026-03-28T16-33-00-504Z.md
+twanii → 
+
+[2026-03-28T16:38:02.115Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T16-30-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T16-30-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T16-30-02.md'
+
+
+[2026-03-28T16:38:02.294Z] Unpushed changes detected, running safety commit+push...
