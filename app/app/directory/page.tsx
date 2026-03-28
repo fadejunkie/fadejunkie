@@ -115,7 +115,7 @@ export default function DirectoryPage() {
       <div className="border-b border-border px-6 py-5 sm:py-6">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-semibold text-foreground capitalize">
+            <h1 className="text-xl font-semibold text-foreground" style={{ textTransform: "none" }}>
               Texas Barber {plural.charAt(0).toUpperCase() + plural.slice(1)}
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5">
