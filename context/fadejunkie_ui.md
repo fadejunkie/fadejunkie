@@ -87,6 +87,7 @@ Living document. Updated by Lobe after each style test.
 - **Safe pattern:** The `Button` component (button.tsx) already has `font-sans font-semibold` in its CVA base — it is always correct. Any raw `<button>` used for UI chrome (not authored content) needs `font-sans` added to its `className`.
 - **Detection:** Grep for `<button` in page/component files. Every result that doesn't have `font-sans` in its className AND isn't a content-composition button (e.g. a like button inside a post body is borderline fine) is a P1.
   + Added: observed in `app/(auth)/resources/page.tsx` — 5 filter pill buttons inherited Courier Prime; fixed with `font-sans` class (cycle 2026-03-28T16:00)
+  ✓ Confirmed: `app/(auth)/tools/exam-guide/page.tsx:414,465,485,541,548` — ServiceCard had 5 raw `<button>` controls (accordion toggle, checklist items, "Reset checklist", "Reset", "Mark as Practiced") all inheriting Courier Prime; fixed with `font-sans` (cycle 2026-03-28T17:30). The styled "Mark as Practiced" CTA (`bg-foreground text-background rounded-lg`) in Courier Prime is the canonical example of how visually jarring this failure mode is — a UI action button should never use the typewriter body font.
 
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.

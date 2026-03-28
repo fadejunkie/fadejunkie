@@ -1,13 +1,3 @@
-[2026-03-28T10:15:01.782Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T10:30:01.771Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T10:30:01.775Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T10:45:01.788Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T10:45:01.792Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
 [2026-03-28T11:00:01.789Z] WARN: Stale lockfile detected, removing
 
 [2026-03-28T11:00:01.793Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
@@ -499,3 +489,19 @@ twanii →
 twanii → 
 
 [2026-03-28T17:08:02.242Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T17:08:03.855Z] Safety push complete
+
+[2026-03-28T17:08:03.856Z] Cron run complete
+
+[2026-03-28T17:15:02.058Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T17:15:02.063Z] Task created: cron-spot-fix-2026-03-28T17-15-02.md
+
+[2026-03-28T17:15:02.065Z] Spawning Lobe agent...
+
+[2026-03-28T17:30:00.000Z] FIX: exam-guide/page.tsx (ServiceCard) — 5 raw <button> UI controls missing `font-sans`, inheriting Courier Prime (typewriter body font) instead of Geist (UI font) → added `font-sans` to accordion toggle, checklist item buttons, "Reset checklist", "Reset", and "Mark as Practiced" buttons
+  Files: app/app/(auth)/tools/exam-guide/page.tsx, context/fadejunkie_ui.md
+  Commit: d5e5b2f
+  DS Update: CONFIRM — Raw <button> font-sans rule — 2nd cross-file confirmation (resources/page.tsx, exam-guide/page.tsx); "Mark as Practiced" styled CTA in Courier Prime documented as canonical example of the failure mode
+  Pattern: Any raw <button> styled as a UI action control (CTA, pill, toggle) that omits font-sans is a P1 — the typewriter body font is audibly wrong in a button context. ServiceCard-style components that roll their own buttons instead of using Button.tsx are the highest-risk location for this class of bug.
