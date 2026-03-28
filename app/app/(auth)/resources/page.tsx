@@ -24,7 +24,7 @@ export default function ResourcesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-[22px] font-bold text-foreground tracking-tight">Resources</h1>
+        <h1 className="text-[22px] font-bold text-foreground">Resources</h1>
         <p className="text-[13.5px] text-muted-foreground mt-1 leading-relaxed">
           Curated tools, products, and services for barbers, students, schools, and shop owners.
         </p>

@@ -23,7 +23,7 @@ export default function ToolsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-[22px] font-bold text-foreground tracking-tight">Tools</h1>
+        <h1 className="text-[22px] font-bold text-foreground">Tools</h1>
         <p className="text-[13.5px] text-muted-foreground mt-1">Daily operations resources and more.</p>
       </div>
 
