@@ -1,29 +1,3 @@
-
-**Build:** Clean ✓ | **Pushed:** `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-28T15-15-01-2026-03-28T15-19-50-817Z.md
-twanii → 
-
-[2026-03-28T15:23:02.173Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T15:23:03.770Z] Safety push complete
-
-[2026-03-28T15:23:03.771Z] Cron run complete
-
-[2026-03-28T15:30:01.990Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T15:30:01.996Z] Task created: cron-spot-fix-2026-03-28T15-30-01.md
-
-[2026-03-28T15:30:01.997Z] Spawning Lobe agent...
-
-[2026-03-28T15:38:00.000Z] FIX: tools/flashcards/page.tsx — flip card back face used hardcoded Tailwind color utilities (text-white, bg-white/20, bg-white, bg-white/10, text-white/60) on an inverted bg-foreground card → replaced with semantic tokens (text-background, bg-background/20, bg-background, bg-background/10, text-background/60)
-  Files: app/app/(auth)/tools/flashcards/page.tsx, context/fadejunkie_ui.md
-  Commit: ba64d16
-  DS Update: ADD — Tailwind color utilities on inverted cards — "text-white" on "bg-foreground" = invisible text in dark mode; always use "text-background"/"bg-background" variants on inverted surfaces
-  Pattern: Tailwind's text-white/bg-white utilities are hardcoded-color utilities in disguise. On inverted cards (bg-foreground), dark mode flips bg-foreground to white — making text-white white-on-white. The P0 failure is invisible in light mode, so it survives review. Rule: inverted card text always uses text-background, bg-background/*, never text-white/bg-white.
-
-[2026-03-28T15:38:02.083Z] Lobe exited with code: 0
-
 [2026-03-28T15:38:02.084Z] STDOUT (last 500 chars): light text on dark background (dark mode).
 
 **📐 Design System Hardened**
@@ -499,3 +473,29 @@ Added a 4th confirmation to the **[HARDENED]** `raw <button> font-sans` rule. Pr
 twanii → 
 
 [2026-03-28T19:23:02.361Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T19:23:04.017Z] Safety push complete
+
+[2026-03-28T19:23:04.020Z] Cron run complete
+
+[2026-03-28T19:30:02.146Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T19:30:02.151Z] Task created: cron-spot-fix-2026-03-28T19-30-02.md
+
+[2026-03-28T19:30:02.153Z] Spawning Lobe agent...
+
+[2026-03-28T19:30:02Z] SKIP: last commit was ~7 min ago (947e53e at 19:23:02 UTC) — < 10 min threshold. No fix applied this cycle.
+  Reason: overlap prevention (last cycle: profile/page.tsx raw <button> font-sans fix)
+
+[2026-03-28T19:38:02.222Z] Lobe exited with code: 0
+
+[2026-03-28T19:38:02.223Z] STDOUT (last 500 chars): — cycle triggered too soon after previous run.**
+
+The cron protocol requires at least 10 minutes between commits to prevent overlap. The previous cycle committed at ~19:23 UTC (fixing raw `<button>` elements missing `font-sans` in `profile/page.tsx`), and this cycle fired only ~7 minutes later.
+
+**No changes made.** The cycle will run clean at the next scheduled trigger (15-minute interval puts it at ~19:38 UTC).
+
+  [outbox] cron-spot-fix-2026-03-28T19-30-02-2026-03-28T19-31-50-033Z.md
+twanii → 
+
+[2026-03-28T19:38:02.342Z] Unpushed changes detected, running safety commit+push...
