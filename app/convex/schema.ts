@@ -206,6 +206,18 @@ export default defineSchema({
     .index("by_path", ["path"])
     .index("by_userId_path", ["userId", "path"]),
 
+  statusConnections: defineTable({
+    fromUserId: v.id("users"),
+    toUserId: v.id("users"),
+    statusId: v.id("statuses"),
+    note: v.optional(v.string()),
+    status: v.string(), // "pending" | "seen"
+    createdAt: v.number(),
+  })
+    .index("by_toUserId", ["toUserId"])
+    .index("by_fromUserId", ["fromUserId"])
+    .index("by_fromUserId_statusId", ["fromUserId", "statusId"]),
+
   // ── Control Center tables ──
 
   ccMetrics: defineTable({

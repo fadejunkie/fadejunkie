@@ -369,6 +369,121 @@ export const getComplementaryMatches = query({
   },
 });
 
+// ── Connections ──
+
+export const connectOnStatus = mutation({
+  args: {
+    statusId: v.id("statuses"),
+    note: v.optional(v.string()),
+  },
+  handler: async (ctx, { statusId, note }) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError("Not authenticated");
+
+    const status = await ctx.db.get(statusId);
+    if (!status) throw new ConvexError("Status not found");
+    if (!status.isActive || status.expiresAt <= Date.now()) {
+      throw new ConvexError("Status is no longer active");
+    }
+    if (status.userId === userId) {
+      throw new ConvexError("Cannot connect to your own status");
+    }
+
+    const existing = await ctx.db
+      .query("statusConnections")
+      .withIndex("by_fromUserId_statusId", (q) =>
+        q.eq("fromUserId", userId).eq("statusId", statusId)
+      )
+      .unique();
+
+    if (existing) {
+      throw new ConvexError("Already sent a connection request for this status");
+    }
+
+    const trimmedNote = note?.trim().slice(0, 280);
+
+    return ctx.db.insert("statusConnections", {
+      fromUserId: userId,
+      toUserId: status.userId,
+      statusId,
+      note: trimmedNote || undefined,
+      status: "pending",
+      createdAt: Date.now(),
+    });
+  },
+});
+
+export const getMyConnectionRequests = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return [];
+
+    const connections = await ctx.db
+      .query("statusConnections")
+      .withIndex("by_toUserId", (q) => q.eq("toUserId", userId))
+      .collect();
+
+    // Batch-lookup statuses and barber profiles
+    const statusIds = [...new Set(connections.map((c) => c.statusId))];
+    const statusMap = new Map<string, { path: string; toggleKey: string }>();
+    for (const sid of statusIds) {
+      const s = await ctx.db.get(sid);
+      if (s) statusMap.set(sid, { path: s.path, toggleKey: s.toggleKey });
+    }
+
+    const senderIds = [...new Set(connections.map((c) => c.fromUserId))];
+    const barberMap = new Map<string, { name: string | null; slug: string | null; avatarUrl: string | null }>();
+    for (const uid of senderIds) {
+      const barber = await ctx.db
+        .query("barbers")
+        .withIndex("by_userId", (q) => q.eq("userId", uid))
+        .unique();
+      barberMap.set(uid, {
+        name: barber?.name ?? null,
+        slug: barber?.slug ?? null,
+        avatarUrl: barber?.avatarUrl ?? null,
+      });
+    }
+
+    return connections
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .map((c) => {
+        const statusInfo = statusMap.get(c.statusId);
+        const barber = barberMap.get(c.fromUserId);
+        return {
+          _id: c._id,
+          fromUserId: c.fromUserId,
+          statusId: c.statusId,
+          note: c.note,
+          status: c.status,
+          createdAt: c.createdAt,
+          statusPath: statusInfo?.path ?? null,
+          statusToggleKey: statusInfo?.toggleKey ?? null,
+          barberName: barber?.name ?? null,
+          barberSlug: barber?.slug ?? null,
+          barberAvatarUrl: barber?.avatarUrl ?? null,
+        };
+      });
+  },
+});
+
+export const markConnectionSeen = mutation({
+  args: {
+    connectionId: v.id("statusConnections"),
+  },
+  handler: async (ctx, { connectionId }) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new ConvexError("Not authenticated");
+
+    const connection = await ctx.db.get(connectionId);
+    if (!connection) throw new ConvexError("Connection not found");
+    if (connection.toUserId !== userId) throw new ConvexError("Not your connection");
+
+    await ctx.db.patch(connectionId, { status: "seen" });
+  },
+});
+
 // ── Internal (cron-only) ──
 
 export const expireStatuses = internalMutation({
