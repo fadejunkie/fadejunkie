@@ -1,14 +1,4 @@
 
-[2026-03-28T17:38:02.147Z] STDOUT (last 500 chars): rcase` on h1–h4 but does NOT set the font family. Any h1 without `font-display` inherits the nearest font-family in the cascade, which in FJ is Courier Prime via the `body {}` rule."
-- **HARDENED:** Raw `<button>` → `font-sans` rule now has 3 confirmations across 3 different files and is marked `[HARDENED]`.
-
----
-
-**Commits:** `469867a` (fix) + `73bcd0a` (DS + log) — pushed to `origin/main`. Build: ✅ 17/17 clean.
-
-  [outbox] cron-spot-fix-2026-03-28T17-30-02-2026-03-28T17-34-17-286Z.md
-twanii → 
-
 [2026-03-28T17:38:02.267Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-28T17:38:03.836Z] Safety push complete
@@ -499,3 +489,19 @@ Added the 4th cross-file confirmation on the `font-display` rule. It's now fully
 twanii → 
 
 [2026-03-28T21:53:01.469Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T21:53:03.255Z] Safety push complete
+
+[2026-03-28T21:53:03.256Z] Cron run complete
+
+[2026-03-28T22:00:01.265Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T22:00:01.270Z] Task created: cron-spot-fix-2026-03-28T22-00-01.md
+
+[2026-03-28T22:00:01.272Z] Spawning Lobe agent...
+
+[2026-03-28T22:00:01Z] FIX: tools/page.tsx — h1 missing font-display class → added font-display prefix to className
+  Files: app/(auth)/tools/page.tsx
+  Commit: 9dcda24
+  DS Update: CONFIRM — Page h1 headings require font-display — 5th cross-file confirmation (tools joins flashcards, practice-test, resources, website); rule remains [HARDENED]. Next: exam-guide/page.tsx:583
+  Pattern: font-display on page h1s — all auth-interior page h1s are font-display suspects; globals.css does not cascade display font to h1 elements
