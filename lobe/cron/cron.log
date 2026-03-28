@@ -194,3 +194,18 @@ twanii →
   Pattern: Editorial/brand headings → global lowercase is intentional. Database field headings (names, titles) → always override textTransform: "none". Two categories of h1 usage, two different rules.
 
 [2026-03-28T14:15:01.928Z] Spawning Lobe agent...
+
+[2026-03-28T14:23:01.988Z] Lobe exited with code: 0
+
+[2026-03-28T14:23:01.990Z] STDOUT (last 500 chars): dded to `context/fadejunkie_ui.md`:
+> The global `text-transform: lowercase` on `h1–h4` is a *brand rule*, not a *data rule*. User-generated proper names (barber names, shop names from the DB) always need `style={{ textTransform: "none" }}` to override it. Editorial headlines = lowercase. Data headings = respect the data.
+
+---
+
+**Build:** ✅ Passed (17/17 pages generated)  
+**Commit:** `8eab960` → pushed to `main`
+
+  [outbox] cron-spot-fix-2026-03-28T14-15-01-2026-03-28T14-19-26-540Z.md
+twanii → 
+
+[2026-03-28T14:23:02.141Z] Unpushed changes detected, running safety commit+push...
