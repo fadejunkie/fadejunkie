@@ -162,6 +162,31 @@ export const getActiveStatusesForUser = query({
   },
 });
 
+export const getMyArchivedStatuses = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return [];
+
+    const statuses = await ctx.db
+      .query("statuses")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .collect();
+
+    return statuses
+      .filter((s) => !s.isActive)
+      .sort((a, b) => (b.archivedAt ?? b.activatedAt) - (a.archivedAt ?? a.activatedAt))
+      .map((s) => {
+        const config = getToggleConfig(s.path as UserPath, s.toggleKey);
+        return {
+          ...s,
+          defaultDays: config?.default_days ?? 0,
+          maxDays: config?.max_days ?? 0,
+        };
+      });
+  },
+});
+
 // ── Internal (cron-only) ──
 
 export const expireStatuses = internalMutation({
