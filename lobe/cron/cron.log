@@ -451,3 +451,19 @@ Node.js v24.13.1
 
 
 [2026-03-28T16:10:46.750Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T16:10:48.388Z] Safety push complete
+
+[2026-03-28T16:10:48.390Z] Cron run complete
+
+[2026-03-28T16:15:02.020Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T16:15:02.026Z] Task created: cron-spot-fix-2026-03-28T16-15-02.md
+
+[2026-03-28T16:15:02.028Z] Spawning Lobe agent...
+
+[2026-03-28T16:15:02Z] FIX: ResourceCard.tsx — hover border used hardcoded hex #c8c8c8 instead of CSS token → replaced with hover:border-foreground/20
+  Files: app/components/ResourceCard.tsx, context/fadejunkie_ui.md
+  Commit: 1009556
+  DS Update: CONFIRM — "No hardcoded colors — tokens only" — extended rule to cover Tailwind arbitrary-value classes like hover:border-[#hex]; added correct hover border pattern (hover:border-foreground/20)
+  Pattern: Hardcoded hex values in Tailwind arbitrary classes (e.g. hover:border-[#c8c8c8]) are color violations in the same way as inline style hex values — both bypass the token system and break dark mode.
