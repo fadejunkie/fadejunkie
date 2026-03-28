@@ -51,7 +51,7 @@ export default async function BarberProfilePage({ params }: PageProps) {
 
         {barber.services.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Services</h2>
+            <p style={{ fontFamily: "var(--font-geist-mono), ui-monospace, monospace", fontSize: "0.625rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)", marginBottom: "0.5rem" }}>Services</p>
             <div className="flex flex-wrap gap-1.5">
               {barber.services.map((s) => <Badge key={s} variant="outline">{s}</Badge>)}
             </div>
@@ -80,7 +80,7 @@ export default async function BarberProfilePage({ params }: PageProps) {
 
         {gallery.length > 0 && (
           <div>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">Gallery</h2>
+            <p style={{ fontFamily: "var(--font-geist-mono), ui-monospace, monospace", fontSize: "0.625rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)", marginBottom: "0.75rem" }}>Gallery</p>
             <div className="grid grid-cols-3 gap-2">
               {gallery.map((photo) => (
                 <div key={photo._id} className="aspect-square relative rounded overflow-hidden bg-muted">
