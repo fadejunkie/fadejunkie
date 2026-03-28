@@ -1,22 +1,4 @@
 
-[2026-03-28T15:15:01.957Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T15:15:01.962Z] Task created: cron-spot-fix-2026-03-28T15-15-01.md
-
-[2026-03-28T15:15:01.963Z] Spawning Lobe agent...
-
-[2026-03-28T15:15:01Z] FIX: barber/[slug]/page.tsx — 2× <h2 className="…uppercase tracking-widest"> section labels ("Services", "Gallery") → converted to <p> with Geist Mono eyebrow token inline styles
-  Files: app/app/barber/[slug]/page.tsx, app/context/fadejunkie_ui.md
-  Commit: 6d4c3b5
-  DS Update: CONFIRM — Section-label must NOT use heading tags — 2nd cross-file confirmation (after website/page.tsx in 15:00 cycle). Rule approaching [HARDENED] status (2/3 confirmations).
-  Pattern: Public-facing pages use the same h2→p eyebrow pattern as auth-interior pages — the rule is universal, not scoped to app-interior only.
-
-[2026-03-28T15:23:02.049Z] Lobe exited with code: 0
-
-[2026-03-28T15:23:02.050Z] STDOUT (last 500 chars): row pattern (`fontFamily: var(--font-geist-mono)`, `fontSize: 0.625rem`, `letterSpacing: 0.14em`, `uppercase`) — same fix that was applied to `website/page.tsx` last cycle.
-
-**Design system update:** CONFIRM — "Section labels must NOT use heading tags" rule now has 2/3 cross-file confirmations (barber page + website page). One more sighting and it goes `[HARDENED]`.
-
 **Build:** Clean ✓ | **Pushed:** `origin/main`
 
   [outbox] cron-spot-fix-2026-03-28T15-15-01-2026-03-28T15-19-50-817Z.md
@@ -505,3 +487,15 @@ twanii →
   Commit: 5d23019
   DS Update: CONFIRM — Raw <button> font-sans rule [HARDENED] — 4th cross-file confirmation (profile page). "Upload photo" trigger button (line 143) and service-tag × remove button (line 218) both rendered in Courier Prime instead of Geist.
   Pattern: [HARDENED] raw <button> font-sans rule now confirmed across resources, exam-guide, flashcards, AND profile pages. The pattern is universal across all auth-interior pages — every page scan should grep <button as a standard first check.
+
+[2026-03-28T19:23:02.246Z] Lobe exited with code: 0
+
+[2026-03-28T19:23:02.248Z] STDOUT (last 500 chars): ld verified clean. Committed `5d23019`.
+
+**HARDEN — `context/fadejunkie_ui.md`**
+Added a 4th confirmation to the **[HARDENED]** `raw <button> font-sans` rule. Profile page joins resources, exam-guide, and flashcards as confirmed instances — the pattern is now documented as universal across all auth-interior pages, not just tool pages. Every future page scan should treat `grep <button` as the standard first check.
+
+  [outbox] cron-spot-fix-2026-03-28T19-15-02-2026-03-28T19-19-32-396Z.md
+twanii → 
+
+[2026-03-28T19:23:02.361Z] Unpushed changes detected, running safety commit+push...
