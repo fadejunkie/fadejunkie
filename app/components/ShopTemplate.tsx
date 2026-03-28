@@ -62,9 +62,9 @@ export default function ShopTemplate({ shop, preview = false }: ShopTemplateProp
       {shop.about && (
         <section id="about" className="px-6 py-14 border-b border-border">
           <div className="max-w-2xl mx-auto">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
+            <p style={{ fontFamily: "var(--font-geist-mono), ui-monospace, monospace", fontSize: "0.625rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)", fontWeight: 600, marginBottom: "1rem" }}>
               About
-            </h2>
+            </p>
             <p className="text-base text-foreground/80 leading-relaxed">{shop.about}</p>
           </div>
         </section>
@@ -73,9 +73,9 @@ export default function ShopTemplate({ shop, preview = false }: ShopTemplateProp
       {/* Contact */}
       <section id="contact" className="px-6 py-14 border-b border-border">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6">
+          <p style={{ fontFamily: "var(--font-geist-mono), ui-monospace, monospace", fontSize: "0.625rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)", fontWeight: 600, marginBottom: "1.5rem" }}>
             Contact & Hours
-          </h2>
+          </p>
           <div className="grid sm:grid-cols-3 gap-6">
             {shop.address && (
               <div>
