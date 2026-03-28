@@ -499,3 +499,9 @@ twanii →
 [2026-03-28T18:00:02.103Z] Task created: cron-spot-fix-2026-03-28T18-00-02.md
 
 [2026-03-28T18:00:02.105Z] Spawning Lobe agent...
+
+[2026-03-28T18:00:00Z] FIX: components/hero.tsx — 8 hardcoded #000000/#ffffff color values bypassing CSS token system → replaced with var(--foreground) / var(--background) tokens throughout
+  Files: app/components/hero.tsx, context/fadejunkie_ui.md
+  Commit: 903f20d
+  DS Update: CONFIRM [HARDENED] — No hardcoded colors rule — 5th+ cross-file confirmation; rule now explicitly covers: (1) inverted card backgrounds must use var(--foreground) not #000000, (2) text on inverted surfaces must use var(--background) not #ffffff, (3) floating light-surface UI elements must use var(--background) not #ffffff, (4) inline <style> CSS blocks (keyframe animations) are in scope — background-color: #000000 in a keyframe is the same violation as in a JSX inline style prop
+  Pattern: Hero components are a concentration risk for hardcoded colors — they're built as standalone visual showcases, often authored without reference to the token system. The "it looks fine in light mode" false negative is the reason #000000/#ffffff survive review: in light mode var(--foreground)=#000000 and var(--background)=#ffffff, so the values are visually identical to the correct tokens. The failure is only visible in dark mode. Detection: grep for `"#000000"`, `"#ffffff"`, `'#000'`, `'#fff'` across all component files including inside template literal <style> blocks.
