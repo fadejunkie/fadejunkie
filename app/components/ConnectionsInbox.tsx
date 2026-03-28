@@ -69,12 +69,12 @@ export default function ConnectionsInbox() {
     <div className="space-y-5">
       {/* ── Section header ── */}
       <div className="flex items-center gap-2">
-        <h2
+        <p
           className="text-base font-semibold text-foreground"
           style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
         >
           connections
-        </h2>
+        </p>
 
         {/* Unseen badge */}
         {unseenCount > 0 && (

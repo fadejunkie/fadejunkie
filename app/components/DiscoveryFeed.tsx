@@ -5,6 +5,27 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import DiscoveryCard from "@/components/DiscoveryCard";
 
+// ── Skeleton card (matches DiscoveryCard layout) ──────────────────────────────
+
+function SkeletonCard() {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4 space-y-3">
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-full bg-muted animate-pulse shrink-0" />
+        <div className="flex-1 space-y-1.5">
+          <div className="h-3 bg-muted animate-pulse rounded w-2/3" />
+          <div className="h-2.5 bg-muted animate-pulse rounded w-1/3" />
+        </div>
+      </div>
+      <div className="h-2.5 bg-muted animate-pulse rounded w-4/5" />
+      <div className="flex items-center justify-between">
+        <div className="h-2.5 bg-muted animate-pulse rounded w-12" />
+        <div className="h-5 bg-muted animate-pulse rounded-full w-16" />
+      </div>
+    </div>
+  );
+}
+
 // ── DiscoveryFeed ─────────────────────────────────────────────────────────────
 
 export default function DiscoveryFeed() {
@@ -23,16 +44,26 @@ export default function DiscoveryFeed() {
     selectedPath ? { path: selectedPath } : "skip"
   );
 
-  // ── Loading ──
+  // ── Loading (paths not yet fetched) ──
   if (paths === undefined) {
     return (
-      <div className="flex items-center justify-center h-32">
-        <span
-          className="text-sm text-muted-foreground"
-          style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-        >
-          Loading...
-        </span>
+      <div className="space-y-5">
+        {/* Skeleton tab strip */}
+        <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+          {[80, 64, 96, 72].map((w, i) => (
+            <div
+              key={i}
+              className="h-7 bg-muted animate-pulse rounded-full shrink-0"
+              style={{ width: w }}
+            />
+          ))}
+        </div>
+        {/* Skeleton cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          {[0, 1, 2, 3].map((i) => (
+            <SkeletonCard key={i} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -88,15 +119,10 @@ export default function DiscoveryFeed() {
 
       {/* ── Results ── */}
       {statuses === undefined ? (
-        <div className="flex items-center justify-center h-24">
-          <span
-            className="text-sm text-muted-foreground"
-            style={{
-              fontFamily: "var(--font-body), 'Courier Prime', monospace",
-            }}
-          >
-            Loading...
-          </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          {[0, 1, 2, 3].map((i) => (
+            <SkeletonCard key={i} />
+          ))}
         </div>
       ) : statuses.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-32 gap-1.5 text-center">

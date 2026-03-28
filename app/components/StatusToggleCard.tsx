@@ -118,9 +118,9 @@ export default function StatusToggleCard({
         isPending && "opacity-50 pointer-events-none"
       )}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center justify-between gap-3 min-h-[44px]">
         {/* ── Left: label + meta ── */}
-        <div className="flex-1 min-w-0 pt-0.5">
+        <div className="flex-1 min-w-0">
           <p
             className="text-[13px] font-semibold text-foreground leading-snug"
             style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}

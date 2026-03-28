@@ -25,7 +25,7 @@ export default function PublicStatusBadges({
           <span
             key={s.toggleKey}
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.625rem",
               color: "var(--foreground)",
               opacity: 0.6,
@@ -48,7 +48,7 @@ export default function PublicStatusBadges({
         <div key={group.path}>
           <p
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.5625rem",
               fontWeight: 500,
               letterSpacing: "0.12em",
@@ -64,7 +64,7 @@ export default function PublicStatusBadges({
               <span
                 key={s.toggleKey}
                 style={{
-                  fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                  fontFamily: "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.625rem",
                   color: "var(--foreground)",
                   border: "1px solid color-mix(in oklch, var(--foreground) 18%, transparent)",

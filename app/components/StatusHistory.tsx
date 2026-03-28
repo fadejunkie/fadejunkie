@@ -71,12 +71,12 @@ export default function StatusHistory() {
   return (
     <div className="space-y-5">
       {/* ── Section header ── */}
-      <h2
+      <p
         className="text-base font-semibold text-foreground"
         style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
       >
         history
-      </h2>
+      </p>
 
       {/* ── Empty state ── */}
       {archived.length === 0 ? (

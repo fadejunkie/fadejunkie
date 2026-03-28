@@ -48,8 +48,26 @@ export default function StatusPanel() {
   // ── Loading state ──
   if (myPaths === undefined || myStatuses === undefined) {
     return (
-      <div className="flex items-center justify-center h-32">
-        <span className="font-body text-sm text-muted-foreground">Loading...</span>
+      <div className="space-y-8">
+        {[0, 1].map((i) => (
+          <div key={i}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-4 w-20 bg-muted animate-pulse rounded" />
+              <div className="h-3 w-12 bg-muted animate-pulse rounded" />
+            </div>
+            <div className="grid gap-2.5 sm:grid-cols-2">
+              {[0, 1, 2, 3].map((j) => (
+                <div key={j} className="rounded-xl p-4 border border-border bg-card space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="h-3.5 w-28 bg-muted animate-pulse rounded" />
+                    <div className="w-9 h-5 bg-muted animate-pulse rounded-full shrink-0" />
+                  </div>
+                  <div className="h-2.5 w-16 bg-muted animate-pulse rounded" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
@@ -145,14 +163,15 @@ export default function StatusPanel() {
           <div key={path}>
             {/* ── Path group header ── */}
             <div className="flex items-center gap-3 mb-4">
-              <h2
+              <p
                 className="text-base font-semibold text-foreground"
                 style={{
                   fontFamily: "var(--font-heading), system-ui, sans-serif",
+                  textTransform: "none",
                 }}
               >
                 {PATH_LABELS[p]}
-              </h2>
+              </p>
 
               {isPrimary && (
                 <span
