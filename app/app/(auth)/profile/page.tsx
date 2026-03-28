@@ -112,7 +112,7 @@ export default function ProfilePage() {
       {/* Profile card */}
       <Card className="rounded-xl shadow-sm p-6 sm:p-8">
         <div className="mb-6 space-y-3">
-          <h2 className="text-lg font-bold text-foreground">Your Profile</h2>
+          <p className="text-lg font-bold text-foreground">Your Profile</p>
           <ActiveStatusBadges />
         </div>
 
@@ -295,7 +295,7 @@ export default function ProfilePage() {
       {/* Gallery card */}
       {barber && (
         <Card className="rounded-xl shadow-sm p-6 sm:p-8">
-          <h2 className="text-lg font-bold text-foreground mb-4">Gallery</h2>
+          <p className="text-lg font-bold text-foreground mb-4">Gallery</p>
           <GalleryGrid barberId={barber._id} editable />
         </Card>
       )}
