@@ -49,8 +49,8 @@ const BentoCard = ({
       className={cn(
         "group relative col-span-3 flex flex-col justify-end overflow-hidden cursor-pointer transition-all duration-300",
         isDark
-          ? "hover:bg-black"
-          : "hover:shadow-[0_4px_20px_rgba(0,0,0,0.10)]",
+          ? ""
+          : "hover:shadow-md",
         className,
       )}
       style={{
@@ -67,7 +67,7 @@ const BentoCard = ({
             "h-7 w-7 origin-left transition-all duration-300 ease-in-out group-hover:scale-90",
           )}
           style={{
-            color: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.35)",
+            color: isDark ? "color-mix(in oklch, var(--background) 40%, transparent)" : "color-mix(in oklch, var(--foreground) 35%, transparent)",
             strokeWidth: 1.5,
           }}
         />
@@ -87,7 +87,7 @@ const BentoCard = ({
             fontFamily: "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.875rem",
             lineHeight: 1.6,
-            color: isDark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.55)",
+            color: isDark ? "color-mix(in oklch, var(--background) 50%, transparent)" : "color-mix(in oklch, var(--foreground) 55%, transparent)",
             maxWidth: "28rem",
           }}
         >
