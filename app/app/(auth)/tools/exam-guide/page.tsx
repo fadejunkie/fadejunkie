@@ -413,7 +413,7 @@ function ServiceCard({
       {/* Header -- always visible */}
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full flex items-start justify-between gap-3 p-6 text-left hover:bg-muted/30 transition-colors"
+        className="w-full flex items-start justify-between gap-3 p-6 text-left hover:bg-muted/30 transition-colors font-sans"
       >
         <div className="min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -465,7 +465,7 @@ function ServiceCard({
                 <button
                   key={idx}
                   onClick={() => toggleCheck(idx)}
-                  className={`w-full flex items-start gap-3 text-left text-sm py-2 px-3 rounded-lg transition-colors ${
+                  className={`w-full flex items-start gap-3 text-left text-sm py-2 px-3 rounded-lg transition-colors font-sans ${
                     checkedItems.has(idx)
                       ? "bg-muted/60 text-muted-foreground"
                       : "hover:bg-muted/30 text-foreground"
@@ -484,7 +484,7 @@ function ServiceCard({
               {checkedItems.size > 0 && (
                 <button
                   onClick={() => setCheckedItems(new Set())}
-                  className="mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors pl-3"
+                  className="mt-1 text-xs text-muted-foreground hover:text-foreground transition-colors pl-3 font-sans"
                 >
                   Reset checklist
                 </button>
@@ -540,14 +540,14 @@ function ServiceCard({
               {progress && (
                 <button
                   onClick={onResetProgress}
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors font-sans"
                 >
                   Reset
                 </button>
               )}
               <button
                 onClick={onMarkPracticed}
-                className="text-sm font-medium px-4 py-2 rounded-lg bg-foreground text-background hover:opacity-90 transition-opacity"
+                className="text-sm font-medium px-4 py-2 rounded-lg bg-foreground text-background hover:opacity-90 transition-opacity font-sans"
               >
                 Mark as Practiced
               </button>
