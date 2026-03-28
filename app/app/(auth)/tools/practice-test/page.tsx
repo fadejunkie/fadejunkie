@@ -165,7 +165,7 @@ export default function PracticeTestPage() {
                   key={n}
                   onClick={() => setQuestionCount(n)}
                   disabled={n > poolCards.length && poolCards.length > 0}
-                  className={`px-4 py-1.5 text-sm rounded-md border transition-colors disabled:opacity-40 ${
+                  className={`font-sans px-4 py-1.5 text-sm rounded-md border transition-colors disabled:opacity-40 ${
                     questionCount === n
                       ? "bg-foreground text-background border-foreground"
                       : "border-border text-foreground hover:border-ring"
@@ -342,7 +342,7 @@ export default function PracticeTestPage() {
         <div className="space-y-3">
           <button
             onClick={() => setShowReview((r) => !r)}
-            className="w-full text-sm font-medium text-foreground border border-border rounded-lg px-4 py-2.5 hover:border-ring transition-colors"
+            className="font-sans w-full text-sm font-medium text-foreground border border-border rounded-lg px-4 py-2.5 hover:border-ring transition-colors"
           >
             {showReview ? "Hide" : "Review"} Missed Questions ({missedEntries.length})
           </button>
