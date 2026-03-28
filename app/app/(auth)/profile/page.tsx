@@ -143,7 +143,7 @@ export default function ProfilePage() {
                 <button
                   type="button"
                   onClick={() => avatarRef.current?.click()}
-                  className="text-sm text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity"
+                  className="font-sans text-sm text-foreground underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
                   Upload photo
                 </button>
@@ -216,7 +216,7 @@ export default function ProfilePage() {
                   <span key={s} className="inline-flex items-center gap-1 bg-muted border border-border rounded px-2.5 py-1 text-xs text-foreground">
                     {s}
                     <button type="button" onClick={() => setServices((prev) => prev.filter((x) => x !== s))}
-                      className="text-muted-foreground hover:text-foreground ml-0.5">×</button>
+                      className="font-sans text-muted-foreground hover:text-foreground ml-0.5">×</button>
                   </span>
                 ))}
               </div>
