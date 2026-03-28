@@ -1,13 +1,3 @@
-[2026-03-28T13:55:00.000Z] FIX: tools/page.tsx + resources/page.tsx — `tracking-tight` (Tailwind -0.025em) overriding global h1 letter-spacing (-0.05em) → removed `tracking-tight` class from both h1 headings, restoring design system spacing
-  Files: app/app/(auth)/tools/page.tsx, app/app/(auth)/resources/page.tsx, app/context/fadejunkie_ui.md (created)
-  Commit: f90d37d
-  DS Update: CHALLENGE — Typography / heading letter-spacing — `tracking-tight` Tailwind utility conflicts with globals.css h1 rule; removed offending class; documented pattern in fadejunkie_ui.md
-  Pattern: Never use Tailwind tracking utilities on h1–h4; global CSS in globals.css:199-202 owns all heading letter-spacing (-0.05em through -0.02em)
-
-[2026-03-28T13:53:02.007Z] Lobe exited with code: 0
-
-[2026-03-28T13:53:02.009Z] STDOUT (last 500 chars): from both h1 elements, letting the global CSS rules apply naturally.
-
 **Design System Update (CHALLENGE → ADD):** Added a new hardened rule to `context/fadejunkie_ui.md` — Tailwind's `tracking-*` utilities must never be used on `h1`–`h4`. The global heading letter-spacing in `globals.css` owns that property. Any `tracking-tight` on a heading is a bug, not a style choice.
 
 **Commit:** `f90d37d` → pushed to `main`.
@@ -499,3 +489,23 @@ twanii →
 twanii → 
 
 [2026-03-28T17:38:02.267Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T17:38:03.836Z] Safety push complete
+
+[2026-03-28T17:38:03.837Z] Cron run complete
+
+[2026-03-28T17:45:02.068Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T17:45:02.074Z] Task created: cron-spot-fix-2026-03-28T17-45-02.md
+
+[2026-03-28T17:45:02.075Z] Spawning Lobe agent...
+
+[2026-03-28T17:50:00Z] SKIP: inbox has 1 unprocessed task — cron-spot-fix-2026-03-28T17-45-02.md
+  Reason: Manual inbox tasks take priority over cron fix cycles.
+  Action: No files modified. No commit made.
+
+[2026-03-28T17:45:02Z] FIX: practice-test/page.tsx — h1 headings missing font-display class → added font-display to both "Practice Test" (setup phase) and "Results" (results phase) h1 elements
+  Files: app/app/(auth)/tools/practice-test/page.tsx
+  Commit: aee4864
+  DS Update: CONFIRM — Font h1–h4 base rule — practice-test/page.tsx h1s now carry explicit font-display, matching flashcards/page.tsx pattern (cycle 2026-03-28T17:45)
+  Pattern: Explicit font-display on page h1s is defensive and self-documenting even when globals.css provides the rule via cascade — confirm at usage site, not just in the stylesheet.

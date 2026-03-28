@@ -22,6 +22,7 @@
 
 **Font — h1–h4 base:** League Spartan + lowercase + tight letter-spacing set globally
   ✓ Confirmed: `app/globals.css:190-202` applies `font-family: var(--font-display)`, `text-transform: lowercase`, `letter-spacing: -0.05em` to h1 via CSS baseline. Do NOT add `tracking-tight` (Tailwind `-0.025em`) to h1 headings — it will override the design system spacing with a weaker value. (cycle 2026-03-28T13:45)
+  ✓ Confirmed: `app/(auth)/tools/practice-test/page.tsx` h1 headings ("Practice Test", "Results") now carry `font-display` class — consistent with flashcards/page.tsx pattern. CSS baseline applies globally, but explicit `font-display` class is defensive and self-documenting on feature page h1s. (cycle 2026-03-28T17:45)
 
 **Rule — Tailwind tracking utility conflict:** `tracking-tight` on h1 overrides the `-0.05em` global to `-0.025em`. Never use Tailwind tracking utilities on h1–h4; rely on global CSS.
   ⚠ Challenged and fixed: `app/(auth)/tools/page.tsx` and `app/(auth)/resources/page.tsx` had `tracking-tight` on their h1 tags; removed in cron cycle 2026-03-28T13:45.
