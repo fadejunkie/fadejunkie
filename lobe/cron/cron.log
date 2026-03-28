@@ -1,29 +1,3 @@
-**Design System Update (CHALLENGE → ADD):** Added a new hardened rule to `context/fadejunkie_ui.md` — Tailwind's `tracking-*` utilities must never be used on `h1`–`h4`. The global heading letter-spacing in `globals.css` owns that property. Any `tracking-tight` on a heading is a bug, not a style choice.
-
-**Commit:** `f90d37d` → pushed to `main`.
-
-  [outbox] cron-spot-fix-2026-03-28T13-45-01-2026-03-28T13-51-06-285Z.md
-twanii → 
-
-[2026-03-28T13:53:02.167Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T13:53:03.942Z] Safety push complete
-
-[2026-03-28T13:53:03.943Z] Cron run complete
-
-[2026-03-28T14:00:01.912Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T14:00:01.916Z] Task created: cron-spot-fix-2026-03-28T14-00-01.md
-
-[2026-03-28T14:00:01.917Z] Spawning Lobe agent...
-
-[2026-03-28T14:10:00.000Z] FIX: home/page.tsx — empty state body copy using default Geist (UI font) instead of Courier Prime (--font-body) → added inline fontFamily: var(--font-body) + fontSize 0.875rem + lineHeight 1.6 to empty state paragraph
-  Files: app/app/(auth)/home/page.tsx, app/context/fadejunkie_ui.md
-  Commit: d0adef2
-  DS Update: ADD — Empty state copy rule — editorial zero-state text must use font-body (Courier Prime), not implicit UI font; Tailwind text-sm alone leaves fontFamily unset
-  Pattern: Any authored/editorial micro-copy (empty states, captions, zero-states) belongs in --font-body. Tailwind text-* utilities set size only — font family is NOT inherited from design system without explicit fontFamily declaration.
-
-[2026-03-28T14:08:01.975Z] Lobe exited with code: 0
 
 [2026-03-28T14:08:01.977Z] STDOUT (last 500 chars): _ui.md`**
 
@@ -509,3 +483,19 @@ twanii →
   Commit: aee4864
   DS Update: CONFIRM — Font h1–h4 base rule — practice-test/page.tsx h1s now carry explicit font-display, matching flashcards/page.tsx pattern (cycle 2026-03-28T17:45)
   Pattern: Explicit font-display on page h1s is defensive and self-documenting even when globals.css provides the rule via cascade — confirm at usage site, not just in the stylesheet.
+
+[2026-03-28T17:53:02.139Z] Lobe exited with code: 0
+
+[2026-03-28T17:53:02.141Z] STDOUT (last 500 chars): under the h1–h4 font rule: both tool pages (`flashcards/`, `practice-test/`) now explicitly declare `font-display` on their h1s, reinforcing the defensive explicit-class pattern (always declare `font-display` at the usage site, don't rely solely on the globals cascade).
+
+**📦 Commits:** `aee4864` (fix) + `800d622` (docs/log/inbox cleanup), pushed to main.
+
+**📥 Inbox:** Task file moved to `lobe/inbox/processed/`.
+
+  [outbox] cron-spot-fix-2026-03-28T17-45-02-2026-03-28T17-50-33-631Z.md
+twanii → 
+
+[2026-03-28T17:53:02.142Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T17-45-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T17-45-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T17-45-02.md'
+
+
+[2026-03-28T17:53:02.296Z] Unpushed changes detected, running safety commit+push...
