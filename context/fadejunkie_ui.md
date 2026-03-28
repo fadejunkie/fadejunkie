@@ -88,6 +88,14 @@ Living document. Updated by Lobe after each style test.
 - **Detection:** Grep for `<button` in page/component files. Every result that doesn't have `font-sans` in its className AND isn't a content-composition button (e.g. a like button inside a post body is borderline fine) is a P1.
   + Added: observed in `app/(auth)/resources/page.tsx` — 5 filter pill buttons inherited Courier Prime; fixed with `font-sans` class (cycle 2026-03-28T16:00)
   ✓ Confirmed: `app/(auth)/tools/exam-guide/page.tsx:414,465,485,541,548` — ServiceCard had 5 raw `<button>` controls (accordion toggle, checklist items, "Reset checklist", "Reset", "Mark as Practiced") all inheriting Courier Prime; fixed with `font-sans` (cycle 2026-03-28T17:30). The styled "Mark as Practiced" CTA (`bg-foreground text-background rounded-lg`) in Courier Prime is the canonical example of how visually jarring this failure mode is — a UI action button should never use the typewriter body font.
+  ✓ Confirmed: `app/(auth)/tools/flashcards/page.tsx:157,169` — "Starred only" toggle and "Shuffle" pill buttons inherited Courier Prime; fixed with `font-sans` (cycle 2026-03-28T17:45). Rule now has 3+ confirmations across 3 files — **[HARDENED]**. Detection method: grep `<button` in any page file; any hit lacking `font-sans` in className is a P1.
+
+### Page h1 headings require `font-display` — globals.css font cascade does NOT set h1 font [ADD]
+- **Rule:** `globals.css` sets `body { font-family: var(--font-body) }` (Courier Prime). There is NO explicit `h1 { font-family: var(--font-display) }` override — the heading CSS only sets `text-transform: lowercase`. This means an `<h1>` that doesn't declare `font-display` in its Tailwind className will silently render in Courier Prime (typewriter body font) instead of League Spartan (display/brand font).
+- **Safe pattern:** Always add `font-display` explicitly to every `h1`–`h4` element: `<h1 className="font-display text-2xl font-bold ...">`.
+- **Failure signature:** Page-level hero headings that look "typed" instead of bold/structural — League Spartan at the same size is dramatically heavier and more impactful than Courier Prime. Missing `font-display` is immediately visible at heading sizes.
+- **Detection:** Grep for `<h[1-4]` in page/component files. Any result without `font-display` in its className (and not a sub-heading that's deliberately in Courier Prime for editorial mixing) is a P1.
+  + Added: observed in `app/(auth)/tools/flashcards/page.tsx:125` — `<h1>` lacked `font-display`, rendering page title in Courier Prime; fixed with `font-display` (cycle 2026-03-28T17:45)
 
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.

@@ -499,3 +499,9 @@ twanii →
 [2026-03-28T17:30:02.076Z] Task created: cron-spot-fix-2026-03-28T17-30-02.md
 
 [2026-03-28T17:30:02.078Z] Spawning Lobe agent...
+
+[2026-03-28T17:45:02Z] FIX: flashcards/page.tsx — (1) <h1> missing font-display, rendering in Courier Prime instead of League Spartan; (2) "Starred only" toggle and "Shuffle" pill buttons missing font-sans, inheriting Courier Prime → added font-display to h1, added font-sans to both raw <button> controls
+  Files: app/app/(auth)/tools/flashcards/page.tsx, context/fadejunkie_ui.md
+  Commit: 469867a
+  DS Update: ADD — Page h1 headings require font-display — globals.css has no h1 font-family override, only text-transform; h1 without font-display silently falls through to Courier Prime body font. Also [HARDENED] raw <button> font-sans rule with 3rd confirmation.
+  Pattern: Every h1–h4 must declare font-display explicitly. globals.css heading rules only set text-transform: lowercase — they do NOT set font-family. Missing font-display on a page hero h1 is a P1 that's visually obvious at heading sizes (Courier Prime vs League Spartan bold are night and day).
