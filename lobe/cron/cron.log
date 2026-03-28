@@ -1,13 +1,3 @@
-[2026-03-28T17:08:02.123Z] STDOUT (last 500 chars): shadow-sm)` → `0 2px 8px rgba(0,0,0,0.07)` — token-backed, dark-mode aware, globally controllable.
-
-### 📐 Design System Update
-
-**Added rule:** Arbitrary shadow syntax `shadow-[rgba()]` is a hardcoded color violation. Detection grep: `shadow-\[` in className strings. Always use `shadow-xs/sm/md/lg/xl` — the tokens are already registered.
-
-### ✅ Build + Push
-- 17/17 pages clean — `bc5fc30` pushed to `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-28T17-00-02-2026-03-28T17-03-43-072Z.md
 twanii → 
 
 [2026-03-28T17:08:02.242Z] Unpushed changes detected, running safety commit+push...
@@ -499,3 +489,13 @@ twanii →
 twanii → 
 
 [2026-03-28T21:23:02.446Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T21:23:04.064Z] Safety push complete
+
+[2026-03-28T21:23:04.065Z] Cron run complete
+
+[2026-03-28T21:30:02.235Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T21:30:02.241Z] Task created: cron-spot-fix-2026-03-28T21-30-02.md
+
+[2026-03-28T21:30:02.242Z] Spawning Lobe agent...
