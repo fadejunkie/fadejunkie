@@ -345,3 +345,34 @@ Node.js v24.13.1
 twanii → 
 
 [2026-03-28T15:23:02.173Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T15:23:03.770Z] Safety push complete
+
+[2026-03-28T15:23:03.771Z] Cron run complete
+
+[2026-03-28T15:30:01.990Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T15:30:01.996Z] Task created: cron-spot-fix-2026-03-28T15-30-01.md
+
+[2026-03-28T15:30:01.997Z] Spawning Lobe agent...
+
+[2026-03-28T15:38:00.000Z] FIX: tools/flashcards/page.tsx — flip card back face used hardcoded Tailwind color utilities (text-white, bg-white/20, bg-white, bg-white/10, text-white/60) on an inverted bg-foreground card → replaced with semantic tokens (text-background, bg-background/20, bg-background, bg-background/10, text-background/60)
+  Files: app/app/(auth)/tools/flashcards/page.tsx, context/fadejunkie_ui.md
+  Commit: ba64d16
+  DS Update: ADD — Tailwind color utilities on inverted cards — "text-white" on "bg-foreground" = invisible text in dark mode; always use "text-background"/"bg-background" variants on inverted surfaces
+  Pattern: Tailwind's text-white/bg-white utilities are hardcoded-color utilities in disguise. On inverted cards (bg-foreground), dark mode flips bg-foreground to white — making text-white white-on-white. The P0 failure is invisible in light mode, so it survives review. Rule: inverted card text always uses text-background, bg-background/*, never text-white/bg-white.
+
+[2026-03-28T15:38:02.083Z] Lobe exited with code: 0
+
+[2026-03-28T15:38:02.084Z] STDOUT (last 500 chars): light text on dark background (dark mode).
+
+**📐 Design System Hardened**
+Added a new rule to `context/fadejunkie_ui.md`: **"Tailwind color utilities on inverted cards"** — `text-white`/`bg-white` are hardcoded-color utilities in disguise. Canonical pattern for any `bg-foreground` surface is `text-background` / `bg-background/*`.
+
+**✅ Build:** 17/17 pages clean  
+**📦 Commit:** `ba64d16` → pushed to `origin/main`
+
+  [outbox] cron-spot-fix-2026-03-28T15-30-01-2026-03-28T15-33-30-272Z.md
+twanii → 
+
+[2026-03-28T15:38:02.240Z] Unpushed changes detected, running safety commit+push...
