@@ -163,3 +163,18 @@ twanii →
   Commit: d0adef2
   DS Update: ADD — Empty state copy rule — editorial zero-state text must use font-body (Courier Prime), not implicit UI font; Tailwind text-sm alone leaves fontFamily unset
   Pattern: Any authored/editorial micro-copy (empty states, captions, zero-states) belongs in --font-body. Tailwind text-* utilities set size only — font family is NOT inherited from design system without explicit fontFamily declaration.
+
+[2026-03-28T14:08:01.975Z] Lobe exited with code: 0
+
+[2026-03-28T14:08:01.977Z] STDOUT (last 500 chars): _ui.md`**
+
+> **Empty/zero-state copy must use `--font-body`** — Tailwind `text-sm`/`text-muted-foreground` are size and color only; they don't set font-family. Any authored micro-copy (empty states, placeholders, helper text) needs an explicit `fontFamily: "var(--font-body)..."` declaration or it silently renders in Geist.
+
+---
+
+**📦 Commits:** `d0adef2` (fix) + `0c05a67` (docs) — pushed to `main`. Build passed ✅
+
+  [outbox] cron-spot-fix-2026-03-28T14-00-01-2026-03-28T14-03-51-675Z.md
+twanii → 
+
+[2026-03-28T14:08:02.091Z] Unpushed changes detected, running safety commit+push...
