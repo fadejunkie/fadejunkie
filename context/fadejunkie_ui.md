@@ -99,6 +99,17 @@ Living document. Updated by Lobe after each style test.
 - **Detection:** Grep for `<h[1-4]` in page/component files. Any result without `font-display` in its className (and not a sub-heading that's deliberately in Courier Prime for editorial mixing) is a P1.
   + Added: observed in `app/(auth)/tools/flashcards/page.tsx:125` — `<h1>` lacked `font-display`, rendering page title in Courier Prime; fixed with `font-display` (cycle 2026-03-28T17:45)
 
+### Section-label elements must NOT use heading tags — `<p>` only [HARDENED]
+- **Rule:** Section labels, card titles, and interior headings must use `<p>` (not `<h2>`, `<h3>`, or `<h4>`). The global CSS (`globals.css:190-202`) applies `font-family: League Spartan`, `text-transform: lowercase`, `line-height: 1.05`, and tight letter-spacing to ALL h1–h4 elements. This corrupts card labels, section headings, and any interior text that uses heading tags — forcing them into display-font, lowercase, tightly-tracked League Spartan.
+- **Detection:** Grep for `<h[234]` in all `.tsx` files. Any heading that is NOT the page's primary semantic heading (the main topic of the entire page) is almost certainly a label and should be `<p>`. Applies to: card body headings, section titles within cards, expandable accordion headers, info card titles.
+- **Fix:** Change `<h3 className="...">` to `<p className="...">` — identical className, different tag. Zero visual change; all CSS classes still apply.
+- **Scope:** Applies to ALL file types — page files (`app/**`), shared components (`components/`), and UI primitives.
+  ✓ Confirmed: `app/(auth)/tools/page.tsx` — 2 `<h3>` card titles ("Website Builder", "Have a tool idea?") forced to League Spartan lowercase; fixed to `<p>` (cycle 2026-03-28T18:45)
+  ✓ Confirmed: `app/(auth)/tools/practice-test/page.tsx` — `<h2>` section label forced to League Spartan lowercase; fixed to `<p>` (cycle 2026-03-28T18:30)
+  ✓ Confirmed: `components/ShopTemplate.tsx` — `<h2>` and `<h3>` section labels ("About", "Contact & Hours") forced to League Spartan lowercase; fixed to `<p>` (cycle 2026-03-28T18:15)
+  ✓ Confirmed: `app/(auth)/tools/exam-guide/page.tsx:437,638,645` — 3 `<h3>` card labels (service label, "End of Exam Disinfection", "Study with Flashcards") forced to League Spartan lowercase with -0.03em tracking; fixed to `<p>` (cycle 2026-03-28T19:00)
+  **[HARDENED]** — 4+ cross-file confirmations across page files AND shared components. Every `<h3>` inside a Card component must be treated as a section-label suspect until proven otherwise.
+
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.
 - **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, business names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.

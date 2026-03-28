@@ -1,13 +1,3 @@
-  Files: app/app/(auth)/website/page.tsx, context/fadejunkie_ui.md
-  Commit: 2e101b7
-  DS Update: ADD — Section-label elements must NOT use heading tags — decorative dividers inside cards must use <p>/<span> with explicit Geist Mono eyebrow tokens, not h2/h3 which inherit global heading CSS overrides
-  Pattern: Heading tags (h1–h4) carry aggressive global CSS resets (lowercase, tight letter-spacing) that silently override intentional label styling. When a visual element is NOT a document structural heading, use a non-heading element + explicit style tokens.
-
-[2026-03-28T15:08:45.051Z] Lobe exited with code: 1
-
-[2026-03-28T15:08:45.053Z] STDOUT (last 500 chars): s, so the label renders exactly as intended.
-
-**Design system hardened:** Added a new rule — *"Section-label elements must NOT use heading tags"* — decorative dividers inside cards must use `<p>`/`<span>` with Geist Mono tokens, not `h2`/`h3` which silently pull in global heading resets.
 
 **Build:** ✅ 17/17 pages passed  
 **Commit:** `2e101b7` → pushed to main  
@@ -499,3 +489,19 @@ twanii →
 twanii → 
 
 [2026-03-28T18:53:02.324Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T18:53:03.897Z] Safety push complete
+
+[2026-03-28T18:53:03.899Z] Cron run complete
+
+[2026-03-28T19:00:02.116Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T19:00:02.122Z] Task created: cron-spot-fix-2026-03-28T19-00-02.md
+
+[2026-03-28T19:00:02.123Z] Spawning Lobe agent...
+
+[2026-03-28T19:00:02Z] FIX: app/(auth)/tools/exam-guide/page.tsx — 3x <h3> card labels corrupted by global League Spartan/lowercase CSS → replaced with <p>
+  Files: app/app/(auth)/tools/exam-guide/page.tsx
+  Commit: 493e847
+  DS Update: ADD (→ HARDENED) — section-label heading rule — 4th cross-file confirmation; rule now documented and [HARDENED] in fadejunkie_ui.md
+  Pattern: <h3> inside Card components is highest-risk location for this violation. Three distinct labels in one file: service name accordion header (line 437), "End of Exam Disinfection" info card (line 638), "Study with Flashcards" CTA card (line 645). All three corrupted to League Spartan lowercase with -0.03em tracking without the fix.
