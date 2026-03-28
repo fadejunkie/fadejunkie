@@ -141,7 +141,7 @@ export default function PracticeTestPage() {
         </div>
 
         <Card className="p-6 space-y-5">
-          <h2 className="text-base font-semibold text-foreground">Configure Test</h2>
+          <p className="text-base font-semibold text-foreground">Configure Test</p>
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">Exam</label>
@@ -190,7 +190,7 @@ export default function PracticeTestPage() {
 
         {(pastResults ?? []).length > 0 && (
           <Card className="p-6 space-y-3">
-            <h2 className="text-base font-semibold text-foreground">Recent Scores</h2>
+            <p className="text-base font-semibold text-foreground">Recent Scores</p>
             <div className="space-y-2">
               {(pastResults ?? []).map((r) => (
                 <div key={r._id} className="flex items-center justify-between text-sm">
@@ -315,7 +315,7 @@ export default function PracticeTestPage() {
       {/* Topic breakdown */}
       {topicBreakdown.length > 0 && (
         <Card className="p-6 space-y-5">
-          <h2 className="text-base font-semibold text-foreground">By Topic</h2>
+          <p className="text-base font-semibold text-foreground">By Topic</p>
           <div className="space-y-3">
             {topicBreakdown.map(({ topic, correct, total, pct }) => (
               <div key={topic}>
