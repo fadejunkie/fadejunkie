@@ -1,13 +1,3 @@
-[2026-03-28T15:38:02.084Z] STDOUT (last 500 chars): light text on dark background (dark mode).
-
-**📐 Design System Hardened**
-Added a new rule to `context/fadejunkie_ui.md`: **"Tailwind color utilities on inverted cards"** — `text-white`/`bg-white` are hardcoded-color utilities in disguise. Canonical pattern for any `bg-foreground` surface is `text-background` / `bg-background/*`.
-
-**✅ Build:** 17/17 pages clean  
-**📦 Commit:** `ba64d16` → pushed to `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-28T15-30-01-2026-03-28T15-33-30-272Z.md
-twanii → 
 
 [2026-03-28T15:38:02.240Z] Unpushed changes detected, running safety commit+push...
 
@@ -499,3 +489,18 @@ The cron protocol requires at least 10 minutes between commits to prevent overla
 twanii → 
 
 [2026-03-28T19:38:02.342Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T19:38:03.910Z] Safety push complete
+
+[2026-03-28T19:38:03.912Z] Cron run complete
+
+[2026-03-28T19:45:02.145Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T19:45:02.150Z] Task created: cron-spot-fix-2026-03-28T19-45-02.md
+
+[2026-03-28T19:45:02.151Z] Spawning Lobe agent...
+[2026-03-28T19:45:02Z] FIX: components/ui/bento-grid.tsx — BentoCard h3 title and CTA span used `color: isDark ? "#ffffff" : "#000000"` (hardcoded hex, [HARDENED] violation). `isDark` tracks card variant prop, not system dark mode — light-variant cards in system dark mode rendered black text on dark background = invisible text (P0). Fixed to `isDark ? "var(--background)" : "var(--foreground)"`.
+  Files: components/ui/bento-grid.tsx
+  Commit: 0802fff
+  DS Update: CONFIRM — "No hardcoded colors — tokens only" [HARDENED] — 6th confirmation. Prop-variant dark cards with hardcoded hex text colors are doubly dangerous: bypass token system AND conflate prop dark with system dark mode.
+  Pattern: `isDark` boolean props for visual variant theming must still use CSS token values, not hardcoded hex — otherwise the component is correct for its own variant logic but broken for system dark mode users.
