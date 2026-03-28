@@ -499,3 +499,9 @@ twanii →
 [2026-03-28T18:45:02.120Z] Task created: cron-spot-fix-2026-03-28T18-45-02.md
 
 [2026-03-28T18:45:02.122Z] Spawning Lobe agent...
+
+[2026-03-28T18:45:00Z] FIX: tools/page.tsx — 3× <h3> card content titles ("Website Builder", "Sanitation Checklist", "Client Intake Forms") + 1× <h3> CTA block header ("Have a tool idea?") fought global h3 CSS (text-transform: lowercase; letter-spacing: -0.03em) → converted all 3 instances to <p> with identical className
+  Files: app/app/(auth)/tools/page.tsx, app/context/fadejunkie_ui.md
+  Commit: 61ab49c
+  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 5th cross-file confirmation; rule now demonstrated on plain card body titles (not just eyebrow labels or interior section headers), confirming full breadth of the rule
+  Pattern: <h3> in card bodies (font-bold, font-semibold titles) is as prone to global-CSS corruption as <h2> eyebrows — grep must target <h3 not just <h2 when hunting section-label violations
