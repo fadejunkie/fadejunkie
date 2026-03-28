@@ -1,22 +1,4 @@
 
-[2026-03-28T16:38:04.355Z] Cron run complete
-
-[2026-03-28T16:45:02.225Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T16:45:02.230Z] Task created: cron-spot-fix-2026-03-28T16-45-02.md
-
-[2026-03-28T16:45:02.232Z] Spawning Lobe agent...
-
-[2026-03-28T16:55:00.000Z] FIX: directory/page.tsx — h1 Tailwind `.capitalize` class silently overridden by ungrouped globals.css `h1 { text-transform: lowercase }` rule → replaced `.capitalize` Tailwind class with `style={{ textTransform: "none" }}` to restore intended title casing "Texas Barber Schools/Shops/Supply stores"
-  Files: app/app/directory/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 1953e9e
-  DS Update: CONFIRM [HARDENED] — Heading textTransform user-data exception rule — 3rd cross-file confirmation (barber/[slug], ResourceCard, directory); rule marked [HARDENED]. New nuance documented: Tailwind text-transform utilities (.capitalize/.uppercase) cannot override ungrouped globals.css element selectors in Tailwind v4 — only inline `style={{}}` is reliable.
-  Pattern: In Tailwind v4, ungrouped (bare) CSS rules beat @layer utilities. Any Tailwind text-transform utility on h1–h4 is silently ineffective against the globals.css heading rule. `style={{ textTransform: "none" }}` is the canonical and only reliable escape.
-
-[2026-03-28T16:53:02.348Z] Lobe exited with code: 0
-
-[2026-03-28T16:53:02.350Z] STDOUT (last 500 chars): er/[slug]`, `ResourceCard`, `directory`) and is marked `[HARDENED]`. 
-
 New nuance added to the doc: Tailwind text-transform utilities (`.capitalize`, `.uppercase`, `.normal-case`) **cannot override** ungrouped `globals.css` element selectors in Tailwind v4. Only `style={{ textTransform: "..." }}` is the reliable escape hatch.
 
 **Commits:** `1953e9e` (fix) + `363eaa2` (docs) → pushed to `main`. Build: 17/17 clean.
@@ -504,3 +486,16 @@ twanii →
   Commit: b338562
   DS Update: CONFIRM [HARDENED extension] — No hardcoded colors / rgba rule — 3rd consecutive bento-grid fix confirms that the rgba violation surface in this component was deeper than previous cycles caught. Rule extended: Tailwind hardcoded-color utility classes (hover:bg-black, bg-white, text-black) in className props are the same violation class as inline rgba() values — detection must cover both surfaces.
   Pattern: Components with isDark prop-variant theming consistently have 3+ layers of hardcoded color: (1) container bg/border (cycle 20:45), (2) h3 title/CTA span text (cycle 19:45), (3) icon color + description color + hover state (this cycle). Each layer was a separate P0. The full bento-grid fix required 3 cycles to complete — this is a pattern risk for any component using isDark-style variant props.
+
+[2026-03-28T21:08:02.374Z] Lobe exited with code: 0
+
+[2026-03-28T21:08:02.376Z] STDOUT (last 500 chars): gn System Update — CONFIRM + [HARDENED extension]**
+
+Extended the hardcoded-color rule to explicitly flag **Tailwind utility classes** like `hover:bg-black`, `text-white`, `bg-white` in `className` props as the same violation class as `rgba()` inline styles. Detection must grep both `style={{}}` and `className` strings.
+
+**Commits:** `b338562` (fix) + `9071994` (docs) → pushed to `origin/main`. Build clean 17/17.
+
+  [outbox] cron-spot-fix-2026-03-28T21-00-02-2026-03-28T21-04-20-051Z.md
+twanii → 
+
+[2026-03-28T21:08:02.533Z] Unpushed changes detected, running safety commit+push...
