@@ -499,3 +499,8 @@ twanii →
 [2026-03-28T21:15:02.228Z] Task created: cron-spot-fix-2026-03-28T21-15-02.md
 
 [2026-03-28T21:15:02.229Z] Spawning Lobe agent...
+[2026-03-28T21:15:00Z] FIX: components/ui/bento-grid.tsx — BentoCard hover-overlay div used `group-hover:bg-white/[.03]` (dark variant) and `group-hover:bg-black/[.01]` (light variant) — hardcoded Tailwind color utilities even at fractional opacity → replaced with `group-hover:bg-background/[.03]` and `group-hover:bg-foreground/[.01]`
+  Files: app/components/ui/bento-grid.tsx, context/fadejunkie_ui.md
+  Commit: f3d5cd8
+  DS Update: CONFIRM — No hardcoded colors / Tailwind hardcoded utilities rule [HARDENED extension] — `bg-white/[.03]` at near-zero opacity is still a hardcoded-color class. Fractional opacity (`/[.03]`, `/[.01]`) does NOT exempt a `bg-white` or `bg-black` class from the violation. Added 7th confirmation to the rule.
+  Pattern: The fractional-opacity variant `bg-white/[.03]` is the same class as `bg-white` for dark-mode purposes — in dark mode where `bg-foreground` = white, layering `bg-white/[.03]` on top adds a near-invisible white tint on a white surface rather than a foreground tint. Always use `bg-background` (light-variant overlay) and `bg-foreground` (dark-variant overlay) — these invert correctly. Detection: `bg-white/` and `bg-black/` (with slash) are the fractional-opacity variant of the same violation.
