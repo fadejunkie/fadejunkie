@@ -55,8 +55,8 @@ const BentoCard = ({
       )}
       style={{
         borderRadius: "var(--radius-3xl, 1.375rem)",
-        backgroundColor: isDark ? "rgba(0,0,0,0.88)" : "rgba(255,255,255,0.7)",
-        border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+        backgroundColor: isDark ? "color-mix(in oklch, var(--foreground) 88%, transparent)" : "color-mix(in oklch, var(--background) 70%, transparent)",
+        border: isDark ? "1px solid color-mix(in oklch, var(--background) 8%, transparent)" : "1px solid color-mix(in oklch, var(--foreground) 8%, transparent)",
         boxShadow: isDark ? "none" : "var(--shadow-sm)",
       }}
     >
