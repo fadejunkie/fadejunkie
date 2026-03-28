@@ -178,3 +178,19 @@ twanii →
 twanii → 
 
 [2026-03-28T14:08:02.091Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T14:08:03.643Z] Safety push complete
+
+[2026-03-28T14:08:03.644Z] Cron run complete
+
+[2026-03-28T14:15:01.921Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T14:15:01.927Z] Task created: cron-spot-fix-2026-03-28T14-15-01.md
+
+[2026-03-28T14:27:00.000Z] FIX: barber/[slug]/page.tsx — barber name h1 forced lowercase by global CSS → added `style={{ textTransform: "none" }}` to restore proper-case rendering
+  Files: app/app/barber/[slug]/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 8eab960
+  DS Update: ADD — Heading text-transform exception rule — global `text-transform: lowercase` must be overridden with `style={{ textTransform: "none" }}` for any h1–h4 displaying user-generated proper names (not editorial copy)
+  Pattern: Editorial/brand headings → global lowercase is intentional. Database field headings (names, titles) → always override textTransform: "none". Two categories of h1 usage, two different rules.
+
+[2026-03-28T14:15:01.928Z] Spawning Lobe agent...

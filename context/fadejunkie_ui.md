@@ -58,6 +58,12 @@ Living document. Updated by Lobe after each style test.
 - `border: 1px solid hsl(0 0% 87%)`
 - Hover: border lightens, subtle shadow lift
 
+### Heading `text-transform` rule — user data exception [ADD]
+- **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.
+- **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, real names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.
+- **Pattern:** Brand/editorial headings → lowercase is intentional. Data headings (names, titles from the DB) → always `textTransform: "none"`.
+  + Added: observed in `app/barber/[slug]/page.tsx:41` — barber name forced lowercase without override; fixed (cycle 2026-03-28T14:15)
+
 ---
 
 ## Tests Log
