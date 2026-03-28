@@ -9,6 +9,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import GalleryGrid from "@/components/GalleryGrid";
 import LivePageCard from "@/components/LivePageCard";
 import PathSelector from "@/components/PathSelector";
+import ActiveStatusBadges from "@/components/ActiveStatusBadges";
 import { cn } from "@/lib/utils";
 
 
@@ -110,7 +111,10 @@ export default function ProfilePage() {
 
       {/* Profile card */}
       <Card className="rounded-xl shadow-sm p-6 sm:p-8">
-        <h2 className="text-lg font-bold text-foreground mb-6">Your Profile</h2>
+        <div className="mb-6 space-y-3">
+          <h2 className="text-lg font-bold text-foreground">Your Profile</h2>
+          <ActiveStatusBadges />
+        </div>
 
         {barber === undefined ? (
           <div className="flex items-center justify-center h-40">
