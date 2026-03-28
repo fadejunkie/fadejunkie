@@ -1,34 +1,3 @@
-  Note: Prior commit was 7 minutes ago (under 10-min overlap guard) — proceeded because prior agent exited cleanly at 14:23Z with no concurrent execution risk.
-
-[2026-03-28T14:38:02.038Z] Lobe exited with code: 0
-
-[2026-03-28T14:38:02.040Z] STDOUT (last 500 chars): r badges |
-
-**HARDEN — ADD rule:** `B&W semantic feedback — no hue exceptions`. The inverted row pattern (`bg-foreground text-background`) is now documented as the canonical FJ "correct answer" signal. Strikethrough + muted for wrong. Weight hierarchy (foreground vs muted-foreground) for pass/fail. No color, ever — even for quiz feedback.
-
-**Commits:** `9e74e29` (fix) + `9e51ada` (DS hardening) → pushed to main ✅
-
-  [outbox] cron-spot-fix-2026-03-28T14-30-01-2026-03-28T14-36-41-733Z.md
-twanii → 
-
-[2026-03-28T14:38:02.170Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T14:38:03.776Z] Safety push complete
-
-[2026-03-28T14:38:03.778Z] Cron run complete
-
-[2026-03-28T14:45:01.958Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T14:45:01.964Z] Task created: cron-spot-fix-2026-03-28T14-45-01.md
-
-[2026-03-28T14:45:01.965Z] Spawning Lobe agent...
-
-[2026-03-28T14:55:00.000Z] FIX: signin/page.tsx — hardcoded `#000000` used for active tab text color and border-bottom indicator → replaced with `var(--foreground)` / `var(--muted-foreground)` CSS tokens
-  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md
-  Commit: 027302f
-  DS Update: CONFIRM — No hardcoded colors / tokens only rule — `#000000` in tab switcher breaks dark mode; two instances found at lines 322–328 and replaced with `var(--foreground)` token
-  Pattern: Inline style color values that look correct in light mode silently break dark mode. `#000000` is indistinguishable from `var(--foreground)` in light mode but catastrophically wrong in dark mode (black text on black background). Always use tokens.
-
 
 [2026-03-28T14:53:02.055Z] Lobe exited with code: 0
 
@@ -499,3 +468,34 @@ The h2→`<p>` eyebrow fix scope is universal — the detection grep needs to co
 twanii → 
 
 [2026-03-28T18:23:02.279Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T18:23:03.804Z] Safety push complete
+
+[2026-03-28T18:23:03.806Z] Cron run complete
+
+[2026-03-28T18:30:02.097Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T18:30:02.102Z] Task created: cron-spot-fix-2026-03-28T18-30-02.md
+
+[2026-03-28T18:30:02.104Z] Spawning Lobe agent...
+
+[2026-03-28T18:30:00Z] FIX: practice-test/page.tsx — 3× <h2 className="text-base font-semibold text-foreground"> interior card section labels ("Configure Test", "Recent Scores", "By Topic") fought global h2 CSS (text-transform: lowercase; letter-spacing: -0.04em) → converted to <p> with identical className
+  Files: app/app/(auth)/tools/practice-test/page.tsx, app/context/fadejunkie_ui.md
+  Commit: 779cb22
+  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 4th+ cross-file confirmation; rule now demonstrated on plain interior card headers (not just uppercase eyebrows), confirming it applies to ALL h2/h3 inside Card contexts
+  Pattern: h2 section-label scope includes plain interior card headers, not only eyebrow labels — any <h2>/<h3> inside a Card that isn't the page's primary content heading should be a <p>
+
+[2026-03-28T18:38:02.176Z] Lobe exited with code: 0
+
+[2026-03-28T18:38:02.190Z] STDOUT (last 500 chars): me.
+
+This is a **[HARDENED] rule violation** (4th cross-file confirmation) — `<h2/h3>` for interior section labels is a recurring pattern across the codebase. The fix also confirms the rule extends to plain card headers, not just uppercase decorative eyebrows.
+
+**Build:** Clean ✓  
+**Commit:** `779cb22` → pushed to `main`  
+**DS update:** CONFIRM — hardened rule confirmed with code reference in `fadejunkie_ui.md`
+
+  [outbox] cron-spot-fix-2026-03-28T18-30-02-2026-03-28T18-33-57-457Z.md
+twanii → 
+
+[2026-03-28T18:38:02.329Z] Unpushed changes detected, running safety commit+push...
