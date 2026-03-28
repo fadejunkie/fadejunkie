@@ -47,6 +47,7 @@ export default function HomePage() {
           <PostCard
             key={post._id}
             postId={post._id}
+            authorId={post.authorId}
             barberName={post.barberName}
             barberSlug={post.barberSlug}
             barberAvatarUrl={post.barberAvatarUrl}

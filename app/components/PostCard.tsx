@@ -10,9 +10,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import PostStatusIndicator from "@/components/PostStatusIndicator";
 
 interface PostCardProps {
   postId: Id<"posts">;
+  authorId?: Id<"users">;
   barberName: string | null;
   barberSlug: string | null;
   barberAvatarUrl: string | null;
@@ -25,7 +27,7 @@ interface PostCardProps {
 }
 
 export default function PostCard({
-  postId, barberName, barberSlug, barberAvatarUrl,
+  postId, authorId, barberName, barberSlug, barberAvatarUrl,
   content, imageUrl, likeCount, liked: initialLiked, isOwn, createdAt,
 }: PostCardProps) {
   const toggleLike = useMutation(api.likes.toggleLike);
@@ -66,6 +68,8 @@ export default function PostCard({
             )}
             <span className="text-xs text-muted-foreground ml-auto">{formatTimeAgo(createdAt)}</span>
           </div>
+
+          {authorId && <PostStatusIndicator authorId={authorId} />}
 
           <p className="text-sm text-foreground/80 mt-1.5 leading-relaxed whitespace-pre-wrap break-words">
             {content}

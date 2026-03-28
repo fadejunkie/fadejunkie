@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import PublicStatusBadges from "@/components/PublicStatusBadges";
+import type { StatusGroup } from "@/components/PublicStatusBadges";
 
 export interface ShopData {
   shopName: string;
@@ -15,9 +17,10 @@ export interface ShopData {
 interface ShopTemplateProps {
   shop: ShopData;
   preview?: boolean;
+  statusSummary?: StatusGroup[];
 }
 
-export default function ShopTemplate({ shop, preview = false }: ShopTemplateProps) {
+export default function ShopTemplate({ shop, preview = false, statusSummary }: ShopTemplateProps) {
   return (
     <div className={`min-h-screen bg-background font-sans ${preview ? "text-[13px]" : ""}`}>
       {/* Nav */}
@@ -47,6 +50,11 @@ export default function ShopTemplate({ shop, preview = false }: ShopTemplateProp
         </h1>
         {shop.tagline && (
           <p className="text-lg text-muted-foreground mt-3">{shop.tagline}</p>
+        )}
+        {statusSummary && statusSummary.length > 0 && (
+          <div className="flex justify-center mt-5">
+            <PublicStatusBadges summary={statusSummary} />
+          </div>
         )}
         {shop.phone && (
           <a

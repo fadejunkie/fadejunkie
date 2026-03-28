@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/button";
 import Avatar from "@/components/ui/Avatar";
+import PublicStatusBadges from "@/components/PublicStatusBadges";
 
 export const revalidate = 60;
 
@@ -18,7 +19,10 @@ export default async function BarberProfilePage({ params }: PageProps) {
   const barber = await fetchQuery(api.barbers.getBarberBySlug, { slug });
   if (!barber) notFound();
 
-  const gallery = await fetchQuery(api.gallery.getGalleryForBarber, { barberId: barber._id });
+  const [gallery, statusSummary] = await Promise.all([
+    fetchQuery(api.gallery.getGalleryForBarber, { barberId: barber._id }),
+    fetchQuery(api.statuses.getPublicStatusSummary, { userId: barber.userId }),
+  ]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,7 +50,13 @@ export default async function BarberProfilePage({ params }: PageProps) {
         </div>
 
         {barber.bio && (
-          <p className="text-base text-foreground/80 leading-relaxed mb-6">{barber.bio}</p>
+          <p className="text-base text-foreground/80 leading-relaxed mb-5">{barber.bio}</p>
+        )}
+
+        {statusSummary && statusSummary.length > 0 && (
+          <div className="mb-6">
+            <PublicStatusBadges summary={statusSummary} />
+          </div>
         )}
 
         {barber.services.length > 0 && (

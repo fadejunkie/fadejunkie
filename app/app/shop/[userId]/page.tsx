@@ -24,6 +24,10 @@ export default async function ShopPage({ params }: PageProps) {
 
   if (!shop) notFound();
 
+  const statusSummary = await fetchQuery(api.statuses.getPublicStatusSummary, {
+    userId: userId as Id<"users">,
+  });
+
   return (
     <ShopTemplate
       shop={{
@@ -36,6 +40,7 @@ export default async function ShopPage({ params }: PageProps) {
         logoUrl: shop.logoUrl,
         barberSlugs: shop.barberSlugs,
       }}
+      statusSummary={statusSummary ?? undefined}
     />
   );
 }
