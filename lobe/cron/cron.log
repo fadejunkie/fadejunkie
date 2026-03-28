@@ -499,3 +499,8 @@ twanii →
 [2026-03-28T21:00:02.230Z] Task created: cron-spot-fix-2026-03-28T21-00-02.md
 
 [2026-03-28T21:00:02.231Z] Spawning Lobe agent...
+[2026-03-28T21:00:02Z] FIX: components/ui/bento-grid.tsx — 3 remaining hardcoded color violations after previous cycle: (1) `hover:bg-black` Tailwind hardcoded class on dark-variant card hover state, (2) Icon `color` used `rgba(255,255,255,0.4)` / `rgba(0,0,0,0.35)` ternary — light-variant card in system dark mode: rgba(0,0,0,0.35) icon on black bg = near-invisible P0, (3) description `<p>` used `rgba(255,255,255,0.5)` / `rgba(0,0,0,0.55)` — same failure mode. Replaced `hover:bg-black` with no-op (hover overlay div handles it), replaced both rgba ternaries with `color-mix(in oklch, var(--background/foreground) N%, transparent)`.
+  Files: app/components/ui/bento-grid.tsx, context/fadejunkie_ui.md
+  Commit: b338562
+  DS Update: CONFIRM [HARDENED extension] — No hardcoded colors / rgba rule — 3rd consecutive bento-grid fix confirms that the rgba violation surface in this component was deeper than previous cycles caught. Rule extended: Tailwind hardcoded-color utility classes (hover:bg-black, bg-white, text-black) in className props are the same violation class as inline rgba() values — detection must cover both surfaces.
+  Pattern: Components with isDark prop-variant theming consistently have 3+ layers of hardcoded color: (1) container bg/border (cycle 20:45), (2) h3 title/CTA span text (cycle 19:45), (3) icon color + description color + hover state (this cycle). Each layer was a separate P0. The full bento-grid fix required 3 cycles to complete — this is a pattern risk for any component using isDark-style variant props.
