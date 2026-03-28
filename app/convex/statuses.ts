@@ -197,6 +197,39 @@ export const getMyArchivedStatuses = query({
   },
 });
 
+export const getPublicStatusSummary = query({
+  args: { userId: v.id("users") },
+  handler: async (ctx, { userId }) => {
+    const now = Date.now();
+
+    const statuses = await ctx.db
+      .query("statuses")
+      .withIndex("by_userId", (q) => q.eq("userId", userId))
+      .collect();
+
+    const active = statuses.filter((s) => s.isActive && s.expiresAt > now);
+
+    const grouped = new Map<string, { toggleKey: string; label: string; expiresAt: number }[]>();
+    for (const s of active) {
+      const list = grouped.get(s.path) ?? [];
+      list.push({
+        toggleKey: s.toggleKey,
+        label: s.toggleKey.replace(/_/g, " "),
+        expiresAt: s.expiresAt,
+      });
+      grouped.set(s.path, list);
+    }
+
+    return [...grouped.entries()]
+      .map(([path, statuses]) => ({
+        path,
+        pathLabel: PATH_LABELS[path] ?? path,
+        statuses: statuses.sort((a, b) => a.expiresAt - b.expiresAt),
+      }))
+      .sort((a, b) => b.statuses.length - a.statuses.length);
+  },
+});
+
 // ── Discovery ──
 
 export const discoverStatuses = query({

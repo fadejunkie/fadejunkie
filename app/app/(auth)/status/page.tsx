@@ -1,5 +1,6 @@
 import StatusPanel from "@/components/StatusPanel";
 import StatusHistory from "@/components/StatusHistory";
+import ConnectionsInbox from "@/components/ConnectionsInbox";
 
 export const metadata = {
   title: "Status — FadeJunkie",
@@ -24,11 +25,18 @@ export default function StatusPage() {
       </div>
 
       {/* ── Status toggles ── */}
-      <StatusPanel />
+      <div id="status-toggles">
+        <StatusPanel />
+      </div>
 
       {/* ── History ── */}
-      <div className="mt-12">
+      <div className="mt-12" id="status-history">
         <StatusHistory />
+      </div>
+
+      {/* ── Connections inbox ── */}
+      <div className="mt-12" id="connections">
+        <ConnectionsInbox />
       </div>
     </div>
   );
