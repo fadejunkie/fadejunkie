@@ -434,9 +434,9 @@ function ServiceCard({
               </span>
             )}
           </div>
-          <h3 className="text-base font-semibold text-foreground leading-snug">
+          <p className="text-base font-semibold text-foreground leading-snug">
             {service.label}
-          </h3>
+          </p>
           <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
             {service.description}
           </p>
@@ -635,14 +635,14 @@ export default function ExamGuidePage() {
 
       {/* End of exam */}
       <Card className="p-6 bg-muted">
-        <h3 className="text-sm font-semibold text-foreground mb-1">End of Exam Disinfection</h3>
+        <p className="text-sm font-semibold text-foreground mb-1">End of Exam Disinfection</p>
         <p className="text-sm text-muted-foreground leading-relaxed">
           After completing Single Color Retouch, there is no special end-of-exam bag. Await the proctor's final nod, then: (1) Pack up -- return all tools to their labeled bags. (2) Disinfect -- wipe down your station, tools, and kit one last time. (3) Depart -- once everything is bagged and sanitized, exit the exam area.
         </p>
       </Card>
 
       <Card className="p-6 bg-muted">
-        <h3 className="text-sm font-semibold text-foreground mb-1">Study with Flashcards</h3>
+        <p className="text-sm font-semibold text-foreground mb-1">Study with Flashcards</p>
         <p className="text-sm text-muted-foreground mb-3">
           Test your knowledge on time limits, bag requirements, and procedures with the TDLR Practical Exam flashcard deck.
         </p>
