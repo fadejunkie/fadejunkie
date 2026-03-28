@@ -1,28 +1,3 @@
-[2026-03-28T18:30:02.104Z] Spawning Lobe agent...
-
-[2026-03-28T18:30:00Z] FIX: practice-test/page.tsx — 3× <h2 className="text-base font-semibold text-foreground"> interior card section labels ("Configure Test", "Recent Scores", "By Topic") fought global h2 CSS (text-transform: lowercase; letter-spacing: -0.04em) → converted to <p> with identical className
-  Files: app/app/(auth)/tools/practice-test/page.tsx, app/context/fadejunkie_ui.md
-  Commit: 779cb22
-  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 4th+ cross-file confirmation; rule now demonstrated on plain interior card headers (not just uppercase eyebrows), confirming it applies to ALL h2/h3 inside Card contexts
-  Pattern: h2 section-label scope includes plain interior card headers, not only eyebrow labels — any <h2>/<h3> inside a Card that isn't the page's primary content heading should be a <p>
-
-[2026-03-28T18:38:02.176Z] Lobe exited with code: 0
-
-[2026-03-28T18:38:02.190Z] STDOUT (last 500 chars): me.
-
-This is a **[HARDENED] rule violation** (4th cross-file confirmation) — `<h2/h3>` for interior section labels is a recurring pattern across the codebase. The fix also confirms the rule extends to plain card headers, not just uppercase decorative eyebrows.
-
-**Build:** Clean ✓  
-**Commit:** `779cb22` → pushed to `main`  
-**DS update:** CONFIRM — hardened rule confirmed with code reference in `fadejunkie_ui.md`
-
-  [outbox] cron-spot-fix-2026-03-28T18-30-02-2026-03-28T18-33-57-457Z.md
-twanii → 
-
-[2026-03-28T18:38:02.329Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T18:38:03.987Z] Safety push complete
-
 [2026-03-28T18:38:03.989Z] Cron run complete
 
 [2026-03-28T18:45:02.114Z] WARN: Stale lockfile detected, removing
@@ -505,3 +480,22 @@ twanii →
   Commit: c8e232c
   DS Update: ADD — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed 4th+ instance of Courier Prime inheritance trap on raw buttons; rule promoted to HARDENED in fadejunkie_ui.md
   Pattern: Any raw <button> without font-sans in a page file is a Courier Prime rendering bug. Scan <button> on every cron cycle as a first-pass checklist item.
+
+[2026-03-28T23:53:02.135Z] Lobe exited with code: 0
+
+[2026-03-28T23:53:02.145Z] STDOUT (last 500 chars): e.tsx`
+
+---
+
+**Design System Hardened**
+The `Raw <button> UI chrome always needs font-sans` rule is now marked **[HARDENED]** in `context/fadejunkie_ui.md` — confirmed across 4+ files (DiscoveryFeed filter tabs, flashcards, practice-test ×2). It's now canonical ground truth, not a pattern-in-progress.
+
+This is the highest-frequency P1 in FJ. Every new page with raw `<button>` elements needs it checked first pass.
+
+  [outbox] cron-spot-fix-2026-03-28T23-45-01-2026-03-28T23-48-46-236Z.md
+twanii → 
+
+[2026-03-28T23:53:02.150Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T23-45-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T23-45-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T23-45-01.md'
+
+
+[2026-03-28T23:53:02.418Z] Unpushed changes detected, running safety commit+push...
