@@ -499,3 +499,10 @@ twanii →
 [2026-03-28T18:15:02.102Z] Task created: cron-spot-fix-2026-03-28T18-15-02.md
 
 [2026-03-28T18:15:02.104Z] Spawning Lobe agent...
+
+[2026-03-28T18:15:00Z] FIX: ShopTemplate.tsx — 2× <h2 className="…uppercase tracking-widest"> section labels ("About", "Contact & Hours") fought global h2 CSS (lowercase, -0.04em letter-spacing) → replaced with <p> elements using explicit Geist Mono eyebrow-label tokens
+  Files: app/components/ShopTemplate.tsx, app/context/fadejunkie_ui.md
+  Commit: ca3388f
+  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 3rd+ cross-file confirmation across website/page.tsx, barber/[slug]/page.tsx, ShopTemplate.tsx. Rule marked [HARDENED].
+  Pattern: The h2→<p> eyebrow fix is universal — applies to both page-level templates and shared display components. ShopTemplate is a public-facing component (shop/[userId] page) confirming the rule spans auth-interior pages AND public display surfaces.
+
