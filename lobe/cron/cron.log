@@ -393,3 +393,16 @@ twanii →
   DS Update: CONFIRM — Heading textTransform user-data exception rule — second confirmation, expanded scope to include business names in ResourceCard
   Pattern: Any heading element rendering a DB field (barber name, shop name, business name) must override textTransform with "none". The global h1-h4 lowercase rule is for editorial/brand headings only — never for user-generated data.
 
+
+[2026-03-28T15:53:02.083Z] Lobe exited with code: 0
+
+[2026-03-28T15:53:02.085Z] STDOUT (last 500 chars): ception" rule (first documented when fixing barber names in `barber/[slug]/page.tsx`) now has a second confirmation in `ResourceCard.tsx`. Updated the rule to:
+- Explicitly include business names alongside barber/shop names in the exception list
+- Note the scan pattern: any `<h1–h4>` that receives a DB field as a prop needs the override
+
+Two confirmations across different component files — this rule is hardening.
+
+  [outbox] cron-spot-fix-2026-03-28T15-45-01-2026-03-28T15-51-19-352Z.md
+twanii → 
+
+[2026-03-28T15:53:02.224Z] Unpushed changes detected, running safety commit+push...
