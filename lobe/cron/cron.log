@@ -499,3 +499,9 @@ twanii →
 [2026-03-28T23:45:01.897Z] Task created: cron-spot-fix-2026-03-28T23-45-01.md
 
 [2026-03-28T23:45:01.902Z] Spawning Lobe agent...
+
+[2026-03-29T05:00:00.000Z] FIX: practice-test/page.tsx — raw <button> UI chrome missing font-sans → added font-sans to question-count picker buttons (setup phase) and "Review Missed Questions" toggle (results phase)
+  Files: app/app/(auth)/tools/practice-test/page.tsx
+  Commit: c8e232c
+  DS Update: ADD — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed 4th+ instance of Courier Prime inheritance trap on raw buttons; rule promoted to HARDENED in fadejunkie_ui.md
+  Pattern: Any raw <button> without font-sans in a page file is a Courier Prime rendering bug. Scan <button> on every cron cycle as a first-pass checklist item.
