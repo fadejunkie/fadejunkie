@@ -122,7 +122,7 @@ export default function FlashcardsPage() {
           <ChevronLeft size={20} />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Flashcards</h1>
+          <h1 className="font-display text-2xl font-semibold text-foreground">Flashcards</h1>
           <p className="text-sm text-muted-foreground">Open play — flip at your own pace</p>
         </div>
       </div>
@@ -156,7 +156,7 @@ export default function FlashcardsPage() {
         {/* Starred toggle */}
         <button
           onClick={() => { setShowStarredOnly((v) => !v); setCurrentIndex(0); setIsFlipped(false); }}
-          className={`text-sm px-3 py-1.5 rounded-md border transition-colors ${
+          className={`font-sans text-sm px-3 py-1.5 rounded-md border transition-colors ${
             showStarredOnly
               ? "bg-foreground text-background border-foreground"
               : "border-border text-muted-foreground hover:text-foreground"
@@ -169,7 +169,7 @@ export default function FlashcardsPage() {
         <button
           onClick={handleShuffle}
           disabled={filteredCards.length === 0}
-          className="text-sm px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40"
+          className="font-sans text-sm px-3 py-1.5 rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40"
         >
           ↺ Shuffle
         </button>
