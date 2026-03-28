@@ -1,24 +1,3 @@
-twanii → 
-
-[2026-03-28T14:08:02.091Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T14:08:03.643Z] Safety push complete
-
-[2026-03-28T14:08:03.644Z] Cron run complete
-
-[2026-03-28T14:15:01.921Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T14:15:01.927Z] Task created: cron-spot-fix-2026-03-28T14-15-01.md
-
-[2026-03-28T14:27:00.000Z] FIX: barber/[slug]/page.tsx — barber name h1 forced lowercase by global CSS → added `style={{ textTransform: "none" }}` to restore proper-case rendering
-  Files: app/app/barber/[slug]/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 8eab960
-  DS Update: ADD — Heading text-transform exception rule — global `text-transform: lowercase` must be overridden with `style={{ textTransform: "none" }}` for any h1–h4 displaying user-generated proper names (not editorial copy)
-  Pattern: Editorial/brand headings → global lowercase is intentional. Database field headings (names, titles) → always override textTransform: "none". Two categories of h1 usage, two different rules.
-
-[2026-03-28T14:15:01.928Z] Spawning Lobe agent...
-
-[2026-03-28T14:23:01.988Z] Lobe exited with code: 0
 
 [2026-03-28T14:23:01.990Z] STDOUT (last 500 chars): dded to `context/fadejunkie_ui.md`:
 > The global `text-transform: lowercase` on `h1–h4` is a *brand rule*, not a *data rule*. User-generated proper names (barber names, shop names from the DB) always need `style={{ textTransform: "none" }}` to override it. Editorial headlines = lowercase. Data headings = respect the data.
@@ -505,3 +484,18 @@ twanii →
   Commit: 903f20d
   DS Update: CONFIRM [HARDENED] — No hardcoded colors rule — 5th+ cross-file confirmation; rule now explicitly covers: (1) inverted card backgrounds must use var(--foreground) not #000000, (2) text on inverted surfaces must use var(--background) not #ffffff, (3) floating light-surface UI elements must use var(--background) not #ffffff, (4) inline <style> CSS blocks (keyframe animations) are in scope — background-color: #000000 in a keyframe is the same violation as in a JSX inline style prop
   Pattern: Hero components are a concentration risk for hardcoded colors — they're built as standalone visual showcases, often authored without reference to the token system. The "it looks fine in light mode" false negative is the reason #000000/#ffffff survive review: in light mode var(--foreground)=#000000 and var(--background)=#ffffff, so the values are visually identical to the correct tokens. The failure is only visible in dark mode. Detection: grep for `"#000000"`, `"#ffffff"`, `'#000'`, `'#fff'` across all component files including inside template literal <style> blocks.
+
+[2026-03-28T18:08:02.179Z] Lobe exited with code: 0
+
+[2026-03-28T18:08:02.180Z] STDOUT (last 500 chars): 903f20d`, pushed to `origin/main`.
+
+---
+
+**📐 HARDEN — `fadejunkie_ui.md`**
+
+Confirmed + hardened the "No hardcoded colors" rule with new evidence: **CSS `<style>` blocks inside components are in scope for this rule.** A `@keyframes` animation with `background-color: #000000` is the exact same violation as a JSX `style={{ color: "#000000" }}`. Rule now carries `[HARDENED]` status with 5+ cross-file confirmations.
+
+  [outbox] cron-spot-fix-2026-03-28T18-00-02-2026-03-28T18-05-13-524Z.md
+twanii → 
+
+[2026-03-28T18:08:02.295Z] Unpushed changes detected, running safety commit+push...
