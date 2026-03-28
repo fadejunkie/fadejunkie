@@ -157,3 +157,9 @@ twanii →
 [2026-03-28T14:00:01.916Z] Task created: cron-spot-fix-2026-03-28T14-00-01.md
 
 [2026-03-28T14:00:01.917Z] Spawning Lobe agent...
+
+[2026-03-28T14:10:00.000Z] FIX: home/page.tsx — empty state body copy using default Geist (UI font) instead of Courier Prime (--font-body) → added inline fontFamily: var(--font-body) + fontSize 0.875rem + lineHeight 1.6 to empty state paragraph
+  Files: app/app/(auth)/home/page.tsx, app/context/fadejunkie_ui.md
+  Commit: d0adef2
+  DS Update: ADD — Empty state copy rule — editorial zero-state text must use font-body (Courier Prime), not implicit UI font; Tailwind text-sm alone leaves fontFamily unset
+  Pattern: Any authored/editorial micro-copy (empty states, captions, zero-states) belongs in --font-body. Tailwind text-* utilities set size only — font family is NOT inherited from design system without explicit fontFamily declaration.

@@ -112,3 +112,7 @@ Black ink on white paper. Zine meets brutalist poster. Typography IS the design 
 
 - App-interior page headings (tools, resources, etc.) inherit h1 styles from `globals.css` — do not override letter-spacing with Tailwind tracking utilities.
 - Editorial quotes in hero contexts (e.g., `signin/page.tsx` BrandPanel h1) may intentionally not have `lowercase` because they are blockquotes wrapped in `"…"` — mark as `[DISPUTED]` until confirmed with Anthony.
+
+**Rule — Empty state copy uses font-body (Courier Prime), not UI font:**
+All empty state, zero-state, and placeholder text that reads as authored copy belongs in `--font-body` (Courier Prime, 0.875rem, line-height 1.6, color `var(--muted-foreground)`). Using only Tailwind's `text-sm text-muted-foreground` leaves font-family unset, falling back to Geist (UI font). Always set `fontFamily: "var(--font-body), 'Courier Prime', monospace"` on editorial micro-copy.
+  + Added: fixed `app/(auth)/home/page.tsx` empty state (cycle 2026-03-28T14:00)
