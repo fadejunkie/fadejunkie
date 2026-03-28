@@ -7,8 +7,8 @@ FadeJunkie evolves from a working prototype with study tools, profiles, and a co
 ## Current Milestone
 
 **v0.1 Status Ecosystem** (v0.1.0)
-Status: In progress
-Phases: 2 of 5 complete
+Status: In progress — Lobe executing final UI tasks
+Phases: 4 of 5 complete, Phase 5 in progress
 
 ## Phases
 
@@ -16,9 +16,9 @@ Phases: 2 of 5 complete
 |-------|------|-------|--------|-----------|
 | 1 | Status Schema & Backend | 3 | Complete | 2026-03-28 |
 | 2 | User Path System | 3 | Complete | 2026-03-28 |
-| 3 | Status Toggle UI | 3 | In progress | - |
-| 4 | Status Discovery & Matching | 3 | Not started | - |
-| 5 | Integration & Polish | 2 | Not started | - |
+| 3 | Status Toggle UI | 3 | Complete | 2026-03-28 |
+| 4 | Status Discovery & Matching | 3 | Complete | 2026-03-28 |
+| 5 | Integration & Polish | 2 | In progress | - |
 
 ## Phase Details
 
@@ -26,14 +26,6 @@ Phases: 2 of 5 complete
 
 **Goal:** Define the Convex data model for statuses and build all backend mutations/queries — no UI yet
 **Depends on:** Nothing (first phase)
-**Research:** Unlikely (Convex patterns established)
-
-**Scope:**
-- `statuses` table in Convex schema
-- Toggle definitions config (all 7 paths, 30+ toggles, expiration rules)
-- Core mutations: activate, deactivate, refresh status
-- Core queries: getMyStatuses, getActiveByPath
-- Scheduled function for expiration + auto-archive
 
 **Plans:**
 - [x] 01-01: Schema + toggle definitions
@@ -44,13 +36,6 @@ Phases: 2 of 5 complete
 
 **Goal:** Let users declare their path (barber, student, shop, school, vendor, coordinator, client) — controls which toggles they see
 **Depends on:** Phase 1 (statuses table must exist)
-**Research:** Unlikely (profile patterns established)
-
-**Scope:**
-- `userPath` field on user profiles
-- Path selection flow (new users + existing users)
-- Path-specific profile fields
-- Multi-path support (a barber who also owns a shop)
 
 **Plans:**
 - [x] 02-01: User path data model + selection mutation
@@ -61,53 +46,31 @@ Phases: 2 of 5 complete
 
 **Goal:** Build the toggle interface — users can activate/deactivate statuses for their path with expiration countdown
 **Depends on:** Phase 1 (backend), Phase 2 (user paths)
-**Research:** Unlikely (component patterns established)
-
-**Scope:**
-- Toggle card component (on/off, expiration timer, refresh button)
-- Per-path toggle panel (shows only your path's toggles)
-- Active status badges on profile
-- Status history/archive view
 
 **Plans:**
 - [x] 03-01: Toggle card component + per-path panel *(completed via Lobe task brief 02-03)*
-- [x] 03-02: Active status badges on profile + public profile *(completed via Lobe task brief 02-03)*
-- [ ] 03-03: Status history + archive view
+- [x] 03-02: Active status badges on profile *(completed via Lobe task brief 02-03)*
+- [x] 03-03: Status history + archive view
 
 ### Phase 4: Status Discovery & Matching
 
 **Goal:** Users find each other through complementary statuses — the ecosystem payoff
 **Depends on:** Phase 3 (toggles must be activatable)
-**Research:** Likely (matching algorithm design, query performance)
-**Research topics:** Complementary status pairs, feed ranking, notification triggers
-
-**Scope:**
-- Status discovery feed (browse active statuses by type)
-- Filter by path, toggle type, location
-- Complementary matching (student seeking apprenticeship ↔ shop seeking apprentice)
-- Contact/connect flow from status cards
 
 **Plans:**
-- [ ] 04-01: Status discovery feed + filters
-- [ ] 04-02: Complementary matching engine
-- [ ] 04-03: Contact flow + notifications
+- [x] 04-01: Status discovery feed + filters
+- [x] 04-02: Complementary matching engine
+- [x] 04-03: Contact flow + notifications
 
 ### Phase 5: Integration & Polish
 
 **Goal:** Connect status system to existing features, run full quality pipeline, ship
 **Depends on:** Phase 4 (all status features built)
-**Research:** Unlikely (integration patterns)
-
-**Scope:**
-- Status badges on shop websites ({slug}.fadejunkie.com)
-- Status in community feed posts
-- Full impeccable skills pass (polish, audit, harden, clarify)
-- Browser QA + responsive verification
 
 **Plans:**
-- [ ] 05-01: Status integration with profiles, websites, feed
-- [ ] 05-02: Quality pipeline pass + ship
+- [x] 05-01: Status integration with profiles, websites, feed
+- [ ] 05-02: Quality pipeline pass + ship (Lobe executing, then Anthony visual review)
 
 ---
 *Roadmap created: 2026-03-28*
-*Last updated: 2026-03-28 (Phase 3 plan 03-03 created, awaiting approval)*
+*Last updated: 2026-03-28 — Phases 1-4 complete, Phase 5 in progress*

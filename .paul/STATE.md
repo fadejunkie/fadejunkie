@@ -5,61 +5,85 @@
 See: .paul/PROJECT.md (updated 2026-03-28)
 
 **Core value:** Barbers can build their digital brand and pass their state board exam without needing separate apps for each.
-**Current focus:** Phase 3 plan 03-03 (Status History & Archive View) created, awaiting approval
+**Current focus:** Phase 5 — Integration & Polish (Lobe executing final UI tasks)
 
 ## Current Position
 
 Milestone: v0.1 Status Ecosystem
-Phase: 3 of 5 (Status Toggle UI) — Planning 03-03
-Plan: 03-03 created, awaiting approval
-Status: PLAN created, ready for APPLY
-Last activity: 2026-03-28 — Created .paul/phases/03-status-toggle-ui/03-03-PLAN.md
+Phase: 5 of 5 (Integration & Polish)
+Plan: 05-01 COMPLETE, 05-02 in progress (Lobe executing)
+Status: All backend complete, Lobe building final UI integrations
+Last activity: 2026-03-28
 
 Progress:
-- Milestone: [█████░░░░░] 57% (8/14 plans complete)
-- Phase 3: [██████░░░░] 67% (2/3 — 03-01 and 03-02 done, 03-03 planned)
+- Milestone: [█████████░] 93% (13/14 plans complete)
+- Phase 5: [█████░░░░░] 50% (1/2 — 05-01 done, 05-02 Lobe executing)
 
 ## Loop Position
 
-Current loop state:
 ```
-PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [02-02 loop complete]
-  ✓        ✓        ✓     [02-03 loop complete]
-  ✓        ✓        ✓     [03-01 complete via Lobe task brief 02-03]
-  ✓        ✓        ✓     [03-02 complete via Lobe task brief 02-03]
-  ✓        ○        ○     [03-03 plan created, awaiting approval]
+Phase 1: ✓ ✓ ✓  (3/3 plans — schema, mutations, cron)
+Phase 2: ✓ ✓ ✓  (3/3 plans — data model, path UI, multi-path)
+Phase 3: ✓ ✓ ✓  (3/3 plans — toggle UI, badges, history)
+Phase 4: ✓ ✓ ✓  (3/3 plans — discovery, matching, connections)
+Phase 5: ✓ ○      (1/2 — integration done, polish in progress)
 ```
+
+## What Was Built (Full Inventory)
+
+### Backend (Convex)
+- `statuses` table — 4 indexes, expiration engine with hourly cron
+- `userPaths` table — 3 indexes, multi-path with auto-promote
+- `statusConnections` table — 3 indexes, connection flow
+- `statusConfig.ts` — 7 paths, 30 toggles, 15 complementary pairs
+- `statuses.ts` — 3 mutations, 8 queries, 3 connection ops, 1 internal mutation
+- `userPaths.ts` — 3 mutations, 2 queries
+- `crons.ts` — hourly expiration
+
+### Frontend (Lobe-built)
+- `/status` page — toggles, history, connections inbox
+- `/discover` page — browse feed, matches tab, discovery cards
+- `/profile` — path selector, active status badges
+- PathSelector, StatusToggleCard, StatusPanel, StatusHistory
+- DiscoveryFeed, DiscoveryCard, DiscoverTabs, MatchesFeed
+- ActiveStatusBadges, ConnectionsInbox, ConnectSheet
+- PublicStatusBadges (pending Lobe), PostStatusIndicator (pending Lobe)
+
+### Nav
+- "Status" and "Discover" added to AppSidebar + MobileNav
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: ~5.3min (PAUL-executed plans)
-- Total execution time: ~21min (PAUL-executed) + Lobe task brief execution
+- Total plans completed: 13
+- Backend plans executed directly: 8 (avg ~5min each)
+- UI plans via Lobe task briefs: 5 (avg ~7min each)
+- Total wall-clock time: ~2 hours
 
 **By Phase:**
 
-| Phase | Plans | Total Time | Avg/Plan |
-|-------|-------|------------|----------|
-| 01-status-schema-backend | 3/3 | ~17min | ~5.7min |
-| 02-user-path-system | 3/3 | ~4min (PAUL) + Lobe | - |
-| 03-status-toggle-ui | 2/3 | Lobe task briefs | - |
+| Phase | Plans | Method |
+|-------|-------|--------|
+| 01-status-schema-backend | 3/3 | Direct execution |
+| 02-user-path-system | 3/3 | 1 direct + 2 Lobe |
+| 03-status-toggle-ui | 3/3 | All Lobe |
+| 04-status-discovery | 3/3 | Backend direct + 3 Lobe |
+| 05-integration-polish | 1/2 | Backend direct + Lobe pending |
 
-## Accumulated Context
-
-### Decisions
+## Accumulated Decisions
 
 | Decision | Phase | Impact |
 |----------|-------|--------|
 | Stack locked | Init | No framework changes |
-| Multi-path via separate records (not array) | 02-01 | Enables by_path index for discovery |
-| Auto-promote oldest path on primary removal | 02-01 | Users always have a primary |
-| Enrich queries with config | 01-02 | UI gets defaultDays/maxDays inline |
+| Multi-path via separate records (not array) | 02-01 | Enables by_path index |
+| Auto-promote oldest path on primary removal | 02-01 | Users always have primary |
+| Enrich queries with config | 01-02 | UI gets defaultDays/maxDays |
 | Hourly cron for expiration | 01-03 | Balances freshness vs resources |
-| Lobe task briefs covered Phase 3 scope (03-01, 03-02) alongside Phase 2 UI work | 02-03 | Phase 3 nearly complete — only 03-03 remains |
+| 15 complementary pairs (bidirectional) | 04-02 | Ecosystem matching |
+| Connections = signal not messaging | 04-03 | Lightweight pending/seen model |
+| `node --import tsx` for Lobe execution | Session | Fixes tsx PATH issue on Windows |
 
-### Deferred Issues
+## Deferred Issues
 
 | Issue | Origin | Effort | Revisit |
 |-------|--------|--------|---------|
@@ -67,24 +91,12 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Convex deploy key empty | Init probe | S | Before production push |
 | Google OAuth not surfaced in UI | Init | S | During auth UX pass |
 
-### Blockers/Concerns
-None.
-
-## Lobe Task Queue
-
-Both prior task briefs COMPLETE:
-1. ~~`status-path-selection-ui.md`~~ — PathSelector component (327 lines), profile integration, 7 path cards
-2. ~~`status-toggle-ui.md`~~ — StatusToggleCard (188 lines), StatusPanel (210 lines), ActiveStatusBadges (37 lines), /status page, nav updated
-
-Pending:
-3. `status-history-view.md` — awaiting 03-03 APPLY to generate and drop in lobe/inbox/
-
 ## Session Continuity
 
 Last session: 2026-03-28
-Stopped at: Plan 03-03 created
-Next action: Review and approve plan, then run /paul:apply .paul/phases/03-status-toggle-ui/03-03-PLAN.md
-Resume file: .paul/phases/03-status-toggle-ui/03-03-PLAN.md
+Current: Lobe executing status-integration-badges.md + status-polish-pass.md
+Next action: Wait for Lobe, run build, Anthony visual review (05-02 checkpoint)
+Resume: .paul/phases/05-integration-polish/05-02-PLAN.md
 
 ---
 *STATE.md — Updated after every significant action*
