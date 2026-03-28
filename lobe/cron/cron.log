@@ -256,3 +256,16 @@ twanii →
   DS Update: CONFIRM — No hardcoded colors / tokens only rule — `#000000` in tab switcher breaks dark mode; two instances found at lines 322–328 and replaced with `var(--foreground)` token
   Pattern: Inline style color values that look correct in light mode silently break dark mode. `#000000` is indistinguishable from `var(--foreground)` in light mode but catastrophically wrong in dark mode (black text on black background). Always use tokens.
 
+
+[2026-03-28T14:53:02.055Z] Lobe exited with code: 0
+
+[2026-03-28T14:53:02.056Z] STDOUT (last 500 chars): .md` — `#000000` and `#ffffff` are now flagged as the highest-risk hardcoded values since their failure mode is *catastrophic* (invisible text) rather than just aesthetic drift.
+
+---
+
+**📋 Growth note added:** This confirms the `rgba(0,0,0,*)` dark mode bug pattern from prior cycles extends to fully-opaque `#000000` — same failure, just harder to spot because light mode looks identical to the correct token value.
+
+  [outbox] cron-spot-fix-2026-03-28T14-45-01-2026-03-28T14-48-47-636Z.md
+twanii → 
+
+[2026-03-28T14:53:02.171Z] Unpushed changes detected, running safety commit+push...
