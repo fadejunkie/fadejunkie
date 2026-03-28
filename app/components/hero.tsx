@@ -73,7 +73,7 @@ const HeroCard = () => {
       <div
         className="hero-profile-card"
         style={{
-          backgroundColor: "#000000",
+          backgroundColor: "var(--foreground)",
           borderRadius: "1.375rem",
           padding: "1.875rem",
           border: "1px solid rgba(255,255,255,0.08)",
@@ -123,7 +123,7 @@ const HeroCard = () => {
                   "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "1rem",
                 fontWeight: 700,
-                color: "#ffffff",
+                color: "var(--background)",
                 letterSpacing: "-0.02em",
                 lineHeight: 1.2,
                 marginBottom: "0.25rem",
@@ -212,7 +212,7 @@ const HeroCard = () => {
                     "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "1.125rem",
                   fontWeight: 800,
-                  color: "#ffffff",
+                  color: "var(--background)",
                   letterSpacing: "-0.03em",
                   lineHeight: 1,
                   marginBottom: "0.2rem",
@@ -342,7 +342,7 @@ const HeroCard = () => {
           position: "absolute",
           bottom: -18,
           right: -18,
-          backgroundColor: "#ffffff",
+          backgroundColor: "var(--background)",
           borderRadius: "3rem",
           padding: "0.5rem 1rem",
           display: "flex",
@@ -382,7 +382,7 @@ const HeroCard = () => {
           position: "absolute",
           top: 195,
           left: -56,
-          backgroundColor: "#ffffff",
+          backgroundColor: "var(--background)",
           borderRadius: "1rem",
           padding: "0.875rem 1rem",
           boxShadow:
@@ -412,7 +412,7 @@ const HeroCard = () => {
               "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.6875rem",
             lineHeight: 1.45,
-            color: "#000000",
+            color: "var(--foreground)",
           }}
         >
           Just passed.
@@ -582,7 +582,7 @@ const Hero = () => {
                       i % 2 === 0
                         ? "rgba(0,0,0,0.08)"
                         : "rgba(0,0,0,0.05)",
-                    border: "1.5px solid #ffffff",
+                    border: "1.5px solid var(--background)",
                     marginLeft: i > 0 ? -8 : 0,
                     display: "flex",
                     alignItems: "center",
@@ -616,7 +616,7 @@ const Hero = () => {
                     "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
-                  color: "#000000",
+                  color: "var(--foreground)",
                   letterSpacing: "-0.02em",
                   lineHeight: 1.3,
                 }}
@@ -702,7 +702,7 @@ const Hero = () => {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background-color: #000000;
+          background-color: var(--foreground);
           animation: fj-pulse 2.2s ease-in-out infinite;
           flex-shrink: 0;
         }
