@@ -62,8 +62,10 @@ Living document. Updated by Lobe after each style test.
 - **Rule:** Never use `#000000`, `#ffffff`, or `rgba(0,0,0,*)` for foreground/text colors in component inline styles. Always use `var(--foreground)`, `var(--muted-foreground)`, `var(--background)`, etc. This extends to Tailwind arbitrary value classes too — `hover:border-[#c8c8c8]` is a hardcoded color and will break dark mode.
 - **Why it matters:** Hardcoded hex values break dark mode — `#000000` stays black even when `--foreground` flips to white. A hardcoded hover border hex like `#c8c8c8` locks to a light-mode gray — in dark mode the base border is nearly invisible, making the hover state incoherent.
 - **Correct hover border pattern:** `hover:border-foreground/20` — resolves to ~20% opacity foreground, which inverts correctly in dark mode (near-black in light, near-white in dark).
+- **Correct hover shadow pattern:** `hover:shadow-sm` (or `hover:shadow-md` etc.) — uses `var(--shadow-sm)` token registered in `@theme inline`. Never `hover:shadow-[0_2px_8px_rgba(0,0,0,*)]` — that hardcodes a specific rgba that bypasses the token system and can't be updated globally.
   ✓ Confirmed: `app/signin/page.tsx:322-328` — tab switcher had `#000000` for active color and border-bottom; replaced with `var(--foreground)` / `var(--muted-foreground)` (cycle 2026-03-28T14:45)
   ✓ Confirmed: `components/ResourceCard.tsx:23` — `hover:border-[#c8c8c8]` on card hover state; replaced with `hover:border-foreground/20` (cycle 2026-03-28T16:15)
+  ✓ Confirmed: `components/ResourceCard.tsx:23` — `hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)]` arbitrary shadow replaced with `hover:shadow-sm` token (cycle 2026-03-28T17:00)
 
 ### Tailwind color utilities on inverted cards — use `text-background` not `text-white` [ADD]
 - **Rule:** On inverted cards (`bg-foreground`), never use Tailwind's `text-white`, `bg-white`, `text-white/50`, `bg-white/10` etc. These are hardcoded-color utilities in disguise — in dark mode, `bg-foreground` flips to white, making `text-white` invisible (white on white).
