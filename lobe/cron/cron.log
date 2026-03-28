@@ -1,21 +1,3 @@
-twanii → 
-
-[2026-03-28T17:08:02.242Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T17:08:03.855Z] Safety push complete
-
-[2026-03-28T17:08:03.856Z] Cron run complete
-
-[2026-03-28T17:15:02.058Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T17:15:02.063Z] Task created: cron-spot-fix-2026-03-28T17-15-02.md
-
-[2026-03-28T17:15:02.065Z] Spawning Lobe agent...
-
-[2026-03-28T17:30:00.000Z] FIX: exam-guide/page.tsx (ServiceCard) — 5 raw <button> UI controls missing `font-sans`, inheriting Courier Prime (typewriter body font) instead of Geist (UI font) → added `font-sans` to accordion toggle, checklist item buttons, "Reset checklist", "Reset", and "Mark as Practiced" buttons
-  Files: app/app/(auth)/tools/exam-guide/page.tsx, context/fadejunkie_ui.md
-  Commit: d5e5b2f
-  DS Update: CONFIRM — Raw <button> font-sans rule — 2nd cross-file confirmation (resources/page.tsx, exam-guide/page.tsx); "Mark as Practiced" styled CTA in Courier Prime documented as canonical example of the failure mode
   Pattern: Any raw <button> styled as a UI action control (CTA, pill, toggle) that omits font-sans is a P1 — the typewriter body font is audibly wrong in a button context. ServiceCard-style components that roll their own buttons instead of using Button.tsx are the highest-risk location for this class of bug.
 
 [2026-03-28T17:23:02.129Z] Lobe exited with code: 0
@@ -506,3 +488,14 @@ twanii →
   DS Update: CONFIRM [HARDENED] — Page h1 headings require font-display — 3rd cross-file confirmation (flashcards, practice-test, resources). Rule now marked [HARDENED] in fadejunkie_ui.md.
   Pattern: The font-display missing h1 violation is universal across ALL auth interior pages, not just tool pages. resources/page.tsx is the first non-tool auth page confirmed. Remaining violations still outstanding: website/page.tsx, tools/page.tsx, exam-guide/page.tsx — to be fixed in successive cycles.
 
+
+[2026-03-28T21:38:02.319Z] Lobe exited with code: 0
+
+[2026-03-28T21:38:02.320Z] STDOUT (last 500 chars): s require explicit `font-display`"* is now `[HARDENED]` — confirmed across flashcards, practice-test, and resources pages. Three cross-file confirmations from different auth-interior route types locks it as ground truth.
+
+**Flagged for upcoming cycles:** `website/page.tsx`, `tools/page.tsx`, and `exam-guide/page.tsx` all have h1s missing `font-display` — three more surgical fixes queued for the next three cycles.
+
+  [outbox] cron-spot-fix-2026-03-28T21-30-02-2026-03-28T21-33-55-193Z.md
+twanii → 
+
+[2026-03-28T21:38:02.439Z] Unpushed changes detected, running safety commit+push...
