@@ -1,5 +1,6 @@
 "use client";
 
+import DevBanner from "@/components/DevBanner";
 import { Hero } from "@/components/hero";
 import { StickyNav } from "@/components/StickyNav";
 import { Cta13 } from "@/components/cta-13";
@@ -133,6 +134,9 @@ const PATHS = [
 export default function LandingPage() {
   return (
     <div style={{ backgroundColor: "var(--background)", minHeight: "100vh" }}>
+      {/* ── Dev banner ─────────────────────────────────────────── */}
+      <DevBanner />
+
       {/* ── Navbar ─────────────────────────────────────────────── */}
       <StickyNav
         logo={{ url: "/", title: "fadejunkie" }}
