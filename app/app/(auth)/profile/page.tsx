@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/Input";
 import GalleryGrid from "@/components/GalleryGrid";
 import LivePageCard from "@/components/LivePageCard";
+import PathSelector from "@/components/PathSelector";
 import { cn } from "@/lib/utils";
 
 
@@ -102,15 +103,22 @@ export default function ProfilePage() {
     } finally { setSaving(false); }
   }
 
-  if (barber === undefined) {
-    return <div className="flex items-center justify-center h-40"><span className="text-sm text-muted-foreground">Loading...</span></div>;
-  }
-
   return (
     <div className="space-y-6">
+      {/* ── Your Paths ── */}
+      <PathSelector />
+
       {/* Profile card */}
       <Card className="rounded-xl shadow-sm p-6 sm:p-8">
         <h2 className="text-lg font-bold text-foreground mb-6">Your Profile</h2>
+
+        {barber === undefined ? (
+          <div className="flex items-center justify-center h-40">
+            <span className="text-sm text-muted-foreground">Loading...</span>
+          </div>
+        ) : null}
+
+        {barber !== undefined && (
 
         <form onSubmit={handleSave} className="space-y-6">
           {/* ── Identity ──────────────────────────────────── */}
@@ -274,9 +282,10 @@ export default function ProfilePage() {
 
           <div className="flex items-center gap-3 pt-1">
             <Button type="submit" loading={saving}>Save profile</Button>
-            {saved && !barber?.slug && <span className="text-sm text-foreground">Saved!</span>}
+            {saved && <span className="text-sm text-foreground">Saved!</span>}
           </div>
         </form>
+        )}
       </Card>
 
       {/* Gallery card */}
