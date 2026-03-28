@@ -1,25 +1,3 @@
-[2026-03-28T09:00:01.738Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T09:00:01.743Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T09:15:01.723Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T09:15:01.727Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T09:30:01.723Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T09:30:01.727Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T09:45:01.708Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T09:45:01.713Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T10:00:01.724Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T10:00:01.728Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
-
-[2026-03-28T10:15:01.778Z] WARN: Stale lockfile detected, removing
-
 [2026-03-28T10:15:01.782Z] SKIP: Lobe inbox has 3 unprocessed task(s): dev-banner.md, status-path-selection-ui.md, status-toggle-ui.md
 
 [2026-03-28T10:30:01.771Z] WARN: Stale lockfile detected, removing
@@ -505,3 +483,19 @@ twanii →
   Commit: bc5fc30
   DS Update: CONFIRM — No hardcoded colors/tokens only rule — extended to cover arbitrary shadow classes; `hover:shadow-[rgba]` is a hardcoded value in the same category as `hover:border-[#hex]`. Added correct shadow token pattern (`hover:shadow-sm`) to rule documentation.
   Pattern: Tailwind arbitrary shadow values `shadow-[0_N_Npx_rgba(0,0,0,*)]` are hardcoded-color violations in the same way as `border-[#hex]` — both bypass the token system and can't be updated globally. Use `shadow-sm / shadow-md / shadow-lg` which resolve to `var(--shadow-*)` CSS tokens registered in globals.css `@theme inline`.
+
+[2026-03-28T17:08:02.122Z] Lobe exited with code: 0
+
+[2026-03-28T17:08:02.123Z] STDOUT (last 500 chars): shadow-sm)` → `0 2px 8px rgba(0,0,0,0.07)` — token-backed, dark-mode aware, globally controllable.
+
+### 📐 Design System Update
+
+**Added rule:** Arbitrary shadow syntax `shadow-[rgba()]` is a hardcoded color violation. Detection grep: `shadow-\[` in className strings. Always use `shadow-xs/sm/md/lg/xl` — the tokens are already registered.
+
+### ✅ Build + Push
+- 17/17 pages clean — `bc5fc30` pushed to `origin/main`
+
+  [outbox] cron-spot-fix-2026-03-28T17-00-02-2026-03-28T17-03-43-072Z.md
+twanii → 
+
+[2026-03-28T17:08:02.242Z] Unpushed changes detected, running safety commit+push...
