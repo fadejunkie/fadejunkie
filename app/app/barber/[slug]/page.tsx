@@ -38,7 +38,7 @@ export default async function BarberProfilePage({ params }: PageProps) {
         <div className="flex items-start gap-5 mb-8">
           <Avatar src={barber.avatarUrl} name={barber.name} size={80} />
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl font-semibold text-foreground">{barber.name}</h1>
+            <h1 className="text-2xl font-semibold text-foreground" style={{ textTransform: "none" }}>{barber.name}</h1>
             <p className="text-sm text-muted-foreground font-mono">@{barber.slug}</p>
             {barber.shopName && <p className="text-sm text-muted-foreground mt-0.5">{barber.shopName}</p>}
             {barber.location && <p className="text-sm text-muted-foreground/60 mt-0.5">{barber.location}</p>}
