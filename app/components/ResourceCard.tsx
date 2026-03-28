@@ -20,7 +20,7 @@ function CardBody({
   category, businessName, tagline, description, badge, price, isInternal,
 }: Pick<ResourceCardProps, "category" | "businessName" | "tagline" | "description" | "badge" | "price" | "isInternal">) {
   return (
-    <Card className="p-5 h-full flex flex-col gap-3 hover:border-[#c8c8c8] hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all">
+    <Card className="p-5 h-full flex flex-col gap-3 hover:border-foreground/20 hover:shadow-[0_2px_8px_rgba(0,0,0,0.06)] transition-all">
       {/* UPPERCASE olive category label */}
       <p className="text-[10px] font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--link)" }}>
         {category}
