@@ -1,4 +1,5 @@
 import StatusPanel from "@/components/StatusPanel";
+import StatusHistory from "@/components/StatusHistory";
 
 export const metadata = {
   title: "Status — FadeJunkie",
@@ -24,6 +25,11 @@ export default function StatusPage() {
 
       {/* ── Status toggles ── */}
       <StatusPanel />
+
+      {/* ── History ── */}
+      <div className="mt-12">
+        <StatusHistory />
+      </div>
     </div>
   );
 }
