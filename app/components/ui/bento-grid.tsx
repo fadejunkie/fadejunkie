@@ -115,7 +115,7 @@ const BentoCard = ({
       <div
         className={cn(
           "pointer-events-none absolute inset-0 transition-all duration-300",
-          isDark ? "group-hover:bg-white/[.03]" : "group-hover:bg-black/[.01]",
+          isDark ? "group-hover:bg-background/[.03]" : "group-hover:bg-foreground/[.01]",
         )}
         style={{ borderRadius: "var(--radius-3xl, 1.375rem)" }}
       />

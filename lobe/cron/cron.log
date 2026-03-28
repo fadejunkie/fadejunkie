@@ -1,13 +1,3 @@
-
-New nuance added to the doc: Tailwind text-transform utilities (`.capitalize`, `.uppercase`, `.normal-case`) **cannot override** ungrouped `globals.css` element selectors in Tailwind v4. Only `style={{ textTransform: "..." }}` is the reliable escape hatch.
-
-**Commits:** `1953e9e` (fix) + `363eaa2` (docs) → pushed to `main`. Build: 17/17 clean.
-
-  [outbox] cron-spot-fix-2026-03-28T16-45-02-2026-03-28T16-50-32-724Z.md
-twanii → 
-
-[2026-03-28T16:53:02.479Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-28T16:53:04.255Z] Safety push complete
 
 [2026-03-28T16:53:04.256Z] Cron run complete
@@ -499,3 +489,13 @@ Extended the hardcoded-color rule to explicitly flag **Tailwind utility classes*
 twanii → 
 
 [2026-03-28T21:08:02.533Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T21:08:04.057Z] Safety push complete
+
+[2026-03-28T21:08:04.059Z] Cron run complete
+
+[2026-03-28T21:15:02.222Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T21:15:02.228Z] Task created: cron-spot-fix-2026-03-28T21-15-02.md
+
+[2026-03-28T21:15:02.229Z] Spawning Lobe agent...
