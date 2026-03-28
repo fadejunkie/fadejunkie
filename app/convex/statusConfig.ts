@@ -79,6 +79,62 @@ export const DEFAULTS = {
   allow_manual_refresh: true,
 } as const;
 
+// ── Complementary Matching ──
+
+export type ComplementaryPair = {
+  a: { path: UserPath; toggleKey: string };
+  b: { path: UserPath; toggleKey: string };
+};
+
+export const COMPLEMENTARY_PAIRS: ComplementaryPair[] = [
+  // Students seeking apprenticeships ↔ Shops seeking apprentices
+  { a: { path: "student", toggleKey: "seeking_apprenticeship" }, b: { path: "shop", toggleKey: "seeking_apprentice" } },
+  // Students seeking apprenticeships ↔ Shops hiring barbers (broader match)
+  { a: { path: "student", toggleKey: "seeking_apprenticeship" }, b: { path: "shop", toggleKey: "hiring_barbers" } },
+  // Barbers seeking employment ↔ Shops hiring barbers
+  { a: { path: "barber", toggleKey: "seeking_employment" }, b: { path: "shop", toggleKey: "hiring_barbers" } },
+  // Barbers seeking booth rental ↔ Shops with booths available
+  { a: { path: "barber", toggleKey: "seeking_booth_rental" }, b: { path: "shop", toggleKey: "booth_rental_available" } },
+  // Barbers open to guest spots ↔ Shops open to guest barbers
+  { a: { path: "barber", toggleKey: "open_to_guest_spot" }, b: { path: "shop", toggleKey: "open_to_guest_barbers" } },
+  // Vendors booking demos ↔ Shops with booth rental available
+  { a: { path: "vendor", toggleKey: "booking_demos" }, b: { path: "shop", toggleKey: "booth_rental_available" } },
+  // Vendors seeking shop partnerships ↔ Shops hiring barbers
+  { a: { path: "vendor", toggleKey: "seeking_shop_partnerships" }, b: { path: "shop", toggleKey: "hiring_barbers" } },
+  // Event coordinators booking barbers ↔ Barbers seeking employment
+  { a: { path: "event_coordinator", toggleKey: "booking_barbers" }, b: { path: "barber", toggleKey: "seeking_employment" } },
+  // Event coordinators booking educators ↔ Schools looking for instructors
+  { a: { path: "event_coordinator", toggleKey: "booking_educators" }, b: { path: "school", toggleKey: "looking_for_instructors" } },
+  // Clients looking for a barber ↔ Barbers accepting clients
+  { a: { path: "client", toggleKey: "looking_for_a_barber" }, b: { path: "barber", toggleKey: "now_accepting_clients" } },
+  // Clients need a cut today ↔ Barbers open to walk-ins
+  { a: { path: "client", toggleKey: "need_a_cut_today" }, b: { path: "barber", toggleKey: "open_to_walk_ins" } },
+  // Students looking for shop placement ↔ Shops seeking apprentices
+  { a: { path: "student", toggleKey: "looking_for_shop_placement" }, b: { path: "shop", toggleKey: "seeking_apprentice" } },
+  // Students interviewing schools ↔ Schools accepting new students
+  { a: { path: "student", toggleKey: "interviewing_schools" }, b: { path: "school", toggleKey: "accepting_new_students" } },
+  // Clients looking for specialist ↔ Barbers accepting clients
+  { a: { path: "client", toggleKey: "looking_for_specialist" }, b: { path: "barber", toggleKey: "now_accepting_clients" } },
+  // Barbers open to relocate ↔ Shops hiring barbers
+  { a: { path: "barber", toggleKey: "open_to_relocate" }, b: { path: "shop", toggleKey: "hiring_barbers" } },
+];
+
+/** Given a path + toggleKey, return all complementary targets (works both directions) */
+export function getComplementsFor(
+  path: UserPath,
+  toggleKey: string
+): { path: UserPath; toggleKey: string }[] {
+  const results: { path: UserPath; toggleKey: string }[] = [];
+  for (const pair of COMPLEMENTARY_PAIRS) {
+    if (pair.a.path === path && pair.a.toggleKey === toggleKey) {
+      results.push(pair.b);
+    } else if (pair.b.path === path && pair.b.toggleKey === toggleKey) {
+      results.push(pair.a);
+    }
+  }
+  return results;
+}
+
 /** Get all toggle definitions for a given user path */
 export function getTogglesForPath<P extends UserPath>(
   path: P

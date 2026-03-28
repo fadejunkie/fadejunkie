@@ -1,10 +1,20 @@
 import { query, mutation, internalMutation } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { v, ConvexError } from "convex/values";
-import { getToggleConfig, USER_PATHS } from "./statusConfig";
+import { getToggleConfig, USER_PATHS, getComplementsFor } from "./statusConfig";
 import type { UserPath } from "./statusConfig";
 
 const DAY_MS = 86_400_000;
+
+const PATH_LABELS: Record<string, string> = {
+  barber: "Barbers",
+  student: "Students",
+  shop: "Shops",
+  school: "Schools",
+  vendor: "Vendors",
+  event_coordinator: "Event Coordinators",
+  client: "Clients",
+};
 
 // ── Mutations ──
 
@@ -184,6 +194,178 @@ export const getMyArchivedStatuses = query({
           maxDays: config?.max_days ?? 0,
         };
       });
+  },
+});
+
+// ── Discovery ──
+
+export const discoverStatuses = query({
+  args: {
+    path: v.string(),
+    toggleKey: v.optional(v.string()),
+  },
+  handler: async (ctx, { path, toggleKey }) => {
+    const userId = await getAuthUserId(ctx);
+    const now = Date.now();
+
+    const statuses = await ctx.db
+      .query("statuses")
+      .withIndex("by_path_active", (q) =>
+        q.eq("path", path).eq("isActive", true)
+      )
+      .collect();
+
+    const filtered = statuses.filter((s) => {
+      if (userId && s.userId === userId) return false;
+      if (s.expiresAt <= now) return false;
+      if (toggleKey && s.toggleKey !== toggleKey) return false;
+      return true;
+    });
+
+    // Batch-lookup barber profiles for unique userIds
+    const userIds = [...new Set(filtered.map((s) => s.userId))];
+    const barberMap = new Map<string, { name: string | null; slug: string | null; avatarUrl: string | null }>();
+
+    for (const uid of userIds) {
+      const barber = await ctx.db
+        .query("barbers")
+        .withIndex("by_userId", (q) => q.eq("userId", uid))
+        .unique();
+      barberMap.set(uid, {
+        name: barber?.name ?? null,
+        slug: barber?.slug ?? null,
+        avatarUrl: barber?.avatarUrl ?? null,
+      });
+    }
+
+    return filtered
+      .sort((a, b) => b.activatedAt - a.activatedAt)
+      .map((s) => {
+        const config = getToggleConfig(s.path as UserPath, s.toggleKey);
+        const barber = barberMap.get(s.userId);
+        return {
+          ...s,
+          defaultDays: config?.default_days ?? 0,
+          maxDays: config?.max_days ?? 0,
+          barberName: barber?.name ?? null,
+          barberSlug: barber?.slug ?? null,
+          barberAvatarUrl: barber?.avatarUrl ?? null,
+        };
+      });
+  },
+});
+
+export const getDiscoveryPaths = query({
+  args: {},
+  handler: async (ctx) => {
+    const now = Date.now();
+    const results: { path: string; label: string; count: number }[] = [];
+
+    for (const path of USER_PATHS) {
+      const statuses = await ctx.db
+        .query("statuses")
+        .withIndex("by_path_active", (q) =>
+          q.eq("path", path).eq("isActive", true)
+        )
+        .collect();
+
+      const count = statuses.filter((s) => s.expiresAt > now).length;
+      if (count > 0) {
+        results.push({ path, label: PATH_LABELS[path] ?? path, count });
+      }
+    }
+
+    return results.sort((a, b) => b.count - a.count);
+  },
+});
+
+export const getComplementaryMatches = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return [];
+
+    const now = Date.now();
+
+    // Get caller's active, non-expired statuses
+    const myStatuses = (
+      await ctx.db
+        .query("statuses")
+        .withIndex("by_userId", (q) => q.eq("userId", userId))
+        .collect()
+    ).filter((s) => s.isActive && s.expiresAt > now);
+
+    if (myStatuses.length === 0) return [];
+
+    const seenIds = new Set<string>();
+    const groups: {
+      myStatus: { path: string; toggleKey: string; _id: typeof myStatuses[0]["_id"] };
+      matches: typeof myStatuses;
+    }[] = [];
+
+    for (const my of myStatuses) {
+      const complements = getComplementsFor(my.path as UserPath, my.toggleKey);
+      const matches: typeof myStatuses = [];
+
+      for (const target of complements) {
+        const candidates = await ctx.db
+          .query("statuses")
+          .withIndex("by_path_active", (q) =>
+            q.eq("path", target.path).eq("isActive", true)
+          )
+          .collect();
+
+        for (const c of candidates) {
+          if (c.toggleKey !== target.toggleKey) continue;
+          if (c.userId === userId) continue;
+          if (c.expiresAt <= now) continue;
+          if (seenIds.has(c._id)) continue;
+          seenIds.add(c._id);
+          matches.push(c);
+        }
+      }
+
+      if (matches.length > 0) {
+        groups.push({
+          myStatus: { path: my.path, toggleKey: my.toggleKey, _id: my._id },
+          matches: matches.sort((a, b) => b.activatedAt - a.activatedAt),
+        });
+      }
+    }
+
+    // Batch-lookup barber profiles
+    const allUserIds = [...new Set(groups.flatMap((g) => g.matches.map((m) => m.userId)))];
+    const barberMap = new Map<string, { name: string | null; slug: string | null; avatarUrl: string | null }>();
+
+    for (const uid of allUserIds) {
+      const barber = await ctx.db
+        .query("barbers")
+        .withIndex("by_userId", (q) => q.eq("userId", uid))
+        .unique();
+      barberMap.set(uid, {
+        name: barber?.name ?? null,
+        slug: barber?.slug ?? null,
+        avatarUrl: barber?.avatarUrl ?? null,
+      });
+    }
+
+    return groups.map((g) => ({
+      myStatus: g.myStatus,
+      matches: g.matches.map((m) => {
+        const barber = barberMap.get(m.userId);
+        return {
+          _id: m._id,
+          userId: m.userId,
+          path: m.path,
+          toggleKey: m.toggleKey,
+          activatedAt: m.activatedAt,
+          expiresAt: m.expiresAt,
+          barberName: barber?.name ?? null,
+          barberSlug: barber?.slug ?? null,
+          barberAvatarUrl: barber?.avatarUrl ?? null,
+        };
+      }),
+    }));
   },
 });
 
