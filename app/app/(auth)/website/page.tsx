@@ -62,7 +62,7 @@ export default function WebsitePage() {
     <div className="space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Website Builder</h1>
+          <h1 className="font-display text-2xl font-semibold text-foreground">Website Builder</h1>
           <p className="text-sm text-muted-foreground mt-1">Build your shop&apos;s public website.</p>
         </div>
         <div className="flex gap-2 shrink-0">
