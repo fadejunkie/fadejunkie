@@ -326,3 +326,22 @@ Node.js v24.13.1
 [2026-03-28T15:15:01.962Z] Task created: cron-spot-fix-2026-03-28T15-15-01.md
 
 [2026-03-28T15:15:01.963Z] Spawning Lobe agent...
+
+[2026-03-28T15:15:01Z] FIX: barber/[slug]/page.tsx — 2× <h2 className="…uppercase tracking-widest"> section labels ("Services", "Gallery") → converted to <p> with Geist Mono eyebrow token inline styles
+  Files: app/app/barber/[slug]/page.tsx, app/context/fadejunkie_ui.md
+  Commit: 6d4c3b5
+  DS Update: CONFIRM — Section-label must NOT use heading tags — 2nd cross-file confirmation (after website/page.tsx in 15:00 cycle). Rule approaching [HARDENED] status (2/3 confirmations).
+  Pattern: Public-facing pages use the same h2→p eyebrow pattern as auth-interior pages — the rule is universal, not scoped to app-interior only.
+
+[2026-03-28T15:23:02.049Z] Lobe exited with code: 0
+
+[2026-03-28T15:23:02.050Z] STDOUT (last 500 chars): row pattern (`fontFamily: var(--font-geist-mono)`, `fontSize: 0.625rem`, `letterSpacing: 0.14em`, `uppercase`) — same fix that was applied to `website/page.tsx` last cycle.
+
+**Design system update:** CONFIRM — "Section labels must NOT use heading tags" rule now has 2/3 cross-file confirmations (barber page + website page). One more sighting and it goes `[HARDENED]`.
+
+**Build:** Clean ✓ | **Pushed:** `origin/main`
+
+  [outbox] cron-spot-fix-2026-03-28T15-15-01-2026-03-28T15-19-50-817Z.md
+twanii → 
+
+[2026-03-28T15:23:02.173Z] Unpushed changes detected, running safety commit+push...
