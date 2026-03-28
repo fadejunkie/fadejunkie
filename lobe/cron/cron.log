@@ -269,3 +269,21 @@ twanii →
 twanii → 
 
 [2026-03-28T14:53:02.171Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T14:53:03.770Z] Safety push complete
+
+[2026-03-28T14:53:03.771Z] Cron run complete
+
+[2026-03-28T15:00:01.940Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T15:00:01.945Z] Task created: cron-spot-fix-2026-03-28T15-00-01.md
+
+[2026-03-28T15:00:01.946Z] Spawning Lobe agent...
+
+[2026-03-28T15:00:01Z] SKIP: inbox has 1 tasks
+
+[2026-03-28T15:00:01Z] FIX: website/page.tsx — 3 h2 section labels with `uppercase tracking-wider` fought global h2 CSS (`lowercase`, `-0.04em` letter-spacing) → replaced with <p> elements using explicit Geist Mono eyebrow-label tokens
+  Files: app/app/(auth)/website/page.tsx, context/fadejunkie_ui.md
+  Commit: 2e101b7
+  DS Update: ADD — Section-label elements must NOT use heading tags — decorative dividers inside cards must use <p>/<span> with explicit Geist Mono eyebrow tokens, not h2/h3 which inherit global heading CSS overrides
+  Pattern: Heading tags (h1–h4) carry aggressive global CSS resets (lowercase, tight letter-spacing) that silently override intentional label styling. When a visual element is NOT a document structural heading, use a non-heading element + explicit style tokens.

@@ -116,3 +116,7 @@ Black ink on white paper. Zine meets brutalist poster. Typography IS the design 
 **Rule — Empty state copy uses font-body (Courier Prime), not UI font:**
 All empty state, zero-state, and placeholder text that reads as authored copy belongs in `--font-body` (Courier Prime, 0.875rem, line-height 1.6, color `var(--muted-foreground)`). Using only Tailwind's `text-sm text-muted-foreground` leaves font-family unset, falling back to Geist (UI font). Always set `fontFamily: "var(--font-body), 'Courier Prime', monospace"` on editorial micro-copy.
   + Added: fixed `app/(auth)/home/page.tsx` empty state (cycle 2026-03-28T14:00)
+
+**Rule — Section-label elements must NOT use heading tags (h1–h4):**
+Decorative section dividers and eyebrow labels inside cards (e.g., "Shop Identity", "About", "Contact & Hours") must use `<p>` or `<span>`, never `<h2>`/`<h3>`. Using heading tags causes the global `h1–h4 { text-transform: lowercase; letter-spacing: -0.04em }` rules to fight intentional label styling (uppercase, `tracking-wider` → `+0.05em`). Correct pattern: `<p style={{ fontFamily: "var(--font-geist-mono)…", fontSize: "0.625rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--muted-foreground)" }}>`.
+  ⚠ Challenged and fixed: `app/(auth)/website/page.tsx` had 3× `<h2 className="…uppercase tracking-wider">` section labels; converted to `<p>` with explicit Geist Mono eyebrow tokens (cycle 2026-03-28T15:00)
