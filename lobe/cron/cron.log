@@ -423,3 +423,31 @@ twanii →
   DS Update: ADD — "Raw <button> elements must declare font-sans" — body font doesn't cascade correctly to UI navigation controls; Button component has it built-in, raw <button> elements do not
   Pattern: globals.css sets body to Courier Prime. Every raw <button> used for UI chrome (not authored content composition) needs explicit font-sans class. The Button component (button.tsx) is always safe; raw <button> elements in pages are the detection target.
 
+
+[2026-03-28T16:10:46.629Z] Lobe exited with code: 1
+
+[2026-03-28T16:10:46.631Z] STDOUT (last 500 chars): font-sans`** — `globals.css body` overrides the html element's `font-sans` default with Courier Prime. Any raw `<button>` used as UI chrome needs explicit `font-sans`. The `Button` component is always safe; raw buttons in page files are the detection target. Grep: `<button` without `font-sans` in className.
+
+---
+
+**Commits:** `7c17782` (fix) → `66cbb83` (log) → both pushed to `origin/main`  
+**Build:** 17/17 pages clean ✓
+
+  [outbox] cron-spot-fix-2026-03-28T16-00-02-2026-03-28T16-10-46-598Z.md
+
+
+[2026-03-28T16:10:46.632Z] STDERR (last 500 chars):  readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
+    at new Promise (<anonymous>)
+    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
+    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+
+Node.js v24.13.1
+
+
+[2026-03-28T16:10:46.750Z] Unpushed changes detected, running safety commit+push...
