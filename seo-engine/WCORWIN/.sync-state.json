@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-03-26T17:00:09.167Z",
+  "syncedAt": "2026-03-27T18:29:03.418Z",
   "overrides": {
     "kickoff:0": {
       "status": "done"
@@ -19,18 +19,20 @@
       "status": "done"
     },
     "month1:1": {
-      "status": "pending"
+      "status": "done"
     },
     "month1:2": {
-      "status": "active"
+      "status": "done"
     },
     "month1:3": {
-      "status": "active"
+      "doc": "## XML Sitemap Status (GSC — 2026-03-27)\n\n| Sitemap | Status | Pages | Last Read |\n|---------|--------|-------|-----------|\n| sitemap.xml | Success | 294 | 2026-03-27 |\n| /Web/AR1009035/Sitemap | Success | 294 | 2026-03-27 |\n| sitemap_index.xml | Could not fetch | — | Dead since 2024 |\n\n**Note:** sitemap_index.xml has been failing since 2024 — can be removed from GSC. The primary sitemap.xml is healthy with 294 pages indexed.",
+      "status": "done"
     },
     "month1:4": {
       "status": "active"
     },
     "month1:5": {
+      "doc": "## GSC Baseline — March 2026\n\n### Performance (last 3 months)\n- **246 clicks** | **25.6K impressions** | **1% CTR** | **Avg position: 11.5**\n\n### Indexing\n- **8K pages indexed** (mostly IDX listings)\n- **29.7K not indexed** (8 reasons — likely IDX bloat from listing pages)\n\n### Video\n- 6 videos found, 0 indexed\n\n### Sitemaps\n- sitemap.xml: 294 pages, healthy\n- Historical data goes back to 2019 — GSC was set up previously\n\n**Next:** Document top 20 target keywords with current positions",
       "status": "active"
     }
   },
@@ -56,9 +58,9 @@
       },
       {
         "key": "kickoff:3",
-        "name": "GSC access requested",
+        "name": "GSC ownership verified",
         "status": "done",
-        "detail": "Follow up with Deanna — still waiting"
+        "detail": "Verified 2026-03-27 via domain name provider (DNS)"
       },
       {
         "key": "kickoff:4",
@@ -85,25 +87,26 @@
         "key": "month1:0",
         "name": "Rewrite all title tags",
         "status": "done",
-        "detail": "Unique title for every key non-IDX page"
+        "detail": "Unique title for every key non-IDX page — applied 2026-03-27"
       },
       {
         "key": "month1:1",
         "name": "Write unique meta descriptions",
-        "status": "pending",
-        "detail": "Eliminate site-wide duplication"
+        "status": "done",
+        "detail": "Unique meta descriptions for 10 pages — applied 2026-03-27"
       },
       {
         "key": "month1:2",
         "name": "Implement LocalBusiness schema",
-        "status": "active",
-        "detail": "JSON-LD: RealEstateAgent + Person for Joe"
+        "status": "done",
+        "detail": "JSON-LD RealEstateAgent schema injected via Extra Code — 2026-03-27"
       },
       {
         "key": "month1:3",
         "name": "Verify & submit XML sitemap",
-        "status": "active",
-        "detail": "Confirm at /sitemap.xml → GSC + Bing"
+        "status": "done",
+        "detail": "Confirm at /sitemap.xml → GSC + Bing",
+        "doc": "## XML Sitemap Status (GSC — 2026-03-27)\n\n| Sitemap | Status | Pages | Last Read |\n|---------|--------|-------|-----------|\n| sitemap.xml | Success | 294 | 2026-03-27 |\n| /Web/AR1009035/Sitemap | Success | 294 | 2026-03-27 |\n| sitemap_index.xml | Could not fetch | — | Dead since 2024 |\n\n**Note:** sitemap_index.xml has been failing since 2024 — can be removed from GSC. The primary sitemap.xml is healthy with 294 pages indexed."
       },
       {
         "key": "month1:4",
@@ -115,7 +118,8 @@
         "key": "month1:5",
         "name": "Baseline keyword tracking setup",
         "status": "active",
-        "detail": "Top 20 target keywords documented"
+        "detail": "Top 20 target keywords documented",
+        "doc": "## GSC Baseline — March 2026\n\n### Performance (last 3 months)\n- **246 clicks** | **25.6K impressions** | **1% CTR** | **Avg position: 11.5**\n\n### Indexing\n- **8K pages indexed** (mostly IDX listings)\n- **29.7K not indexed** (8 reasons — likely IDX bloat from listing pages)\n\n### Video\n- 6 videos found, 0 indexed\n\n### Sitemaps\n- sitemap.xml: 294 pages, healthy\n- Historical data goes back to 2019 — GSC was set up previously\n\n**Next:** Document top 20 target keywords with current positions"
       },
       {
         "key": "month1:6",
@@ -240,9 +244,9 @@
       "pending": 0
     },
     "month1": {
-      "done": 1,
-      "active": 4,
-      "pending": 2
+      "done": 4,
+      "active": 2,
+      "pending": 1
     },
     "month2": {
       "done": 0,

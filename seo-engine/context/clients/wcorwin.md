@@ -26,14 +26,30 @@ Veteran-owned Weichert franchise brokerage serving New Braunfels, Canyon Lake, S
 ## SEO Baseline (Audit: March 3, 2026)
 - **Overall score:** 3.5/10
 - **On-Page:** 2/10 — duplicate titles and meta descriptions site-wide
-- **Technical:** 4/10 — no sitemap confirmed, no schema markup
+- **Technical:** 4/10 — sitemap exists and is healthy (294 pages), no schema markup
 - **Content:** 2/10 — zero original content, no blog, no guides
 - **Local:** 5/10 — GBP exists but underoptimized
 - **Authority:** 3/10 — minimal backlinks beyond Weichert corporate
 
+## GSC Baseline (Verified: March 27, 2026)
+GSC was verified via DNS method on 2026-03-27. The property already had historical data going back to 2019 — likely set up by iHouseWeb or a prior SEO provider.
+
+**Performance (last 3 months):**
+- 246 clicks | 25.6K impressions | 1% CTR | Avg position 11.5
+
+**Indexing:**
+- 8K pages indexed (mostly IDX listing pages)
+- 29.7K pages not indexed (8 reasons — largely IDX bloat)
+- 6 videos found, 0 indexed
+
+**Sitemaps:**
+- `sitemap.xml` — Success, 294 pages (last read 3/27/2026)
+- `/Web/AR1009035/Sitemap` — Success, 294 pages
+- `sitemap_index.xml` — Could not fetch (dead since 2024, safe to remove)
+
 ## Access Status
 - iHouseWeb admin: GRANTED (2026-03-14)
-- Google Search Console: PENDING (requested from Deanna)
+- Google Search Console: VERIFIED (2026-03-27, DNS verification method)
 - Google Business Profile: GRANTED
 
 ## Competitive Landscape
@@ -56,6 +72,15 @@ Top organic competitors: Zillow, Realtor.com, Redfin, Keller Williams NB, RE/MAX
 
 ## Automation Approach
 We're actively exploring how to achieve SEO results with minimal human hands-on work. The FadeJunkie agent system (SEO Engine + Ink + Dispatch) is being used to autonomously produce deliverables — audits, content, schema markup, keyword tracking, and client reports — with Anthony providing strategic direction and final approval rather than manual execution. The goal: agent-driven SEO delivery where humans steer, not type.
+
+## Month 1 Progress (as of 2026-03-27)
+- **Title tags rewritten:** 10 pages (homepage via global meta + 9 per-page overrides via Advanced Page Settings)
+- **Meta descriptions written:** 10 pages with unique, keyword-targeted copy + phone CTA
+- **LocalBusiness schema injected:** RealEstateAgent JSON-LD via Integrations > Extra Code for Head
+- **Pages optimized:** Homepage, Our Agents, Joe Corwin, Esther Herkclotz, Edward Martinez, About Us, Homes for Sale NB, Acreage NB, Acreage Seguin, Mortgage Rates
+- **Foreclosure Search:** Built-in IDX page — not editable via page editor, inherits global meta
+- **Spec deliverable:** `seo-engine/outbox/wcorwin-ctr-optimization-spec.md`
+- **Expected impact:** Homepage CTR 0.9% → 1.5-2.5%, net clicks 246 → 400+/month within 30 days
 
 ## Key Files
 - `seo-engine/WCORWIN/seo-audit-wcorwin.com.md` — Full 5-pillar audit

@@ -22,14 +22,14 @@ $action = New-ScheduledTaskAction `
 $trigger = New-ScheduledTaskTrigger `
   -Once `
   -At (Get-Date).Date `
-  -RepetitionInterval (New-TimeSpan -Minutes 30) `
-  -RepetitionDuration ([TimeSpan]::MaxValue)
+  -RepetitionInterval (New-TimeSpan -Minutes 15) `
+  -RepetitionDuration (New-TimeSpan -Days 365)
 
 $settings = New-ScheduledTaskSettingsSet `
   -AllowStartIfOnBatteries `
   -DontStopIfGoingOnBatteries `
   -StartWhenAvailable `
-  -ExecutionTimeLimit (New-TimeSpan -Minutes 25) `
+  -ExecutionTimeLimit (New-TimeSpan -Minutes 13) `
   -MultipleInstances IgnoreNew
 
 $principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive
@@ -40,11 +40,11 @@ Register-ScheduledTask `
   -Trigger $trigger `
   -Settings $settings `
   -Principal $principal `
-  -Description "Lobe design system cron — pushes design rules to all fadejunkie pages every 30 min"
+  -Description "Lobe spot-fix cron - finds and fixes one UI imperfection every 15 min, hardens design system doc"
 
 Write-Host ""
 Write-Host "Registered: $taskName" -ForegroundColor Green
-Write-Host "Schedule:   Every 30 minutes" -ForegroundColor Cyan
+Write-Host "Schedule:   Every 15 minutes" -ForegroundColor Cyan
 Write-Host "Script:     $scriptPath" -ForegroundColor Cyan
 Write-Host "Logs:       $logPath" -ForegroundColor Cyan
 Write-Host ""

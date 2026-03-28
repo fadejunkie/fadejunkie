@@ -8,7 +8,7 @@ export default defineSchema({
     completed: v.boolean(),
   }).index("by_project_key", ["projectId", "taskKey"]),
 
-  agreements: defineTable({
+  arqueroAgreements: defineTable({
     projectId: v.string(),
     agreementType: v.string(),
     sigData: v.string(),

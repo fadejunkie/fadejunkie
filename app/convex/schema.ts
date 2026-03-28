@@ -179,6 +179,33 @@ export default defineSchema({
     .index("by_type_state", ["type", "state"])
     .index("by_isActive", ["isActive"]),
 
+  // ── Status ecosystem ──
+
+  statuses: defineTable({
+    userId: v.id("users"),
+    path: v.string(),
+    toggleKey: v.string(),
+    isActive: v.boolean(),
+    activatedAt: v.number(),
+    expiresAt: v.number(),
+    archivedAt: v.optional(v.number()),
+    refreshCount: v.optional(v.number()),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_path_active", ["path", "isActive"])
+    .index("by_userId_toggleKey", ["userId", "toggleKey"])
+    .index("by_expiresAt", ["expiresAt"]),
+
+  userPaths: defineTable({
+    userId: v.id("users"),
+    path: v.string(),
+    isPrimary: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_path", ["path"])
+    .index("by_userId_path", ["userId", "path"]),
+
   // ── Control Center tables ──
 
   ccMetrics: defineTable({

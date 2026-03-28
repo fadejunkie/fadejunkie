@@ -32,7 +32,7 @@ const phases=[
       {title:"BRAND SYSTEM",clientDesc:"Complete brand kit — colors, fonts, usage rules.",
         tasks:[{label:"Define primary palette — dark/steel tones + signature accent (welding orange/amber)"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (heavy/industrial) + body font (clean/readable)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — tags, labels, packaging mockups, social templates"},{label:"Deliver complete brand kit to client"}]},
     ]},
-  {id:2,name:"BUILD",subtitle:"Domain + Ecommerce Storefront",week:"WEEKS 2–3",fee:"$1,700",short:"DOMAIN · SHOPIFY",icon:"\⚙️",
+  {id:2,name:"BUILD",subtitle:"Domain + Ecommerce Storefront",week:"WEEKS 2–3",fee:"$1,350",short:"DOMAIN · SHOPIFY",icon:"\⚙️",
     milestones:[
       {title:"DOMAIN ACQUISITION",clientDesc:"Secure the domain and configure DNS for launch.",
         tasks:[{label:"Research arqueroco.com and arquero.co — availability, pricing, and registrar options"},{label:"Purchase selected domain — configure DNS, domain lock, WHOIS privacy"},{label:"Send registration confirmation + credentials to client"}]},
@@ -118,14 +118,14 @@ function ScopePage({colors}){
 
       <Section title="MILESTONE PRICING">
         <Row label="Phase 1 — Brand Identity" value="$550" sub="Logo design • Color palette • Typography • Brand guidelines PDF"/>
-        <Row label="Phase 2 — Website Build + Domain" value="$1,700" sub="Domain acquisition • Shopify storefront • Product pages (up to 20) • Collections • Checkout config"/>
+        <Row label="Phase 2 — Website Build + Domain" value="$1,350" sub="Domain acquisition • Shopify storefront • Product pages (up to 20) • Collections • Checkout config"/>
         <Row label="Phase 3 — Launch + Handoff" value="$250" sub="QA • DNS cutover • GA4 + GSC setup • Client training • Asset handoff"/>
         <div style={{background:WELD,borderRadius:6,padding:"14px 16px",marginTop:8,display:"flex",justifyContent:"space-between",alignItems:"center",border:`1px solid ${O}33`}}>
           <div style={{fontSize:14,fontWeight:800,color:LIGHT,letterSpacing:1}}>TOTAL PROJECT FEE</div>
-          <div style={{fontSize:22,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,500</div>
+          <div style={{fontSize:22,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,150</div>
         </div>
         <div style={{fontSize:11,color:SMOKE,fontStyle:"italic",textAlign:"center",marginTop:8,fontFamily:"'IBM Plex Mono',monospace"}}>
-          One-time upfront payment option: $2,250 (save $250) · 3 phases
+          One-time upfront payment option: $1,900 (save $250) · 3 phases
         </div>
       </Section>
 
@@ -170,7 +170,7 @@ function ScopePage({colors}){
 
       <Section title="TERMS + CONDITIONS">
         {[
-          {l:"Payment",b:"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $2,250 is due in full before Phase 1 begins."},
+          {l:"Payment",b:"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $1,900 is due in full before Phase 1 begins."},
           {l:"Revisions",b:"Revision rounds are included as noted per phase. Additional revisions billed at $75/hr."},
           {l:"Client Responsibilities",b:"Client is responsible for providing product images, copy, and content as needed. Delays may extend delivery."},
           {l:"Pass-Through Costs",b:"Shopify subscription ($39/mo) and domain registration ($14–$20/yr) are paid by client and not included."},
@@ -193,18 +193,20 @@ function ScopePage({colors}){
 
 const INVOICE_MAP = {
   "one-time": {
-    number:"CAPLYORH-0015",
-    label:"Full Project — One-Time Upfront Payment (All 3 Phases)",
-    amount:"$2,250",
+    number:"CAPLYORH-0020",
+    label:"Full Project — One-Time Upfront Payment (All 4 Phases)",
+    amount:"$1,900",
     ref:"ARQCO-2026-UPFRONT",
-    url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFOSjByZVdjN3dzSGlMR2U1MnBjNjFPaTVvclBnLDE2NDQ5NjIxOA020035G7bme6?s=ap",
+    url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VRURZYWlSSWtIbHNFR2o2bllaNWVjY05aZTc2TmNELDE2NTE5OTk4Ng0200HIAJe54Z?s=ap",
+    pdf:"https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VRURZYWlSSWtIbHNFR2o2bllaNWVjY05aZTc2TmNELDE2NTE5OTk4Ng0200HIAJe54Z/pdf?s=ap",
   },
   "monthly": {
-    number:"CAPLYORH-0011",
+    number:"CAPLYORH-0017",
     label:"Phase 1 — Brand Identity",
     amount:"$550",
-    ref:"ARQCO-2026-P1",
-    url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VQkFONXlpNTk4SzhMZnU0YUpaOHp6RWZpOThwb2dJLDE2NDQ5NjIwMw0200KanlRWLa?s=ap",
+    ref:"ARQCO-2026-P2",
+    url:"https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VRURZTjJzVExIamVGRkRuNkJJcGZ4allvenN6VzFhLDE2NTE5OTk3NA02003Nliow43?s=ap",
+    pdf:"https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VRURZTjJzVExIamVGRkRuNkJJcGZ4allvenN6VzFhLDE2NTE5OTk3NA02003Nliow43/pdf?s=ap",
   },
 } as const;
 
@@ -222,24 +224,24 @@ function AgreementPage({colors}){
   const [payStatus,setPayStatus]=useState<"idle"|"checking"|"paid">(DEV_MODE?"paid":"idle");
   const [receiptUrl,setReceiptUrl]=useState<string|null>(DEV_MODE?"https://pay.stripe.com/receipts/invoices/test-receipt-dev":null);
   const [lastChecked,setLastChecked]=useState<Date|null>(null);
+  const [showInvoice,setShowInvoice]=useState(true);
 
   const saveAgreementMutation=useMutation(api.arqueroTasks.saveAgreement);
   const updatePaymentMutation=useMutation(api.arqueroTasks.updateAgreementPayment);
   const checkStatusAction=useAction(api.arqueroTasks.checkInvoiceStatus);
   const existingAgreement=useQuery(api.arqueroTasks.getAgreement,{projectId:"arquero-co"});
 
+
   // Restore from Convex on load (skip in dev mode)
   useEffect(()=>{
-    if(DEV_MODE)return;
-    if(existingAgreement&&!signed){
-      setSigned(true);
-      setSigData(existingAgreement.sigData);
-      setSignedDate(existingAgreement.signedDate);
-      setPayType((existingAgreement.agreementType as "one-time"|"monthly")||"one-time");
-      if(existingAgreement.paymentStatus==="paid"){
-        setPayStatus("paid");
-        setReceiptUrl(existingAgreement.receiptUrl??null);
-      }
+    if(DEV_MODE||!existingAgreement)return;
+    setSigned(true);
+    setSigData(existingAgreement.sigData);
+    setSignedDate(existingAgreement.signedDate);
+    setPayType((existingAgreement.agreementType as "one-time"|"monthly")||"one-time");
+    if(existingAgreement.paymentStatus==="paid"||existingAgreement.paidAt){
+      setPayStatus("paid");
+      setReceiptUrl(existingAgreement.receiptUrl??null);
     }
   },[existingAgreement]);
 
@@ -312,8 +314,8 @@ function AgreementPage({colors}){
     const el=document.getElementById("agreement-printable");
     if(el)downloadDoc("Service Agreement — Arquero Co.",el.innerHTML);
   };
-  const downloadReceiptPdf=()=>{
-    if(receiptUrl)window.open(receiptUrl,"_blank");
+  const downloadInvoicePdf=()=>{
+    window.open(invoice.pdf,"_blank");
   };
 
   const Term=({label,text})=>(
@@ -329,11 +331,11 @@ function AgreementPage({colors}){
 
   const paymentTerm=isMonthly
     ?"Each phase is invoiced individually when work on that phase begins. Payment is due within 5 business days of invoice. No bulk upfront payment required."
-    :"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $2,250 is due in full before Phase 1 begins.";
+    :"Each phase is invoiced at milestone start. Work begins upon payment. One-time upfront option of $1,900 is due in full before Phase 1 begins.";
 
   const scopePhases=[
     {p:"Phase 1",n:"Brand Identity",price:"$550",when:"Invoiced at project start",desc:"Logo design (3 concepts, 2 revision rounds), color palette, typography selection, and brand guidelines PDF."},
-    {p:"Phase 2",n:"Website Build + Domain",price:"$1,700",when:"Invoiced when Phase 1 is complete",desc:"Domain acquisition and configuration. Shopify store setup and customization. Product pages for up to 20 SKUs. Collection pages, checkout config, mobile QA, and basic on-page SEO."},
+    {p:"Phase 2",n:"Website Build + Domain",price:"$1,350",when:"Invoiced when Phase 1 is complete",desc:"Domain acquisition and configuration. Shopify store setup and customization. Product pages for up to 20 SKUs. Collection pages, checkout config, mobile QA, and basic on-page SEO."},
     {p:"Phase 3",n:"Launch + Handoff",price:"$250",when:"Invoiced when Phase 2 is complete",desc:"Full QA, DNS cutover, GA4 + GSC setup, client training session, and full asset handoff."},
   ];
 
@@ -344,7 +346,7 @@ function AgreementPage({colors}){
       {payStatus!=="paid"&&<div style={{marginBottom:28}}>
         <div style={{fontSize:10,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:8}}>PAYMENT STRUCTURE</div>
         <div style={{display:"flex",background:STEEL,borderRadius:6,border:`1px solid ${RIVET}`,overflow:"hidden"}}>
-          {([["one-time","ONE-TIME","$2,500 total · $2,250 upfront option · 3 phases"],["monthly","MONTH BY MONTH","Per-phase · pay as each phase starts"]] as const).map(([val,label,sub])=>(
+          {([["one-time","ONE-TIME","$2,150 total · $1,900 upfront option · 3 phases"],["monthly","MONTH BY MONTH","Per-phase · pay as each phase starts"]] as const).map(([val,label,sub])=>(
             <button key={val} onClick={()=>{if(!signed)setPayType(val)}} style={{
               flex:1,padding:"12px 16px",border:"none",cursor:signed?"default":"pointer",
               background:payType===val?O:"transparent",
@@ -358,9 +360,9 @@ function AgreementPage({colors}){
         </div>
       </div>}
 
-      {/* ── PAID STATE: show success card at top, hide agreement ── */}
+      {/* ── PAID STATE: success banner + download buttons ── */}
       {payStatus==="paid"&&(
-        <div style={{background:GREEN+"12",border:`1.5px solid ${GREEN}44`,borderRadius:10,padding:"28px 24px",textAlign:"center",marginBottom:16}}>
+        <div style={{background:GREEN+"12",border:`1.5px solid ${GREEN}44`,borderRadius:10,padding:"28px 24px",textAlign:"center",marginBottom:24}}>
           <div style={{fontSize:32,marginBottom:8}}>✓</div>
           <div style={{fontSize:20,fontWeight:900,color:GREEN,letterSpacing:2,fontFamily:"'Barlow Condensed',sans-serif"}}>PAYMENT RECEIVED</div>
           <div style={{fontSize:11,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginTop:6}}>{invoice.label}</div>
@@ -369,27 +371,25 @@ function AgreementPage({colors}){
             <button onClick={downloadAgreementPdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"'Barlow Condensed',sans-serif",background:PLATE,color:LIGHT,border:`1px solid ${RIVET}`,borderRadius:4,cursor:"pointer"}}>
               ↓ AGREEMENT PDF
             </button>
-            {receiptUrl&&(
-              <button onClick={downloadReceiptPdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"'Barlow Condensed',sans-serif",background:GREEN,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>
-                ↓ RECEIPT PDF
-              </button>
-            )}
+            <button onClick={downloadInvoicePdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"'Barlow Condensed',sans-serif",background:O,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>
+              ↓ INVOICE PDF
+            </button>
           </div>
         </div>
       )}
 
-      {/* ── Printable agreement (grays + locks after signing; hidden when paid) ── */}
-      {payStatus!=="paid"&&<div style={{position:"relative",borderRadius:8,overflow:"hidden"}}>
-        {/* Locked overlay */}
-        {signed&&(
-          <div style={{position:"absolute",inset:0,background:DARK+"cc",zIndex:10,display:"flex",alignItems:"flex-start",justifyContent:"flex-end",padding:"16px",pointerEvents:"none"}}>
+      {/* ── Printable agreement (read-only when paid, lockable when signing) ── */}
+      <div style={{position:"relative",borderRadius:8,overflow:"hidden"}}>
+        {/* Locked overlay — only shown during signing flow, not when paid */}
+        {signed&&payStatus!=="paid"&&(
+          <div style={{position:"absolute",inset:0,background:DARK+(showInvoice?"cc":"44"),zIndex:10,display:"flex",alignItems:"flex-start",justifyContent:"flex-end",padding:"16px",pointerEvents:"none",transition:"background 0.4s"}}>
             <div style={{fontSize:10,fontWeight:700,color:GREEN,background:GREEN+"18",border:`1px solid ${GREEN}44`,padding:"4px 12px",borderRadius:3,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace"}}>
-              🔒 LOCKED
+              🔒 SIGNED
             </div>
           </div>
         )}
 
-        <div id="agreement-printable" style={{opacity:signed?0.45:1,transition:"opacity 0.4s",pointerEvents:signed?"none":"auto"}}>
+        <div id="agreement-printable" style={{opacity:payStatus==="paid"?1:signed?(showInvoice?0.35:0.7):1,transition:"opacity 0.4s",pointerEvents:signed||payStatus==="paid"?"none":"auto"}}>
           <div style={{textAlign:"center",marginBottom:32}}>
             <div style={{fontSize:11,color:O,letterSpacing:5,fontFamily:"'IBM Plex Mono',monospace",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
             <div style={{fontSize:28,fontWeight:900,color:LIGHT,letterSpacing:2}}>SERVICE AGREEMENT</div>
@@ -425,12 +425,12 @@ function AgreementPage({colors}){
             ))}
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"14px 0",marginTop:4}}>
               <span style={{fontSize:13,fontWeight:800,color:LIGHT}}>{isMonthly?"TOTAL (3 Per-Phase Invoices)":"TOTAL (Milestone Invoicing)"}</span>
-              <span style={{fontSize:18,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,500</span>
+              <span style={{fontSize:18,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace"}}>$2,150</span>
             </div>
             {!isMonthly&&(
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <span style={{fontSize:12,color:SMOKE}}>TOTAL (One-Time Upfront — save $250)</span>
-                <span style={{fontSize:14,fontWeight:700,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>$2,250</span>
+                <span style={{fontSize:14,fontWeight:700,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>$1,900</span>
               </div>
             )}
           </div>
@@ -493,7 +493,11 @@ function AgreementPage({colors}){
               <div style={{background:PLATE,border:`1px solid ${signed?GREEN+"44":O+"44"}`,borderRadius:8,padding:"16px 20px"}}>
                 {signed?(
                   <>
-                    <img src={sigData} alt="signature" style={{height:50,marginBottom:8,filter:"brightness(1.2)"}}/>
+                    {sigData&&sigData.startsWith("data:image")?(
+                      <img src={sigData} alt="signature" style={{height:50,marginBottom:8,filter:"brightness(1.2)"}}/>
+                    ):(
+                      <div style={{fontSize:18,fontFamily:"'Barlow Condensed',sans-serif",fontWeight:300,fontStyle:"italic",color:LIGHT,marginBottom:8}}>Arquero Co.</div>
+                    )}
                     <div style={{borderTop:`1px solid ${RIVET}`,paddingTop:8}}>
                       <div style={{fontSize:11,fontWeight:600,color:LIGHT}}>Arquero Co.</div>
                       <div style={{fontSize:10,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>{signedDate}</div>
@@ -530,45 +534,75 @@ function AgreementPage({colors}){
             Anthony's Brand Builder · Anthony Tatis · tatis.anthony@gmail.com
           </div>
         </div>{/* end #agreement-printable */}
-      </div>}{/* end locked wrapper (hidden when paid) */}
+      </div>{/* end locked wrapper */}
+
+      {/* ── Invoice dismissed reminder bar ── */}
+      {signed&&payStatus!=="paid"&&!showInvoice&&(
+        <div style={{marginTop:24}}>
+          <button onClick={()=>setShowInvoice(true)} style={{
+            width:"100%",padding:"14px 20px",background:PLATE,border:`1px solid ${RIVET}`,
+            borderRadius:8,cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",
+            transition:"border-color 0.2s",
+          }}
+          onMouseEnter={e=>(e.currentTarget.style.borderColor=O+"66")}
+          onMouseLeave={e=>(e.currentTarget.style.borderColor=RIVET)}
+          >
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <span style={{fontSize:10,color:O,fontWeight:700,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace"}}>INVOICE PENDING</span>
+              <span style={{fontSize:10,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace"}}>{invoice.amount}</span>
+            </div>
+            <span style={{fontSize:10,color:ASH,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:1}}>VIEW INVOICE →</span>
+          </button>
+        </div>
+      )}
 
       {/* ── Invoice card (pending payment only) ── */}
-      {signed&&payStatus!=="paid"&&(
+      {signed&&payStatus!=="paid"&&showInvoice&&(
         <div style={{marginTop:32}}>
-          {(
-            /* ── INVOICE CARD (pending payment) ── */
-            <div style={{background:PLATE,border:`1.5px solid ${O}44`,borderRadius:10,padding:"24px"}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
-                <div>
-                  <div style={{fontSize:9,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:4}}>STRIPE INVOICE · {invoice.ref}</div>
-                  <div style={{fontSize:14,fontWeight:700,color:LIGHT,letterSpacing:0.5}}>{invoice.label}</div>
-                  <div style={{fontSize:11,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginTop:3}}>Due: March 26, 2026</div>
-                </div>
-                <div style={{fontSize:28,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace",flexShrink:0}}>{invoice.amount}</div>
+          <div style={{background:PLATE,border:`1.5px solid ${O}44`,borderRadius:10,padding:"24px"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
+              <div>
+                <div style={{fontSize:9,color:ASH,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:4}}>STRIPE INVOICE · {invoice.ref}</div>
+                <div style={{fontSize:14,fontWeight:700,color:LIGHT,letterSpacing:0.5}}>{invoice.label}</div>
+                <div style={{fontSize:11,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginTop:3}}>Due: March 26, 2026</div>
               </div>
-              <div style={{display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
-                <a href={invoice.url} target="_blank" rel="noopener noreferrer" style={{
-                  display:"inline-block",padding:"10px 24px",fontSize:12,fontWeight:700,letterSpacing:2,
-                  fontFamily:"'Barlow Condensed',sans-serif",background:O,color:"#fff",
-                  border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none",transition:"all 0.2s",
-                }}>
-                  OPEN INVOICE TO PAY →
-                </a>
-                <button onClick={checkPayment} disabled={payStatus==="checking"} style={{
-                  padding:"10px 20px",fontSize:11,fontWeight:600,letterSpacing:1,
-                  fontFamily:"'IBM Plex Mono',monospace",background:"transparent",color:ASH,
-                  border:`1px solid ${RIVET}`,borderRadius:4,cursor:"pointer",opacity:payStatus==="checking"?0.6:1,
-                }}>
-                  {payStatus==="checking"?"CHECKING…":"CHECK PAYMENT STATUS"}
-                </button>
-              </div>
-              {lastChecked&&(
-                <div style={{fontSize:9,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginTop:10}}>
-                  Last checked: {lastChecked.toLocaleTimeString()} — payment not yet received
-                </div>
-              )}
+              <div style={{fontSize:28,fontWeight:900,color:O,fontFamily:"'IBM Plex Mono',monospace",flexShrink:0}}>{invoice.amount}</div>
             </div>
-          )}
+            <div style={{display:"flex",gap:10,flexWrap:"wrap",alignItems:"center"}}>
+              <a href={invoice.url} target="_blank" rel="noopener noreferrer" style={{
+                display:"inline-block",padding:"10px 24px",fontSize:12,fontWeight:700,letterSpacing:2,
+                fontFamily:"'Barlow Condensed',sans-serif",background:O,color:"#fff",
+                border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none",transition:"all 0.2s",
+              }}>
+                OPEN INVOICE TO PAY →
+              </a>
+              <button onClick={checkPayment} disabled={payStatus==="checking"} style={{
+                padding:"10px 20px",fontSize:11,fontWeight:600,letterSpacing:1,
+                fontFamily:"'IBM Plex Mono',monospace",background:"transparent",color:ASH,
+                border:`1px solid ${RIVET}`,borderRadius:4,cursor:"pointer",opacity:payStatus==="checking"?0.6:1,
+              }}>
+                {payStatus==="checking"?"CHECKING…":"CHECK PAYMENT STATUS"}
+              </button>
+            </div>
+            {lastChecked&&(
+              <div style={{fontSize:9,color:SMOKE,fontFamily:"'IBM Plex Mono',monospace",marginTop:10}}>
+                Last checked: {lastChecked.toLocaleTimeString()} — payment not yet received
+              </div>
+            )}
+            {/* Dismiss — no pressure */}
+            <div style={{borderTop:`1px solid ${RIVET}`,marginTop:20,paddingTop:16,textAlign:"center"}}>
+              <button onClick={()=>setShowInvoice(false)} style={{
+                padding:"8px 24px",fontSize:10,fontWeight:600,letterSpacing:2,
+                fontFamily:"'IBM Plex Mono',monospace",background:"transparent",color:SMOKE,
+                border:`1px solid ${RIVET}`,borderRadius:4,cursor:"pointer",transition:"all 0.2s",
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.color=LIGHT;e.currentTarget.style.borderColor=ASH}}
+              onMouseLeave={e=>{e.currentTarget.style.color=SMOKE;e.currentTarget.style.borderColor=RIVET}}
+              >
+                I'LL PAY LATER
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -8,10 +8,9 @@ const DAYS_UNTIL_DUE = 7;
 const PHASES = [
   {
     ref: 'ARQCO-2026-P1',
-    name: 'Phase 1 — Domain Acquisition + Trademark',
+    name: 'Phase 1 — Domain Acquisition',
     lines: [
-      { description: 'Domain acquisition — purchase & secure arquero.co (DNS config, domain lock, WHOIS privacy)', amount: 15000 },
-      { description: 'USPTO trademark filing — "Arquero Co." name + logo (prep & submission; USPTO fees passed through at cost)', amount: 25000 },
+      { description: 'Domain acquisition — purchase & secure arquero.co (DNS config, domain lock, WHOIS privacy)', amount: 5000 },
     ],
   },
   {
@@ -46,7 +45,7 @@ const UPFRONT = {
   ref: 'ARQCO-2026-UPFRONT',
   name: 'Full Project — One-Time Upfront Payment (All 4 Phases)',
   lines: [
-    { description: 'Phase 1 — Domain Acquisition + Trademark', amount: 40000 },
+    { description: 'Phase 1 — Domain Acquisition', amount: 5000 },
     { description: 'Phase 2 — Brand Identity', amount: 55000 },
     { description: 'Phase 3 — Ecommerce Website Build (Shopify)', amount: 130000 },
     { description: 'Phase 4 — Launch + Handoff', amount: 25000 },

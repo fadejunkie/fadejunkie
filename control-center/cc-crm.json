@@ -10,23 +10,37 @@
       "value": 2500,
       "domain": "arquero.co",
       "platform": "Shopify",
-      "notes": "ACTIVE CLIENT. Contract signed 2026-03-18. $2,500 milestone or $2,250 upfront. 4 phases: Domain+TM ($400) → Brand Identity ($550) → Shopify Build ($1,300) → Launch+Handoff ($250). New apparel brand, <20 SKUs. 3-week timeline.",
+      "notes": "ACTIVE CLIENT. Contract signed 2026-03-18. PAID IN FULL — $1,900 upfront (CAPLYORH-0020) on 2026-03-27. 4 phases: Domain+TM ($400) → Brand Identity ($550) → Shopify Build ($1,300) → Launch+Handoff ($250). New apparel brand, <20 SKUs. 3-week timeline.",
       "email": "",
       "phone": "",
-      "lastContact": "2026-03-18",
+      "lastContact": "2026-03-27",
       "createdAt": "2026-03-18",
       "phases": [
-        { "phase": 1, "name": "Domain Acquisition + Trademark", "value": 400, "status": "pending", "week": "Week 1" },
+        { "phase": 1, "name": "Domain Acquisition + Trademark", "value": 400, "status": "active", "week": "Week 1" },
         { "phase": 2, "name": "Brand Identity", "value": 550, "status": "pending", "week": "Weeks 1–2" },
         { "phase": 3, "name": "Ecommerce Website Build", "value": 1300, "status": "pending", "week": "Weeks 2–3" },
         { "phase": 4, "name": "Launch + Handoff", "value": 250, "status": "pending", "week": "Week 3" }
       ],
-      "payments": [],
+      "payments": [
+        {
+          "type": "upfront",
+          "amount": 1900,
+          "date": "2026-03-27",
+          "invoiceNumber": "CAPLYORH-0020",
+          "method": "Stripe",
+          "note": "Full Project — One-Time Upfront Payment (All 4 Phases)"
+        }
+      ],
       "history": [
         {
           "status": "active",
           "date": "2026-03-18",
           "note": "Contract signed. Service agreement + scope of work executed. 3-week delivery target."
+        },
+        {
+          "status": "active",
+          "date": "2026-03-27",
+          "note": "UPFRONT PAYMENT RECEIVED — $1,900 (CAPLYORH-0020). Full project scope accepted. All 4 phases funded. Work begins immediately."
         }
       ]
     },
@@ -38,10 +52,10 @@
       "location": "New Braunfels, TX",
       "status": "active",
       "value": 950,
-      "notes": "ACTIVE CLIENT. Month 1 paid $950 on 2026-03-09 (Visa -1802). Veteran-owned RE brokerage on Weichert franchise. Live site: wcorwin.anthonytatis.com. Original: wcorwin.com. iHouseWeb admin GRANTED 2026-03-14. GBP manager access GRANTED 2026-03-26. Waiting on: GSC access.",
+      "notes": "ACTIVE CLIENT. Month 1 paid $950 on 2026-03-09 (Visa -1802). Veteran-owned RE brokerage on Weichert franchise. Live site: wcorwin.anthonytatis.com. Original: wcorwin.com. iHouseWeb admin GRANTED 2026-03-14. GBP manager access GRANTED 2026-03-26. GSC VERIFIED 2026-03-27. All access secured — Month 1 work unblocked.",
       "email": "Joe@joecorwin.com",
       "phone": "",
-      "lastContact": "2026-03-26",
+      "lastContact": "2026-03-27",
       "createdAt": "2026-03-14",
       "payments": [
         {
@@ -124,6 +138,11 @@
           "status": "active",
           "date": "2026-03-26",
           "note": "GBP manager access granted — verified 5.0 rating, 116 reviews, 20 service areas. Optimization scheduled for Month 1."
+        },
+        {
+          "status": "active",
+          "date": "2026-03-27",
+          "note": "GSC ownership verified via DNS (domain name provider method). All access now secured — kickoff phase complete. Month 1 foundation work fully unblocked."
         }
       ]
     },
@@ -157,5 +176,5 @@
       ]
     }
   ],
-  "lastUpdated": "2026-03-25T00:00:00.000Z"
+  "lastUpdated": "2026-03-27T00:00:00.000Z"
 }

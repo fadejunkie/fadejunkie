@@ -6,7 +6,7 @@
  * runs Lobe with bypass permissions, then commits + pushes to fadejunkie main.
  *
  * Usage:  node lobe/cron/runner.mjs
- * Cron:   Every 30 minutes via Windows Task Scheduler
+ * Cron:   Every 15 minutes via Windows Task Scheduler
  */
 
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
@@ -50,7 +50,7 @@ function gitExec(cmd) {
 // Prevent overlapping runs
 if (existsSync(LOCKFILE)) {
   const lockAge = Date.now() - new Date(readFileSync(LOCKFILE, 'utf8').trim()).getTime();
-  if (lockAge < 25 * 60 * 1000) { // 25 min — allow some overlap margin
+  if (lockAge < 12 * 60 * 1000) { // 12 min — allow some overlap margin for 15-min cycle
     log('SKIP: Previous run still active (lockfile age: ' + Math.round(lockAge / 60000) + 'min)');
     process.exit(0);
   }
@@ -89,16 +89,13 @@ const designRules = readFileSync(DESIGN_RULES, 'utf8');
 const ts = timestamp();
 
 const taskContent = `<!-- execute -->
-<!-- max-turns: 60 -->
+<!-- max-turns: 25 -->
 
-# Design System Push — ${ts}
+# Cron — Spot & Fix — ${ts}
 
-> Automated cron task. Apply the design system to all fadejunkie pages.
-> After all changes, commit with message "design: cron push ${ts}" and push to origin main.
+> One imperfection. One fix. One design system update. Then stop.
 
 ---
-
-## Instructions
 
 ${instructions}
 
@@ -110,16 +107,16 @@ ${designRules}
 
 ---
 
-## Post-Task Protocol
+## Post-Fix Protocol
 
 1. Run \`npm run build\` in \`app/\` to verify no build errors
-2. Stage all changed files: \`git -C "${ROOT}" add -A\`
-3. Commit: \`git -C "${ROOT}" commit -m "design: cron push ${ts}"\`
+2. Stage changed files: \`git -C "${ROOT}" add -A\`
+3. Commit: \`git -C "${ROOT}" commit -m "cron: <what you fixed> — <which file>"\`
 4. Push: \`git -C "${ROOT}" push origin main\`
-5. If build fails, fix the errors before committing — never push broken code
+5. If build fails, revert your change and log \`BUILD FAILED\` — never push broken code
 `;
 
-const taskFilename = `cron-design-push-${ts}.md`;
+const taskFilename = `cron-spot-fix-${ts}.md`;
 const taskPath = join(INBOX, taskFilename);
 writeFileSync(taskPath, taskContent);
 log('Task created: ' + taskFilename);
@@ -136,12 +133,12 @@ const lobe = spawn('node', [join(ROOT, 'node_modules', 'tsx', 'dist', 'cli.mjs')
   cwd: ROOT,
   stdio: ['pipe', 'pipe', 'pipe'],
   env: cleanEnv,
-  timeout: 20 * 60 * 1000, // 20 min hard timeout
+  timeout: 12 * 60 * 1000, // 12 min hard timeout (must finish before next 15-min cycle)
 });
 
 // Feed "check" command then keep stdin open
 lobe.stdin.write('check\n');
-setTimeout(() => { try { lobe.stdin.end(); } catch {} }, 10 * 60 * 1000);
+setTimeout(() => { try { lobe.stdin.end(); } catch {} }, 8 * 60 * 1000);
 
 let stdout = '';
 let stderr = '';
@@ -166,7 +163,7 @@ lobe.on('close', (code) => {
     if (status.length > 0) {
       log('Unpushed changes detected, running safety commit+push...');
       gitExec('git add -A');
-      gitExec(`git commit -m "design: cron push ${ts} (runner safety commit)"`);
+      gitExec(`git commit -m "cron: spot-fix ${ts} (runner safety commit)"`);
       gitExec('git push origin main');
       log('Safety push complete');
     } else {

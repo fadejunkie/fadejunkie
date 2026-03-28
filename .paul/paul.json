@@ -1,0 +1,25 @@
+{
+  "name": "FadeJunkie",
+  "version": "0.0.0",
+  "milestone": {
+    "name": "v0.1 Status Ecosystem",
+    "version": "0.1.0",
+    "status": "in_progress"
+  },
+  "phase": {
+    "number": 1,
+    "name": "Status Schema & Backend",
+    "status": "complete"
+  },
+  "loop": {
+    "plan": null,
+    "position": "IDLE"
+  },
+  "timestamps": {
+    "created_at": "2026-03-28T01:00:00Z",
+    "updated_at": "2026-03-28T01:52:00Z"
+  },
+  "satellite": {
+    "groom": true
+  }
+}

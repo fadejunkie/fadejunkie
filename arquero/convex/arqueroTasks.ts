@@ -43,7 +43,7 @@ export const getAgreement = query({
   args: { projectId: v.string() },
   handler: async (ctx, { projectId }) => {
     return await ctx.db
-      .query("agreements")
+      .query("arqueroAgreements")
       .withIndex("by_project", (q) => q.eq("projectId", projectId))
       .first();
   },
@@ -57,29 +57,27 @@ export const saveAgreement = mutation({
     signedDate: v.string(),
     signedAt: v.number(),
     invoiceNumber: v.string(),
+    paymentStatus: v.optional(v.string()),
+    paidAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
-      .query("agreements")
+      .query("arqueroAgreements")
       .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
       .first();
+    const doc: any = {
+      agreementType: args.agreementType,
+      sigData: args.sigData,
+      signedDate: args.signedDate,
+      signedAt: args.signedAt,
+      invoiceNumber: args.invoiceNumber,
+    };
+    if (args.paymentStatus !== undefined) doc.paymentStatus = args.paymentStatus;
+    if (args.paidAt !== undefined) doc.paidAt = args.paidAt;
     if (existing) {
-      await ctx.db.patch(existing._id, {
-        agreementType: args.agreementType,
-        sigData: args.sigData,
-        signedDate: args.signedDate,
-        signedAt: args.signedAt,
-        invoiceNumber: args.invoiceNumber,
-      });
+      await ctx.db.patch(existing._id, doc);
     } else {
-      await ctx.db.insert("agreements", {
-        projectId: args.projectId,
-        agreementType: args.agreementType,
-        sigData: args.sigData,
-        signedDate: args.signedDate,
-        signedAt: args.signedAt,
-        invoiceNumber: args.invoiceNumber,
-      });
+      await ctx.db.insert("arqueroAgreements", { projectId: args.projectId, ...doc });
     }
   },
 });
@@ -93,7 +91,7 @@ export const updateAgreementPayment = mutation({
   },
   handler: async (ctx, { projectId, paymentStatus, receiptUrl, paidAt }) => {
     const existing = await ctx.db
-      .query("agreements")
+      .query("arqueroAgreements")
       .withIndex("by_project", (q) => q.eq("projectId", projectId))
       .first();
     if (!existing) throw new Error("No agreement found for project");
@@ -108,15 +106,41 @@ export const updateAgreementPayment = mutation({
 export const checkInvoiceStatus = action({
   args: { invoiceNumber: v.string() },
   handler: async (_ctx, { invoiceNumber }) => {
-    // Stripe invoice status check
-    // In production, this would call the Stripe API with the invoice number
-    // For now, return unpaid status — replace with real Stripe API call when key is configured
-    return {
-      status: "unpaid" as const,
-      invoiceNumber,
-      receiptUrl: null,
-      paidAt: null,
-    };
+    const stripeKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeKey) {
+      throw new Error("STRIPE_SECRET_KEY not configured in Convex environment");
+    }
+
+    const query = encodeURIComponent(`number:"${invoiceNumber}"`);
+    const res = await fetch(
+      `https://api.stripe.com/v1/invoices/search?query=${query}`,
+      { headers: { Authorization: `Bearer ${stripeKey}` } }
+    );
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Stripe API error: ${res.status} — ${err}`);
+    }
+
+    const data = await res.json();
+    const invoice = data.data?.[0];
+
+    if (!invoice) {
+      return { status: "unpaid" as const, invoiceNumber, receiptUrl: null, paidAt: null };
+    }
+
+    if (invoice.status === "paid") {
+      return {
+        status: "paid" as const,
+        invoiceNumber,
+        receiptUrl: invoice.hosted_invoice_url ?? null,
+        paidAt: invoice.status_transitions?.paid_at
+          ? invoice.status_transitions.paid_at * 1000
+          : null,
+      };
+    }
+
+    return { status: "unpaid" as const, invoiceNumber, receiptUrl: null, paidAt: null };
   },
 });
 
@@ -124,7 +148,7 @@ export const clearAgreement = mutation({
   args: { projectId: v.string() },
   handler: async (ctx, { projectId }) => {
     const existing = await ctx.db
-      .query("agreements")
+      .query("arqueroAgreements")
       .withIndex("by_project", (q) => q.eq("projectId", projectId))
       .first();
     if (existing) {
