@@ -226,3 +226,16 @@ twanii →
   DS Update: ADD — B&W semantic feedback rule — no hue exceptions in FJ system, even for correct/wrong/pass/fail signals. Inverted row (bg-foreground) = correct. Muted+strikethrough = wrong. Black progress bar fill. Heavy border = flagged.
   Pattern: In a pure B&W system, inversion (bg-foreground text-background) is the strongest semantic signal available — use it for THE correct answer. Strikethrough + muted handles "you picked wrong." Pass/fail percentage uses foreground vs muted-foreground for visual weight hierarchy without color. All progress bars are black fill — the width speaks; color doesn't add information.
   Note: Prior commit was 7 minutes ago (under 10-min overlap guard) — proceeded because prior agent exited cleanly at 14:23Z with no concurrent execution risk.
+
+[2026-03-28T14:38:02.038Z] Lobe exited with code: 0
+
+[2026-03-28T14:38:02.040Z] STDOUT (last 500 chars): r badges |
+
+**HARDEN — ADD rule:** `B&W semantic feedback — no hue exceptions`. The inverted row pattern (`bg-foreground text-background`) is now documented as the canonical FJ "correct answer" signal. Strikethrough + muted for wrong. Weight hierarchy (foreground vs muted-foreground) for pass/fail. No color, ever — even for quiz feedback.
+
+**Commits:** `9e74e29` (fix) + `9e51ada` (DS hardening) → pushed to main ✅
+
+  [outbox] cron-spot-fix-2026-03-28T14-30-01-2026-03-28T14-36-41-733Z.md
+twanii → 
+
+[2026-03-28T14:38:02.170Z] Unpushed changes detected, running safety commit+push...
