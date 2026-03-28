@@ -287,3 +287,32 @@ twanii →
   Commit: 2e101b7
   DS Update: ADD — Section-label elements must NOT use heading tags — decorative dividers inside cards must use <p>/<span> with explicit Geist Mono eyebrow tokens, not h2/h3 which inherit global heading CSS overrides
   Pattern: Heading tags (h1–h4) carry aggressive global CSS resets (lowercase, tight letter-spacing) that silently override intentional label styling. When a visual element is NOT a document structural heading, use a non-heading element + explicit style tokens.
+
+[2026-03-28T15:08:45.051Z] Lobe exited with code: 1
+
+[2026-03-28T15:08:45.053Z] STDOUT (last 500 chars): s, so the label renders exactly as intended.
+
+**Design system hardened:** Added a new rule — *"Section-label elements must NOT use heading tags"* — decorative dividers inside cards must use `<p>`/`<span>` with Geist Mono tokens, not `h2`/`h3` which silently pull in global heading resets.
+
+**Build:** ✅ 17/17 pages passed  
+**Commit:** `2e101b7` → pushed to main  
+**Inbox:** All screenshots + task file moved to `processed/`
+
+  [outbox] cron-spot-fix-2026-03-28T15-00-01-2026-03-28T15-08-45-008Z.md
+
+
+[2026-03-28T15:08:45.054Z] STDERR (last 500 chars):  readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
+    at new Promise (<anonymous>)
+    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
+    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+
+Node.js v24.13.1
+
+
+[2026-03-28T15:08:45.179Z] Unpushed changes detected, running safety commit+push...
