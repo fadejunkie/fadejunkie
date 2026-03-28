@@ -110,7 +110,8 @@ Living document. Updated by Lobe after each style test.
   ✓ Confirmed: `app/(auth)/tools/practice-test/page.tsx` — `<h2>` section label forced to League Spartan lowercase; fixed to `<p>` (cycle 2026-03-28T18:30)
   ✓ Confirmed: `components/ShopTemplate.tsx` — `<h2>` and `<h3>` section labels ("About", "Contact & Hours") forced to League Spartan lowercase; fixed to `<p>` (cycle 2026-03-28T18:15)
   ✓ Confirmed: `app/(auth)/tools/exam-guide/page.tsx:437,638,645` — 3 `<h3>` card labels (service label, "End of Exam Disinfection", "Study with Flashcards") forced to League Spartan lowercase with -0.03em tracking; fixed to `<p>` (cycle 2026-03-28T19:00)
-  **[HARDENED]** — 4+ cross-file confirmations across page files AND shared components. Every `<h3>` inside a Card component must be treated as a section-label suspect until proven otherwise.
+  ✓ Confirmed: `app/(auth)/profile/page.tsx:115,298` — `<h2>` card section labels ("Your Profile" inside profile card, "Gallery" above gallery grid) forced to League Spartan lowercase with -0.04em tracking; fixed to `<p>` with identical classNames (cycle 2026-03-28T20:15)
+  **[HARDENED]** — 5+ cross-file confirmations across page files AND shared components. Every `<h2>`/`<h3>` inside a Card component must be treated as a section-label suspect until proven otherwise. Profile page confirms the rule extends to user-facing profile/settings cards, not just tool-page interiors.
 
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.

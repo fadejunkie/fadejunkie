@@ -499,3 +499,8 @@ twanii →
 [2026-03-28T20:15:02.198Z] Task created: cron-spot-fix-2026-03-28T20-15-02.md
 
 [2026-03-28T20:15:02.199Z] Spawning Lobe agent...
+[2026-03-28T20:15:02Z] FIX: app/(auth)/profile/page.tsx — 2× <h2> card section labels ("Your Profile" line 115, "Gallery" line 298) forced to League Spartan lowercase with -0.04em tracking by global h2 CSS → converted both to <p> with identical classNames
+  Files: app/app/(auth)/profile/page.tsx, context/fadejunkie_ui.md
+  Commit: ddcf880
+  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 5th cross-file confirmation (profile/page.tsx). Rule now documented with profile page as confirmed instance alongside tools/page, practice-test/page, ShopTemplate, exam-guide/page.
+  Pattern: Profile/settings cards ("Your Profile", "Gallery") are as prone to h2 section-label violations as tool-page interiors. The rule scope is all auth-interior pages with Card components — any <h2>/<h3> that isn't the page's primary content heading should be <p>.
