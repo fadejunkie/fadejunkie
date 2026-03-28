@@ -77,7 +77,7 @@ const BentoCard = ({
             fontSize: "1.125rem",
             fontWeight: 800,
             letterSpacing: "-0.03em",
-            color: isDark ? "#ffffff" : "#000000",
+            color: isDark ? "var(--background)" : "var(--foreground)",
           }}
         >
           {name}
@@ -104,7 +104,7 @@ const BentoCard = ({
             fontFamily: "var(--font-sans), system-ui, sans-serif",
             fontSize: "0.8125rem",
             fontWeight: 600,
-            color: isDark ? "#ffffff" : "#000000",
+            color: isDark ? "var(--background)" : "var(--foreground)",
           }}
         >
           {cta}
