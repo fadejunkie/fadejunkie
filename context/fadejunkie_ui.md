@@ -93,6 +93,7 @@ Living document. Updated by Lobe after each style test.
 - **Affected element types:** Any heading that renders a DB field — barber name, shop name, business name, resource business name, school name, etc.
   + Added: observed in `app/barber/[slug]/page.tsx:41` — barber name forced lowercase without override; fixed (cycle 2026-03-28T14:15)
   ✓ Confirmed: `components/ResourceCard.tsx:30` — `<h3>` rendering `businessName` (user data) lacked `textTransform: "none"`; fixed to `style={{ textTransform: "none" }}` (cycle 2026-03-28T15:45)
+  ✓ Confirmed [HARDENED]: `app/directory/page.tsx:118` — `<h1>` displaying dynamic location type ("Texas Barber Schools/Shops") used Tailwind `.capitalize` as attempted override; `.capitalize` silently lost to ungrouped globals.css rule (ungrouped CSS > @layer utilities in Tailwind v4). Fixed with `style={{ textTransform: "none" }}`. **Key insight:** Tailwind utility classes (`.capitalize`, `.uppercase`, `.normal-case`) CANNOT override ungrouped CSS element selectors in globals.css when using Tailwind v4 `@import "tailwindcss"`. `style={{}}` is the only reliable escape hatch. (cycle 2026-03-28T16:45)
 
 ---
 

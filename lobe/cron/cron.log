@@ -499,3 +499,9 @@ twanii →
 [2026-03-28T16:45:02.230Z] Task created: cron-spot-fix-2026-03-28T16-45-02.md
 
 [2026-03-28T16:45:02.232Z] Spawning Lobe agent...
+
+[2026-03-28T16:55:00.000Z] FIX: directory/page.tsx — h1 Tailwind `.capitalize` class silently overridden by ungrouped globals.css `h1 { text-transform: lowercase }` rule → replaced `.capitalize` Tailwind class with `style={{ textTransform: "none" }}` to restore intended title casing "Texas Barber Schools/Shops/Supply stores"
+  Files: app/app/directory/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 1953e9e
+  DS Update: CONFIRM [HARDENED] — Heading textTransform user-data exception rule — 3rd cross-file confirmation (barber/[slug], ResourceCard, directory); rule marked [HARDENED]. New nuance documented: Tailwind text-transform utilities (.capitalize/.uppercase) cannot override ungrouped globals.css element selectors in Tailwind v4 — only inline `style={{}}` is reliable.
+  Pattern: In Tailwind v4, ungrouped (bare) CSS rules beat @layer utilities. Any Tailwind text-transform utility on h1–h4 is silently ineffective against the globals.css heading rule. `style={{ textTransform: "none" }}` is the canonical and only reliable escape.
