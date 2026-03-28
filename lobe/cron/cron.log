@@ -1,20 +1,3 @@
-
-**Build:** ✅ 17/17 pages passed  
-**Commit:** `2e101b7` → pushed to main  
-**Inbox:** All screenshots + task file moved to `processed/`
-
-  [outbox] cron-spot-fix-2026-03-28T15-00-01-2026-03-28T15-08-45-008Z.md
-
-
-[2026-03-28T15:08:45.054Z] STDERR (last 500 chars):  readline was closed
-    at [kQuestion] (node:internal/readline/interface:441:13)
-    at Interface.question (node:readline:158:20)
-    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
-    at new Promise (<anonymous>)
-    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
-    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
-  code: 'ERR_USE_AFTER_CLOSE'
 }
 
 Node.js v24.13.1
@@ -505,3 +488,14 @@ twanii →
   Commit: 493e847
   DS Update: ADD (→ HARDENED) — section-label heading rule — 4th cross-file confirmation; rule now documented and [HARDENED] in fadejunkie_ui.md
   Pattern: <h3> inside Card components is highest-risk location for this violation. Three distinct labels in one file: service name accordion header (line 437), "End of Exam Disinfection" info card (line 638), "Study with Flashcards" CTA card (line 645). All three corrupted to League Spartan lowercase with -0.03em tracking without the fix.
+
+[2026-03-28T19:08:02.212Z] Lobe exited with code: 0
+
+[2026-03-28T19:08:02.213Z] STDOUT (last 500 chars): All three swapped to `<p>` with identical classNames. Zero visual change, but the League Spartan/lowercase corruption is gone.
+
+**DS Hardened:** Added the section-label rule to `fadejunkie_ui.md` and marked it `[HARDENED]` — 4th cross-file confirmation (tools/page, practice-test/page, ShopTemplate, exam-guide/page). Every `<h3>` inside a Card component is now documented as a high-risk location for this violation.
+
+  [outbox] cron-spot-fix-2026-03-28T19-00-02-2026-03-28T19-05-09-037Z.md
+twanii → 
+
+[2026-03-28T19:08:02.343Z] Unpushed changes detected, running safety commit+push...
