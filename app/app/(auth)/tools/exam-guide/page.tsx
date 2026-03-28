@@ -580,7 +580,7 @@ export default function ExamGuidePage() {
           <ChevronLeft size={20} />
         </Link>
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">TDLR Practical Exam Guide</h1>
+          <h1 className="font-display text-2xl font-semibold text-foreground">TDLR Practical Exam Guide</h1>
           <p className="text-sm text-muted-foreground">Texas Class A Barber -- vol. 1 · Powered by FadeJunkie</p>
         </div>
       </div>
