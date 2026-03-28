@@ -58,6 +58,15 @@ Living document. Updated by Lobe after each style test.
 - `border: 1px solid hsl(0 0% 87%)`
 - Hover: border lightens, subtle shadow lift
 
+### B&W semantic feedback — no hue exceptions [ADD]
+- **Rule:** Even semantically meaningful states (correct/wrong, pass/fail, flagged) use NO hue in the FJ design system. Color is never a standalone signal — shape, weight, inversion, and strikethrough carry the meaning instead.
+- **Correct answer pattern:** `bg-foreground text-background` — the inverted (black) row IS the correct answer signal. Unmistakable without color.
+- **Wrong answer pattern:** `bg-muted text-muted-foreground line-through` — muted + strikethrough = "you picked this, it's wrong." No red needed.
+- **Pass/fail scores:** Pass → `text-foreground` (full black, confident). Fail → `text-muted-foreground` (dimmed, not alarming). The supporting copy text ("Passing score" vs "Keep studying") carries the explicit message.
+- **Progress bars:** Always `bg-foreground` regardless of score. Width communicates proportion; black fill communicates substance.
+- **Flagged state:** `border-foreground border-2` on the card + `text-foreground font-medium` on the button. Thicker border = visual weight = "this one is marked."
+  + Added: observed in `app/(auth)/tools/practice-test/page.tsx` — 9 color leaks (amber-400, green-50/600/500/800, red-50/400/500/700) stripped and replaced with B&W tokens (cycle 2026-03-28T14:30)
+
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.
 - **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, real names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.
