@@ -135,7 +135,7 @@ export default function PracticeTestPage() {
             <ChevronLeft size={20} />
           </Link>
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">Practice Test</h1>
+            <h1 className="font-display text-2xl font-semibold text-foreground">Practice Test</h1>
             <p className="text-sm text-muted-foreground">Randomly selected questions — score saved after submit</p>
           </div>
         </div>
@@ -296,7 +296,7 @@ export default function PracticeTestPage() {
         >
           <ChevronLeft size={20} />
         </button>
-        <h1 className="text-2xl font-semibold text-foreground">Results</h1>
+        <h1 className="font-display text-2xl font-semibold text-foreground">Results</h1>
       </div>
 
       {/* Score */}
