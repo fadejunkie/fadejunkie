@@ -122,3 +122,28 @@
 [2026-03-28T13:30:01.864Z] WARN: Stale lockfile detected, removing
 
 [2026-03-28T13:30:01.868Z] SKIP: Lobe inbox has 2 unprocessed task(s): status-path-selection-ui.md, status-toggle-ui.md
+
+[2026-03-28T13:45:01.927Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T13:45:01.935Z] Task created: cron-spot-fix-2026-03-28T13-45-01.md
+
+[2026-03-28T13:45:01.935Z] Spawning Lobe agent...
+
+[2026-03-28T13:55:00.000Z] FIX: tools/page.tsx + resources/page.tsx — `tracking-tight` (Tailwind -0.025em) overriding global h1 letter-spacing (-0.05em) → removed `tracking-tight` class from both h1 headings, restoring design system spacing
+  Files: app/app/(auth)/tools/page.tsx, app/app/(auth)/resources/page.tsx, app/context/fadejunkie_ui.md (created)
+  Commit: f90d37d
+  DS Update: CHALLENGE — Typography / heading letter-spacing — `tracking-tight` Tailwind utility conflicts with globals.css h1 rule; removed offending class; documented pattern in fadejunkie_ui.md
+  Pattern: Never use Tailwind tracking utilities on h1–h4; global CSS in globals.css:199-202 owns all heading letter-spacing (-0.05em through -0.02em)
+
+[2026-03-28T13:53:02.007Z] Lobe exited with code: 0
+
+[2026-03-28T13:53:02.009Z] STDOUT (last 500 chars): from both h1 elements, letting the global CSS rules apply naturally.
+
+**Design System Update (CHALLENGE → ADD):** Added a new hardened rule to `context/fadejunkie_ui.md` — Tailwind's `tracking-*` utilities must never be used on `h1`–`h4`. The global heading letter-spacing in `globals.css` owns that property. Any `tracking-tight` on a heading is a bug, not a style choice.
+
+**Commit:** `f90d37d` → pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-28T13-45-01-2026-03-28T13-51-06-285Z.md
+twanii → 
+
+[2026-03-28T13:53:02.167Z] Unpushed changes detected, running safety commit+push...

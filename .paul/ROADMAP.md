@@ -8,15 +8,15 @@ FadeJunkie evolves from a working prototype with study tools, profiles, and a co
 
 **v0.1 Status Ecosystem** (v0.1.0)
 Status: In progress
-Phases: 1 of 5 complete
+Phases: 2 of 5 complete
 
 ## Phases
 
 | Phase | Name | Plans | Status | Completed |
 |-------|------|-------|--------|-----------|
 | 1 | Status Schema & Backend | 3 | Complete | 2026-03-28 |
-| 2 | User Path System | 3 | In progress | - |
-| 3 | Status Toggle UI | 3 | Not started | - |
+| 2 | User Path System | 3 | Complete | 2026-03-28 |
+| 3 | Status Toggle UI | 3 | In progress | - |
 | 4 | Status Discovery & Matching | 3 | Not started | - |
 | 5 | Integration & Polish | 2 | Not started | - |
 
@@ -54,8 +54,8 @@ Phases: 1 of 5 complete
 
 **Plans:**
 - [x] 02-01: User path data model + selection mutation
-- [ ] 02-02: Path selection UI flow
-- [ ] 02-03: Multi-path support + path-specific profile fields
+- [x] 02-02: Path selection UI flow
+- [x] 02-03: Multi-path support + path-specific profile fields
 
 ### Phase 3: Status Toggle UI
 
@@ -70,8 +70,8 @@ Phases: 1 of 5 complete
 - Status history/archive view
 
 **Plans:**
-- [ ] 03-01: Toggle card component + per-path panel
-- [ ] 03-02: Active status badges on profile + public profile
+- [x] 03-01: Toggle card component + per-path panel *(completed via Lobe task brief 02-03)*
+- [x] 03-02: Active status badges on profile + public profile *(completed via Lobe task brief 02-03)*
 - [ ] 03-03: Status history + archive view
 
 ### Phase 4: Status Discovery & Matching
@@ -110,4 +110,4 @@ Phases: 1 of 5 complete
 
 ---
 *Roadmap created: 2026-03-28*
-*Last updated: 2026-03-28*
+*Last updated: 2026-03-28 (Phase 2 complete, Phase 3 partially complete via Lobe task briefs)*

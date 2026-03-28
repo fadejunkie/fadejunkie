@@ -5,41 +5,45 @@
 See: .paul/PROJECT.md (updated 2026-03-28)
 
 **Core value:** Barbers can build their digital brand and pass their state board exam without needing separate apps for each.
-**Current focus:** Phase 2 — User Path System (backend done, UI briefs queued for Lobe)
+**Current focus:** Phase 2 COMPLETE, Phase 3 partially complete — moving to Phase 3 remainder (03-03 history view) or Phase 4
 
 ## Current Position
 
 Milestone: v0.1 Status Ecosystem
-Phase: 2 of 5 (User Path System)
-Plan: 02-01 COMPLETE — 02-02 and 02-03 require Lobe (UI work)
-Status: Backend complete, Lobe task briefs written
-Last activity: 2026-03-28 — Overnight autonomous session complete
+Phase: 2 COMPLETE, moving to Phase 3 (Status Toggle UI — 2/3 plans done via Lobe task briefs)
+Plan: 02-02 COMPLETE, 02-03 COMPLETE, 03-01 COMPLETE (via 02-03), 03-02 COMPLETE (via 02-03)
+Status: Phase 2 fully shipped. Phase 3 partially done — only 03-03 (history/archive view) remains.
+Last activity: 2026-03-28 — Lobe completed both UI task briefs, build verified
 
 Progress:
-- Milestone: [██░░░░░░░░] 27%
-- Phase 2: [███░░░░░░░] 33%
+- Milestone: [█████░░░░░] 57% (8/14 plans complete)
+- Phase 2: [██████████] 100%
+- Phase 3: [██████░░░░] 67% (2/3 — 03-01 and 03-02 done via Lobe task briefs)
 
 ## Loop Position
 
 Current loop state:
 ```
 PLAN ──▶ APPLY ──▶ UNIFY
-  ✓        ✓        ✓     [02-01 loop complete, 02-02 needs Lobe]
+  ✓        ✓        ✓     [02-02 loop complete]
+  ✓        ✓        ✓     [02-03 loop complete]
+  ✓        ✓        ✓     [03-01 complete via Lobe task brief 02-03]
 ```
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: ~5.3min
-- Total execution time: ~21min
+- Total plans completed: 8
+- Average duration: ~5.3min (PAUL-executed plans)
+- Total execution time: ~21min (PAUL-executed) + Lobe task brief execution
 
 **By Phase:**
 
 | Phase | Plans | Total Time | Avg/Plan |
 |-------|-------|------------|----------|
 | 01-status-schema-backend | 3/3 ✓ | ~17min | ~5.7min |
-| 02-user-path-system | 1/3 | ~4min | ~4min |
+| 02-user-path-system | 3/3 ✓ | ~4min (PAUL) + Lobe | - |
+| 03-status-toggle-ui | 2/3 | Lobe task briefs | - |
 
 ## Accumulated Context
 
@@ -52,6 +56,7 @@ PLAN ──▶ APPLY ──▶ UNIFY
 | Auto-promote oldest path on primary removal | 02-01 | Users always have a primary |
 | Enrich queries with config | 01-02 | UI gets defaultDays/maxDays inline |
 | Hourly cron for expiration | 01-03 | Balances freshness vs resources |
+| Lobe task briefs covered Phase 3 scope (03-01, 03-02) alongside Phase 2 UI work | 02-03 | Phase 3 nearly complete — only 03-03 remains |
 
 ### Deferred Issues
 
@@ -66,15 +71,15 @@ None.
 
 ## Lobe Task Queue
 
-Two task briefs written to `lobe/inbox/`:
-1. `status-path-selection-ui.md` — Path selector component + page integration
-2. `status-toggle-ui.md` — Toggle cards, status panel, status page, profile badges
+Both task briefs COMPLETE:
+1. ~~`status-path-selection-ui.md`~~ — PathSelector component (327 lines), profile integration, 7 path cards
+2. ~~`status-toggle-ui.md`~~ — StatusToggleCard (188 lines), StatusPanel (210 lines), ActiveStatusBadges (37 lines), /status page, nav updated
 
 ## Session Continuity
 
-Last session: 2026-03-28 (overnight autonomous)
-Stopped at: All backend plans executed. UI work needs Lobe.
-Next action: Run Lobe on queued tasks, or continue PAUL planning for Phase 2 UI integration
+Last session: 2026-03-28 (Lobe UI delivery confirmed)
+Stopped at: Phase 2 complete, Phase 3 two-thirds complete (03-01, 03-02 done via Lobe)
+Next action: Phase 3 remainder (03-03 history/archive view) or skip to Phase 4 (Status Discovery & Matching)
 Resume file: .paul/ROADMAP.md
 
 ---
