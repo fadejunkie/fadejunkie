@@ -232,12 +232,12 @@ export default function FlashcardsPage() {
                       key={letter}
                       className={`flex items-start gap-3 px-3 py-2 rounded-lg text-sm ${
                         letter === card.correctAnswer
-                          ? "bg-white/20 text-white"
-                          : "text-white/50"
+                          ? "bg-background/20 text-background"
+                          : "text-background/50"
                       }`}
                     >
                       <span className={`w-5 h-5 flex-shrink-0 flex items-center justify-center rounded text-xs font-bold ${
-                        letter === card.correctAnswer ? "bg-white text-foreground" : "bg-white/10 text-white/60"
+                        letter === card.correctAnswer ? "bg-background text-foreground" : "bg-background/10 text-background/60"
                       }`}>
                         {letter}
                       </span>

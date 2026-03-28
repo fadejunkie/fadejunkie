@@ -63,6 +63,12 @@ Living document. Updated by Lobe after each style test.
 - **Why it matters:** Hardcoded hex values break dark mode — `#000000` stays black even when `--foreground` flips to white.
   ✓ Confirmed: `app/signin/page.tsx:322-328` — tab switcher had `#000000` for active color and border-bottom; replaced with `var(--foreground)` / `var(--muted-foreground)` (cycle 2026-03-28T14:45)
 
+### Tailwind color utilities on inverted cards — use `text-background` not `text-white` [ADD]
+- **Rule:** On inverted cards (`bg-foreground`), never use Tailwind's `text-white`, `bg-white`, `text-white/50`, `bg-white/10` etc. These are hardcoded-color utilities in disguise — in dark mode, `bg-foreground` flips to white, making `text-white` invisible (white on white).
+- **Correct pattern:** `text-background`, `bg-background/20`, `text-background/50`, `bg-background/10` — these tokens resolve correctly in both modes: black-on-white in light, white-on-black in dark.
+- **The failure mode is P0:** Inverted cards look fine in light mode with `text-white` (because foreground IS near-black), so the bug is completely invisible until dark mode is enabled.
+  + Added: observed in `app/(auth)/tools/flashcards/page.tsx` — flip card back face used `text-white`, `bg-white/20`, `bg-white text-foreground`, `bg-white/10 text-white/60`; replaced with `text-background`, `bg-background/20`, `bg-background text-foreground`, `bg-background/10 text-background/60` (cycle 2026-03-28T15:30)
+
 ### B&W semantic feedback — no hue exceptions [ADD]
 - **Rule:** Even semantically meaningful states (correct/wrong, pass/fail, flagged) use NO hue in the FJ design system. Color is never a standalone signal — shape, weight, inversion, and strikethrough carry the meaning instead.
 - **Correct answer pattern:** `bg-foreground text-background` — the inverted (black) row IS the correct answer signal. Unmistakable without color.
