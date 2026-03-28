@@ -1,27 +1,4 @@
 
-[2026-03-28T17:23:02.131Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T17-15-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T17-15-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T17-15-02.md'
-
-
-[2026-03-28T17:23:02.272Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T17:23:04.663Z] Safety push complete
-
-[2026-03-28T17:23:04.665Z] Cron run complete
-
-[2026-03-28T17:30:02.070Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T17:30:02.076Z] Task created: cron-spot-fix-2026-03-28T17-30-02.md
-
-[2026-03-28T17:30:02.078Z] Spawning Lobe agent...
-
-[2026-03-28T17:45:02Z] FIX: flashcards/page.tsx — (1) <h1> missing font-display, rendering in Courier Prime instead of League Spartan; (2) "Starred only" toggle and "Shuffle" pill buttons missing font-sans, inheriting Courier Prime → added font-display to h1, added font-sans to both raw <button> controls
-  Files: app/app/(auth)/tools/flashcards/page.tsx, context/fadejunkie_ui.md
-  Commit: 469867a
-  DS Update: ADD — Page h1 headings require font-display — globals.css has no h1 font-family override, only text-transform; h1 without font-display silently falls through to Courier Prime body font. Also [HARDENED] raw <button> font-sans rule with 3rd confirmation.
-  Pattern: Every h1–h4 must declare font-display explicitly. globals.css heading rules only set text-transform: lowercase — they do NOT set font-family. Missing font-display on a page hero h1 is a P1 that's visually obvious at heading sizes (Courier Prime vs League Spartan bold are night and day).
-
-[2026-03-28T17:38:02.145Z] Lobe exited with code: 0
-
 [2026-03-28T17:38:02.147Z] STDOUT (last 500 chars): rcase` on h1–h4 but does NOT set the font family. Any h1 without `font-display` inherits the nearest font-family in the cascade, which in FJ is Courier Prime via the `body {}` rule."
 - **HARDENED:** Raw `<button>` → `font-sans` rule now has 3 confirmations across 3 different files and is marked `[HARDENED]`.
 
@@ -507,3 +484,18 @@ twanii →
   Commit: 43c8311
   DS Update: CONFIRM — Page h1 headings require font-display — 4th cross-file confirmation (website joins flashcards, practice-test, resources); rule remains [HARDENED]
   Pattern: font-display on page h1s — every functional-title h1 missing font-display because global cascade makes it "work" without explicit class; tools/page.tsx and exam-guide/page.tsx still outstanding
+
+[2026-03-28T21:53:01.347Z] Lobe exited with code: 0
+
+[2026-03-28T21:53:01.350Z] STDOUT (last 500 chars): 
+**📌 Design System — CONFIRM (→ HARDENED)**
+Added the 4th cross-file confirmation on the `font-display` rule. It's now fully hardened across: `flashcards/page.tsx`, `practice-test/page.tsx`, `resources/page.tsx`, `website/page.tsx`.
+
+**Commits:** `43c8311` (fix) + `75db60a` (docs + log) — pushed to main.
+
+**Next two cycles:** `tools/page.tsx` h1, then `exam-guide/page.tsx` h1 — both still missing `font-display`.
+
+  [outbox] cron-spot-fix-2026-03-28T21-45-01-2026-03-28T21-49-33-224Z.md
+twanii → 
+
+[2026-03-28T21:53:01.469Z] Unpushed changes detected, running safety commit+push...
