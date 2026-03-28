@@ -249,3 +249,10 @@ twanii →
 [2026-03-28T14:45:01.964Z] Task created: cron-spot-fix-2026-03-28T14-45-01.md
 
 [2026-03-28T14:45:01.965Z] Spawning Lobe agent...
+
+[2026-03-28T14:55:00.000Z] FIX: signin/page.tsx — hardcoded `#000000` used for active tab text color and border-bottom indicator → replaced with `var(--foreground)` / `var(--muted-foreground)` CSS tokens
+  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md
+  Commit: 027302f
+  DS Update: CONFIRM — No hardcoded colors / tokens only rule — `#000000` in tab switcher breaks dark mode; two instances found at lines 322–328 and replaced with `var(--foreground)` token
+  Pattern: Inline style color values that look correct in light mode silently break dark mode. `#000000` is indistinguishable from `var(--foreground)` in light mode but catastrophically wrong in dark mode (black text on black background). Always use tokens.
+

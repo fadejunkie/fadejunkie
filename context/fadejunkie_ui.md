@@ -58,6 +58,11 @@ Living document. Updated by Lobe after each style test.
 - `border: 1px solid hsl(0 0% 87%)`
 - Hover: border lightens, subtle shadow lift
 
+### No hardcoded colors — tokens only [CONFIRM]
+- **Rule:** Never use `#000000`, `#ffffff`, or `rgba(0,0,0,*)` for foreground/text colors in component inline styles. Always use `var(--foreground)`, `var(--muted-foreground)`, `var(--background)`, etc.
+- **Why it matters:** Hardcoded hex values break dark mode — `#000000` stays black even when `--foreground` flips to white.
+  ✓ Confirmed: `app/signin/page.tsx:322-328` — tab switcher had `#000000` for active color and border-bottom; replaced with `var(--foreground)` / `var(--muted-foreground)` (cycle 2026-03-28T14:45)
+
 ### B&W semantic feedback — no hue exceptions [ADD]
 - **Rule:** Even semantically meaningful states (correct/wrong, pass/fail, flagged) use NO hue in the FJ design system. Color is never a standalone signal — shape, weight, inversion, and strikethrough carry the meaning instead.
 - **Correct answer pattern:** `bg-foreground text-background` — the inverted (black) row IS the correct answer signal. Unmistakable without color.
