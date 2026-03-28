@@ -78,6 +78,12 @@ Living document. Updated by Lobe after each style test.
 - **Flagged state:** `border-foreground border-2` on the card + `text-foreground font-medium` on the button. Thicker border = visual weight = "this one is marked."
   + Added: observed in `app/(auth)/tools/practice-test/page.tsx` — 9 color leaks (amber-400, green-50/600/500/800, red-50/400/500/700) stripped and replaced with B&W tokens (cycle 2026-03-28T14:30)
 
+### Raw `<button>` elements must declare `font-sans` — body font doesn't cascade to UI controls [ADD]
+- **Rule:** `globals.css` sets `body { font-family: var(--font-body), "Courier Prime" }`. Every raw `<button>` without an explicit font class inherits Courier Prime — the typewriter *content* font. UI navigation controls (filter tabs, toggle pills, icon buttons) must use Geist (the UI font) via the `font-sans` Tailwind class.
+- **Safe pattern:** The `Button` component (button.tsx) already has `font-sans font-semibold` in its CVA base — it is always correct. Any raw `<button>` used for UI chrome (not authored content) needs `font-sans` added to its `className`.
+- **Detection:** Grep for `<button` in page/component files. Every result that doesn't have `font-sans` in its className AND isn't a content-composition button (e.g. a like button inside a post body is borderline fine) is a P1.
+  + Added: observed in `app/(auth)/resources/page.tsx` — 5 filter pill buttons inherited Courier Prime; fixed with `font-sans` class (cycle 2026-03-28T16:00)
+
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.
 - **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, business names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.

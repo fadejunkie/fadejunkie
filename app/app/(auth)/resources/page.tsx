@@ -36,7 +36,7 @@ export default function ResourcesPage() {
           <button
             key={t.id}
             onClick={() => setActive(t.id)}
-            className="text-[13px] px-4 py-1.5 rounded-full border transition-colors"
+            className="font-sans text-[13px] px-4 py-1.5 rounded-full border transition-colors"
             style={{
               borderColor: active === t.id ? "var(--foreground)" : "var(--border)",
               fontWeight: active === t.id ? 600 : 400,
