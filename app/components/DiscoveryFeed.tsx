@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import DiscoveryCard from "@/components/DiscoveryCard";
@@ -33,11 +33,10 @@ export default function DiscoveryFeed() {
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
 
   // Default to the first (highest-count) path once loaded
-  useEffect(() => {
-    if (paths && paths.length > 0 && selectedPath === null) {
-      setSelectedPath(paths[0].path);
-    }
-  }, [paths, selectedPath]);
+  const defaultPath = paths && paths.length > 0 ? paths[0].path : null;
+  if (defaultPath && selectedPath === null) {
+    setSelectedPath(defaultPath);
+  }
 
   const statuses = useQuery(
     api.statuses.discoverStatuses,

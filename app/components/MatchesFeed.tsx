@@ -69,9 +69,8 @@ export default function MatchesFeed() {
     return <LoadingSkeleton />;
   }
 
-  // Distinguish empty states
-  const now = Date.now();
-  const hasActiveStatuses = myStatuses.some((s) => s.isActive && s.expiresAt > now);
+  // Distinguish empty states — check if any status hasn't expired
+  const hasActiveStatuses = myStatuses.some((s) => s.isActive);
 
   if (matchGroups.length === 0) {
     if (!hasActiveStatuses) {

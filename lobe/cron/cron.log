@@ -1,28 +1,3 @@
-
-[2026-03-28T17:53:03.863Z] Cron run complete
-
-[2026-03-28T18:00:02.098Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T18:00:02.103Z] Task created: cron-spot-fix-2026-03-28T18-00-02.md
-
-[2026-03-28T18:00:02.105Z] Spawning Lobe agent...
-
-[2026-03-28T18:00:00Z] FIX: components/hero.tsx — 8 hardcoded #000000/#ffffff color values bypassing CSS token system → replaced with var(--foreground) / var(--background) tokens throughout
-  Files: app/components/hero.tsx, context/fadejunkie_ui.md
-  Commit: 903f20d
-  DS Update: CONFIRM [HARDENED] — No hardcoded colors rule — 5th+ cross-file confirmation; rule now explicitly covers: (1) inverted card backgrounds must use var(--foreground) not #000000, (2) text on inverted surfaces must use var(--background) not #ffffff, (3) floating light-surface UI elements must use var(--background) not #ffffff, (4) inline <style> CSS blocks (keyframe animations) are in scope — background-color: #000000 in a keyframe is the same violation as in a JSX inline style prop
-  Pattern: Hero components are a concentration risk for hardcoded colors — they're built as standalone visual showcases, often authored without reference to the token system. The "it looks fine in light mode" false negative is the reason #000000/#ffffff survive review: in light mode var(--foreground)=#000000 and var(--background)=#ffffff, so the values are visually identical to the correct tokens. The failure is only visible in dark mode. Detection: grep for `"#000000"`, `"#ffffff"`, `'#000'`, `'#fff'` across all component files including inside template literal <style> blocks.
-
-[2026-03-28T18:08:02.179Z] Lobe exited with code: 0
-
-[2026-03-28T18:08:02.180Z] STDOUT (last 500 chars): 903f20d`, pushed to `origin/main`.
-
----
-
-**📐 HARDEN — `fadejunkie_ui.md`**
-
-Confirmed + hardened the "No hardcoded colors" rule with new evidence: **CSS `<style>` blocks inside components are in scope for this rule.** A `@keyframes` animation with `background-color: #000000` is the exact same violation as a JSX `style={{ color: "#000000" }}`. Rule now carries `[HARDENED]` status with 5+ cross-file confirmations.
-
   [outbox] cron-spot-fix-2026-03-28T18-00-02-2026-03-28T18-05-13-524Z.md
 twanii → 
 
@@ -499,3 +474,28 @@ twanii →
 [2026-03-28T23:00:01.516Z] WARN: Stale lockfile detected, removing
 
 [2026-03-28T23:00:01.538Z] SKIP: Lobe inbox has 1 unprocessed task(s): status-polish-pass.md
+
+[2026-03-28T23:15:01.540Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T23:15:01.556Z] Task created: cron-spot-fix-2026-03-28T23-15-01.md
+
+[2026-03-28T23:15:01.558Z] Spawning Lobe agent...
+
+[2026-03-28T23:15:01Z] FIX: tools/exam-guide/page.tsx — h1 missing font-display class → added font-display prefix to className
+  Files: app/(auth)/tools/exam-guide/page.tsx
+  Commit: 87f0422
+  DS Update: CONFIRM [HARDENED x6] — auth-interior page h1 requires font-display — 6th cross-file confirmation (exam-guide joins flashcards, practice-test, resources, website, tools); rule fully closed across all known tool pages.
+  Pattern: font-display on page h1s — every auth-interior route h1 must explicitly declare font-display; globals.css does not cascade display font family to h1 elements, only text-transform and letter-spacing.
+
+[2026-03-28T23:23:02.040Z] Lobe exited with code: 0
+
+[2026-03-28T23:23:02.056Z] STDOUT (last 500 chars): ll 18 routes generated.
+
+**Commit:** `87f0422` → pushed to `origin/main`
+
+**Design System:** Hardened the `font-display` rule with a 6th confirmation. The full sweep of auth-interior tool page h1s is now done — **flashcards**, **practice-test**, **resources**, **website**, **tools**, and **exam-guide** are all confirmed. Going forward, any new auth route h1 missing `font-display` is treated as a lint-level error.
+
+  [outbox] cron-spot-fix-2026-03-28T23-15-01-2026-03-28T23-17-52-686Z.md
+twanii → 
+
+[2026-03-28T23:23:02.789Z] Unpushed changes detected, running safety commit+push...
