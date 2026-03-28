@@ -232,7 +232,7 @@ export default function PracticeTestPage() {
         {testQuestions.map((q, idx) => (
           <Card
             key={q._id}
-            className={`p-5 transition-colors ${flagged.has(q._id) ? "border-amber-400" : ""}`}
+            className={`p-5 transition-colors ${flagged.has(q._id) ? "border-foreground border-2" : ""}`}
           >
             <div className="flex items-start justify-between gap-3 mb-3">
               <div className="flex items-center gap-2 flex-wrap">
@@ -242,7 +242,7 @@ export default function PracticeTestPage() {
               <button
                 onClick={() => toggleFlag(q._id)}
                 className={`text-xs shrink-0 transition-colors ${
-                  flagged.has(q._id) ? "text-amber-500" : "text-muted-foreground/40 hover:text-muted-foreground"
+                  flagged.has(q._id) ? "text-foreground font-medium" : "text-muted-foreground/40 hover:text-muted-foreground"
                 }`}
               >
                 {flagged.has(q._id) ? "⚑ Flagged" : "⚐ Flag"}
@@ -304,7 +304,7 @@ export default function PracticeTestPage() {
         <div className="text-5xl font-bold text-foreground mb-1">
           {results!.score}/{results!.total}
         </div>
-        <div className={`text-2xl font-semibold mt-1 ${results!.percentage >= 70 ? "text-green-600" : "text-red-500"}`}>
+        <div className={`text-2xl font-semibold mt-1 ${results!.percentage >= 70 ? "text-foreground" : "text-muted-foreground"}`}>
           {results!.percentage}%
         </div>
         <p className="text-sm text-muted-foreground mt-2">
@@ -321,13 +321,13 @@ export default function PracticeTestPage() {
               <div key={topic}>
                 <div className="flex justify-between text-sm mb-1 gap-2">
                   <span className="text-foreground truncate">{topic}</span>
-                  <span className={`font-medium shrink-0 ${pct >= 70 ? "text-green-600" : "text-red-500"}`}>
+                  <span className={`font-medium shrink-0 ${pct >= 70 ? "text-foreground" : "text-muted-foreground"}`}>
                     {correct}/{total} ({pct}%)
                   </span>
                 </div>
                 <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full ${pct >= 70 ? "bg-green-500" : "bg-red-400"}`}
+                    className="h-full rounded-full bg-foreground"
                     style={{ width: `${pct}%` }}
                   />
                 </div>
@@ -357,7 +357,7 @@ export default function PracticeTestPage() {
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <Badge variant="muted" className="text-xs">{q.topic}</Badge>
                       {entry.selectedAnswer ? (
-                        <span className="text-xs text-red-500">Your answer: {entry.selectedAnswer}</span>
+                        <span className="text-xs text-muted-foreground">Your answer: {entry.selectedAnswer}</span>
                       ) : (
                         <span className="text-xs text-muted-foreground">Not answered</span>
                       )}
@@ -372,15 +372,15 @@ export default function PracticeTestPage() {
                             key={letter}
                             className={`flex items-start gap-2.5 px-3 py-2 rounded-lg text-sm ${
                               isCorrect
-                                ? "bg-green-50 text-green-800 font-medium"
+                                ? "bg-foreground text-background font-medium"
                                 : isChosen
-                                ? "bg-red-50 text-red-700"
+                                ? "bg-muted text-muted-foreground line-through"
                                 : "text-muted-foreground"
                             }`}
                           >
                             <span className={`w-4 h-4 flex-shrink-0 flex items-center justify-center rounded text-xs font-bold ${
-                              isCorrect ? "bg-green-500 text-white"
-                                : isChosen ? "bg-red-400 text-white"
+                              isCorrect ? "bg-background text-foreground"
+                                : isChosen ? "bg-muted text-muted-foreground"
                                 : "bg-muted text-muted-foreground"
                             }`}>
                               {letter}
