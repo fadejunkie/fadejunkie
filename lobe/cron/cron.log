@@ -499,3 +499,10 @@ twanii →
 [2026-03-28T21:30:02.241Z] Task created: cron-spot-fix-2026-03-28T21-30-02.md
 
 [2026-03-28T21:30:02.242Z] Spawning Lobe agent...
+
+[2026-03-28T21:30:00Z] FIX: app/(auth)/resources/page.tsx — <h1> "Resources" missing font-display class; rendered in Courier Prime (typewriter body font) instead of League Spartan (display font) on every page load → added font-display to className
+  Files: app/app/(auth)/resources/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 2e6732e
+  DS Update: CONFIRM [HARDENED] — Page h1 headings require font-display — 3rd cross-file confirmation (flashcards, practice-test, resources). Rule now marked [HARDENED] in fadejunkie_ui.md.
+  Pattern: The font-display missing h1 violation is universal across ALL auth interior pages, not just tool pages. resources/page.tsx is the first non-tool auth page confirmed. Remaining violations still outstanding: website/page.tsx, tools/page.tsx, exam-guide/page.tsx — to be fixed in successive cycles.
+
