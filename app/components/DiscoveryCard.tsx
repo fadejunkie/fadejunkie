@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Link2 } from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -49,9 +50,10 @@ function getInitials(name: string | null): string {
 interface DiscoveryCardProps {
   status: DiscoveryStatus;
   pathLabel: string;
+  showMatchIndicator?: boolean;
 }
 
-export default function DiscoveryCard({ status, pathLabel }: DiscoveryCardProps) {
+export default function DiscoveryCard({ status, pathLabel, showMatchIndicator }: DiscoveryCardProps) {
   const {
     toggleKey,
     expiresAt,
@@ -129,12 +131,20 @@ export default function DiscoveryCard({ status, pathLabel }: DiscoveryCardProps)
 
       {/* ── Bottom row: countdown + path pill ── */}
       <div className="flex items-center justify-between gap-2">
-        <span
-          className="text-[11px] text-muted-foreground"
-          style={{ fontFamily: "var(--font-mono), monospace" }}
-        >
-          {countdown}
-        </span>
+        <div className="flex items-center gap-1.5">
+          {showMatchIndicator && (
+            <Link2
+              className="text-muted-foreground/40 shrink-0"
+              style={{ width: 14, height: 14 }}
+            />
+          )}
+          <span
+            className="text-[11px] text-muted-foreground"
+            style={{ fontFamily: "var(--font-mono), monospace" }}
+          >
+            {countdown}
+          </span>
+        </div>
         <span
           className="text-[10px] text-muted-foreground/70 border border-border rounded-full px-2 py-0.5 shrink-0"
           style={{ fontFamily: "var(--font-mono), monospace" }}

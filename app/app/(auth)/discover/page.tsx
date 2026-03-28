@@ -1,4 +1,4 @@
-import DiscoveryFeed from "@/components/DiscoveryFeed";
+import DiscoverTabs from "@/components/DiscoverTabs";
 
 export const metadata = {
   title: "Discover — FadeJunkie",
@@ -27,8 +27,8 @@ export default function DiscoverPage() {
         </p>
       </div>
 
-      {/* ── Discovery feed ── */}
-      <DiscoveryFeed />
+      {/* ── Tab-switched feed ── */}
+      <DiscoverTabs />
     </div>
   );
 }
