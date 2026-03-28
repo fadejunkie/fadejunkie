@@ -376,3 +376,20 @@ Added a new rule to `context/fadejunkie_ui.md`: **"Tailwind color utilities on i
 twanii → 
 
 [2026-03-28T15:38:02.240Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T15:38:10.467Z] Safety push complete
+
+[2026-03-28T15:38:10.468Z] Cron run complete
+
+[2026-03-28T15:45:01.989Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T15:45:01.995Z] Task created: cron-spot-fix-2026-03-28T15-45-01.md
+
+[2026-03-28T15:45:01.997Z] Spawning Lobe agent...
+
+[2026-03-28T15:45:01.997Z] FIX: ResourceCard — <h3> on businessName forced lowercase via global h3 rule → added style={{ textTransform: "none" }} override
+  Files: app/components/ResourceCard.tsx
+  Commit: 5887c5e
+  DS Update: CONFIRM — Heading textTransform user-data exception rule — second confirmation, expanded scope to include business names in ResourceCard
+  Pattern: Any heading element rendering a DB field (barber name, shop name, business name) must override textTransform with "none". The global h1-h4 lowercase rule is for editorial/brand headings only — never for user-generated data.
+

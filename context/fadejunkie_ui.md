@@ -80,9 +80,11 @@ Living document. Updated by Lobe after each style test.
 
 ### Heading `text-transform` rule — user data exception [ADD]
 - **Rule:** Global CSS (`globals.css:196`) forces `text-transform: lowercase` on ALL `h1`–`h4`.
-- **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, real names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.
+- **Exception:** When an `h1`–`h4` renders **user-generated proper names** (barber names, shop names, business names), it MUST override with `style={{ textTransform: "none" }}` to prevent forced lowercasing of proper nouns.
 - **Pattern:** Brand/editorial headings → lowercase is intentional. Data headings (names, titles from the DB) → always `textTransform: "none"`.
+- **Affected element types:** Any heading that renders a DB field — barber name, shop name, business name, resource business name, school name, etc.
   + Added: observed in `app/barber/[slug]/page.tsx:41` — barber name forced lowercase without override; fixed (cycle 2026-03-28T14:15)
+  ✓ Confirmed: `components/ResourceCard.tsx:30` — `<h3>` rendering `businessName` (user data) lacked `textTransform: "none"`; fixed to `style={{ textTransform: "none" }}` (cycle 2026-03-28T15:45)
 
 ---
 
