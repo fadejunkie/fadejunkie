@@ -499,3 +499,8 @@ twanii →
 [2026-03-28T20:45:02.214Z] Task created: cron-spot-fix-2026-03-28T20-45-02.md
 
 [2026-03-28T20:45:02.215Z] Spawning Lobe agent...
+[2026-03-28T20:45:02Z] FIX: components/ui/bento-grid.tsx — BentoCard container backgroundColor and border used hardcoded rgba(0,0,0,0.88)/rgba(255,255,255,0.7) and rgba(255,255,255,0.08)/rgba(0,0,0,0.08) → replaced with color-mix(in oklch, var(--foreground/background) N%, transparent) pattern; dark variant bg stays correct in system dark mode, light variant bg stays correct in system dark mode
+  Files: app/components/ui/bento-grid.tsx, context/fadejunkie_ui.md
+  Commit: 612b1e4
+  DS Update: ADD — Alpha-transparency rgba() extension to hardcoded-colors rule — rgba(0,0,0,N) and rgba(255,255,255,N) are the same violation class as #000000/#ffffff; correct replacement is color-mix(in oklch, var(--token) N%, transparent)
+  Pattern: rgba() alpha-transparency values binding to black/white are hardcoded-color violations even when they look "correct" in light mode. color-mix(in oklch, var(--foreground) 88%, transparent) is the canonical token-safe replacement for rgba(0,0,0,0.88). This extends the hardcoded-color detection surface: grep for rgba(0 and rgba(255 in inline style props, not just #hex values.
