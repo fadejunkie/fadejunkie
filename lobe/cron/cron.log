@@ -1,13 +1,3 @@
-}
-
-Node.js v24.13.1
-
-
-[2026-03-28T15:08:45.179Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T15:08:46.682Z] Safety push complete
-
-[2026-03-28T15:08:46.683Z] Cron run complete
 
 [2026-03-28T15:15:01.957Z] WARN: Stale lockfile detected, removing
 
@@ -499,3 +489,19 @@ twanii →
 twanii → 
 
 [2026-03-28T19:08:02.343Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-28T19:08:03.916Z] Safety push complete
+
+[2026-03-28T19:08:03.918Z] Cron run complete
+
+[2026-03-28T19:15:02.144Z] WARN: Stale lockfile detected, removing
+
+[2026-03-28T19:15:02.151Z] Task created: cron-spot-fix-2026-03-28T19-15-02.md
+
+[2026-03-28T19:15:02.152Z] Spawning Lobe agent...
+
+[2026-03-28T19:15:02Z] FIX: app/(auth)/profile/page.tsx — 2x raw <button> without font-sans → added font-sans to both classNames
+  Files: app/app/(auth)/profile/page.tsx
+  Commit: 5d23019
+  DS Update: CONFIRM — Raw <button> font-sans rule [HARDENED] — 4th cross-file confirmation (profile page). "Upload photo" trigger button (line 143) and service-tag × remove button (line 218) both rendered in Courier Prime instead of Geist.
+  Pattern: [HARDENED] raw <button> font-sans rule now confirmed across resources, exam-guide, flashcards, AND profile pages. The pattern is universal across all auth-interior pages — every page scan should grep <button as a standard first check.
