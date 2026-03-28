@@ -319,12 +319,12 @@ function SignInForm() {
                     fontFamily: "var(--font-sans), system-ui, sans-serif",
                     fontSize: "0.875rem",
                     fontWeight: tab === t ? 600 : 400,
-                    color: tab === t ? "#000000" : "rgba(0,0,0,0.4)",
+                    color: tab === t ? "var(--foreground)" : "var(--muted-foreground)",
                     background: "transparent",
                     border: "none",
                     borderBottom:
                       tab === t
-                        ? "2px solid #000000"
+                        ? "2px solid var(--foreground)"
                         : "2px solid transparent",
                     cursor: "pointer",
                     transition: "color 0.15s ease, border-color 0.15s ease",
