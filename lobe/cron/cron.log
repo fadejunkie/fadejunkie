@@ -416,3 +416,10 @@ twanii →
 [2026-03-28T16:00:02.001Z] Task created: cron-spot-fix-2026-03-28T16-00-02.md
 
 [2026-03-28T16:00:02.002Z] Spawning Lobe agent...
+
+[2026-03-28T16:00:02.000Z] FIX: resources/page.tsx — filter pill buttons inherited Courier Prime (body font) instead of Geist (UI font) → added font-sans class to <button> elements
+  Files: app/app/(auth)/resources/page.tsx, context/fadejunkie_ui.md
+  Commit: 7c17782
+  DS Update: ADD — "Raw <button> elements must declare font-sans" — body font doesn't cascade correctly to UI navigation controls; Button component has it built-in, raw <button> elements do not
+  Pattern: globals.css sets body to Courier Prime. Every raw <button> used for UI chrome (not authored content composition) needs explicit font-sans class. The Button component (button.tsx) is always safe; raw <button> elements in pages are the detection target.
+
