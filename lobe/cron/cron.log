@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T11:00:01.828Z] Task created: cron-spot-fix-2026-03-29T11-00-01.md
 
 [2026-03-29T11:00:01.830Z] Spawning Lobe agent...
+
+[2026-03-29T11:00:01Z] FIX: app/(auth)/tools/page.tsx — category eyebrow labels ("Shop", "Daily Operations") were missing `font-mono`, causing them to render in Courier Prime (body font) instead of Geist Mono. Added `font-mono` to className of both <p> eyebrow elements (lines 35, 51).
+  Files: app/app/(auth)/tools/page.tsx, app/context/fadejunkie_ui.md
+  Commit: 45dc875
+  DS Update: ADD — "Category/taxonomy eyebrow labels must always carry font-mono [HARDENED]" — pattern confirmed against PathSelector.tsx:97,154 (2× canonical eyebrow references). Rule added with code evidence and detection grep pattern (tracking-[0.12em] / tracking-[0.08em]).
+  Pattern: The 10px uppercase tracking eyebrow pattern without font-mono is the eyebrow equivalent of the raw-button/font-sans trap — both are invisible at small sizes, both inherit from the body fallback, both need an explicit font-family class. Detection: grep tracking-[0.12em] or tracking-[0.08em] in <p> classNames.
