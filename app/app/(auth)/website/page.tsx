@@ -85,17 +85,7 @@ export default function WebsitePage() {
       ) : (
         <form onSubmit={handleSave} className="space-y-6">
           <Card className="p-8">
-            <p
-              className="mb-5"
-              style={{
-                fontFamily: "var(--font-mono), ui-monospace, monospace",
-                fontSize: "0.625rem",
-                fontWeight: 500,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--muted-foreground)",
-              }}
-            >Shop Identity</p>
+            <p className="font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-5">Shop Identity</p>
             <div className="space-y-5">
               <Input label="Shop name *" placeholder="The Fade House" required {...f("shopName")} />
               <Input label="Tagline" placeholder="A short line describing your shop" {...f("tagline")} />
@@ -103,32 +93,12 @@ export default function WebsitePage() {
           </Card>
 
           <Card className="p-8">
-            <p
-              className="mb-5"
-              style={{
-                fontFamily: "var(--font-mono), ui-monospace, monospace",
-                fontSize: "0.625rem",
-                fontWeight: 500,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--muted-foreground)",
-              }}
-            >About</p>
+            <p className="font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-5">About</p>
             <Textarea label="About your shop" placeholder="Tell visitors what makes your shop special..." rows={4} {...f("about")} />
           </Card>
 
           <Card className="p-8">
-            <p
-              className="mb-5"
-              style={{
-                fontFamily: "var(--font-mono), ui-monospace, monospace",
-                fontSize: "0.625rem",
-                fontWeight: 500,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--muted-foreground)",
-              }}
-            >Contact &amp; Hours</p>
+            <p className="font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-5">Contact &amp; Hours</p>
             <div className="space-y-5">
               <Input label="Address" placeholder="123 Main St, City, State 00000" {...f("address")} />
               <Input label="Phone" type="tel" placeholder="+1 (555) 000-0000" {...f("phone")} />
