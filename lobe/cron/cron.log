@@ -1,27 +1,3 @@
-
-[2026-03-29T14:00:01Z] SKIP: inbox has 1 task (cron-spot-fix-2026-03-29T14-00-01.md) — manual tasks take priority
-
-[2026-03-29T14:00:01Z] FIX: app/(auth)/profile/page.tsx — FieldLabel component used `style={{ fontFamily: "var(--font-mono), monospace" }}` inline prop instead of Tailwind `font-mono` class → removed inline style prop, added `font-mono` to className
-  Files: app/app/(auth)/profile/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 0349f54
-  DS Update: ADD — Monospace token delivery rule — `var(--font-mono)` in inline fontFamily style must be replaced with `font-mono` Tailwind class when the token is registered in @theme inline; inline styles are invisible to className audits and cannot be overridden by utilities
-  Pattern: When @theme inline registers a font token, always deliver via Tailwind class (font-mono / font-body / font-display), never via style={{ fontFamily }}. Detection: grep style=.*fontFamily on <p>/<span> — every hit using a registered token is a P1 replacement.
-
-[2026-03-29T14:08:03.088Z] Lobe exited with code: 0
-
-[2026-03-29T14:08:03.108Z] STDOUT (last 500 chars): s (`font-mono`, `font-sans`, `font-display`), not via inline `style={{ fontFamily }}`. Added detection pattern: `grep 'style=.*fontFamily.*var(--font-mono)'` on `<p>`/`<span>` elements.
-
-**📓 Growth.md:** New bullet documenting inline `fontFamily` on non-button elements as a distinct detection category — different from the button-specific `font-sans` rule but same root cause (bypassing the Tailwind token system).
-
-  [outbox] cron-spot-fix-2026-03-29T14-00-01-2026-03-29T14-06-36-034Z.md
-twanii → 
-
-[2026-03-29T14:08:03.724Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T14:08:06.923Z] Safety push complete
-
-[2026-03-29T14:08:06.930Z] Cron run complete
-
 [2026-03-29T14:15:01.961Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T14:15:01.969Z] Task created: cron-spot-fix-2026-03-29T14-15-01.md
@@ -507,3 +483,19 @@ twanii →
   Commit: 4b3119e
   DS Update: CHALLENGE — "No hardcoded colors — tokens only" rule — hero.tsx proof bar had 4× rgba(0,0,0,*) values (borderTop, avatar bg x2, initials color, caption color) in a component otherwise clean on this rule. Floating pill cards above already used var(--border)/var(--background) correctly — the proof bar was an inconsistent pocket from a separate authoring pass.
   Pattern: A single "clean" section in a file does NOT guarantee the entire file is token-clean. rgba(0,0,0,*) can survive in sub-sections authored at different times. When the grep scan shows a component is mostly clean, scroll every section explicitly — especially element clusters (e.g., stacked avatars + caption) that feel similar to already-fixed sections but were written separately.
+
+[2026-03-29T18:23:01.969Z] Lobe exited with code: 0
+
+[2026-03-29T18:23:01.972Z] STDOUT (last 500 chars):  — 18/18 static pages, TypeScript clean
+
+**DS Harden:** CHALLENGE note added to the "no hardcoded colors" rule with a new insight — a component can have clean token usage in its primary sections while silently carrying `rgba()` violations in sub-sections authored at different times. Partial scans aren't sufficient; the whole file needs sweeping.
+
+**Commits:** `4b3119e` (fix) + `681df96` (docs/log/processed inbox)
+
+  [outbox] cron-spot-fix-2026-03-29T18-15-01-2026-03-29T18-21-41-179Z.md
+twanii → 
+
+[2026-03-29T18:23:01.973Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T18-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T18-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T18-15-01.md'
+
+
+[2026-03-29T18:23:02.133Z] Unpushed changes detected, running safety commit+push...
