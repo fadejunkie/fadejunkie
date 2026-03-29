@@ -1,20 +1,3 @@
-[2026-03-29T09:00:01.717Z] Task created: cron-spot-fix-2026-03-29T09-00-01.md
-
-[2026-03-29T09:00:01.718Z] Spawning Lobe agent...
-
-[2026-03-29T09:00:01Z] FIX: components/Testimonials.tsx — var(--font-geist-mono) ghost token x4 → replaced with var(--font-mono)
-  Files: app/components/Testimonials.tsx, app/context/fadejunkie_ui.md
-  Commit: 41bf2cc
-  DS Update: CONFIRM [HARDENED x5] — var(--font-mono) rule — Testimonials.tsx confirmed 4 ghost token instances in inline fontFamily strings (TestimonialCard attribution row: specialty/dot/location spans + Testimonials section eyebrow). All replaced with canonical var(--font-mono). Rule hardened to x5.
-  Pattern: Inline style fontFamily strings are invisible to Tailwind-class audits. Any landing-page section component (Testimonials, hero, CTA) built in isolation is high-risk for ghost-token accumulation. Grep targeting `font-geist-mono` in string literals remains the only reliable detection.
-
-[2026-03-29T09:08:01.799Z] Lobe exited with code: 0
-
-[2026-03-29T09:08:01.801Z] STDOUT (last 500 chars): DENED x5]**
-
-Added a 5th confirmation to the `var(--font-mono)` rule in `fadejunkie_ui.md`, noting that landing-page section components built in isolation (Testimonials, hero, CTA blocks) are the highest-risk surfaces for this pattern. The inline-style delivery mechanism is what makes them hard to catch at code review time.
-
-**Build:** ✅ 18/18 static pages · Commits: `41bf2cc`, `fbf5501` · Pushed to `origin/main`
 
   [outbox] cron-spot-fix-2026-03-29T09-00-01-2026-03-29T09-04-08-184Z.md
 twanii → 
@@ -505,3 +488,14 @@ twanii →
   Commit: 41a4e37
   DS Update: CONFIRM — Raw <button> font-sans rule — child-span override variant: a <span className="font-mono"> inside a font-sans button silently wins the cascade; button action labels must be bare text nodes with no child font class override
   Pattern: Detection for <button> font-sans compliance must include scanning inner elements — not just the button's own className and style prop, but also any child <span>/<strong> that carries a font class on label text.
+
+[2026-03-29T13:23:02.109Z] Lobe exited with code: 0
+
+[2026-03-29T13:23:02.113Z] STDOUT (last 500 chars): className="font-mono">` inside an interactive label negates it entirely. The connect action label was rendering in Geist Mono (the data/tag font) instead of Geist (the UI chrome font).
+
+**Design system hardened:** Added a sub-rule to `fadejunkie_ui.md` — detection for the `font-sans` rule must now include scanning child elements inside `<button>` tags for font class conflicts, not just the button's own className.
+
+  [outbox] cron-spot-fix-2026-03-29T13-15-01-2026-03-29T13-22-08-928Z.md
+twanii → 
+
+[2026-03-29T13:23:02.279Z] Unpushed changes detected, running safety commit+push...
