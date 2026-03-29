@@ -1,22 +1,4 @@
 
-**What happened in the last cycle (20:15 slot):**
-- Fixed two `<h2>` section-label violations in `app/(auth)/profile/page.tsx` — "Your Profile" and "Gallery" headings were being rendered in League Spartan lowercase by the global `h2` CSS rule. Both converted to `<p>` tags.
-- Commits `ddcf880` + `2e34b65` already on `origin/main`
-
-**This cycle:** Skipped cleanly. Next eligible window is ~`20:33Z`.
-
-  [outbox] cron-spot-fix-2026-03-28T20-30-02-2026-03-28T20-32-06-712Z.md
-twanii → 
-
-[2026-03-28T20:38:02.298Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T20-30-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T20-30-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T20-30-02.md'
-
-
-[2026-03-28T20:38:02.415Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T20:38:03.940Z] Safety push complete
-
-[2026-03-28T20:38:03.941Z] Cron run complete
-
 [2026-03-28T20:45:02.208Z] WARN: Stale lockfile detected, removing
 
 [2026-03-28T20:45:02.214Z] Task created: cron-spot-fix-2026-03-28T20-45-02.md
@@ -499,3 +481,26 @@ lobe → twanii →
 
 
 [2026-03-29T01:38:03.069Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T01:38:03.764Z] Git safety push failed: Command failed: git push origin main
+fatal: unable to access 'https://github.com/fadejunkie/fadejunkie.git/': Could not resolve host: github.com
+
+
+[2026-03-29T01:38:03.768Z] Cron run complete
+
+[2026-03-29T01:45:01.882Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T01:45:01.901Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
+
+[2026-03-29T02:00:02.009Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T02:00:02.032Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
+
+[2026-03-29T02:15:02.106Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T02:15:02.143Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
+[2026-03-29T01:30:01Z] FIX: app/signin/page.tsx — Email label, Password label, and toggle paragraph all used hardcoded `color: "rgba(0,0,0,0.45/0.5)"` — near-invisible black text on dark-mode black background → replaced all three with `var(--muted-foreground)` which correctly resolves to light gray in dark mode
+  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md
+  Commit: b40f9ef
+  DS Update: CHALLENGE — No hardcoded colors / rgba rule — `rgba(0,0,0,0.45)` and `rgba(0,0,0,0.5)` used as secondary text color in form labels and toggle paragraph; these are black at 45–50% opacity = near-invisible in dark mode. Fixed to var(--muted-foreground).
+  Pattern: Form label colors and small-print toggle text are high-risk surfaces for rgba(0,0,0,*) violations — they tend to be added at design time in light mode where the near-black feel looks intentionally muted, but they break completely in dark mode. Any `<label>` or secondary `<p>` with rgba(0,0,0,*) color is a P0 dark-mode failure.
