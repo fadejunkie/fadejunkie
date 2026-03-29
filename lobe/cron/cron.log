@@ -1,23 +1,3 @@
-[2026-03-29T15:08:03.544Z] Safety push complete
-
-[2026-03-29T15:08:03.546Z] Cron run complete
-
-[2026-03-29T15:15:01.728Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T15:15:01.733Z] Task created: cron-spot-fix-2026-03-29T15-15-01.md
-
-[2026-03-29T15:15:01.735Z] Spawning Lobe agent...
-
-[2026-03-29T15:15:00Z] FIX: components/ActiveStatusBadges.tsx — inline style={{ fontFamily: "var(--font-mono), monospace" }} on badge label <span> → font-mono Tailwind className
-  Files: components/ActiveStatusBadges.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 3941437
-  DS Update: CONFIRM — Monospace font token rule (Tailwind-class-first variant) — ActiveStatusBadges.tsx:29 had inline fontFamily with correct token but wrong delivery mechanism; replaced with font-mono className. Status badge components are cross-view surfaces — one inline style violation propagates everywhere the badge renders.
-  Pattern: Badge/indicator components that render across multiple views (ActiveStatusBadges, PublicStatusBadges, PostStatusIndicator) are high-reach surfaces. A single inline fontFamily in a badge affects every page that shows status — treat them as equal-priority scan targets to globally-mounted layout components.
-
-[2026-03-29T15:23:01.909Z] Lobe exited with code: 0
-
-[2026-03-29T15:23:01.912Z] STDOUT (last 500 chars): ivered wrong. The Tailwind class is composable, purgeable, and auditable; the inline style is none of those.
-
 **Design system hardened:** CONFIRM — The monospace font token rule now has a new confirmation noting that status badge components are high-reach surfaces with multiplicative impact, equal-priority to globally-mounted layout components like `AppHeader`.
 
 **Commits:** `3941437` (fix) + `0a45c99` (DS + log)
@@ -505,3 +485,17 @@ twanii →
   Commit: 6f5f76b
   DS Update: CONFIRM — Alpha-transparency / rgba(255,255,255,*) rule — dark-section saturation archetype confirmed: #000000 bg + rgba(255,255,255,*) text is a total-violation fingerprint in third-party template components
   Pattern: Template components with hardcoded dark backgrounds pervasively use rgba(255,255,255,*) across all text tiers — detect by grepping #000000 bg + rgba(255,255,255 in the same file; fix is bg-foreground + color-mix(in oklch, var(--background) N%, transparent) for every opacity tier
+
+[2026-03-29T19:38:02.388Z] Lobe exited with code: 0
+
+[2026-03-29T19:38:02.391Z] STDOUT (last 500 chars): ity tier while resolving through the token
+- `onMouseEnter`/`onMouseLeave` JS style mutations updated to the same `color-mix` values
+
+**HARDEN — CONFIRM** · Alpha-transparency rule
+
+Added a new confirmation entry documenting the **compound detection fingerprint**: when `#000000` bg + `rgba(255,255,255,*)` text coexist in the same component, it's always total saturation — plan a comprehensive pass, not a spot fix.
+
+  [outbox] cron-spot-fix-2026-03-29T19-30-02-2026-03-29T19-36-32-357Z.md
+twanii → 
+
+[2026-03-29T19:38:02.582Z] Unpushed changes detected, running safety commit+push...
