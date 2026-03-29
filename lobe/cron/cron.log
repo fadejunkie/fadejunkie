@@ -1,20 +1,3 @@
-
-  [outbox] cron-spot-fix-2026-03-29T12-45-01-2026-03-29T12-46-56-172Z.md
-twanii → 
-
-[2026-03-29T12:53:02.390Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T12:53:04.536Z] Safety push complete
-
-[2026-03-29T12:53:04.538Z] Cron run complete
-
-[2026-03-29T13:00:02.027Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T13:00:02.064Z] Task created: cron-spot-fix-2026-03-29T13-00-02.md
-
-[2026-03-29T13:00:02.069Z] Spawning Lobe agent...
-
-[2026-03-29T13:00:00.000Z] FIX: components/hero.tsx — 4× rgba(0,0,0,*) in floating side-pill cards on light background (border: rgba(0,0,0,0.08) ×2, color: rgba(0,0,0,0.55) + rgba(0,0,0,0.4)) → replaced with var(--border) and var(--muted-foreground)
   Files: app/components/hero.tsx, app/context/fadejunkie_ui.md
   Commit: 3ca9ca5
   DS Update: CONFIRM [HARDENED x5] → rgba(0,0,0,*) rule — floating decorative cards on var(--background) are light-bg context; shadows kept as rgba (match token magnitudes), but border and color properties must use tokens
@@ -505,3 +488,14 @@ Node.js v24.13.1
   Commit: dbcb6a1
   DS Update: ↻ Revised — Section-label rule "Correct pattern" was documenting inline style syntax; updated to Tailwind-class-only pattern after 4 cross-file confirmations that inline blocks are always replaced. Also added cycle note to the rule.
   Pattern: DS doc "Correct pattern" entries can document intermediate states as final — when a violation is fixed in two stages (h2→p THEN inline→Tailwind), only the first fix updates the rule example. The second fix (Tailwind migration) requires re-reading the rule and revising the example to match the higher standard. Auth-interior form pages (website, profile) share the same inline eyebrow authoring habit as public templates (ShopTemplate, barber/[slug]) — the pattern is confirmed systemic across all page categories.
+
+[2026-03-29T17:08:01.962Z] Lobe exited with code: 0
+
+[2026-03-29T17:08:01.965Z] STDOUT (last 500 chars): /slug, profile, website) all replaced those inline blocks with Tailwind classes. The rule example now reflects the actual higher standard.
+
+**New growth insight:** DS doc "Correct pattern" entries can document intermediate states as final. When a violation is fixed in two stages, only the first fix updates the rule. Always re-read the rule example when fixing a repeated violation — the doc may be behind the code.
+
+  [outbox] cron-spot-fix-2026-03-29T17-00-01-2026-03-29T17-07-38-335Z.md
+twanii → 
+
+[2026-03-29T17:08:02.131Z] Unpushed changes detected, running safety commit+push...
