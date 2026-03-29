@@ -22,13 +22,9 @@ const navItems = [
   { href: "/directory", label: "Directory" },
 ];
 
-const linkStyle = {
-  fontFamily: "var(--font-sans), system-ui, sans-serif",
-  letterSpacing: "-0.01em",
-};
-
 const linkBase = cn(
   "relative text-sm py-2.5 px-3 rounded-md transition-colors duration-150",
+  "font-sans tracking-[-0.01em]",
   "before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2",
   "before:h-[60%] before:w-[2px] before:rounded-full before:transition-all before:duration-150"
 );
@@ -78,7 +74,6 @@ export default function AppSidebar() {
                   linkBase,
                   parentActive ? activeClass : inactiveClass
                 )}
-                style={linkStyle}
               >
                 {item.label}
               </Link>
@@ -99,12 +94,11 @@ export default function AppSidebar() {
                         key={child.href}
                         href={child.href}
                         className={cn(
-                          "block text-[13px] py-1.5 px-3 rounded-md transition-colors duration-150",
+                          "block text-[13px] py-1.5 px-3 rounded-md transition-colors duration-150 font-sans tracking-[-0.01em]",
                           isChildActive
                             ? "text-foreground bg-accent/50"
                             : "text-muted-foreground hover:text-foreground hover:bg-accent/40"
                         )}
-                        style={linkStyle}
                       >
                         {child.label}
                       </Link>
@@ -123,7 +117,6 @@ export default function AppSidebar() {
             key={item.href}
             href={item.href}
             className={cn(linkBase, isActive ? activeClass : inactiveClass)}
-            style={linkStyle}
           >
             {item.label}
           </Link>
