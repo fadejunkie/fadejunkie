@@ -14,6 +14,7 @@ const navItems = [
       { href: "/profile?tab=paths", label: "Paths" },
       { href: "/profile?tab=gallery", label: "Gallery" },
       { href: "/status", label: "Status" },
+      { href: "/discover", label: "Discover" },
     ],
   },
   { href: "/website", label: "Website" },
@@ -47,9 +48,10 @@ export default function AppSidebar() {
   const isProfileActive =
     pathname === "/profile" || pathname.startsWith("/profile/");
   const isStatusActive = pathname === "/status";
+  const isDiscoverActive = pathname === "/discover";
 
   // Keep dropdown open while on a child route
-  const dropdownVisible = hoverOpen || isProfileActive || isStatusActive;
+  const dropdownVisible = hoverOpen || isProfileActive || isStatusActive || isDiscoverActive;
 
   function handleMouseEnter() {
     clearTimeout(leaveTimeout.current);

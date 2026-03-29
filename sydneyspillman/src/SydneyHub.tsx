@@ -41,9 +41,9 @@ const phases=[
       {title:"MOOD + DIRECTION",clientDesc:"Visual direction deck before any design work begins.",
         tasks:[{label:"Build mood board — photography style, color feel, typography direction"},{label:"Present 2 direction options (e.g. modern minimal vs. warm editorial)"},{label:"Get client approval on direction before moving to logo design",blocker:true}]},
       {title:"LOGO DESIGN",clientDesc:"Three concepts refined into a final mark — primary logo, icon, and wordmark.",
-        tasks:[{label:"Generate 3 distinct logo concepts (AI-assisted + manual vector refinement)"},{label:"Present concepts with mockups — business cards, signage, social, yard signs"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"}]},
+        tasks:[{label:"Generate 3 distinct logo concepts (AI-assisted + manual vector refinement)"},{label:"Present concepts with mockups — business cards, signage, social, yard signs"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"},{label:"Client approval on final logo package",blocker:true}]},
       {title:"BRAND SYSTEM",clientDesc:"Complete brand kit — colors, fonts, usage rules.",
-        tasks:[{label:"Define primary palette — white base + blue accents + warm neutrals"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (elegant serif) + body font (clean sans)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — business cards, yard signs, social templates, email signatures"},{label:"Deliver complete brand kit to client"}]},
+        tasks:[{label:"Define primary palette — white base + blue accents + warm neutrals"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (elegant serif) + body font (clean sans)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — business cards, yard signs, social templates, email signatures"},{label:"Deliver complete brand kit to client"},{label:"Client approval on brand system",blocker:true}]},
     ]},
   {id:2,name:"BUILD",subtitle:"Website Development",week:"WEEKS 2–3",short:"DOMAIN · SITE",icon:"⚙️",
     milestones:[
@@ -428,9 +428,78 @@ function AgreementPage({c}){
 }
 
 /* ═══════════════════════════════════════
+   MILESTONE DELIVERABLES
+   ═══════════════════════════════════════ */
+function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove}){
+  const [adding,setAdding]=useState(false);
+  const [label,setLabel]=useState("");
+  const [url,setUrl]=useState("");
+  const [type,setType]=useState("screenshot");
+
+  const items=(deliverables||[]).filter(d=>d.milestoneKey===milestoneKey);
+
+  const submit=()=>{
+    if(!label.trim()||!url.trim())return;
+    onAdd({milestoneKey,label:label.trim(),url:url.trim(),type});
+    setLabel("");setUrl("");setType("screenshot");setAdding(false);
+  };
+
+  const isPdf=(u)=>u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary");
+
+  return(
+    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${c.EDGE}44`}}>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
+        {isOps&&!adding&&(
+          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.BLUE,background:c.BLUE+"0c",border:`1px solid ${c.BLUE}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>+ ADD</button>
+        )}
+      </div>
+
+      {items.length===0&&!adding&&(
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",fontStyle:"italic",padding:"4px 0"}}>No deliverables uploaded yet</div>
+      )}
+
+      {items.map(d=>(
+        <div key={d._id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",background:c.DEEP,borderRadius:6,marginBottom:4,border:`1px solid ${c.EDGE}44`}}>
+          <div style={{width:24,height:24,borderRadius:4,background:isPdf(d.url)?c.EMBER+"14":c.BLUE+"14",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            <span style={{fontSize:10,fontWeight:700,color:isPdf(d.url)?c.EMBER:c.BLUE,fontFamily:"Inter,sans-serif"}}>{isPdf(d.url)?"PDF":isImg(d.url)?"IMG":"URL"}</span>
+          </div>
+          <div style={{flex:1,minWidth:0}}>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:12,fontWeight:500,color:c.BLUE,textDecoration:"underline",fontFamily:"Inter,sans-serif"}} onClick={e=>e.stopPropagation()}>{d.label}</a>
+            <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:1}}>
+              {d.type==="screenshot"?"Screenshot":d.type==="pdf"?"PDF Document":"Link"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
+            </div>
+          </div>
+          {isOps&&(
+            <button onClick={e=>{e.stopPropagation();onRemove(d._id)}} style={{fontSize:12,color:c.SLATE,background:"none",border:"none",cursor:"pointer",padding:"2px 6px",borderRadius:3,lineHeight:1}} title="Remove">×</button>
+          )}
+        </div>
+      ))}
+
+      {adding&&(
+        <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.BLUE}22`,marginTop:4}}>
+          <div style={{display:"flex",gap:6,marginBottom:8}}>
+            {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
+              <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.BLUE+"44":c.EDGE}`,background:type===o.v?c.BLUE+"0c":"transparent",color:type===o.v?c.BLUE:c.SLATE}}>{o.l}</button>
+            ))}
+          </div>
+          <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (e.g. Logo v2 mockups)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:6}}/>
+          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL (paste link to image, PDF, or page)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+          <div style={{display:"flex",gap:6}}>
+            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 16px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
+            <button onClick={()=>{setAdding(false);setLabel("");setUrl("")}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,c}){
+function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable}){
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -536,6 +605,7 @@ function WorkflowPage({view,tasks,onToggle,c}){
                           );
                         })}
                       </div>
+                      <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables} onAdd={onAddDeliverable} onRemove={onRemoveDeliverable}/>
                     </div>
                   )}
                 </div>
@@ -967,6 +1037,14 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
     setTaskMutation({projectId:"sydney-spillman",key,value:newVal});
   };
 
+  const deliverables=useQuery(api.sydneyTasks.getDeliverables,{projectId:"sydney-spillman"})??[];
+  const addDeliverableMutation=useMutation(api.sydneyTasks.addDeliverable);
+  const removeDeliverableMutation=useMutation(api.sydneyTasks.removeDeliverable);
+  const onAddDeliverable=({milestoneKey,label,url,type})=>{
+    addDeliverableMutation({projectId:"sydney-spillman",milestoneKey,label,url,type,addedAt:Date.now()});
+  };
+  const onRemoveDeliverable=(id)=>{removeDeliverableMutation({id})};
+
   const tabs=[
     {id:"workflow",label:"Workflow"},
     {id:"scope",label:"Scope"},
@@ -1012,7 +1090,7 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
 
       {/* Content */}
       <div style={{minHeight:"calc(100vh - 120px)"}}>
-        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c}/>}
+        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
         {tab==="scope"&&<ScopePage c={c}/>}
         {tab==="agreement"&&<AgreementPage c={c}/>}
         {tab==="website"&&<WebsitePage c={c}/>}

@@ -20,4 +20,13 @@ export default defineSchema({
     responses: v.string(),
     submittedAt: v.number(),
   }).index("by_project", ["projectId"]),
+
+  sydneyDeliverables: defineTable({
+    projectId: v.string(),
+    milestoneKey: v.string(),
+    label: v.string(),
+    url: v.string(),
+    type: v.string(),
+    addedAt: v.number(),
+  }).index("by_project_milestone", ["projectId", "milestoneKey"]),
 });

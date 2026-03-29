@@ -16,6 +16,7 @@ const navItems = [
       { href: "/profile?tab=paths", label: "Paths" },
       { href: "/profile?tab=gallery", label: "Gallery" },
       { href: "/status", label: "Status" },
+      { href: "/discover", label: "Discover" },
     ],
   },
   { href: "/website", label: "Website" },
@@ -60,20 +61,21 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
         <nav className="flex-1 py-4 px-4 space-y-0.5">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const showChildren = isActive || (item.children && item.children.some((c) => pathname === c.href));
             return (
               <div key={item.href}>
                 <Link
                   href={item.href}
                   className={cn(
                     "block px-2 py-2 rounded-md text-[14px] transition-colors",
-                    isActive
+                    isActive || showChildren
                       ? "font-bold text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {item.label}
                 </Link>
-                {item.children && isActive && (
+                {item.children && showChildren && (
                   <div className="ml-4 pl-3 border-l border-border/60 space-y-0.5">
                     {item.children.map((child) => (
                       <Link

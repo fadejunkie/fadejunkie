@@ -120,3 +120,34 @@ export const getDiscovery = query({
       .first();
   },
 });
+
+export const getDeliverables = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db
+      .query("sydneyDeliverables")
+      .withIndex("by_project_milestone", (q) => q.eq("projectId", projectId))
+      .collect();
+  },
+});
+
+export const addDeliverable = mutation({
+  args: {
+    projectId: v.string(),
+    milestoneKey: v.string(),
+    label: v.string(),
+    url: v.string(),
+    type: v.string(),
+    addedAt: v.number(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("sydneyDeliverables", args);
+  },
+});
+
+export const removeDeliverable = mutation({
+  args: { id: v.id("sydneyDeliverables") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.delete(id);
+  },
+});
