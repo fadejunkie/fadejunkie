@@ -1,13 +1,3 @@
-[2026-03-29T00:15:02.228Z] Spawning Lobe agent...
-
-[2026-03-28T00:00:00.000Z] FIX: app/(auth)/status/page.tsx — h1 "your status" had style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}; --font-heading is undefined in globals.css so it fell through to system-ui, bypassing League Spartan entirely. Inline style also overrides any font-display Tailwind class. → removed broken inline style, added font-display to className.
-  Files: app/(auth)/status/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: ef0dc55
-  DS Update: ADD — var(--font-heading) undefined token trap — --font-heading is not in globals.css @theme inline; every usage silently resolves to system-ui. When combined with inline style it also overrides the font-display Tailwind class. Detection: grep font-heading across all TSX. Fix: remove inline style, use font-display class only.
-  Pattern: Undefined CSS variable token in inline fontFamily style is a silent P0 — no browser error, no warning, just the wrong font rendered. The fallback (system-ui) is plausible enough that the bug can survive visual review in isolation. grep font-heading is now a required first-pass scan for any new component file.
-
-[2026-03-29T00:23:02.446Z] Lobe exited with code: 0
-
 [2026-03-29T00:23:02.453Z] STDOUT (last 500 chars): auth)/status/page.tsx`
 
 **DS Update (ADD):** Documented `var(--font-heading)` as an undefined token trap in `context/fadejunkie_ui.md`. The dangerous part: `system-ui` fallback is visually plausible enough (same weight/size class as League Spartan) to survive casual visual review. Detection rule added: **grep `font-heading` across all TSX files** — any occurrence is a confirmed bug since that token doesn't exist.
@@ -499,3 +489,19 @@ twanii →
 twanii → 
 
 [2026-03-29T08:23:01.953Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T08:23:03.827Z] Safety push complete
+
+[2026-03-29T08:23:03.828Z] Cron run complete
+
+[2026-03-29T08:30:01.719Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T08:30:01.725Z] Task created: cron-spot-fix-2026-03-29T08-30-01.md
+
+[2026-03-29T08:30:01.726Z] Spawning Lobe agent...
+
+[2026-03-29T08:30:01.000Z] FIX: app/page.tsx — ghost token var(--font-geist-mono) on 14 inline style fontFamily values → replaced with canonical var(--font-mono) token
+  Files: app/app/page.tsx
+  Commit: efd242b
+  DS Update: ADD — "Monospace font token — always var(--font-mono), never var(--font-geist-mono) [HARDENED]" — rule existed in growth memory but was never written to fadejunkie_ui.md; added as new rule block with 3 confirmation entries and [HARDENED] marker
+  Pattern: var(--font-geist-mono) is the implementation variable; var(--font-mono) is the design token. Component code must use the token, not the underlying variable. 14 instances on the landing page is the highest single-page ghost-token concentration found to date.
