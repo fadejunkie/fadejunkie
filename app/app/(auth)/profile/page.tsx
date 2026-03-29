@@ -40,8 +40,7 @@ function FieldValue({
   if (empty || !children) {
     return (
       <p
-        className="text-sm text-muted-foreground/40 mt-1"
-        style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
+        className="font-body text-sm text-muted-foreground/40 mt-1"
       >
         —
       </p>
@@ -49,8 +48,7 @@ function FieldValue({
   }
   return (
     <p
-      className={cn("text-sm text-foreground mt-1", bold && "font-semibold")}
-      style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
+      className={cn("font-body text-sm text-foreground mt-1", bold && "font-semibold")}
     >
       {children}
     </p>

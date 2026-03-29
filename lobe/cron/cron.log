@@ -1,13 +1,3 @@
-[2026-03-29T10:00:01.760Z] Task created: cron-spot-fix-2026-03-29T10-00-01.md
-
-[2026-03-29T10:00:01.762Z] Spawning Lobe agent...
-
-[2026-03-29T10:00:01Z] FIX: components/ui/shadcnblocks-com-footer2.tsx — <h3> used as footer nav column section labels (Product, Company, Resources, Social) → forced League Spartan lowercase by globals.css heading rules; same element also carried var(--font-geist-mono) ghost token → changed <h3> to <p>, replaced var(--font-geist-mono) with var(--font-mono)
-  Files: app/components/ui/shadcnblocks-com-footer2.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 25403a5
-  DS Update: CONFIRM — Section-label elements must NOT use heading tags [HARDENED] — 6th+ cross-file confirmation; shadcn-derived UI primitives in components/ui/ confirmed equal-risk surface. Combined with CONFIRM on var(--font-mono) ghost token rule — both violations co-located in the same element.
-  Pattern: Third-party/template-derived UI components (shadcnblocks, etc.) were authored outside the FJ token context — they carry design-system violations by default. All files in components/ui/ must be included in ghost-token and heading-tag grep scans, not just first-party app/ pages.
-
 [2026-03-29T10:08:01.853Z] Lobe exited with code: 0
 
 [2026-03-29T10:08:01.855Z] STDOUT (last 500 chars): e `<h3>`-as-label rule in `fadejunkie_ui.md`, noting that shadcn-derived components in `components/ui/` are equal-risk surfaces — they're authored outside the FJ token context and carry violations by default. This is now the 6th+ cross-file confirmation of that rule.
@@ -499,3 +489,13 @@ twanii →
 twanii → 
 
 [2026-03-29T14:08:03.724Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T14:08:06.923Z] Safety push complete
+
+[2026-03-29T14:08:06.930Z] Cron run complete
+
+[2026-03-29T14:15:01.961Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T14:15:01.969Z] Task created: cron-spot-fix-2026-03-29T14-15-01.md
+
+[2026-03-29T14:15:01.971Z] Spawning Lobe agent...
