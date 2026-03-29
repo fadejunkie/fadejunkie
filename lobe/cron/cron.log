@@ -1,30 +1,3 @@
-  [outbox] cron-spot-fix-2026-03-29T08-15-01-2026-03-29T08-19-44-272Z.md
-twanii → 
-
-[2026-03-29T08:23:01.953Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T08:23:03.827Z] Safety push complete
-
-[2026-03-29T08:23:03.828Z] Cron run complete
-
-[2026-03-29T08:30:01.719Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T08:30:01.725Z] Task created: cron-spot-fix-2026-03-29T08-30-01.md
-
-[2026-03-29T08:30:01.726Z] Spawning Lobe agent...
-
-[2026-03-29T08:30:01.000Z] FIX: app/page.tsx — ghost token var(--font-geist-mono) on 14 inline style fontFamily values → replaced with canonical var(--font-mono) token
-  Files: app/app/page.tsx
-  Commit: efd242b
-  DS Update: ADD — "Monospace font token — always var(--font-mono), never var(--font-geist-mono) [HARDENED]" — rule existed in growth memory but was never written to fadejunkie_ui.md; added as new rule block with 3 confirmation entries and [HARDENED] marker
-  Pattern: var(--font-geist-mono) is the implementation variable; var(--font-mono) is the design token. Component code must use the token, not the underlying variable. 14 instances on the landing page is the highest single-page ghost-token concentration found to date.
-
-[2026-03-29T08:38:01.932Z] Lobe exited with code: 0
-
-[2026-03-29T08:38:01.935Z] STDOUT (last 500 chars): he correct abstraction.
-
-**Why `var(--font-mono)` over `var(--font-geist-mono)`:** `globals.css` defines `--font-mono: var(--font-geist-mono)` — so `--font-mono` is the design token layer, `--font-geist-mono` is the implementation variable. Component code belongs at the design token layer. If the underlying font variable name ever changes, only `globals.css` needs updating, not every component that references it.
-
   [outbox] cron-spot-fix-2026-03-29T08-30-01-2026-03-29T08-37-10-432Z.md
 twanii → 
 
@@ -499,3 +472,30 @@ twanii →
 twanii → 
 
 [2026-03-29T12:38:02.071Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T12:38:04.026Z] Safety push complete
+
+[2026-03-29T12:38:04.028Z] Cron run complete
+
+[2026-03-29T12:45:01.846Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T12:45:01.852Z] Task created: cron-spot-fix-2026-03-29T12-45-01.md
+
+[2026-03-29T12:45:01.854Z] Spawning Lobe agent...
+
+[2026-03-29T12:45:30.000Z] SKIP: Unprocessed inbox file detected — cron-spot-fix-2026-03-29T12-45-01.md must be processed before next fix cycle. Also: last cron commit (c8714d6) was < 10 minutes ago. Halting without scan or edit.
+  Files: none
+  Commit: none
+  DS Update: none
+  Pattern: none
+
+[2026-03-29T12:53:02.007Z] Lobe exited with code: 0
+
+[2026-03-29T12:53:02.013Z] STDOUT (last 500 chars): lassName but the inline style was silently winning the cascade and rendering both tabs in Geist Mono on every page visit
+
+**Next cycle (13:00)** will fire clean — the cooling window will have elapsed and the codebase is in a healthy state. The scan will continue from shared components: `StatusToggleCard`, `ConnectionsInbox`, `PostCard`, and `app/(auth)/home/page.tsx` are the likely surfaces for the next P1 catch.
+
+  [outbox] cron-spot-fix-2026-03-29T12-45-01-2026-03-29T12-46-56-172Z.md
+twanii → 
+
+[2026-03-29T12:53:02.390Z] Unpushed changes detected, running safety commit+push...
