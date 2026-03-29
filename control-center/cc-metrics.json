@@ -28,11 +28,11 @@
     "updated": "2026-03-14"
   },
   "clients": {
-    "count": 2,
-    "target": 3,
+    "count": 4,
+    "target": 5,
     "label": "Active Clients",
     "unit": "clients",
-    "updated": "2026-03-18"
+    "updated": "2026-03-29"
   },
   "affiliate": {
     "count": 0,
@@ -58,6 +58,11 @@
       "date": "2026-03-18",
       "key": "clients",
       "note": "Arquero Co. signed — $2,500 brand build + Shopify launch. 3-week project. Pipeline now $2,500 one-time + $950/mo retainer (WCORWIN)."
+    },
+    {
+      "date": "2026-03-29",
+      "key": "clients",
+      "note": "Sydney Spillman & Associates onboarded — pro bono/in-house (Anthony's wife). Real estate brand + website. 4 active clients: WCORWIN ($950/mo), Arquero ($2,500 one-time, paid), Wizardry (trade), Sydney (pro bono)."
     }
   ]
 }

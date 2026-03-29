@@ -11,7 +11,15 @@
 - Permission-granting tone > apologetic tone for WIP messaging
 
 ## Client Voice Observations
-(Will grow with use)
+
+### Sydney Spillman & Associates (`<!-- client: sydneyspillman -->`)
+- **Tone:** Professional warmth. Approachable, not corporate. Community-focused.
+- **Energy:** Confident but gentle — she's helping families find home, not closing deals.
+- **Headlines:** Playfair Display serif — elegant, editorial, real estate appropriate.
+- **Body:** Inter — clean, professional, readable.
+- **Key phrases:** "Find your perfect home", "Your San Antonio expert", "Every step of the way"
+- **Anti-patterns:** No aggressive sales language ("ACT NOW", "DON'T MISS OUT"). No cold corporate ("leverage your investment"). No generic realtor cliches ("dream home specialists").
+- **Color energy:** White & blue = trust, professionalism, calm confidence.
 
 ## Anti-Patterns
 - "Leverage", "synergize", "streamline" — corporate poison

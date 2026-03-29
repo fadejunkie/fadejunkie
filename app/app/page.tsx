@@ -318,10 +318,10 @@ export default function LandingPage() {
                     minHeight: 340,
                     backgroundColor: path.dark
                       ? "var(--foreground)"
-                      : "rgba(255,255,255,0.8)",
+                      : "var(--card)",
                     border: path.dark
                       ? "1px solid rgba(255,255,255,0.06)"
-                      : "1px solid rgba(0,0,0,0.08)",
+                      : "1px solid var(--border)",
                     boxShadow: path.dark
                       ? "0 24px 72px rgba(0,0,0,0.32), 0 8px 24px rgba(0,0,0,0.18)"
                       : "0 2px 16px rgba(0,0,0,0.05)",

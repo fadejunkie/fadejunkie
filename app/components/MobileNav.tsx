@@ -8,12 +8,18 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/home",      label: "Home" },
-  { href: "/discover",  label: "Discover" },
-  { href: "/profile",   label: "My Profile" },
-  { href: "/status",    label: "Status" },
-  { href: "/website",   label: "Website" },
-  { href: "/tools",     label: "Tools" },
+  { href: "/home", label: "Home" },
+  {
+    href: "/profile",
+    label: "My Profile",
+    children: [
+      { href: "/profile?tab=paths", label: "Paths" },
+      { href: "/profile?tab=gallery", label: "Gallery" },
+      { href: "/status", label: "Status" },
+    ],
+  },
+  { href: "/website", label: "Website" },
+  { href: "/tools", label: "Tools" },
   { href: "/resources", label: "Resources" },
   { href: "/directory", label: "Directory" },
 ];
@@ -52,21 +58,35 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
         </div>
 
         <nav className="flex-1 py-4 px-4 space-y-0.5">
-          {navItems.map(({ href, label }) => {
-            const isActive = pathname === href || pathname.startsWith(href + "/");
+          {navItems.map((item) => {
+            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "block px-2 py-2 rounded-md text-[14px] transition-colors",
-                  isActive
-                    ? "font-bold text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+              <div key={item.href}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "block px-2 py-2 rounded-md text-[14px] transition-colors",
+                    isActive
+                      ? "font-bold text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {item.label}
+                </Link>
+                {item.children && isActive && (
+                  <div className="ml-4 pl-3 border-l border-border/60 space-y-0.5">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block px-2 py-1.5 rounded-md text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
                 )}
-              >
-                {label}
-              </Link>
+              </div>
             );
           })}
         </nav>

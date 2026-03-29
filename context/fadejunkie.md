@@ -144,3 +144,4 @@ After completing changes: `git -C "C:/Users/twani/fadejunkie" add -A && git -C "
 | 2026-03-12 | Soul upgrade | Both arms | Vision, Business Model, Brand, Q1 Goals live in context; Funkie SYSTEM_PROMPT upgraded; goals.md created |
 | 2026-03-14 | Pro tier strategy | Revenue Infrastructure | Pro tier defined: $9/mo, 5 features, 7-day build plan, affiliate model. Plan in funkie/outbox/pending/pro-tier-strategy.md |
 | 2026-03-15 | Pro tier strategy v2 | Revenue Infrastructure | Refreshed plan with deep codebase research: confirmed zero payment infra exists, gallery/test gates are trivial, schema changes spec'd. Updated dates (ship March 22, 9 days for acquisition). Pending approval. |
+| 2026-03-29 | Sydney Spillman hub | Services arm | Project hub scaffolded for Sydney Spillman & Associates (pro bono, Anthony's wife). Standalone Vite+React+Convex app at sydneyspillman/. Live at sydneyspillman.anthonytatis.com. 4 active clients total. |

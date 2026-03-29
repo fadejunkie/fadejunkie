@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex flex-1 min-h-0">
         <AppSidebar />
         <main className="flex-1 overflow-y-auto min-w-0">
-          <div className="max-w-2xl mx-auto px-6 py-8">{children}</div>
+          <div className="max-w-5xl mx-auto px-8 py-8">{children}</div>
         </main>
       </div>
     </div>

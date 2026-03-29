@@ -1,0 +1,19 @@
+{
+  "name": "pm",
+  "version": "1.0.0",
+  "description": "PM — autonomous project driver of the FadeJunkie ecosystem",
+  "type": "module",
+  "scripts": {
+    "start": "tsx pm.ts",
+    "dev": "tsx watch pm.ts",
+    "watch": "tsx pm.ts --watch"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
+  }
+}

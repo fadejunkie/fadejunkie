@@ -21,47 +21,56 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
   const handle = barber?.slug ? `@${barber.slug}` : null;
 
   return (
-    <header className="sticky top-0 z-40 h-14 bg-card border-b border-border flex items-center px-5">
-      <button
-        onClick={onMenuClick}
-        className={cn(
-          "md:hidden p-1.5 rounded-md text-muted-foreground mr-3",
-          "hover:text-foreground hover:bg-accent transition-colors"
-        )}
-        aria-label="Open menu"
-      >
-        <Menu size={17} />
-      </button>
+    <header className="sticky top-0 z-40 h-14 bg-card border-b border-border flex items-center justify-between px-8">
+      {/* Left: hamburger + logo */}
+      <div className="flex items-center">
+        <button
+          onClick={onMenuClick}
+          className={cn(
+            "md:hidden p-1.5 rounded-md text-muted-foreground mr-3",
+            "hover:text-foreground hover:bg-accent transition-colors"
+          )}
+          aria-label="Open menu"
+        >
+          <Menu size={17} />
+        </button>
 
-      <Link
-        href="/home"
-        className="mr-auto"
-        style={{
-          fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-          fontSize: "1rem",
-          fontWeight: 700,
-          letterSpacing: "-0.04em",
-          color: "var(--foreground)",
-          textTransform: "lowercase",
-          lineHeight: 1,
-        }}
-      >
-        fadejunkie
-      </Link>
+        <Link
+          href="/home"
+          style={{
+            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
+            fontSize: "1rem",
+            fontWeight: 700,
+            letterSpacing: "-0.04em",
+            color: "var(--foreground)",
+            textTransform: "lowercase",
+            lineHeight: 1,
+          }}
+        >
+          fadejunkie
+        </Link>
+      </div>
 
-      <div className="flex items-center gap-3 ml-4">
-        {handle && (
-          <span className="hidden sm:block text-xs font-mono text-muted-foreground">
-            {handle}
-          </span>
-        )}
+      {/* Center: slug */}
+      {handle && (
+        <span
+          className="absolute left-1/2 -translate-x-1/2 hidden sm:block text-xs text-muted-foreground"
+          style={{ fontFamily: "var(--font-mono), monospace" }}
+        >
+          {handle}
+        </span>
+      )}
+
+      {/* Right: sign out + avatar */}
+      <div className="flex items-center gap-3">
         <button
           onClick={() => signOut()}
-          className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="hidden sm:inline text-xs text-muted-foreground hover:text-foreground transition-colors"
+          style={{ fontFamily: "var(--font-mono), monospace" }}
         >
-          <Avatar src={barber?.avatarUrl} name={displayName} size={26} />
-          <span className="hidden sm:inline">Sign out</span>
+          sign out
         </button>
+        <Avatar src={barber?.avatarUrl} name={displayName} size={26} />
       </div>
     </header>
   );

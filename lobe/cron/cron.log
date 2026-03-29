@@ -1,65 +1,3 @@
-  DS Update: ADD — Alpha-transparency rgba() extension to hardcoded-colors rule — rgba(0,0,0,N) and rgba(255,255,255,N) are the same violation class as #000000/#ffffff; correct replacement is color-mix(in oklch, var(--token) N%, transparent)
-  Pattern: rgba() alpha-transparency values binding to black/white are hardcoded-color violations even when they look "correct" in light mode. color-mix(in oklch, var(--foreground) 88%, transparent) is the canonical token-safe replacement for rgba(0,0,0,0.88). This extends the hardcoded-color detection surface: grep for rgba(0 and rgba(255 in inline style props, not just #hex values.
-
-[2026-03-28T20:53:02.309Z] Lobe exited with code: 0
-
-[2026-03-28T20:53:02.312Z] STDOUT (last 500 chars): dcoded-colors rule in `fadejunkie_ui.md` — `rgba(0,0,0,N)` and `rgba(255,255,255,N)` are now explicitly documented as the same violation class as `#000000`/`#ffffff`. The canonical fix is `color-mix(in oklch, var(--token) N%, transparent)`. Grep surface now includes `rgba(0` and `rgba(255` in inline style props, not just `#hex`.
-
-**✅ Build:** 17/17 clean — committed `612b1e4` + `400dce3`, pushed to `origin/main`.
-
-  [outbox] cron-spot-fix-2026-03-28T20-45-02-2026-03-28T20-48-51-719Z.md
-twanii → 
-
-[2026-03-28T20:53:02.441Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T20:53:04.045Z] Safety push complete
-
-[2026-03-28T20:53:04.046Z] Cron run complete
-
-[2026-03-28T21:00:02.223Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T21:00:02.230Z] Task created: cron-spot-fix-2026-03-28T21-00-02.md
-
-[2026-03-28T21:00:02.231Z] Spawning Lobe agent...
-[2026-03-28T21:00:02Z] FIX: components/ui/bento-grid.tsx — 3 remaining hardcoded color violations after previous cycle: (1) `hover:bg-black` Tailwind hardcoded class on dark-variant card hover state, (2) Icon `color` used `rgba(255,255,255,0.4)` / `rgba(0,0,0,0.35)` ternary — light-variant card in system dark mode: rgba(0,0,0,0.35) icon on black bg = near-invisible P0, (3) description `<p>` used `rgba(255,255,255,0.5)` / `rgba(0,0,0,0.55)` — same failure mode. Replaced `hover:bg-black` with no-op (hover overlay div handles it), replaced both rgba ternaries with `color-mix(in oklch, var(--background/foreground) N%, transparent)`.
-  Files: app/components/ui/bento-grid.tsx, context/fadejunkie_ui.md
-  Commit: b338562
-  DS Update: CONFIRM [HARDENED extension] — No hardcoded colors / rgba rule — 3rd consecutive bento-grid fix confirms that the rgba violation surface in this component was deeper than previous cycles caught. Rule extended: Tailwind hardcoded-color utility classes (hover:bg-black, bg-white, text-black) in className props are the same violation class as inline rgba() values — detection must cover both surfaces.
-  Pattern: Components with isDark prop-variant theming consistently have 3+ layers of hardcoded color: (1) container bg/border (cycle 20:45), (2) h3 title/CTA span text (cycle 19:45), (3) icon color + description color + hover state (this cycle). Each layer was a separate P0. The full bento-grid fix required 3 cycles to complete — this is a pattern risk for any component using isDark-style variant props.
-
-[2026-03-28T21:08:02.374Z] Lobe exited with code: 0
-
-[2026-03-28T21:08:02.376Z] STDOUT (last 500 chars): gn System Update — CONFIRM + [HARDENED extension]**
-
-Extended the hardcoded-color rule to explicitly flag **Tailwind utility classes** like `hover:bg-black`, `text-white`, `bg-white` in `className` props as the same violation class as `rgba()` inline styles. Detection must grep both `style={{}}` and `className` strings.
-
-**Commits:** `b338562` (fix) + `9071994` (docs) → pushed to `origin/main`. Build clean 17/17.
-
-  [outbox] cron-spot-fix-2026-03-28T21-00-02-2026-03-28T21-04-20-051Z.md
-twanii → 
-
-[2026-03-28T21:08:02.533Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T21:08:04.057Z] Safety push complete
-
-[2026-03-28T21:08:04.059Z] Cron run complete
-
-[2026-03-28T21:15:02.222Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T21:15:02.228Z] Task created: cron-spot-fix-2026-03-28T21-15-02.md
-
-[2026-03-28T21:15:02.229Z] Spawning Lobe agent...
-[2026-03-28T21:15:00Z] FIX: components/ui/bento-grid.tsx — BentoCard hover-overlay div used `group-hover:bg-white/[.03]` (dark variant) and `group-hover:bg-black/[.01]` (light variant) — hardcoded Tailwind color utilities even at fractional opacity → replaced with `group-hover:bg-background/[.03]` and `group-hover:bg-foreground/[.01]`
-  Files: app/components/ui/bento-grid.tsx, context/fadejunkie_ui.md
-  Commit: f3d5cd8
-  DS Update: CONFIRM — No hardcoded colors / Tailwind hardcoded utilities rule [HARDENED extension] — `bg-white/[.03]` at near-zero opacity is still a hardcoded-color class. Fractional opacity (`/[.03]`, `/[.01]`) does NOT exempt a `bg-white` or `bg-black` class from the violation. Added 7th confirmation to the rule.
-  Pattern: The fractional-opacity variant `bg-white/[.03]` is the same class as `bg-white` for dark-mode purposes — in dark mode where `bg-foreground` = white, layering `bg-white/[.03]` on top adds a near-invisible white tint on a white surface rather than a foreground tint. Always use `bg-background` (light-variant overlay) and `bg-foreground` (dark-variant overlay) — these invert correctly. Detection: `bg-white/` and `bg-black/` (with slash) are the fractional-opacity variant of the same violation.
-
-[2026-03-28T21:23:02.318Z] Lobe exited with code: 0
-
-[2026-03-28T21:23:02.320Z] STDOUT (last 500 chars): nce entirely. Token-based equivalents resolve correctly in both modes.
-
-**Design system hardened:** The [HARDENED] no-hardcoded-colors rule now has a 7th confirmation with a new sub-pattern documented: fractional-opacity variants (`bg-white/`, `bg-black/` with trailing slash) are the same violation class as plain color utilities. Detection grep extended to catch them.
 
 **Commit pushed:** `f3d5cd8` → `origin/main`
 
@@ -499,3 +437,69 @@ fatal: unable to access 'https://github.com/fadejunkie/fadejunkie.git/': Could n
 [2026-03-29T02:30:02.480Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T02:30:02.548Z] SKIP: Lobe inbox has 1 unprocessed task(s): profile-settings-layout.md
+
+[2026-03-29T02:45:02.242Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T02:45:02.273Z] Task created: cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T02:45:02.275Z] Spawning Lobe agent...
+
+[2026-03-29T03:00:01.640Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T03:00:01.675Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T03:15:01.953Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T03:15:01.979Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T03:30:01.558Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T03:30:01.588Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T03:45:19.165Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T03:45:20.259Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T04:00:01.891Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T04:00:01.940Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T04:15:02.761Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T04:15:02.778Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T04:30:01.669Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T04:30:01.677Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T04:45:01.881Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T04:45:01.888Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T05:00:02.111Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T05:00:02.120Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T05:15:01.978Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T05:15:01.987Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T05:30:01.894Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T05:30:01.902Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T05:45:01.714Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T05:45:01.721Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T06:00:01.873Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T06:00:01.881Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T06:15:03.171Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T06:15:03.560Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md
+
+[2026-03-29T06:30:00Z] SKIP: inbox has 2 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md, status-polish-pass.md
+  Action: No fix performed, no commit, no DS update.
+  Reason: lobe/inbox/ contains unprocessed .md task files; manual tasks (status-polish-pass.md) take priority over autonomous cron scanning.
