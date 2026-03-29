@@ -1,35 +1,3 @@
-[2026-03-29T12:30:01.840Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T12:30:01.846Z] Task created: cron-spot-fix-2026-03-29T12-30-01.md
-
-[2026-03-29T12:30:01.848Z] Spawning Lobe agent...
-
-[2026-03-29T12:30:01Z] FIX: components/DiscoverTabs.tsx — primary tab navigation buttons ("browse" / "matches") had `style={{ fontFamily: "var(--font-mono), monospace" }}` inline style overriding `font-sans` className → removed inline fontFamily style; buttons now correctly render in Geist (UI chrome font) via font-sans
-  Files: app/components/DiscoverTabs.tsx, app/context/fadejunkie_ui.md, app/lobe/memory/growth.md
-  Commit: ae97503
-  DS Update: CONFIRM — Raw <button> font-sans rule — new detection variant documented: button can have font-sans in className AND still render in wrong font if inline fontFamily style is present (inline style beats className). Detection checklist now requires checking both className AND style prop.
-  Pattern: "false safe" button — passes font-sans grep scan but has inline fontFamily that silently wins the cascade. The fix is to remove the inline fontFamily entirely, not just add font-sans. Confirmed across DiscoverTabs (font-mono override) and EditToggle in profile/page.tsx (same pattern, prior cycle).
-
-[2026-03-29T12:38:01.938Z] Lobe exited with code: 0
-
-[2026-03-29T12:38:01.940Z] STDOUT (last 500 chars): ** — the existing detection rule only scanned for `<button>` elements missing `font-sans` in className. It missed the case where `font-sans` is present but an inline `fontFamily` prop overrides it. The detection checklist now requires checking both. This is the same pattern logged in growth.md from a prior cycle (`EditToggle` had the same structure) — now it's properly hardened in the canonical design system doc.
-
-  [outbox] cron-spot-fix-2026-03-29T12-30-01-2026-03-29T12-34-59-706Z.md
-twanii → 
-
-[2026-03-29T12:38:02.071Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T12:38:04.026Z] Safety push complete
-
-[2026-03-29T12:38:04.028Z] Cron run complete
-
-[2026-03-29T12:45:01.846Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T12:45:01.852Z] Task created: cron-spot-fix-2026-03-29T12-45-01.md
-
-[2026-03-29T12:45:01.854Z] Spawning Lobe agent...
-
-[2026-03-29T12:45:30.000Z] SKIP: Unprocessed inbox file detected — cron-spot-fix-2026-03-29T12-45-01.md must be processed before next fix cycle. Also: last cron commit (c8714d6) was < 10 minutes ago. Halting without scan or edit.
   Files: none
   Commit: none
   DS Update: none
@@ -505,3 +473,29 @@ twanii →
   Commit: f3c5541
   DS Update: CONFIRM — "No hardcoded colors — tokens only" — extended to cover 0-offset focus-ring box shadows; added --shadow-focus-ring CSS token using color-mix(in oklch, var(--foreground) 6%, transparent)
   Pattern: Focus-ring glow shadows require the same color-mix token treatment as all other shadows. `rgba(0,0,0,0.06)` at 0-offset is invisible in dark mode. Add --shadow-focus-ring to :root + @theme inline; reference via shadow-focus-ring Tailwind utility.
+
+[2026-03-29T16:53:03.545Z] Lobe exited with code: 1
+
+[2026-03-29T16:53:03.549Z] STDOUT (last 500 chars): eplaced `focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]` with `focus:shadow-focus-ring`.
+
+### Design system hardened
+Added a confirmation to the "No hardcoded colors — tokens only `[HARDENED]`" rule documenting that **focus-ring glow shadows are in the same violation class as all other `rgba()` shadows**. Also documented the `--shadow-focus-ring` token as the canonical pattern for 0-offset glow shadows. Build clean ✓ — pushed.
+
+  [outbox] cron-spot-fix-2026-03-29T16-45-01-2026-03-29T16-53-03-489Z.md
+
+
+[2026-03-29T16:53:03.551Z] STDERR (last 500 chars):  readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
+    at new Promise (<anonymous>)
+    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
+    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+
+Node.js v24.13.1
+
+
+[2026-03-29T16:53:03.721Z] Unpushed changes detected, running safety commit+push...
