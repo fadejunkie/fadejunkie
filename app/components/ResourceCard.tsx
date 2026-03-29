@@ -27,7 +27,7 @@ function CardBody({
       </p>
 
       <div className="flex-1">
-        <h3 className="text-[15px] font-bold text-foreground leading-snug mb-1.5" style={{ textTransform: "none" }}>{businessName}</h3>
+        <p className="text-[15px] font-bold text-foreground leading-snug mb-1.5">{businessName}</p>
         {tagline && (
           <p className="text-[12.5px] font-medium text-foreground/70 mb-1">{tagline}</p>
         )}
