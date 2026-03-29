@@ -32,7 +32,7 @@ export default function ToolsPage() {
         <Card className="p-6 hover:border-foreground/20 hover:shadow-sm transition-all cursor-pointer group">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>Shop</p>
+              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>Shop</p>
               <p className="text-[15px] font-bold text-foreground">Website Builder</p>
               <p className="text-[13px] text-muted-foreground mt-1.5 leading-[1.6]">
                 Build your shop&apos;s public website — name, tagline, hours, contact info, and a live preview. Free and instant.
@@ -48,7 +48,7 @@ export default function ToolsPage() {
           <Card key={tool.id} className="p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>{tool.category}</p>
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em] mb-2" style={{ color: "var(--link)" }}>{tool.category}</p>
                 <p className="text-[15px] font-bold text-foreground">{tool.label}</p>
                 <p className="text-[13px] text-muted-foreground mt-1.5 leading-[1.6]">{tool.description}</p>
               </div>
