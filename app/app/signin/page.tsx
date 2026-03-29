@@ -94,7 +94,7 @@ function BrandPanel() {
       <div style={{ position: "relative", zIndex: 1 }}>
         <p
           style={{
-            fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+            fontFamily: "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.625rem",
             fontWeight: 500,
             letterSpacing: "0.16em",
@@ -199,7 +199,7 @@ function BrandPanel() {
           </p>
           <p
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
               fontWeight: 500,
               letterSpacing: "0.13em",
@@ -287,7 +287,7 @@ function SignInForm() {
               </Link>
               <p
                 style={{
-                  fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                  fontFamily: "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5rem",
                   fontWeight: 500,
                   letterSpacing: "0.16em",
@@ -346,7 +346,7 @@ function SignInForm() {
                 <label
                   htmlFor="signin-email"
                   style={{
-                    fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                    fontFamily: "var(--font-mono), ui-monospace, monospace",
                     fontSize: "0.5625rem",
                     fontWeight: 500,
                     letterSpacing: "0.14em",
@@ -375,7 +375,7 @@ function SignInForm() {
                 <label
                   htmlFor="signin-password"
                   style={{
-                    fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                    fontFamily: "var(--font-mono), ui-monospace, monospace",
                     fontSize: "0.5625rem",
                     fontWeight: 500,
                     letterSpacing: "0.14em",
