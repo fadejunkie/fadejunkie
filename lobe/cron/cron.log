@@ -1,20 +1,3 @@
-[2026-03-28T22:08:03.081Z] Safety push complete
-
-[2026-03-28T22:08:03.082Z] Cron run complete
-
-[2026-03-28T22:15:01.330Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T22:15:01.340Z] SKIP: Lobe inbox has 3 unprocessed task(s): status-discovery-feed.md, status-history-view.md, status-matches-ui.md
-
-[2026-03-28T22:30:02.252Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T22:30:02.275Z] SKIP: Lobe inbox has 3 unprocessed task(s): status-discovery-feed.md, status-history-view.md, status-matches-ui.md
-
-[2026-03-28T22:45:01.339Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T22:45:01.365Z] SKIP: Lobe inbox has 1 unprocessed task(s): status-connections-ui.md
-
-[2026-03-28T23:00:01.516Z] WARN: Stale lockfile detected, removing
 
 [2026-03-28T23:00:01.538Z] SKIP: Lobe inbox has 1 unprocessed task(s): status-polish-pass.md
 
@@ -505,3 +488,14 @@ twanii →
   Commit: c00357f
   DS Update: CONFIRM — Rule: Raw <button> UI chrome always needs font-sans [HARDENED] — MobileNav Sign out button; drawer bottom-action buttons confirmed as a risk surface
   Pattern: Drawer/panel bottom-action buttons (sign out, close, clear) are isolated from filter bars but equally subject to the Courier Prime inheritance trap
+
+[2026-03-29T07:23:02.192Z] Lobe exited with code: 0
+
+[2026-03-29T07:23:02.197Z] STDOUT (last 500 chars): HARDENED]` raw `<button>` font-sans rule with a new code reference and extended its documented risk surface: **drawer/panel bottom-action buttons** (sign out, close, clear) are a distinct failure mode from filter bars and card action buttons — they're visually isolated at the bottom of panels, which makes them easy to miss during audits.
+
+**Commits:** `c00357f` (fix) + `1b3474a` (DS/log) → pushed to `origin/main`
+
+  [outbox] cron-spot-fix-2026-03-29T07-15-01-2026-03-29T07-19-32-983Z.md
+twanii → 
+
+[2026-03-29T07:23:02.410Z] Unpushed changes detected, running safety commit+push...
