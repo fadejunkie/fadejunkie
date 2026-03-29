@@ -1,16 +1,3 @@
-  Commit: 7687a3c
-  DS Update: CONFIRM — No hardcoded colors rule [HARDENED] — hardcoded #ffffff confirmed in decorative mock-UI sub-elements inside BentoCard background props (not just card-level containers). The violation surface extends to any inline style on any element rendered inside a bento background slot.
-  Pattern: Dark-section BentoCard backgrounds contain mock/preview UI sub-elements (feed posts, flashcard previews, profile cards, browser chrome) that each carry their own inline styles. These sub-elements are the same violation class as card containers — every rgba() and #hex value inside them must use tokens. Scan bento card background JSX as deeply as the card-level container itself.
-
-[2026-03-29T01:08:02.126Z] Lobe exited with code: 0
-
-[2026-03-29T01:08:02.137Z] STDOUT (last 500 chars):  Documented that the no-hardcoded-colors rule extends to **decorative mock-UI sub-elements** inside BentoCard background props — not just card-level containers. Feed post mocks, flashcard previews, browser chrome, and profile card previews each carry their own inline styles and are equal-severity violation surfaces.
-
-**Commits pushed:** `7687a3c` (code fix) + `56f22e8` (design system + log update) → `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-29T01-00-01-2026-03-29T01-03-15-243Z.md
-twanii → 
-
 [2026-03-29T01:08:02.572Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T01:08:06.689Z] Safety push complete
@@ -499,3 +486,16 @@ twanii →
 [2026-03-29T09:15:01.731Z] Task created: cron-spot-fix-2026-03-29T09-15-01.md
 
 [2026-03-29T09:15:01.733Z] Spawning Lobe agent...
+
+[2026-03-29T09:23:01.831Z] Lobe exited with code: 0
+
+[2026-03-29T09:23:01.833Z] STDOUT (last 500 chars): ont reference. That kind of multiplication makes it a P1 even if the visual difference is subtle.
+
+**Commit:** `fac3fea` → pushed to `origin/main`
+
+**Design system update:** Hardened the `var(--font-mono)` rule to [HARDENED x6] with a note that static data arrays (PILLARS, STATS, TESTIMONIALS) are especially high-density surfaces for ghost token violations — one bad source line × N array items = N broken renders.
+
+  [outbox] cron-spot-fix-2026-03-29T09-15-01-2026-03-29T09-20-02-028Z.md
+twanii → 
+
+[2026-03-29T09:23:01.970Z] Unpushed changes detected, running safety commit+push...
