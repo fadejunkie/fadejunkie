@@ -158,7 +158,7 @@ function BrandPanel() {
                 height: 30,
                 borderRadius: "50%",
                 backgroundColor:
-                  i % 2 === 0 ? "rgba(0,0,0,0.07)" : "rgba(0,0,0,0.05)",
+                  i % 2 === 0 ? "color-mix(in oklch, var(--foreground) 7%, transparent)" : "color-mix(in oklch, var(--foreground) 5%, transparent)",
                 border: "1.5px solid var(--background)",
                 marginLeft: i > 0 ? -8 : 0,
                 display: "flex",
@@ -263,7 +263,7 @@ function SignInForm() {
             justifyContent: "center",
             padding: "3rem clamp(1.5rem, 5vw, 3.5rem)",
             minHeight: "100vh",
-            backgroundColor: "rgba(0,0,0,0.018)",
+            backgroundColor: "color-mix(in oklch, var(--foreground) 1.8%, transparent)",
             position: "relative",
           }}
         >
@@ -305,7 +305,7 @@ function SignInForm() {
                 display: "flex",
                 gap: 0,
                 marginBottom: "2rem",
-                borderBottom: "1px solid rgba(0,0,0,0.09)",
+                borderBottom: "1px solid var(--border)",
               }}
             >
               {(["signin", "signup"] as const).map((t) => (
