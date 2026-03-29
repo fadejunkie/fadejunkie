@@ -1,13 +1,3 @@
-[2026-03-29T00:00:02Z] FIX: directory/page.tsx — 3× raw <button> UI chrome missing font-sans → added font-sans to TYPE_TABS filter bar buttons, search icon trigger button, and "Clear filters" inline text button
-  Files: app/app/directory/page.tsx
-  Commit: 9516fc9
-  DS Update: CONFIRM — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed on public-facing directory page; rule now spans auth-interior AND public routes (5+ files total)
-  Pattern: Public-facing filter/search bars with raw <button> elements are multi-instance risk surfaces — scan TYPE_TABS, icon triggers, and empty-state inline text buttons as a group on every directory-style page.
-
-[2026-03-29T00:08:02.260Z] Lobe exited with code: 0
-
-[2026-03-29T00:08:02.269Z] STDOUT (last 500 chars): ral changes, zero logic touched.
-
 **Build:** ✅ Clean (18 routes, no TypeScript errors)
 
 **Commits:** `9516fc9` (fix) + `adcc8b0` (DS/memory/log updates) — both pushed to `main`
@@ -499,3 +489,21 @@ lobe →
 twanii → 
 
 [2026-03-29T08:08:01.979Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T08:08:03.864Z] Safety push complete
+
+[2026-03-29T08:08:03.865Z] Cron run complete
+
+[2026-03-29T08:15:01.673Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T08:15:01.678Z] Task created: cron-spot-fix-2026-03-29T08-15-01.md
+
+[2026-03-29T08:15:01.680Z] Spawning Lobe agent...
+
+---
+
+[2026-03-29T08:15:01Z] FIX: app/components/hero.tsx — 6× ghost token `var(--font-geist-mono)` → `var(--font-mono)`
+  Files: app/components/hero.tsx, app/context/fadejunkie_ui.md, lobe/cron/cron.log
+  Commit: 7c19792
+  DS Update: CONFIRM [HARDENED x4] — `var(--font-mono)` canonical token rule — 4th cross-file confirmation (signin, website builder, landing page hero, website page). Shared hero components are high-risk ghost-token surfaces — built in visual isolation, rarely cross-referenced against the token table.
+  Pattern: `var(--font-geist-mono)` ghost token scope is now confirmed across auth pages, public pages, AND shared components. Any remaining instance in the codebase is a guaranteed P1. Next scan target: `app/page.tsx` which the prior cycle scan found 10+ instances.
