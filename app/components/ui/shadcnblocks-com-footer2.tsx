@@ -78,10 +78,9 @@ const Footer2 = ({
 }: Footer2Props) => {
   return (
     <section
-      className="py-16"
+      className="py-16 bg-foreground"
       style={{
-        backgroundColor: "#000000",
-        borderTop: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "1px solid color-mix(in oklch, var(--background) 8%, transparent)",
       }}
     >
       <div
@@ -110,7 +109,7 @@ const Footer2 = ({
                       fontSize: "1rem",
                       fontWeight: 800,
                       letterSpacing: "-0.03em",
-                      color: "#ffffff",
+                      color: "var(--background)",
                     }}
                   >
                     {logo.title}
@@ -121,7 +120,7 @@ const Footer2 = ({
                 className="mt-3"
                 style={{
                   fontSize: "0.75rem",
-                  color: "rgba(255,255,255,0.35)",
+                  color: "color-mix(in oklch, var(--background) 35%, transparent)",
                   fontFamily: "var(--font-body), 'Courier Prime', monospace",
                 }}
               >
@@ -137,7 +136,7 @@ const Footer2 = ({
                     fontSize: "0.5625rem",
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.55)",
+                    color: "color-mix(in oklch, var(--background) 55%, transparent)",
                   }}
                 >
                   {section.title}
@@ -151,12 +150,12 @@ const Footer2 = ({
                         style={{
                           fontFamily: "var(--font-body), 'Courier Prime', monospace",
                           fontSize: "0.875rem",
-                          color: "rgba(255,255,255,0.4)",
+                          color: "color-mix(in oklch, var(--background) 40%, transparent)",
                           textDecoration: "none",
                           transition: "color 0.15s ease",
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.85)")}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "color-mix(in oklch, var(--background) 85%, transparent)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "color-mix(in oklch, var(--background) 40%, transparent)")}
                       >
                         {link.text}
                       </a>
@@ -168,12 +167,12 @@ const Footer2 = ({
           </div>
           <div
             className="mt-16 flex flex-col justify-between gap-4 pt-8 md:flex-row md:items-center"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+            style={{ borderTop: "1px solid color-mix(in oklch, var(--background) 7%, transparent)" }}
           >
             <p
               style={{
                 fontSize: "0.8125rem",
-                color: "rgba(255,255,255,0.25)",
+                color: "color-mix(in oklch, var(--background) 25%, transparent)",
                 fontFamily: "var(--font-body), 'Courier Prime', monospace",
               }}
             >
@@ -186,7 +185,7 @@ const Footer2 = ({
                     href={link.url}
                     style={{
                       fontSize: "0.8125rem",
-                      color: "rgba(255,255,255,0.3)",
+                      color: "color-mix(in oklch, var(--background) 30%, transparent)",
                       textDecoration: "underline",
                       fontFamily: "var(--font-body), 'Courier Prime', monospace",
                     }}
