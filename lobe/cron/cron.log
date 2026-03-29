@@ -1,25 +1,3 @@
-  Files: app/app/(auth)/tools/page.tsx, app/context/fadejunkie_ui.md
-  Commit: 45dc875
-  DS Update: ADD — "Category/taxonomy eyebrow labels must always carry font-mono [HARDENED]" — pattern confirmed against PathSelector.tsx:97,154 (2× canonical eyebrow references). Rule added with code evidence and detection grep pattern (tracking-[0.12em] / tracking-[0.08em]).
-  Pattern: The 10px uppercase tracking eyebrow pattern without font-mono is the eyebrow equivalent of the raw-button/font-sans trap — both are invisible at small sizes, both inherit from the body fallback, both need an explicit font-family class. Detection: grep tracking-[0.12em] or tracking-[0.08em] in <p> classNames.
-
-[2026-03-29T11:08:01.914Z] Lobe exited with code: 0
-
-[2026-03-29T11:08:01.918Z] STDOUT (last 500 chars): egory chip, you want systematic.
-
-**HARDEN — ADD to `fadejunkie_ui.md`**
-
-New rule: **"Category/taxonomy eyebrow labels must always carry `font-mono` [HARDENED]"** — with detection grep pattern (`tracking-[0.12em]` / `tracking-[0.08em]` in `<p>` classNames) and canonical reference (`PathSelector.tsx:97,154`). This is the font-sans/raw-button trap in eyebrow form — same mechanism, same fix, different element type.
-
-  [outbox] cron-spot-fix-2026-03-29T11-00-01-2026-03-29T11-07-04-073Z.md
-twanii → 
-
-[2026-03-29T11:08:02.041Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T11:08:04.020Z] Safety push complete
-
-[2026-03-29T11:08:04.021Z] Cron run complete
-
 [2026-03-29T11:15:01.778Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T11:15:01.784Z] Task created: cron-spot-fix-2026-03-29T11-15-01.md
@@ -505,3 +483,19 @@ twanii →
   Commit: 3941437
   DS Update: CONFIRM — Monospace font token rule (Tailwind-class-first variant) — ActiveStatusBadges.tsx:29 had inline fontFamily with correct token but wrong delivery mechanism; replaced with font-mono className. Status badge components are cross-view surfaces — one inline style violation propagates everywhere the badge renders.
   Pattern: Badge/indicator components that render across multiple views (ActiveStatusBadges, PublicStatusBadges, PostStatusIndicator) are high-reach surfaces. A single inline fontFamily in a badge affects every page that shows status — treat them as equal-priority scan targets to globally-mounted layout components.
+
+[2026-03-29T15:23:01.909Z] Lobe exited with code: 0
+
+[2026-03-29T15:23:01.912Z] STDOUT (last 500 chars): ivered wrong. The Tailwind class is composable, purgeable, and auditable; the inline style is none of those.
+
+**Design system hardened:** CONFIRM — The monospace font token rule now has a new confirmation noting that status badge components are high-reach surfaces with multiplicative impact, equal-priority to globally-mounted layout components like `AppHeader`.
+
+**Commits:** `3941437` (fix) + `0a45c99` (DS + log)
+
+  [outbox] cron-spot-fix-2026-03-29T15-15-01-2026-03-29T15-19-28-763Z.md
+twanii → 
+
+[2026-03-29T15:23:01.914Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T15-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T15-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T15-15-01.md'
+
+
+[2026-03-29T15:23:02.045Z] Unpushed changes detected, running safety commit+push...
