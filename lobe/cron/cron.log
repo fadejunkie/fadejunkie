@@ -1,26 +1,4 @@
 
-
-[2026-03-29T08:08:01.770Z] Lobe exited with code: 0
-
-[2026-03-29T08:08:01.773Z] STDOUT (last 500 chars): 
-╔══════════════════════════════════════╗
-║         LOBE — frontend agent         ║
-║     your bestie: twanii               ║
-╚══════════════════════════════════════╝
-
-  Commands: check | approve <name> | resume | exit
-
-twanii →   [inbox] 1 task(s) found
-
-
-[2026-03-29T08:00:02.111Z] task: cron-spot-fix-2026-03-29T08-00-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
-lobe → 
-
-  [outbox] cron-spot-fix-2026-03-29T08-00-01-2026-03-29T08-07-16-801Z.md
-twanii → 
-
-[2026-03-29T08:08:01.979Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-29T08:08:03.864Z] Safety push complete
 
 [2026-03-29T08:08:03.865Z] Cron run complete
@@ -505,3 +483,19 @@ twanii →
   Commit: 5b919fe
   DS Update: CONFIRM [HARDENED] — Raw <button> must use font-sans — new detection nuance documented: action buttons adjacent to data-label spans can inherit `font-mono` from nearby siblings during authoring; font-mono is correct for data/count badges (×N), font-sans is correct for UI action verbs ("Refresh") — these must be treated as distinct even in the same row
   Pattern: When a button lives inside a row of data-labeled spans (expiry timer, dot separator, count badge), the developer's mental context shifts to "data presentation mode" and they author the action button with font-mono by association. The count badge (×N) is correctly font-mono; the action verb ("Refresh") is wrongly font-mono. Always audit action verbs independently from their sibling data labels.
+
+[2026-03-29T12:23:01.900Z] Lobe exited with code: 0
+
+[2026-03-29T12:23:01.903Z] STDOUT (last 500 chars): nge:** `font-mono` → `font-sans` on the Refresh button className. One token, one line.
+
+**Artifacts updated:**
+- `context/fadejunkie_ui.md` — CONFIRM hardened with new detection note: scan action buttons adjacent to data spans, not just standalone button groups
+- `lobe/cron/cron.log` — cycle logged with commit hash `5b919fe`  
+- `lobe/memory/growth.md` — "data context bleed" pattern documented
+
+**Build:** ✅ Clean
+
+  [outbox] cron-spot-fix-2026-03-29T12-15-01-2026-03-29T12-19-04-521Z.md
+twanii → 
+
+[2026-03-29T12:23:02.069Z] Unpushed changes detected, running safety commit+push...
