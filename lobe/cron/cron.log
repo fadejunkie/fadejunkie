@@ -499,3 +499,10 @@ Node.js v24.13.1
 [2026-03-29T20:45:02.437Z] Task created: cron-spot-fix-2026-03-29T20-45-02.md
 
 [2026-03-29T20:45:02.441Z] Spawning Lobe agent...
+
+[2026-03-29T20:45:02Z] FIX: components/AppSidebar.tsx — `const linkStyle = { fontFamily: "var(--font-sans), system-ui, sans-serif", letterSpacing: "-0.01em" }` applied as `style={linkStyle}` on 3 <Link> nav elements → deleted const, moved font-sans + tracking-[-0.01em] into linkBase className (parent + standalone links) and child dropdown link className
+  Files: app/components/AppSidebar.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 11f3108
+  DS Update: CONFIRM — Inline style for structural CSS properties rule — multi-property named style const applied to globally-mounted sidebar nav links; pattern extended to cover `style={variableName}` (not just inline object literals); globally-mounted = highest blast radius
+  Pattern: Named style const objects (const linkStyle = {}) applied via style={linkStyle} are the hardest inline-style violation to detect — each usage shows only `style={linkStyle}`, not the actual properties. Detection: grep `style={[a-z]` (style referencing a variable) catches these; `style={{` (inline object) catches the other variant. Both need to be in the scan.
+
