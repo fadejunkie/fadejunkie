@@ -1,20 +1,3 @@
-  DS Update: none
-  Pattern: Cooldown guard triggered — previous cron cycle (11:15Z) committed 8 min before this invocation. Skip prevents micro-churn on rapid re-runs.
-
-[2026-03-29T11:38:01.891Z] Lobe exited with code: 0
-
-[2026-03-29T11:38:01.893Z] STDOUT (last 500 chars): ly **8 minutes ago** (under the 10-minute minimum between cron cycles). The cycle was aborted cleanly — no files touched, no commit made.
-
-The previous cycle fixed a missing `font-display` on `app/directory/page.tsx`. That fix needs 2 more minutes to clear the cooldown window before the next scan can run.
-
-The skip was logged to `lobe/cron/cron.log`. Everything is healthy — this is the system working as designed.
-
-  [outbox] cron-spot-fix-2026-03-29T11-30-01-2026-03-29T11-31-33-443Z.md
-twanii → 
-
-[2026-03-29T11:38:02.018Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T11:38:04.111Z] Safety push complete
 
 [2026-03-29T11:38:04.112Z] Cron run complete
 
@@ -505,3 +488,14 @@ twanii →
   Pattern: The inline-style anti-pattern is not font-specific. Any single CSS property with a direct Tailwind utility equivalent delivered via style={{}} is a P1 violation. borderRadius is the most common non-font variant: style={{ borderRadius: "var(--radius-3xl)" }} → rounded-3xl, style={{ borderRadius: "0.75rem" }} → rounded-xl. Grep `style={{` broadly — don't limit detection to fontFamily keys.
 
 [2026-03-29T15:45:01.747Z] Spawning Lobe agent...
+
+[2026-03-29T15:53:02.160Z] Lobe exited with code: 0
+
+[2026-03-29T15:53:02.162Z] STDOUT (last 500 chars): ted the "dead className" conflict pattern: when both `style={{ borderRadius }}` and a `rounded-*` class exist on the same element, the inline style silently wins, making the Tailwind class invisible dead code. Flagged `profile/page.tsx`, `PathSelector.tsx`, and `PostComposer.tsx` for follow-up cycles — all have the same pattern.
+
+**Build:** ✅ Clean — commits `e41079d` (fix) + `88e8f3a` (DS + log), pushed to main.
+
+  [outbox] cron-spot-fix-2026-03-29T15-45-01-2026-03-29T15-52-17-404Z.md
+twanii → 
+
+[2026-03-29T15:53:02.329Z] Unpushed changes detected, running safety commit+push...
