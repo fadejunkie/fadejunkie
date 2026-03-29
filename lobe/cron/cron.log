@@ -1,13 +1,3 @@
-[2026-03-29T07:30:01.671Z] Task created: cron-spot-fix-2026-03-29T07-30-01.md
-
-[2026-03-29T07:30:01.672Z] Spawning Lobe agent...
-
-[2026-03-29T07:38:01.804Z] Lobe exited with code: 0
-
-[2026-03-29T07:38:01.807Z] STDOUT (last 500 chars):  TS errors.** ✅
-
-The background build confirms the rgba token fixes from the cron cycle are clean in production. Compiled in 5.6s with Turbopack, all routes generate correctly:
-
 - 18 routes (dynamic server-rendered)
 - No TypeScript errors
 - No missing module errors
@@ -499,3 +489,19 @@ The skip was logged to `lobe/cron/cron.log`. Everything is healthy — this is t
 twanii → 
 
 [2026-03-29T11:38:02.018Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T11:38:04.111Z] Safety push complete
+
+[2026-03-29T11:38:04.112Z] Cron run complete
+
+[2026-03-29T11:45:01.779Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T11:45:01.784Z] Task created: cron-spot-fix-2026-03-29T11-45-01.md
+
+[2026-03-29T11:45:01.785Z] Spawning Lobe agent...
+
+[2026-03-29T11:45:01Z] FIX: components/StickyNav.tsx — 5× rgba() hardcoded colors in scroll-aware ternary expressions → replaced with color-mix(in oklch, var(--background/foreground) X%, transparent)
+  Files: app/components/StickyNav.tsx, app/context/fadejunkie_ui.md
+  Commit: 369cbd7
+  DS Update: CONFIRM — rgba(0,0,0,*) rule — scroll-state ternary expressions are NOT theme-safe even though they're conditional; both branches hardcode light-mode values. color-mix() is the correct fix.
+  Pattern: Conditional ternary rgba values in scroll-aware sticky components (StickyNav scrolled/unscrolled states) are P1 violations identical to static rgba values — the ternary governs scroll state, not theme state. color-mix(in oklch, var(--background) X%, transparent) is the token-safe replacement for any rgba(255,255,255,X) on a component background; color-mix(in oklch, var(--foreground) X%, transparent) replaces rgba(0,0,0,X) on borders and shadows.
