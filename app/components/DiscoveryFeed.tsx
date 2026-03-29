@@ -71,10 +71,7 @@ export default function DiscoveryFeed() {
   if (paths.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-40 gap-2 text-center">
-        <p
-          className="text-sm text-muted-foreground"
-          style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-        >
+        <p className="font-body text-sm text-muted-foreground">
           no active statuses in the ecosystem yet
         </p>
       </div>
@@ -104,10 +101,9 @@ export default function DiscoveryFeed() {
               <span
                 className={
                   isActive
-                    ? "text-[10px] opacity-70"
-                    : "text-[10px] opacity-50"
+                    ? "font-mono text-[10px] opacity-70"
+                    : "font-mono text-[10px] opacity-50"
                 }
-                style={{ fontFamily: "var(--font-mono), monospace" }}
               >
                 {count}
               </span>
@@ -125,12 +121,7 @@ export default function DiscoveryFeed() {
         </div>
       ) : statuses.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-32 gap-1.5 text-center">
-          <p
-            className="text-sm text-muted-foreground"
-            style={{
-              fontFamily: "var(--font-body), 'Courier Prime', monospace",
-            }}
-          >
+          <p className="font-body text-sm text-muted-foreground">
             no active {activePath?.label.toLowerCase() ?? selectedPath} statuses
             right now
           </p>

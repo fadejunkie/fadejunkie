@@ -69,18 +69,14 @@ export default function ConnectionsInbox() {
     <div className="space-y-5">
       {/* ── Section header ── */}
       <div className="flex items-center gap-2">
-        <p
-          className="text-base font-semibold text-foreground"
-          style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-        >
+        <p className="font-display text-base font-semibold text-foreground">
           connections
         </p>
 
         {/* Unseen badge */}
         {unseenCount > 0 && (
           <span
-            className="flex items-center justify-center h-4 min-w-4 px-1 rounded-full bg-foreground text-background text-[9px] font-semibold tabular-nums leading-none"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
+            className="font-mono flex items-center justify-center h-4 min-w-4 px-1 rounded-full bg-foreground text-background text-[9px] font-semibold tabular-nums leading-none"
             aria-label={`${unseenCount} new`}
           >
             {unseenCount > 9 ? "9+" : unseenCount}
@@ -96,16 +92,10 @@ export default function ConnectionsInbox() {
       {/* ── Empty state ── */}
       {connections.length === 0 ? (
         <div className="flex flex-col gap-1.5">
-          <p
-            className="text-sm text-muted-foreground"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-          >
+          <p className="font-body text-sm text-muted-foreground">
             no connections yet
           </p>
-          <p
-            className="text-xs text-muted-foreground/60"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-          >
+          <p className="font-body text-xs text-muted-foreground/60">
             activate statuses to get discovered &mdash;{" "}
             <Link
               href="#status-toggles"
@@ -149,10 +139,7 @@ export default function ConnectionsInbox() {
                       className="object-cover"
                     />
                   ) : (
-                    <span
-                      className="text-[11px] font-semibold text-muted-foreground select-none"
-                      style={{ fontFamily: "var(--font-mono), monospace" }}
-                    >
+                    <span className="font-mono text-[11px] font-semibold text-muted-foreground select-none">
                       {initials}
                     </span>
                   )}
@@ -161,23 +148,16 @@ export default function ConnectionsInbox() {
                 {/* Content */}
                 <div className="flex-1 min-w-0 space-y-1.5">
                   {/* Name + context */}
-                  <p
-                    className="text-sm text-foreground leading-snug"
-                    style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-                  >
+                  <p className="font-body text-sm text-foreground leading-snug">
                     {c.barberSlug ? (
                       <Link
                         href={`/barber/${c.barberSlug}`}
-                        className="font-semibold hover:underline underline-offset-2 transition-colors"
-                        style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
+                        className="font-display font-semibold hover:underline underline-offset-2 transition-colors"
                       >
                         {name}
                       </Link>
                     ) : (
-                      <strong
-                        className="font-semibold"
-                        style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-                      >
+                      <strong className="font-display font-semibold">
                         {name}
                       </strong>
                     )}{" "}
@@ -189,19 +169,13 @@ export default function ConnectionsInbox() {
 
                   {/* Optional note */}
                   {c.note && (
-                    <blockquote
-                      className="border-l-2 border-border pl-3 text-sm text-muted-foreground leading-relaxed"
-                      style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-                    >
+                    <blockquote className="font-body border-l-2 border-border pl-3 text-sm text-muted-foreground leading-relaxed">
                       {c.note}
                     </blockquote>
                   )}
 
                   {/* Timestamp */}
-                  <p
-                    className="text-[10px] text-muted-foreground/50 tabular-nums"
-                    style={{ fontFamily: "var(--font-mono), monospace" }}
-                  >
+                  <p className="font-mono text-[10px] text-muted-foreground/50 tabular-nums">
                     {relativeTime(c.createdAt)}
                   </p>
                 </div>

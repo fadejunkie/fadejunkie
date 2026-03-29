@@ -29,14 +29,7 @@ export default function HomePage() {
 
       {results.length === 0 && status !== "LoadingFirstPage" && (
         <div className="text-center py-16">
-          <p
-            style={{
-              fontFamily: "var(--font-body), 'Courier Prime', monospace",
-              fontSize: "0.875rem",
-              lineHeight: 1.6,
-              color: "var(--muted-foreground)",
-            }}
-          >
+          <p className="font-body text-sm leading-relaxed text-muted-foreground">
             The feed is empty — be the first to post.
           </p>
         </div>

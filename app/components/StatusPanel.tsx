@@ -76,10 +76,7 @@ export default function StatusPanel() {
   if (myPaths.length === 0) {
     return (
       <Card className="rounded-xl p-8 text-center">
-        <p
-          className="text-xl font-semibold text-foreground mb-2"
-          style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-        >
+        <p className="font-display text-xl font-semibold text-foreground mb-2">
           no paths selected
         </p>
         <p className="font-body text-sm text-muted-foreground mb-6 max-w-xs mx-auto leading-relaxed">
@@ -164,29 +161,20 @@ export default function StatusPanel() {
             {/* ── Path group header ── */}
             <div className="flex items-center gap-3 mb-4">
               <p
-                className="text-base font-semibold text-foreground"
-                style={{
-                  fontFamily: "var(--font-heading), system-ui, sans-serif",
-                  textTransform: "none",
-                }}
+                className="font-display text-base font-semibold text-foreground"
+                style={{ textTransform: "none" }}
               >
                 {PATH_LABELS[p]}
               </p>
 
               {isPrimary && (
-                <span
-                  className="text-[10px] text-muted-foreground/60 tracking-[0.08em] uppercase"
-                  style={{ fontFamily: "var(--font-mono), monospace" }}
-                >
+                <span className="font-mono text-[10px] text-muted-foreground/60 tracking-[0.08em] uppercase">
                   primary
                 </span>
               )}
 
               {activeCount > 0 && (
-                <span
-                  className="text-[10px] text-foreground/45"
-                  style={{ fontFamily: "var(--font-mono), monospace" }}
-                >
+                <span className="font-mono text-[10px] text-foreground/45">
                   {activeCount}/{sorted.length} on
                 </span>
               )}

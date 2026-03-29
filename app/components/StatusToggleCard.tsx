@@ -121,10 +121,7 @@ export default function StatusToggleCard({
       <div className="flex items-center justify-between gap-3 min-h-[44px]">
         {/* ── Left: label + meta ── */}
         <div className="flex-1 min-w-0">
-          <p
-            className="text-[13px] font-semibold text-foreground leading-snug"
-            style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-          >
+          <p className="font-display text-[13px] font-semibold text-foreground leading-snug">
             {label}
           </p>
 
@@ -132,10 +129,7 @@ export default function StatusToggleCard({
             /* Active state — expiry timer + refresh */
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <span className="w-1.5 h-1.5 rounded-full bg-foreground shrink-0" />
-              <span
-                className="text-[11px] text-foreground"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <span className="font-mono text-[11px] text-foreground">
                 {formatExpiry(status.expiresAt)}
               </span>
               <span className="text-border select-none">&middot;</span>
@@ -146,31 +140,24 @@ export default function StatusToggleCard({
                   onRefresh();
                 }}
                 className={cn(
-                  "flex items-center gap-1",
+                  "flex items-center gap-1 font-mono",
                   "text-[10px] text-muted-foreground hover:text-foreground",
                   "transition-colors duration-150",
                 )}
-                style={{ fontFamily: "var(--font-mono), monospace" }}
                 aria-label="Refresh expiration timer"
               >
                 <RotateCcw size={9} strokeWidth={2.5} />
                 Refresh
               </button>
               {(status.refreshCount ?? 0) > 0 && (
-                <span
-                  className="text-[10px] text-muted-foreground/50"
-                  style={{ fontFamily: "var(--font-mono), monospace" }}
-                >
+                <span className="font-mono text-[10px] text-muted-foreground/50">
                   ×{status.refreshCount}
                 </span>
               )}
             </div>
           ) : (
             /* Inactive state — duration hint */
-            <p
-              className="text-[10px] text-muted-foreground/60 mt-1"
-              style={{ fontFamily: "var(--font-mono), monospace" }}
-            >
+            <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">
               up to {config.default_days}d
             </p>
           )}

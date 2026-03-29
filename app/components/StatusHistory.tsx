@@ -71,10 +71,7 @@ export default function StatusHistory() {
   return (
     <div className="space-y-5">
       {/* ── Section header ── */}
-      <p
-        className="text-base font-semibold text-foreground"
-        style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-      >
+      <p className="font-display text-base font-semibold text-foreground">
         history
       </p>
 
@@ -88,10 +85,7 @@ export default function StatusHistory() {
           {[...groups.entries()].map(([path, statuses]) => (
             <div key={path}>
               {/* Path eyebrow label */}
-              <p
-                className="text-[10px] text-muted-foreground/60 tracking-[0.08em] uppercase mb-2.5"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <p className="font-mono text-[10px] text-muted-foreground/60 tracking-[0.08em] uppercase mb-2.5">
                 {PATH_LABELS[path] ?? path}
               </p>
 
@@ -113,16 +107,10 @@ export default function StatusHistory() {
 
                       {/* Timestamp + duration badge */}
                       <div className="flex items-center gap-3 shrink-0">
-                        <span
-                          className="text-[10px] text-muted-foreground/60"
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
-                        >
+                        <span className="font-mono text-[10px] text-muted-foreground/60">
                           {relativeTime(archivedTs)}
                         </span>
-                        <span
-                          className="text-[10px] text-muted-foreground/50 border border-border rounded px-1.5 py-0.5 tabular-nums"
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
-                        >
+                        <span className="font-mono text-[10px] text-muted-foreground/50 border border-border rounded px-1.5 py-0.5 tabular-nums">
                           {duration}
                         </span>
                       </div>

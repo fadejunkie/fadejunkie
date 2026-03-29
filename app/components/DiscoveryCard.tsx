@@ -134,16 +134,10 @@ function ConnectSheet({
       >
         {/* ── Header ── */}
         <SheetHeader className="mb-5 text-left space-y-0.5">
-          <SheetTitle
-            className="text-base font-semibold text-foreground leading-tight"
-            style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-          >
+          <SheetTitle className="font-display text-base font-semibold text-foreground leading-tight">
             connect
           </SheetTitle>
-          <SheetDescription
-            className="text-sm text-muted-foreground"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-          >
+          <SheetDescription className="font-body text-sm text-muted-foreground">
             connecting about{" "}
             <strong className="text-foreground font-medium">{toggleLabel}</strong>
           </SheetDescription>
@@ -160,25 +154,16 @@ function ConnectSheet({
                 className="object-cover"
               />
             ) : (
-              <span
-                className="text-[11px] font-semibold text-muted-foreground select-none"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <span className="font-mono text-[11px] font-semibold text-muted-foreground select-none">
                 {initials}
               </span>
             )}
           </div>
           <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
-            <span
-              className="text-sm font-semibold text-foreground truncate"
-              style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-            >
+            <span className="font-display text-sm font-semibold text-foreground truncate">
               {displayName}
             </span>
-            <span
-              className="text-[10px] text-muted-foreground/70 border border-border rounded-full px-2 py-0.5 shrink-0"
-              style={{ fontFamily: "var(--font-mono), monospace" }}
-            >
+            <span className="font-mono text-[10px] text-muted-foreground/70 border border-border rounded-full px-2 py-0.5 shrink-0">
               {pathLabel}
             </span>
           </div>
@@ -193,15 +178,13 @@ function ConnectSheet({
             }}
             placeholder="Add a short note..."
             rows={4}
-            className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 focus:border-foreground/30 transition-colors"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
+            className="font-body w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-foreground/20 focus:border-foreground/30 transition-colors"
             disabled={sending}
           />
           <p
-            className={`text-[10px] text-right tabular-nums transition-colors ${
+            className={`font-mono text-[10px] text-right tabular-nums transition-colors ${
               remaining < 30 ? "text-foreground/60" : "text-muted-foreground/30"
             }`}
-            style={{ fontFamily: "var(--font-mono), monospace" }}
           >
             {remaining}
           </p>
@@ -209,10 +192,7 @@ function ConnectSheet({
 
         {/* ── Inline error ── */}
         {error && (
-          <p
-            className="text-xs text-destructive mb-4 leading-relaxed"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
-          >
+          <p className="font-body text-xs text-destructive mb-4 leading-relaxed">
             {error}
           </p>
         )}
@@ -287,10 +267,7 @@ export default function DiscoveryCard({
                 className="object-cover"
               />
             ) : (
-              <span
-                className="text-[11px] font-semibold text-muted-foreground select-none"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <span className="font-mono text-[11px] font-semibold text-muted-foreground select-none">
                 {initials}
               </span>
             )}
@@ -300,24 +277,17 @@ export default function DiscoveryCard({
             {barberSlug ? (
               <Link
                 href={`/barber/${barberSlug}`}
-                className="text-sm font-semibold text-foreground leading-tight hover:underline underline-offset-2 transition-colors block truncate"
-                style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
+                className="font-display text-sm font-semibold text-foreground leading-tight hover:underline underline-offset-2 transition-colors block truncate"
               >
                 {displayName}
               </Link>
             ) : (
-              <span
-                className="text-sm font-semibold text-foreground leading-tight block truncate"
-                style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-              >
+              <span className="font-display text-sm font-semibold text-foreground leading-tight block truncate">
                 {displayName}
               </span>
             )}
             {barberSlug && (
-              <span
-                className="text-[10px] text-muted-foreground/60 truncate block"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <span className="font-mono text-[10px] text-muted-foreground/60 truncate block">
                 @{barberSlug}
               </span>
             )}
@@ -325,10 +295,7 @@ export default function DiscoveryCard({
         </div>
 
         {/* ── Toggle label ── */}
-        <p
-          className="text-xs text-foreground/80 mb-3 leading-snug"
-          style={{ fontFamily: "var(--font-mono), monospace" }}
-        >
+        <p className="font-mono text-xs text-foreground/80 mb-3 leading-snug">
           {toggleLabel}
         </p>
 
@@ -342,28 +309,19 @@ export default function DiscoveryCard({
                 style={{ width: 14, height: 14 }}
               />
             )}
-            <span
-              className="text-[11px] text-muted-foreground"
-              style={{ fontFamily: "var(--font-mono), monospace" }}
-            >
+            <span className="font-mono text-[11px] text-muted-foreground">
               {countdown}
             </span>
           </div>
 
           {/* Right: path pill + connect */}
           <div className="flex items-center gap-2 shrink-0">
-            <span
-              className="text-[10px] text-muted-foreground/70 border border-border rounded-full px-2 py-0.5"
-              style={{ fontFamily: "var(--font-mono), monospace" }}
-            >
+            <span className="font-mono text-[10px] text-muted-foreground/70 border border-border rounded-full px-2 py-0.5">
               {pathLabel}
             </span>
 
             {sent ? (
-              <span
-                className="flex items-center gap-0.5 text-[11px] text-muted-foreground/50"
-                style={{ fontFamily: "var(--font-mono), monospace" }}
-              >
+              <span className="font-mono flex items-center gap-0.5 text-[11px] text-muted-foreground/50">
                 <Check style={{ width: 11, height: 11 }} />
                 sent
               </span>
@@ -371,13 +329,11 @@ export default function DiscoveryCard({
               <button
                 type="button"
                 onClick={() => setSheetOpen(true)}
-                className="flex items-center gap-1 text-[11px] text-muted-foreground/45 hover:text-foreground transition-colors duration-150 font-sans"
+                className="font-sans flex items-center gap-1 text-[11px] text-muted-foreground/45 hover:text-foreground transition-colors duration-150"
                 aria-label={`Connect with ${displayName} about ${toggleLabel}`}
               >
                 <UserPlus style={{ width: 12, height: 12 }} />
-                <span style={{ fontFamily: "var(--font-mono), monospace" }}>
-                  connect
-                </span>
+                <span className="font-mono">connect</span>
               </button>
             )}
           </div>

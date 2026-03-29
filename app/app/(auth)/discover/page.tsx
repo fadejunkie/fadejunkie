@@ -11,18 +11,10 @@ export default function DiscoverPage() {
     <div className="space-y-6">
       {/* ── Page header ── */}
       <div className="space-y-1">
-        <h1
-          className="text-2xl font-semibold text-foreground font-heading"
-          style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
-        >
+        <h1 className="font-display text-2xl font-semibold text-foreground">
           discover
         </h1>
-        <p
-          className="text-sm text-muted-foreground leading-relaxed"
-          style={{
-            fontFamily: "var(--font-body), 'Courier Prime', monospace",
-          }}
-        >
+        <p className="font-body text-sm text-muted-foreground leading-relaxed">
           see who&apos;s active in the ecosystem
         </p>
       </div>
