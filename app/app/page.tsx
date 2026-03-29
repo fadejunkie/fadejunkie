@@ -157,9 +157,9 @@ export default function LandingPage() {
       {/* ── Social proof strip ─────────────────────────────────── */}
       <div
         style={{
-          backgroundColor: "rgba(0,0,0,0.02)",
-          borderTop: "1px solid rgba(0,0,0,0.07)",
-          borderBottom: "1px solid rgba(0,0,0,0.07)",
+          backgroundColor: "var(--accent)",
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <motion.div
@@ -186,7 +186,7 @@ export default function LandingPage() {
                 padding: "2rem 1rem",
                 textAlign: "center",
                 borderLeft:
-                  i > 0 ? "1px solid rgba(0,0,0,0.06)" : undefined,
+                  i > 0 ? "1px solid var(--border)" : undefined,
               }}
               variants={fadeUp}
               transition={{ duration: 0.5, ease }}
@@ -212,7 +212,7 @@ export default function LandingPage() {
                   fontWeight: 500,
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.4)",
+                  color: "var(--muted-foreground)",
                   marginTop: "0.3rem",
                   display: "block",
                 }}
@@ -242,7 +242,7 @@ export default function LandingPage() {
                 fontWeight: 500,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "rgba(0,0,0,0.4)",
+                color: "var(--muted-foreground)",
                 marginBottom: "1rem",
               }}
               initial={{ opacity: 0 }}
@@ -278,7 +278,7 @@ export default function LandingPage() {
                   fontStyle: "italic",
                   fontSize: "0.72em",
                   letterSpacing: "0.01em",
-                  color: "rgba(0,0,0,0.45)",
+                  color: "var(--muted-foreground)",
                 }}
               >
                 One community.

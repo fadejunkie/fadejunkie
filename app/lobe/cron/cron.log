@@ -1,6 +1,13 @@
 [2026-03-29T01:16:47Z] SKIP: Last commit was 2026-03-28T20:08:03-05:00 (01:08:03Z) — only ~8.5 min ago, under 10-minute cooldown. No fix this cycle.
   Note: lobe/cron directory created this cycle (first run).
 
+[2026-03-29T07:30:01Z] FIX: app/page.tsx — rgba(0,0,0,0.45) on "One community." subtitle → var(--muted-foreground) (+ 5 additional rgba hits in same file: strip bg, 2× borders, stat divider, eyebrow, stats label)
+  Files: app/app/page.tsx, app/context/fadejunkie_ui.md
+  Commit: SKIP — last commit c83b1ba was only 6m59s before cycle time (07:23:02Z vs 07:30:01Z), under 10-minute cooldown
+  DS Update: CONFIRM — rgba(0,0,0,*) in inline styles breaks dark mode — confirmed again in landing page (social proof strip + Three Paths section). 6 violations fixed total.
+  Pattern: Landing page inline styles are equal-risk to component files for rgba() violations. Exception: rgba in ternary dark-mode guards and rgba(255,255,255,*) inside var(--foreground) bg sections are intentional — do NOT change those.
+  Build: PASSED (18/18 static pages, 0 TypeScript errors)
+
 [2026-03-29T13:00:00Z] FIX: PathSelector collapsible header — <h2> section label + missing font-sans on raw <button> → converted h2 to <p>, added font-sans to button className
   Files: components/PathSelector.tsx
   Commit: 5bed5d7
