@@ -241,7 +241,7 @@ export default function PracticeTestPage() {
               </div>
               <button
                 onClick={() => toggleFlag(q._id)}
-                className={`text-xs shrink-0 transition-colors ${
+                className={`font-sans text-xs shrink-0 transition-colors ${
                   flagged.has(q._id) ? "text-foreground font-medium" : "text-muted-foreground/40 hover:text-muted-foreground"
                 }`}
               >
@@ -256,7 +256,7 @@ export default function PracticeTestPage() {
                 <button
                   key={letter}
                   onClick={() => setAnswers((a) => ({ ...a, [q._id]: letter }))}
-                  className={`w-full text-left flex items-start gap-3 px-3 py-2.5 rounded-lg border text-sm transition-colors ${
+                  className={`font-sans w-full text-left flex items-start gap-3 px-3 py-2.5 rounded-lg border text-sm transition-colors ${
                     answers[q._id] === letter
                       ? "border-foreground bg-foreground text-background"
                       : "border-border hover:border-ring text-foreground bg-background"
@@ -292,7 +292,7 @@ export default function PracticeTestPage() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => setPhase("setup")}
-          className="text-muted-foreground hover:text-foreground transition-colors"
+          className="font-sans text-muted-foreground hover:text-foreground transition-colors"
         >
           <ChevronLeft size={20} />
         </button>
