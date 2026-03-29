@@ -26,3 +26,10 @@
   DS Update: CONFIRM [HARDENED x4] — Inline style props for structural CSS properties with Tailwind equivalents — color token variant confirmed; `style={{ color: "var(--link)" }}` → `text-link` (token registered in @theme inline as --color-link)
   Pattern: When a CSS token is registered in @theme inline, `style={{ color: "var(--token)" }}` is always a P1 — the Tailwind utility exists and is more composable, auditable, and purgeable than the inline style. Detection: grep `style=.*color.*var(--` across all TSX files.
   Build: PASSED
+
+[2026-03-29T19:15:02Z] FIX: components/PublicStatusBadges.tsx — 3× full inline style blocks (compact badge span, path group <p>, full badge span) → Tailwind classes; zero style={{}} props remain in file
+  Files: app/components/PublicStatusBadges.tsx, app/context/fadejunkie_ui.md
+  Commit: d2c304f
+  DS Update: CONFIRM [HARDENED x6] — Inline style props rule — pure display component (no "use client", props-in/JSX-out) confirmed as highest-risk surface for full-block inline styles; entire style blocks eliminated across all 3 element types in the component
+  Pattern: Pure display components authored in isolation (no hooks, no directives) are fastest-authored and least-audited — they receive full inline style blocks during scaffolding and are rarely revisited. Detection: grep `style=\{\{` in components/ files lacking "use client" directive — these have highest density of unreviewed inline style accumulation. Fix converts ALL properties in the block (fontFamily→font-mono, fontSize→text-*, color→text-*, opacity modifier, border opacity variant, rounded-[Npx], padding utilities, tracking utility) removing the style prop entirely.
+  Build: PASSED
