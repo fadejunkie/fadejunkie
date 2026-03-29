@@ -1,22 +1,3 @@
-
-[2026-03-29T00:53:02.314Z] STDOUT (last 500 chars):  min 46 sec ago**
-
-The cron cycle was correctly skipped due to the overlap-prevention rule. The last fix commit (`019d554`) was made at `00:38:03Z` — less than 10 minutes before this cycle fired at `00:45:49Z`.
-
-**Next eligible run:** `2026-03-29T00:48:00Z` or later.
-
-No files were changed, no build was run. The skip was logged to `lobe/cron/cron.log`. Everything is clean — this is the system working as designed.
-
-  [outbox] cron-spot-fix-2026-03-29T00-45-02-2026-03-29T00-46-39-693Z.md
-twanii → 
-
-[2026-03-29T00:53:02.319Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T00-45-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T00-45-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T00-45-02.md'
-
-
-[2026-03-29T00:53:03.097Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T00:53:08.220Z] Safety push complete
-
 [2026-03-29T00:53:08.224Z] Cron run complete
 
 [2026-03-29T01:00:01.842Z] WARN: Stale lockfile detected, removing
@@ -505,3 +486,16 @@ twanii →
   Commit: 41bf2cc
   DS Update: CONFIRM [HARDENED x5] — var(--font-mono) rule — Testimonials.tsx confirmed 4 ghost token instances in inline fontFamily strings (TestimonialCard attribution row: specialty/dot/location spans + Testimonials section eyebrow). All replaced with canonical var(--font-mono). Rule hardened to x5.
   Pattern: Inline style fontFamily strings are invisible to Tailwind-class audits. Any landing-page section component (Testimonials, hero, CTA) built in isolation is high-risk for ghost-token accumulation. Grep targeting `font-geist-mono` in string literals remains the only reliable detection.
+
+[2026-03-29T09:08:01.799Z] Lobe exited with code: 0
+
+[2026-03-29T09:08:01.801Z] STDOUT (last 500 chars): DENED x5]**
+
+Added a 5th confirmation to the `var(--font-mono)` rule in `fadejunkie_ui.md`, noting that landing-page section components built in isolation (Testimonials, hero, CTA blocks) are the highest-risk surfaces for this pattern. The inline-style delivery mechanism is what makes them hard to catch at code review time.
+
+**Build:** ✅ 18/18 static pages · Commits: `41bf2cc`, `fbf5501` · Pushed to `origin/main`
+
+  [outbox] cron-spot-fix-2026-03-29T09-00-01-2026-03-29T09-04-08-184Z.md
+twanii → 
+
+[2026-03-29T09:08:01.922Z] Unpushed changes detected, running safety commit+push...
