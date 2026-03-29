@@ -499,3 +499,9 @@ Node.js v24.13.1
 [2026-03-29T17:00:01.871Z] Task created: cron-spot-fix-2026-03-29T17-00-01.md
 
 [2026-03-29T17:00:01.873Z] Spawning Lobe agent...
+
+[2026-03-29T17:00:00.000Z] FIX: app/(auth)/website/page.tsx — 3× 6-property inline style blocks on section eyebrow <p> labels ("Shop Identity", "About", "Contact & Hours") → replaced with Tailwind classes `font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-5`
+  Files: app/app/(auth)/website/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: dbcb6a1
+  DS Update: ↻ Revised — Section-label rule "Correct pattern" was documenting inline style syntax; updated to Tailwind-class-only pattern after 4 cross-file confirmations that inline blocks are always replaced. Also added cycle note to the rule.
+  Pattern: DS doc "Correct pattern" entries can document intermediate states as final — when a violation is fixed in two stages (h2→p THEN inline→Tailwind), only the first fix updates the rule example. The second fix (Tailwind migration) requires re-reading the rule and revising the example to match the higher standard. Auth-interior form pages (website, profile) share the same inline eyebrow authoring habit as public templates (ShopTemplate, barber/[slug]) — the pattern is confirmed systemic across all page categories.
