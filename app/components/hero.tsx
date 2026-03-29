@@ -566,7 +566,7 @@ const Hero = () => {
               gap: "0.75rem",
               marginTop: "2.25rem",
               paddingTop: "1.75rem",
-              borderTop: "1px solid rgba(0,0,0,0.08)",
+              borderTop: "1px solid var(--border)",
             }}
           >
             {/* Stacked avatars */}
@@ -578,10 +578,7 @@ const Hero = () => {
                     width: 28,
                     height: 28,
                     borderRadius: "50%",
-                    backgroundColor:
-                      i % 2 === 0
-                        ? "rgba(0,0,0,0.08)"
-                        : "rgba(0,0,0,0.05)",
+                    backgroundColor: "var(--muted)",
                     border: "1.5px solid var(--background)",
                     marginLeft: i > 0 ? -8 : 0,
                     display: "flex",
@@ -598,7 +595,7 @@ const Hero = () => {
                         "var(--font-display), 'League Spartan', sans-serif",
                       fontSize: "0.4375rem",
                       fontWeight: 700,
-                      color: "rgba(0,0,0,0.55)",
+                      color: "var(--muted-foreground)",
                       letterSpacing: "-0.01em",
                     }}
                   >
@@ -631,7 +628,7 @@ const Hero = () => {
                   fontWeight: 500,
                   letterSpacing: "0.13em",
                   textTransform: "uppercase",
-                  color: "rgba(0,0,0,0.4)",
+                  color: "var(--muted-foreground)",
                   marginTop: "0.2rem",
                 }}
               >
