@@ -1,32 +1,5 @@
 twanii → 
 
-[2026-03-29T17:08:02.131Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T17:08:03.805Z] Safety push complete
-
-[2026-03-29T17:08:03.808Z] Cron run complete
-
-[2026-03-29T17:15:02.028Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T17:15:02.034Z] Task created: cron-spot-fix-2026-03-29T17-15-02.md
-
-[2026-03-29T17:15:02.036Z] Spawning Lobe agent...
-
-[2026-03-29T17:15:02Z] FIX: app/(auth)/profile/page.tsx — 2× `style={{ borderRadius: "0.75rem" }}` on `<Card className="rounded-xl p-8">` (SectionCard helper + main profile card). `rounded-xl` = 0.75rem, so inline style was a no-op that made the Tailwind class dead code — inline style wins the cascade. → Removed both `style={{ borderRadius: "0.75rem" }}` props; `rounded-xl` class now solely controls border-radius.
-  Files: app/app/(auth)/profile/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: e64c17d
-  DS Update: ADD — Inline style for structural CSS properties rule [HARDENED x2] — rule was logged in cycle 2026-03-29T15:45 (PostCard.tsx) but never written to fadejunkie_ui.md; added now with both confirmations. "Dead className" variant: when `style={{ borderRadius }}` and `rounded-*` coexist on the same element, the inline style wins and the Tailwind class is invisible dead code.
-  Pattern: Reusable layout helper components (SectionCard, etc.) that wrap a UI component multiply inline style violations across every call site. A single `style={{ borderRadius }}` in a shared helper is higher-blast-radius than the same violation in a one-off element. Detection: grep `style=\{\{` broadly — any single-property inline style with a Tailwind equivalent is a P1 dead-className candidate.
-
-[2026-03-29T17:23:02.122Z] Lobe exited with code: 0
-
-[2026-03-29T17:23:02.125Z] STDOUT (last 500 chars): ded-*` className is always dead code — the inline style wins. The `SectionCard` variant is particularly high blast-radius because it's a shared layout helper that renders once per card section across the entire profile page.
-
-**Growth memory:** Logged the "reusable layout helper inline style = multiplicative blast radius" pattern — when a helper wrapper carries the violation, every section it renders inherits it.
-
-  [outbox] cron-spot-fix-2026-03-29T17-15-02-2026-03-29T17-20-14-532Z.md
-twanii → 
-
 [2026-03-29T17:23:02.275Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T17:23:04.134Z] Safety push complete
@@ -499,3 +472,30 @@ twanii →
 [2026-03-29T21:15:02.811Z] Task created: cron-spot-fix-2026-03-29T21-15-02.md
 
 [2026-03-29T21:15:02.814Z] Spawning Lobe agent...
+
+[2026-03-29T21:15:02Z] FIX: components/DevBanner.tsx — warm-era holdover colors rgba(22,16,8,0.97) + #fff4ea caused dark mode P0 (banner bg blends into black page, becomes invisible). Also inline fontFamily → font-mono class. → Replaced rgba(22,16,8,0.97) with var(--foreground), #fff4ea with var(--background), rgba(255,244,234,0.45) with color-mix(in oklch, var(--background) 45%, transparent), rgba(255,255,255,0.06) border with color-mix(in oklch, var(--background) 6%, transparent). Removed fontFamily inline style, added className="font-mono" to text span.
+  Files: app/components/DevBanner.tsx, app/context/fadejunkie_ui.md
+  Commit: 6ac343c
+  DS Update: CONFIRM [HARDENED x7] — rgba/warm-era color rule — warm-era colors (rgba(22,16,8,*), #fff4ea, rgba(255,244,234,*)) confirmed as same violation class as rgba(0,0,0,*); highest-risk surfaces are announcement banners + session-dismissed UI with sessionStorage logic. DevBanner had all three risk factors.
+  Pattern: Warm-era brand colors survive in session-dismissed components because they're built once and visually reviewed rarely. In dark mode the near-black warm bg blends into the pure-black page — the banner disappears entirely. All warm-era holdovers require the same token replacement pattern as rgba(0,0,0,*) violations.
+
+[2026-03-29T21:23:03.088Z] Lobe exited with code: 0
+
+[2026-03-29T21:23:03.099Z] STDOUT (last 500 chars): 
+╔══════════════════════════════════════╗
+║         LOBE — frontend agent         ║
+║     your bestie: twanii               ║
+╚══════════════════════════════════════╝
+
+  Commands: check | approve <name> | resume | exit
+
+twanii →   [inbox] 1 task(s) found
+
+
+[2026-03-29T21:15:05.448Z] task: cron-spot-fix-2026-03-29T21-15-02.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
+lobe → 
+
+  [outbox] cron-spot-fix-2026-03-29T21-15-02-2026-03-29T21-22-51-253Z.md
+twanii → 
+
+[2026-03-29T21:23:03.578Z] Unpushed changes detected, running safety commit+push...
