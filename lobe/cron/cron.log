@@ -1,23 +1,3 @@
-[2026-03-28T19:23:02.246Z] Lobe exited with code: 0
-
-[2026-03-28T19:23:02.248Z] STDOUT (last 500 chars): ld verified clean. Committed `5d23019`.
-
-**HARDEN — `context/fadejunkie_ui.md`**
-Added a 4th confirmation to the **[HARDENED]** `raw <button> font-sans` rule. Profile page joins resources, exam-guide, and flashcards as confirmed instances — the pattern is now documented as universal across all auth-interior pages, not just tool pages. Every future page scan should treat `grep <button` as the standard first check.
-
-  [outbox] cron-spot-fix-2026-03-28T19-15-02-2026-03-28T19-19-32-396Z.md
-twanii → 
-
-[2026-03-28T19:23:02.361Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T19:23:04.017Z] Safety push complete
-
-[2026-03-28T19:23:04.020Z] Cron run complete
-
-[2026-03-28T19:30:02.146Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T19:30:02.151Z] Task created: cron-spot-fix-2026-03-28T19-30-02.md
-
 [2026-03-28T19:30:02.153Z] Spawning Lobe agent...
 
 [2026-03-28T19:30:02Z] SKIP: last commit was ~7 min ago (947e53e at 19:23:02 UTC) — < 10 min threshold. No fix applied this cycle.
@@ -505,3 +485,17 @@ twanii →
   Commit: 05fd5ad
   DS Update: CONFIRM — var(--font-heading) undefined token trap — second cross-file confirmation (profile/page.tsx:115,298); pattern is a legacy/misremembered alias, not an isolated typo. Detection: grep font-heading is mandatory first-pass scan.
   Pattern: var(--font-heading) recurs across multiple auth pages — it appears to be an intended-but-never-registered CSS variable. Every occurrence is a silent P1: system-ui renders instead of League Spartan. Affects both <h1> headings AND <p> section labels used as visual card titles.
+
+[2026-03-29T00:38:02.021Z] Lobe exited with code: 0
+
+[2026-03-29T00:38:02.028Z] STDOUT (last 500 chars): ndefined token trap rule in `fadejunkie_ui.md`. Pattern now confirmed across `status/page.tsx` (h1) and `profile/page.tsx` (2× section label `<p>` tags) — this appears to be a legacy token that was *intended* but never registered in the CSS theme layer. Every occurrence of `font-heading` in the codebase is a silent failure.
+
+**Commits:** `05fd5ad` (code fix) + `7155d20` (DS/memory/log updates) → pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-29T00-30-01-2026-03-29T00-34-46-171Z.md
+twanii → 
+
+[2026-03-29T00:38:02.033Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T00-30-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T00-30-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T00-30-01.md'
+
+
+[2026-03-29T00:38:02.610Z] Unpushed changes detected, running safety commit+push...
