@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T16:00:01.909Z] Task created: cron-spot-fix-2026-03-29T16-00-01.md
 
 [2026-03-29T16:00:01.911Z] Spawning Lobe agent...
+
+[2026-03-29T16:00:01Z] FIX: components/ShopTemplate.tsx — 2× section eyebrow <p> labels ("About", "Contact & Hours") used full 7-property inline style block (fontFamily, fontSize, letterSpacing, textTransform, color, fontWeight, marginBottom) with correct var(--font-mono) token but wrong delivery mechanism → replaced both inline style blocks with Tailwind classes: font-mono text-[0.625rem] tracking-[0.14em] uppercase text-muted-foreground font-semibold mb-4/mb-6
+  Files: app/components/ShopTemplate.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 582e2a6
+  DS Update: CONFIRM — Monospace font token Tailwind-class-first rule — all-inline typography block variant confirmed on public-facing shared template; ShopTemplate renders every barber's public shop page, making this a multiplicative-impact surface equal to AppHeader in priority. Both eyebrow labels cleaned in one commit.
+  Pattern: Public-facing shared templates (ShopTemplate, barber/[slug]) are equal-risk scan surfaces to globally-mounted auth layout components. Internal blast radius (auth app) vs external blast radius (public visitor traffic) — both warrant top-priority detection. Full inline style blocks on eyebrow labels in shared templates are the canonical "all-inline typography block" anti-pattern outside of app chrome.
