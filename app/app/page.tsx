@@ -753,7 +753,7 @@ export default function LandingPage() {
                           height: 2,
                           borderRadius: 9999,
                           width: "23%",
-                          backgroundColor: "#ffffff",
+                          backgroundColor: "var(--background)",
                           opacity: 0.4,
                         }}
                       />
