@@ -207,7 +207,7 @@ export default function LandingPage() {
               <span
                 style={{
                   fontFamily:
-                    "var(--font-geist-mono), ui-monospace, monospace",
+                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5625rem",
                   fontWeight: 500,
                   letterSpacing: "0.14em",
@@ -237,7 +237,7 @@ export default function LandingPage() {
             <motion.p
               style={{
                 fontFamily:
-                  "var(--font-geist-mono), ui-monospace, monospace",
+                  "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.625rem",
                 fontWeight: 500,
                 letterSpacing: "0.16em",
@@ -333,7 +333,7 @@ export default function LandingPage() {
                   <span
                     style={{
                       fontFamily:
-                        "var(--font-geist-mono), ui-monospace, monospace",
+                        "var(--font-mono), ui-monospace, monospace",
                       fontSize: "0.5625rem",
                       fontWeight: 500,
                       letterSpacing: "0.18em",
@@ -375,7 +375,7 @@ export default function LandingPage() {
                     <p
                       style={{
                         fontFamily:
-                          "var(--font-geist-mono), ui-monospace, monospace",
+                          "var(--font-mono), ui-monospace, monospace",
                         fontSize: "0.5625rem",
                         fontWeight: 500,
                         letterSpacing: "0.14em",
@@ -442,7 +442,7 @@ export default function LandingPage() {
             <motion.p
               style={{
                 fontFamily:
-                  "var(--font-geist-mono), ui-monospace, monospace",
+                  "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.625rem",
                 fontWeight: 500,
                 letterSpacing: "0.16em",
@@ -544,7 +544,7 @@ export default function LandingPage() {
                           <span
                             style={{
                               fontFamily:
-                                "var(--font-geist-mono), ui-monospace, monospace",
+                                "var(--font-mono), ui-monospace, monospace",
                               fontSize: 9,
                               color: "rgba(255,255,255,0.55)",
                               letterSpacing: "0.06em",
@@ -555,7 +555,7 @@ export default function LandingPage() {
                           <span
                             style={{
                               fontFamily:
-                                "var(--font-geist-mono), ui-monospace, monospace",
+                                "var(--font-mono), ui-monospace, monospace",
                               fontSize: 9,
                               color: "rgba(255,255,255,0.3)",
                               marginLeft: "auto",
@@ -613,18 +613,18 @@ export default function LandingPage() {
                         <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.02em" }}>Andre Mitchell</p>
                         <div className="flex items-center gap-1 mt-0.5">
                           <MapPin style={{ width: 8, height: 8, color: "rgba(255,255,255,0.35)" }} />
-                          <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
+                          <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
                         </div>
                       </div>
                       <div className="ml-auto flex items-center gap-0.5">
                         <Star style={{ width: 8, height: 8, color: "rgba(255,255,255,0.55)", fill: "rgba(255,255,255,0.55)" }} />
-                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.55)", letterSpacing: "0.06em" }}>4.9</span>
+                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.55)", letterSpacing: "0.06em" }}>4.9</span>
                       </div>
                     </div>
                     <div className="flex gap-1.5 flex-wrap">
                       {["Skin Fades", "Tapers", "Beard Work"].map(tag => (
                         <span key={tag} style={{
-                          fontFamily: "var(--font-geist-mono), monospace",
+                          fontFamily: "var(--font-mono), monospace",
                           fontSize: 7,
                           letterSpacing: "0.1em",
                           textTransform: "uppercase",
@@ -672,14 +672,14 @@ export default function LandingPage() {
                         className="flex-1 h-3 rounded-sm mx-2 flex items-center justify-center"
                         style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 6, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
+                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 6, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
                       </div>
                       <ExternalLink style={{ width: 7, height: 7, color: "rgba(255,255,255,0.28)" }} />
                     </div>
                     {/* Mock site content */}
                     <div className="p-3">
                       <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 13, fontWeight: 800, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.80)", marginBottom: "0.5rem" }}>Morales Cuts</p>
-                      <p style={{ fontFamily: "var(--font-geist-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
+                      <p style={{ fontFamily: "var(--font-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
                       <div
                         className="inline-flex items-center gap-1 rounded-full px-2.5 py-1"
                         style={{ backgroundColor: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.14)" }}
@@ -717,7 +717,7 @@ export default function LandingPage() {
                     <p
                       style={{
                         fontFamily:
-                          "var(--font-geist-mono), ui-monospace, monospace",
+                          "var(--font-mono), ui-monospace, monospace",
                         fontSize: 8,
                         letterSpacing: "0.15em",
                         textTransform: "uppercase",
@@ -795,7 +795,7 @@ export default function LandingPage() {
                       >
                         <span
                           style={{
-                            fontFamily: "var(--font-geist-mono), monospace",
+                            fontFamily: "var(--font-mono), monospace",
                             fontSize: 7,
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
