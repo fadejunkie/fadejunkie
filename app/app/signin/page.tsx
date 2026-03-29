@@ -107,15 +107,9 @@ function BrandPanel() {
         </p>
 
         <h1
+          className="font-display font-extrabold tracking-[-0.04em] leading-[1.05] text-foreground m-0 mb-5"
           style={{
-            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2.25rem, 3.5vw, 3.5rem)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.05,
-            color: "var(--foreground)",
-            margin: 0,
-            marginBottom: "1.25rem",
           }}
         >
           {"\u201C"}Every barber
