@@ -1,34 +1,3 @@
-  Commit: ddcf880
-  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 5th cross-file confirmation (profile/page.tsx). Rule now documented with profile page as confirmed instance alongside tools/page, practice-test/page, ShopTemplate, exam-guide/page.
-  Pattern: Profile/settings cards ("Your Profile", "Gallery") are as prone to h2 section-label violations as tool-page interiors. The rule scope is all auth-interior pages with Card components — any <h2>/<h3> that isn't the page's primary content heading should be <p>.
-
-[2026-03-28T20:23:02.286Z] Lobe exited with code: 0
-
-[2026-03-28T20:23:02.288Z] STDOUT (last 500 chars): ign; the global heading corruption is gone.
-
-**Design system update:** CONFIRM — the `[HARDENED]` section-label rule (`<h2>`/`<h3>` must not be used for card-interior labels) gains its **5th cross-file confirmation**, now spanning profile/settings cards in addition to tool-page interiors, auth pages, and public-facing display components.
-
-Commits `ddcf880` + `2e34b65` pushed to `origin/main`. Build clean (17/17).
-
-  [outbox] cron-spot-fix-2026-03-28T20-15-02-2026-03-28T20-19-24-723Z.md
-twanii → 
-
-[2026-03-28T20:23:02.408Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T20:23:04.030Z] Safety push complete
-
-[2026-03-28T20:23:04.032Z] Cron run complete
-
-[2026-03-28T20:30:02.213Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T20:30:02.219Z] Task created: cron-spot-fix-2026-03-28T20-30-02.md
-
-[2026-03-28T20:30:02.220Z] Spawning Lobe agent...
-[2026-03-28T20:30:02Z] SKIP: last cron commit (2e34b65) landed ~7 minutes ago — under 10-minute overlap guard. Previous cycle fixed <h2> section-label violations in profile/page.tsx. Next cycle eligible at ~20:33Z.
-
-[2026-03-28T20:38:02.296Z] Lobe exited with code: 0
-
-[2026-03-28T20:38:02.298Z] STDOUT (last 500 chars): events overlap.
 
 **What happened in the last cycle (20:15 slot):**
 - Fixed two `<h2>` section-label violations in `app/(auth)/profile/page.tsx` — "Your Profile" and "Gallery" headings were being rendered in League Spartan lowercase by the global `h2` CSS rule. Both converted to `<p>` tags.
@@ -499,3 +468,34 @@ The agent also bootstrapped the missing `lobe/` directory structure (`lobe/cron/
 twanii → 
 
 [2026-03-29T01:23:02.954Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T01:23:06.384Z] Safety push complete
+
+[2026-03-29T01:23:06.392Z] Cron run complete
+
+[2026-03-29T01:30:01.900Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T01:30:01.910Z] Task created: cron-spot-fix-2026-03-29T01-30-01.md
+
+[2026-03-29T01:30:01.912Z] Spawning Lobe agent...
+
+[2026-03-29T01:38:02.103Z] Lobe exited with code: 0
+
+[2026-03-29T01:38:02.111Z] STDOUT (last 500 chars): 
+╔══════════════════════════════════════╗
+║         LOBE — frontend agent         ║
+║     your bestie: twanii               ║
+╚══════════════════════════════════════╝
+
+  Commands: check | approve <name> | resume | exit
+
+twanii →   [inbox] 1 task(s) found
+
+
+[2026-03-29T01:30:02.736Z] task: cron-spot-fix-2026-03-29T01-30-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
+lobe → twanii → 
+
+[2026-03-29T01:38:02.114Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T01-30-01.md: Claude Code process exited with code 1
+
+
+[2026-03-29T01:38:03.069Z] Unpushed changes detected, running safety commit+push...
