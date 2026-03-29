@@ -57,6 +57,38 @@ E.g., milestone 01 (Discovery Session) has keys: 1-DISCOVERY SESSION-0 through 1
 - Manual milestones (03, 05, 11, 12): Write escalation to dispatch/escalations/
 - Always add <!-- dispatched-from: pm --> header to dropped tasks
 
+## Client Update Trigger
+
+When a milestone completes, PM should also trigger a client update email via Mailwatch:
+
+1. After confirming a milestone is complete in Convex, drop a task in \`email-agent/inbox/\`
+2. Include the \`<!-- client: slug -->\` header so Mailwatch loads the right contacts and tone
+3. List the key deliverables and what's coming next — Mailwatch composes the actual email
+
+### Client slugs: \`wcorwin\`, \`arquero\`, \`sydney-spillman\`
+
+### Task format:
+\`\`\`markdown
+<!-- execute -->
+<!-- client: {slug} -->
+<!-- dispatched-from: pm -->
+
+# Send Client Update: {Milestone Name}
+
+Milestone completed: {milestone description}
+Read current project state and compose a client update email.
+
+Key deliverables to highlight:
+- {deliverable 1}
+- {deliverable 2}
+
+Next milestone: {what's coming next}
+\`\`\`
+
+Mailwatch will compose a draft, write it to \`email-agent/outbox/pending-sends/\`, and Anthony reviews before anything sends. **Do NOT send client updates directly — always route through Mailwatch.**
+
+**Note:** Arquero uses WhatsApp, not email. Still drop the task to Mailwatch with \`<!-- client: arquero -->\` — the draft content will be used for WhatsApp instead.
+
 ## Escalation Format
 Write to dispatch/escalations/:
   # Manual Checkpoint: {milestone name}
@@ -77,6 +109,8 @@ For now, Sydney Spillman is the only active project. The PM is designed to suppo
 - Sydney context: ${WORKSPACE_ROOT}/sydneyspillman/context/sydney-project.md
 - Routing patterns: ${WORKSPACE_ROOT}/dispatch/memory/routing-patterns.md
 - PM memory: ${GROWTH_FILE}
+- Mailwatch inbox: ${WORKSPACE_ROOT}/email-agent/inbox/ (client update tasks)
+- Client configs: ${WORKSPACE_ROOT}/email-agent/clients/ (contact whitelists per client)
 
 ## Growth Memory
 After each run, update ${GROWTH_FILE} with:

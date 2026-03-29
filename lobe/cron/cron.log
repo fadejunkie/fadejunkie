@@ -1,34 +1,3 @@
-[2026-03-29T18:30:01.895Z] Task created: cron-spot-fix-2026-03-29T18-30-01.md
-
-[2026-03-29T18:30:01.897Z] Spawning Lobe agent...
-
-[2026-03-29T18:38:02.058Z] Lobe exited with code: 0
-
-[2026-03-29T18:38:02.060Z] STDOUT (last 500 chars): 
-╔══════════════════════════════════════╗
-║         LOBE — frontend agent         ║
-║     your bestie: twanii               ║
-╚══════════════════════════════════════╝
-
-  Commands: check | approve <name> | resume | exit
-
-twanii →   [inbox] 1 task(s) found
-
-
-[2026-03-29T18:30:02.329Z] task: cron-spot-fix-2026-03-29T18-30-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
-lobe → 
-
-  [outbox] cron-spot-fix-2026-03-29T18-30-01-2026-03-29T18-37-17-267Z.md
-twanii → 
-
-[2026-03-29T18:38:02.287Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T18:38:03.949Z] Safety push complete
-
-[2026-03-29T18:38:03.951Z] Cron run complete
-
-[2026-03-29T18:45:02.083Z] WARN: Stale lockfile detected, removing
-
 [2026-03-29T18:45:02.091Z] Task created: cron-spot-fix-2026-03-29T18-45-02.md
 
 [2026-03-29T18:45:02.093Z] Spawning Lobe agent...
@@ -499,3 +468,34 @@ The skip was logged to `lobe/cron/cron.log`. The next cycle (when it fires ≥10
 twanii → 
 
 [2026-03-29T22:23:05.585Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T22:23:35.381Z] Safety push complete
+
+[2026-03-29T22:23:35.383Z] Cron run complete
+
+[2026-03-29T22:30:02.827Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T22:30:02.841Z] Task created: cron-spot-fix-2026-03-29T22-30-02.md
+
+[2026-03-29T22:30:02.845Z] Spawning Lobe agent...
+
+[2026-03-29T22:45:00Z] FIX: app/signin/page.tsx — 3 rgba(0,0,0,*) values broke dark mode on stacked avatar backgrounds, form panel tint, and tab divider → replaced with color-mix(in oklch, var(--foreground) N%, transparent) and var(--border)
+  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: bb5bb91
+  DS Update: CONFIRM — "No hardcoded colors — tokens only" rule — signin page had 3 rgba(0,0,0,*) on: stacked social-proof avatar backgrounds, form panel bg tint, tab switcher divider border. All 3 break dark mode. Fixed to color-mix tokens and var(--border).
+  Pattern: Social-proof "stacked avatars" elements reliably carry rgba on avatar backgroundColor — borderRadius:"50%" + backgroundColor: rgba() is the detection fingerprint. scan sign-in and onboarding pages for this element.
+  NOTED: app/signin/page.tsx also has inline style fontFamily/letterSpacing/fontSize on wordmark Link and tagline <p> — should migrate to Tailwind classes in a future cycle (not fixing this cycle — one fix only).
+  NOTED: app/cc/page.tsx has rgba(0,0,0,*) in card boxShadow and modal backdrop — cc is an internal admin page, lower priority than public-facing signin.
+
+[2026-03-29T22:38:03.033Z] Lobe exited with code: 0
+
+[2026-03-29T22:38:03.064Z] STDOUT (last 500 chars): ain`.
+
+**DS hardening:** CONFIRM — social-proof stacked avatar elements (`borderRadius: "50%"` + `backgroundColor: rgba()`) flagged as a reliable rgba violation surface. Detection fingerprint added to the design system doc.
+
+**Noted for next cycle:** The `signin/page.tsx` wordmark `<Link>` and tagline still carry inline style blocks (`fontFamily`, `letterSpacing`, `fontSize`) — P1 candidate for the next rotation.
+
+  [outbox] cron-spot-fix-2026-03-29T22-30-02-2026-03-29T22-35-03-933Z.md
+twanii → 
+
+[2026-03-29T22:38:04.043Z] Unpushed changes detected, running safety commit+push...

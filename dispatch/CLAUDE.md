@@ -51,6 +51,8 @@ Requires `ANTHROPIC_API_KEY` in the environment.
 | Ink | `ink/inbox/` | Copy, proposals, contracts | HIGH | execute |
 | SEO Engine | `seo-engine/inbox/` | SEO, audits, keywords | MEDIUM | plan |
 | Sentinel | `sentinel/inbox/` | QA, build, deploy | AUTO | execute |
+| Mailwatch | `email-agent/inbox/` | Email monitor + client update drafts | CONTROLLED | execute |
+| PM | `pm/inbox/` | Autonomous project driver | AUTO | execute |
 
 ## Communication Protocol
 

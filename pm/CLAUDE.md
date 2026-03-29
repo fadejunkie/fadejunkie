@@ -65,6 +65,21 @@ Requires `ANTHROPIC_API_KEY` in the environment.
 | `pm/outbox/pending/` | Reserved |
 | `pm/memory/project-state.md` | Accumulated project knowledge |
 | `dispatch/escalations/` | Manual checkpoints needing Anthony |
+| `email-agent/inbox/` | Client update tasks for Mailwatch |
+| `email-agent/clients/` | Per-client contact configs and tone |
+
+## Client Update Trigger
+
+When a milestone completes, PM triggers a client update email via Mailwatch:
+
+1. Drop a task in `email-agent/inbox/` with `<!-- client: {slug} -->` header
+2. Mailwatch composes a draft and writes it to `email-agent/outbox/pending-sends/`
+3. Anthony reviews and approves/denies via Mailwatch REPL
+4. **Never send client updates directly — always route through Mailwatch**
+
+Client slugs: `wcorwin`, `arquero`, `sydney-spillman`
+
+**Arquero exception:** Uses WhatsApp, not email. Still drop the task to Mailwatch — the draft content will be used for WhatsApp.
 
 ## PM Always Executes
 

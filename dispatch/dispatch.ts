@@ -30,6 +30,39 @@ Your job: receive tasks, decompose them into subtasks, route each subtask to the
 | Ink | ink/inbox/ | Copywriting — website copy, proposals, social, contracts, brand voice | execute | opus |
 | SEO Engine | seo-engine/inbox/ | SEO strategy, audits, keyword research, client deliverables | plan | opus |
 | Sentinel | sentinel/inbox/ | QA — Playwright visual tests, build verification, deploy | execute | sonnet |
+| Mailwatch | email-agent/inbox/ | Email monitor + client update drafts — sends require Anthony approval | execute | sonnet |
+| PM | pm/inbox/ | Autonomous project driver — reads state, routes next milestone | execute | sonnet |
+
+## Mailwatch — Client Update Workflow
+
+When a task involves notifying a client about a milestone completion, route it to Mailwatch:
+
+1. Write a task to \`email-agent/inbox/\` with the \`<!-- client: slug -->\` header
+2. Mailwatch reads project state, composes a draft, and writes it to \`email-agent/outbox/pending-sends/\`
+3. Anthony reviews and approves/denies via the Mailwatch REPL
+4. **NEVER bypass Mailwatch for client emails.** All client communication goes through Mailwatch.
+
+### Client slugs: \`wcorwin\`, \`arquero\`, \`sydney-spillman\`
+
+### Task format for Mailwatch:
+\`\`\`markdown
+<!-- execute -->
+<!-- client: {slug} -->
+<!-- dispatched-from: {original-task-name} -->
+
+# Send Client Update: {Milestone Name}
+
+Milestone completed: {milestone description}
+Read current project state and compose a client update email.
+
+Key deliverables to highlight:
+- {deliverable 1}
+- {deliverable 2}
+
+Next milestone: {what's coming next}
+\`\`\`
+
+**Note:** Arquero uses WhatsApp (not email). For Arquero client updates, escalate to Anthony with the draft content — he sends via WhatsApp manually or through Claude in Chrome.
 
 ## Decomposition Rules
 
@@ -97,6 +130,8 @@ These determine whether subtasks need plan-mode review or can auto-execute:
 - Funkie: LOW — always <!-- plan --> unless the task is a context/goals update.
 - SEO Engine: MEDIUM — auto-execute audits/research. Use <!-- plan --> for client deliverables.
 - Sentinel: AUTO — always <!-- execute -->.
+- Mailwatch: CONTROLLED — always <!-- execute -->. Read monitoring is automatic. Sends require Anthony approval per-email.
+- PM: AUTO — always <!-- execute -->. PM drives projects autonomously.
 
 ## After Every Dispatch
 
