@@ -1,27 +1,3 @@
-[2026-03-29T14:30:01Z] FIX: components/ResourceCard.tsx — category eyebrow <p> with tracking-[0.12em] uppercase pattern missing font-mono → inherits var(--font-body) (Courier Prime) on every resource card in the grid → added font-mono as first class in className
-  Files: components/ResourceCard.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: a216aa5
-  DS Update: CONFIRM — Category/taxonomy eyebrow labels must always carry font-mono [HARDENED x3] — ResourceCard.tsx category chip confirmed as third instance alongside PathSelector.tsx and tools/page.tsx; risk surface extended to shared card display components
-  Pattern: Shared card display components (ResourceCard, PostCard, DiscoveryCard) are the highest-impact font-mono violation surface — a single missing font-mono class on a rendered-N-times component multiplies the visual defect across the entire grid. Audit shared components before page files.
-
-[2026-03-29T14:38:02.285Z] Lobe exited with code: 0
-
-[2026-03-29T14:38:02.307Z] STDOUT (last 500 chars): ` className. One token, multiplicative fix across every card in the grid.
-
----
-
-**DS Update:** The "taxonomy eyebrow labels must carry `font-mono`" rule is now **HARDENED x3** — confirmed across `PathSelector.tsx`, `tools/page.tsx`, and now `ResourceCard.tsx`. Rule scope extended to shared card display components (previously only flagged on page files).
-
-**Commits:** `a216aa5` (code) + `3f7f0f3` (DS + growth log)
-
-  [outbox] cron-spot-fix-2026-03-29T14-30-01-2026-03-29T14-37-18-568Z.md
-twanii → 
-
-[2026-03-29T14:38:02.308Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T14-30-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T14-30-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T14-30-01.md'
-
-
-[2026-03-29T14:38:02.623Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-29T14:38:04.568Z] Safety push complete
 
 [2026-03-29T14:38:04.570Z] Cron run complete
@@ -499,3 +475,27 @@ lobe →
 twanii → 
 
 [2026-03-29T18:38:02.287Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T18:38:03.949Z] Safety push complete
+
+[2026-03-29T18:38:03.951Z] Cron run complete
+
+[2026-03-29T18:45:02.083Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T18:45:02.091Z] Task created: cron-spot-fix-2026-03-29T18-45-02.md
+
+[2026-03-29T18:45:02.093Z] Spawning Lobe agent...
+[2026-03-29T18:45:02Z] SKIP: last commit was 2026-03-29T18:38:03Z (6m59s ago) — < 10 minute overlap guard. No fix this cycle.
+
+[2026-03-29T18:53:02.192Z] Lobe exited with code: 0
+
+[2026-03-29T18:53:02.195Z] STDOUT (last 500 chars): 10-minute overlap guard is working as intended to prevent two cycles from running on top of each other.
+
+**No changes made. No build run. No commit.**
+
+The next cycle (firing around `18:52+`) will clear the guard and resume normal scanning. The rotation will continue from where the last cycle left off — `app/loading.tsx` was the last fix, so the scanner will move on to the next unscanned surfaces in the rotation.
+
+  [outbox] cron-spot-fix-2026-03-29T18-45-02-2026-03-29T18-47-04-752Z.md
+twanii → 
+
+[2026-03-29T18:53:02.555Z] Unpushed changes detected, running safety commit+push...
