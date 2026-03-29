@@ -1,43 +1,3 @@
-
-[2026-03-28T23:45:01.897Z] Task created: cron-spot-fix-2026-03-28T23-45-01.md
-
-[2026-03-28T23:45:01.902Z] Spawning Lobe agent...
-
-[2026-03-29T05:00:00.000Z] FIX: practice-test/page.tsx — raw <button> UI chrome missing font-sans → added font-sans to question-count picker buttons (setup phase) and "Review Missed Questions" toggle (results phase)
-  Files: app/app/(auth)/tools/practice-test/page.tsx
-  Commit: c8e232c
-  DS Update: ADD — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed 4th+ instance of Courier Prime inheritance trap on raw buttons; rule promoted to HARDENED in fadejunkie_ui.md
-  Pattern: Any raw <button> without font-sans in a page file is a Courier Prime rendering bug. Scan <button> on every cron cycle as a first-pass checklist item.
-
-[2026-03-28T23:53:02.135Z] Lobe exited with code: 0
-
-[2026-03-28T23:53:02.145Z] STDOUT (last 500 chars): e.tsx`
-
----
-
-**Design System Hardened**
-The `Raw <button> UI chrome always needs font-sans` rule is now marked **[HARDENED]** in `context/fadejunkie_ui.md` — confirmed across 4+ files (DiscoveryFeed filter tabs, flashcards, practice-test ×2). It's now canonical ground truth, not a pattern-in-progress.
-
-This is the highest-frequency P1 in FJ. Every new page with raw `<button>` elements needs it checked first pass.
-
-  [outbox] cron-spot-fix-2026-03-28T23-45-01-2026-03-28T23-48-46-236Z.md
-twanii → 
-
-[2026-03-28T23:53:02.150Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-28T23-45-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-28T23-45-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-28T23-45-01.md'
-
-
-[2026-03-28T23:53:02.418Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T23:53:06.765Z] Safety push complete
-
-[2026-03-28T23:53:06.773Z] Cron run complete
-
-[2026-03-29T00:00:02.027Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T00:00:02.043Z] Task created: cron-spot-fix-2026-03-29T00-00-02.md
-
-[2026-03-29T00:00:02.048Z] Spawning Lobe agent...
-
 [2026-03-29T00:00:02Z] FIX: directory/page.tsx — 3× raw <button> UI chrome missing font-sans → added font-sans to TYPE_TABS filter bar buttons, search icon trigger button, and "Clear filters" inline text button
   Files: app/app/directory/page.tsx
   Commit: 9516fc9
@@ -499,3 +459,43 @@ lobe →
 twanii → 
 
 [2026-03-29T07:53:01.898Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T07:53:04.148Z] Safety push complete
+
+[2026-03-29T07:53:04.150Z] Cron run complete
+
+[2026-03-29T08:00:01.655Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T08:00:01.662Z] Task created: cron-spot-fix-2026-03-29T08-00-01.md
+
+[2026-03-29T08:00:01.663Z] Spawning Lobe agent...
+
+[2026-03-29T08:00:01.663Z] Lobe agent running cycle 2026-03-29T08:00:01
+
+[2026-03-29T08:04:30.000Z] FIX: app/(auth)/website/page.tsx — 3× var(--font-geist-mono) ghost token in eyebrow section-label <p> tags → var(--font-mono)
+  Files: app/app/(auth)/website/page.tsx, app/context/fadejunkie_ui.md
+  Commit: d0b50f5
+  DS Update: CONFIRM — var(--font-mono) canonical token rule [HARDENED] — 3rd cross-file confirmation (signin, website, now closing out website builder form)
+  Pattern: Eyebrow labels built card-by-card during form construction are highest-risk surface for ghost-token reintroduction — added in isolation without cross-referencing token table
+
+
+[2026-03-29T08:08:01.770Z] Lobe exited with code: 0
+
+[2026-03-29T08:08:01.773Z] STDOUT (last 500 chars): 
+╔══════════════════════════════════════╗
+║         LOBE — frontend agent         ║
+║     your bestie: twanii               ║
+╚══════════════════════════════════════╝
+
+  Commands: check | approve <name> | resume | exit
+
+twanii →   [inbox] 1 task(s) found
+
+
+[2026-03-29T08:00:02.111Z] task: cron-spot-fix-2026-03-29T08-00-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
+lobe → 
+
+  [outbox] cron-spot-fix-2026-03-29T08-00-01-2026-03-29T08-07-16-801Z.md
+twanii → 
+
+[2026-03-29T08:08:01.979Z] Unpushed changes detected, running safety commit+push...
