@@ -1,24 +1,3 @@
-[2026-03-29T15:00:01.754Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T15:00:01.759Z] Task created: cron-spot-fix-2026-03-29T15-00-01.md
-
-[2026-03-29T15:00:01.761Z] Spawning Lobe agent...
-
-[2026-03-29T15:00:01Z] FIX: components/MatchesFeed.tsx — 5× inline style={{ fontFamily }} props replaced with Tailwind font classes: 2× font-body on <p> empty-state messages, 1× font-mono on <Link> CTA, 1× font-mono on <p> section header, 1× font-mono on <strong> inside section header → tokens were correct (no ghost tokens), delivery mechanism was wrong (inline style bypasses Tailwind class system)
-  Files: app/components/MatchesFeed.tsx, context/fadejunkie_ui.md
-  Commit: 71003d3
-  DS Update: CONFIRM — Monospace/body font token Tailwind-class-first rule — multi-element batch variant documented: authors who use inline fontFamily once apply it to all elements in the same file; a single hit should trigger a full-file scan for all style={{ fontFamily }} occurrences before closing the cycle
-  Pattern: When a co-authored file has one inline fontFamily violation, it reliably has more — the inline style habit is file-scoped, not element-scoped. Full-file grep for style=.*fontFamily is mandatory after the first hit. MatchesFeed.tsx (5 hits across 3 element types) is the canonical reference.
-
-[2026-03-29T15:08:01.882Z] Lobe exited with code: 0
-
-[2026-03-29T15:08:01.884Z] STDOUT (last 500 chars): d classes, are invisible to className grep audits, and break the utility-first contract.
-
----
-
-**📐 DS Update — CONFIRM**
-
-Hardened the "inline fontFamily = Tailwind class" rule in `context/fadejunkie_ui.md` with a new batch-variant note: **a single inline fontFamily hit in a file means the whole file has more.** `MatchesFeed.tsx` is now the canonical 5-hit reference.
 
 ---
 
@@ -499,3 +478,24 @@ twanii →
 
 
 [2026-03-29T19:08:02.928Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T19:08:04.982Z] Safety push complete
+
+[2026-03-29T19:08:04.983Z] Cron run complete
+
+[2026-03-29T19:15:02.215Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T19:15:02.263Z] Task created: cron-spot-fix-2026-03-29T19-15-02.md
+
+[2026-03-29T19:15:02.266Z] Spawning Lobe agent...
+
+[2026-03-29T19:23:03.105Z] Lobe exited with code: 0
+
+[2026-03-29T19:23:03.125Z] STDOUT (last 500 chars): arber profile (`/barber/[slug]`). A pure display component (no hooks, no `"use client"`) authored in isolation — exactly the pattern that produces full-block inline style debt.
+
+**DS Rule hardened to [HARDENED x6]** — pure display components are now documented as the highest-risk surface for this violation class. Detection pattern added: `grep -l 'style=\{\{' components/` filtered to files without `"use client"`.
+
+  [outbox] cron-spot-fix-2026-03-29T19-15-02-2026-03-29T19-21-43-609Z.md
+twanii → 
+
+[2026-03-29T19:23:03.288Z] Unpushed changes detected, running safety commit+push...

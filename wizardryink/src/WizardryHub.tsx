@@ -522,6 +522,204 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
 }
 
 /* ═══════════════════════════════════════
+   USER FLOW ANIMATION PAGE
+   ═══════════════════════════════════════ */
+const flowSteps=[
+  {id:"inquiry",icon:"\u{1F4F1}",label:"Client Inquiry",desc:"Client sends a DM on Instagram or submits a booking form on the website with tattoo details.",actor:"CLIENT",color:"#3b82f6"},
+  {id:"ai-process",icon:"\u{1F916}",label:"AI Processes Inquiry",desc:"AI extracts tattoo details — size, style, placement, color, complexity — and structures the data.",actor:"SYSTEM",color:"#8b5cf6"},
+  {id:"quote",icon:"\u{1F4B0}",label:"Quote Generated",desc:"AI calculates a price range based on the tattoo parameters and suggests the best-matched artist.",actor:"SYSTEM",color:"#8b5cf6"},
+  {id:"swipe",icon:"\u{1F4A5}",label:"Daisy Reviews",desc:"Quote card appears on Daisy's dashboard. Swipe right to approve and confirm artist, swipe left to edit or reassign.",actor:"DAISY",color:"#f59e0b"},
+  {id:"artist-notify",icon:"\u{1F514}",label:"Artist Notified",desc:"Assigned artist receives a push notification with booking details — client, style, date, and time slot.",actor:"ARTIST",color:"#22c55e"},
+  {id:"end-time",icon:"\u{23F1}",label:"Artist Sets End Time",desc:"Artist reviews the appointment and sets the end time based on the tattoo's complexity and their pace.",actor:"ARTIST",color:"#22c55e"},
+  {id:"overlap-check",icon:"\u{1F6E1}",label:"Overlap Prevention",desc:"System validates the booking against existing appointments. No conflicts? Proceed. Overlap detected? Flag it.",actor:"SYSTEM",color:"#8b5cf6"},
+  {id:"client-confirm",icon:"\u2709\uFE0F",label:"Client Confirmation",desc:"Client receives a confirmation notification with their quote, assigned artist, date, and time.",actor:"CLIENT",color:"#3b82f6"},
+  {id:"booked",icon:"\u2705",label:"Appointment Booked",desc:"Booking is locked in. Daisy's calendar is updated. No overlaps. Everyone's aligned.",actor:"SYSTEM",color:"#22c55e"},
+];
+
+function UserFlowPage({c}){
+  const [activeStep,setActiveStep]=useState(-1);
+  const [playing,setPlaying]=useState(false);
+  const [hasPlayed,setHasPlayed]=useState(false);
+  const timerRef=useRef<any>(null);
+
+  const play=()=>{
+    setPlaying(true);setHasPlayed(true);setActiveStep(-1);
+    let i=0;
+    const tick=()=>{
+      setActiveStep(i);
+      i++;
+      if(i<flowSteps.length){timerRef.current=setTimeout(tick,1800);}
+      else{timerRef.current=setTimeout(()=>setPlaying(false),1200);}
+    };
+    timerRef.current=setTimeout(tick,600);
+  };
+
+  useEffect(()=>{
+    const t=setTimeout(play,800);
+    return()=>{clearTimeout(t);if(timerRef.current)clearTimeout(timerRef.current)};
+  },[]);
+
+  const replay=()=>{
+    if(timerRef.current)clearTimeout(timerRef.current);
+    setPlaying(false);
+    setTimeout(play,100);
+  };
+
+  const actorColors={CLIENT:"#3b82f6",SYSTEM:c.VIOLET,DAISY:"#f59e0b",ARTIST:"#22c55e"};
+  const actorLabels={CLIENT:"Client",SYSTEM:"System",DAISY:"Daisy (Owner)",ARTIST:"Artist"};
+
+  return(
+    <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
+      <div style={{textAlign:"center",marginBottom:32}}>
+        <div style={{fontSize:11,color:c.VIOLET,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>AI BOOKING PIPELINE</div>
+        <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>User Flow</div>
+        <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>From first DM to confirmed appointment — fully automated</div>
+      </div>
+
+      {/* Legend */}
+      <div style={{display:"flex",justifyContent:"center",gap:16,marginBottom:28,flexWrap:"wrap"}}>
+        {Object.entries(actorLabels).map(([key,label])=>(
+          <div key={key} style={{display:"flex",alignItems:"center",gap:6}}>
+            <div style={{width:10,height:10,borderRadius:"50%",background:actorColors[key]}}/>
+            <span style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",letterSpacing:1,fontWeight:600}}>{label.toUpperCase()}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Flow */}
+      <div style={{position:"relative",display:"flex",flexDirection:"column",gap:0}}>
+        {flowSteps.map((step,i)=>{
+          const isActive=activeStep>=i;
+          const isCurrent=activeStep===i;
+          const isLast=i===flowSteps.length-1;
+
+          return(
+            <div key={step.id} style={{position:"relative"}}>
+              {/* Connector line */}
+              {!isLast&&(
+                <div style={{position:"absolute",left:27,top:56,width:2,height:40,background:activeStep>i?`linear-gradient(180deg,${step.color},${flowSteps[i+1].color})`:c.EDGE+"44",transition:"background 0.8s ease",zIndex:0}}>
+                  {/* Pulse dot traveling down the line */}
+                  {activeStep===i&&playing&&(
+                    <div style={{
+                      position:"absolute",top:0,left:-3,width:8,height:8,borderRadius:"50%",
+                      background:step.color,boxShadow:`0 0 12px ${step.color}`,
+                      animation:"flowPulse 1.8s ease-in-out infinite",
+                    }}/>
+                  )}
+                </div>
+              )}
+
+              {/* Step card */}
+              <div
+                onClick={()=>{if(!playing)setActiveStep(i)}}
+                style={{
+                  display:"flex",gap:16,alignItems:"flex-start",padding:"16px 20px",
+                  background:isCurrent?step.color+"10":isActive?c.CARD:"transparent",
+                  borderRadius:12,border:`1.5px solid ${isCurrent?step.color+"55":isActive?c.EDGE:c.EDGE+"33"}`,
+                  marginBottom:isLast?0:8,cursor:playing?"default":"pointer",
+                  transform:isCurrent?"scale(1.02)":"scale(1)",
+                  transition:"all 0.5s cubic-bezier(.4,0,.2,1)",
+                  opacity:isActive?1:0.35,position:"relative",zIndex:1,
+                }}
+              >
+                {/* Step number circle */}
+                <div style={{
+                  width:56,height:56,borderRadius:16,flexShrink:0,
+                  display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,
+                  background:isCurrent?step.color+"1a":c.DEEP,
+                  border:`2px solid ${isActive?step.color:c.EDGE+"44"}`,
+                  boxShadow:isCurrent?`0 0 24px ${step.color}33`:"none",
+                  transition:"all 0.5s ease",position:"relative",
+                }}>
+                  {step.icon}
+                  {/* Ripple effect on current */}
+                  {isCurrent&&playing&&(
+                    <div style={{
+                      position:"absolute",inset:-4,borderRadius:20,
+                      border:`2px solid ${step.color}44`,
+                      animation:"flowRipple 1.5s ease-out infinite",
+                    }}/>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                    <span style={{fontSize:9,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",padding:"2px 8px",borderRadius:3,background:actorColors[step.actor]+"18",color:actorColors[step.actor]}}>{step.actor}</span>
+                    <span style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>STEP {i+1}</span>
+                  </div>
+                  <div style={{fontSize:15,fontWeight:800,color:isActive?c.INK:c.SLATE,letterSpacing:0.5,transition:"color 0.5s"}}>{step.label}</div>
+                  <div style={{
+                    fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,marginTop:6,
+                    maxHeight:isCurrent||(!playing&&isActive)?"100px":"0",overflow:"hidden",
+                    opacity:isCurrent||(!playing&&isActive)?1:0,
+                    transition:"all 0.5s ease",
+                  }}>
+                    {step.desc}
+                  </div>
+                </div>
+
+                {/* Status indicator */}
+                <div style={{
+                  width:24,height:24,borderRadius:"50%",flexShrink:0,marginTop:4,
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                  background:isActive?step.color+"18":"transparent",
+                  border:`1.5px solid ${isActive?step.color:c.EDGE+"44"}`,
+                  transition:"all 0.5s ease",
+                }}>
+                  {isActive&&<span style={{fontSize:11,color:step.color,fontWeight:700}}>{"\u2713"}</span>}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Replay button */}
+      <div style={{textAlign:"center",marginTop:32}}>
+        <button onClick={replay} disabled={playing} style={{
+          padding:"12px 32px",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",
+          background:playing?"transparent":c.VIOLET,color:playing?c.SLATE:"#fff",
+          border:playing?`1px solid ${c.EDGE}`:"none",borderRadius:6,cursor:playing?"default":"pointer",
+          opacity:playing?0.5:1,transition:"all 0.3s",
+        }}>
+          {playing?"ANIMATING\u2026":"REPLAY FLOW"}
+        </button>
+      </div>
+
+      {/* Summary stats */}
+      {!playing&&hasPlayed&&(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginTop:32,opacity:1,transition:"opacity 0.5s"}}>
+          {[
+            {label:"TOTAL STEPS",value:"9",sub:"Fully automated"},
+            {label:"HUMAN TOUCHES",value:"2",sub:"Daisy swipe + Artist end time"},
+            {label:"CLIENT EFFORT",value:"1",sub:"Submit inquiry — that's it"},
+          ].map(s=>(
+            <div key={s.label} style={{textAlign:"center",padding:"20px 12px",background:c.CARD,borderRadius:8,border:`1px solid ${c.EDGE}`}}>
+              <div style={{fontSize:28,fontWeight:900,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>{s.value}</div>
+              <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginTop:4}}>{s.label}</div>
+              <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:2}}>{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* CSS Animations */}
+      <style>{`
+        @keyframes flowRipple {
+          0% { transform: scale(1); opacity: 1; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes flowPulse {
+          0% { top: 0; opacity: 1; }
+          100% { top: 32px; opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
 function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable}){
@@ -667,6 +865,7 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
 
   const pages=[
     {key:"workflow",label:"Workflow"},
+    {key:"userflow",label:"User Flow"},
     {key:"scope",label:"Scope"},
     {key:"agreement",label:"Agreement"},
   ];
@@ -707,6 +906,7 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
         {/* Content */}
         <main style={{maxWidth:960,margin:"0 auto"}}>
           {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
+          {page==="userflow"&&<UserFlowPage c={c}/>}
           {page==="scope"&&<ScopePage c={c}/>}
           {page==="agreement"&&<AgreementPage c={c}/>}
         </main>
