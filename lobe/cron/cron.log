@@ -1,20 +1,3 @@
-[2026-03-29T01:45:01.901Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
-
-[2026-03-29T02:00:02.009Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T02:00:02.032Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
-
-[2026-03-29T02:15:02.106Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T02:15:02.143Z] SKIP: Lobe inbox has 1 unprocessed task(s): cron-spot-fix-2026-03-29T01-30-01.md
-[2026-03-29T01:30:01Z] FIX: app/signin/page.tsx — Email label, Password label, and toggle paragraph all used hardcoded `color: "rgba(0,0,0,0.45/0.5)"` — near-invisible black text on dark-mode black background → replaced all three with `var(--muted-foreground)` which correctly resolves to light gray in dark mode
-  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md
-  Commit: b40f9ef
-  DS Update: CHALLENGE — No hardcoded colors / rgba rule — `rgba(0,0,0,0.45)` and `rgba(0,0,0,0.5)` used as secondary text color in form labels and toggle paragraph; these are black at 45–50% opacity = near-invisible in dark mode. Fixed to var(--muted-foreground).
-  Pattern: Form label colors and small-print toggle text are high-risk surfaces for rgba(0,0,0,*) violations — they tend to be added at design time in light mode where the near-black feel looks intentionally muted, but they break completely in dark mode. Any `<label>` or secondary `<p>` with rgba(0,0,0,*) color is a P0 dark-mode failure.
-
-[2026-03-29T02:30:02.480Z] WARN: Stale lockfile detected, removing
-
 [2026-03-29T02:30:02.548Z] SKIP: Lobe inbox has 1 unprocessed task(s): profile-settings-layout.md
 
 [2026-03-29T02:45:02.242Z] WARN: Stale lockfile detected, removing
@@ -505,3 +488,14 @@ twanii →
   Commit: 25403a5
   DS Update: CONFIRM — Section-label elements must NOT use heading tags [HARDENED] — 6th+ cross-file confirmation; shadcn-derived UI primitives in components/ui/ confirmed equal-risk surface. Combined with CONFIRM on var(--font-mono) ghost token rule — both violations co-located in the same element.
   Pattern: Third-party/template-derived UI components (shadcnblocks, etc.) were authored outside the FJ token context — they carry design-system violations by default. All files in components/ui/ must be included in ghost-token and heading-tag grep scans, not just first-party app/ pages.
+
+[2026-03-29T10:08:01.853Z] Lobe exited with code: 0
+
+[2026-03-29T10:08:01.855Z] STDOUT (last 500 chars): e `<h3>`-as-label rule in `fadejunkie_ui.md`, noting that shadcn-derived components in `components/ui/` are equal-risk surfaces — they're authored outside the FJ token context and carry violations by default. This is now the 6th+ cross-file confirmation of that rule.
+
+**📝 Growth note:** Logged that third-party/template UI components should be included in every grep scan, not just app pages and custom components.
+
+  [outbox] cron-spot-fix-2026-03-29T10-00-01-2026-03-29T10-04-04-575Z.md
+twanii → 
+
+[2026-03-29T10:08:02.012Z] Unpushed changes detected, running safety commit+push...
