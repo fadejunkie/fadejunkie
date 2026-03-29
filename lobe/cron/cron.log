@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T09:30:01.725Z] Task created: cron-spot-fix-2026-03-29T09-30-01.md
 
 [2026-03-29T09:30:01.726Z] Spawning Lobe agent...
+
+[2026-03-29T09:30:01.000Z] FIX: components/DevBanner.tsx — var(--font-geist-mono) ghost token on banner text span
+  Files: app/components/DevBanner.tsx, app/context/fadejunkie_ui.md
+  Commit: f0231ea
+  DS Update: CONFIRM [HARDENED x7] — var(--font-mono) rule — DevBanner.tsx extends risk surface to globally-mounted utility components
+  Pattern: Any component rendered as a layout.tsx child (banners, notification strips) is a ghost-token risk surface — built in isolation, rarely cross-referenced against token table
