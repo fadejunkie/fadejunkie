@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T10:15:01.772Z] Task created: cron-spot-fix-2026-03-29T10-15-01.md
 
 [2026-03-29T10:15:01.773Z] Spawning Lobe agent...
+
+[2026-03-29T10:15:01Z] FIX: app/terms/page.tsx + app/privacy/page.tsx — var(--font-geist-mono) ghost token on datestamp eyebrow ("Last updated March 2026") and footer back-link label ("← Back to FadeJunkie") in both legal pages → replaced with var(--font-mono)
+  Files: app/app/terms/page.tsx, app/app/privacy/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 5e0d045
+  DS Update: CONFIRM — var(--font-mono) is the ONLY correct monospace token [HARDENED x9] — legal/static pages confirmed as equal-risk surfaces for ghost-token introduction; authored once and never revisited, no visual review cycle
+  Pattern: Legal and static pages (terms, privacy, about) are authored in isolation and rarely code-reviewed against the token table — treat every new legal/static page as a presumed ghost-token violation until verified. The datestamp eyebrow and footer back-link are the two common monospace elements in these pages.
