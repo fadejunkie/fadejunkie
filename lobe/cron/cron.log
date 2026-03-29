@@ -1,35 +1,3 @@
-[2026-03-29T14:38:04.568Z] Safety push complete
-
-[2026-03-29T14:38:04.570Z] Cron run complete
-
-[2026-03-29T14:45:01.807Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T14:45:01.822Z] Task created: cron-spot-fix-2026-03-29T14-45-01.md
-
-[2026-03-29T14:45:01.825Z] Spawning Lobe agent...
-[2026-03-29T14:45:01Z] FIX: AppHeader.tsx — inline `style={{ fontFamily: "var(--font-mono), monospace" }}` on @handle span → `font-mono` Tailwind class
-  Files: app/components/AppHeader.tsx
-  Commit: c3bc07b
-  DS Update: CONFIRM — Monospace font token rule (Tailwind-class-first variant) — globally-mounted header component, renders on every authenticated route
-  Pattern: Globally-mounted layout components (AppHeader, AppSidebar) are equal-risk surfaces for inline fontFamily violations. Their failures are higher-impact because they render on every page.
-
-[2026-03-29T14:53:02.094Z] Lobe exited with code: 0
-
-[2026-03-29T14:53:02.096Z] STDOUT (last 500 chars): -class-first* rule in `fadejunkie_ui.md`:
-
-> Globally-mounted layout components (`AppHeader`, `AppSidebar`, layout wrappers) are **equal-risk surfaces** for inline fontFamily violations — and their failures are higher-impact because they render on every route. Detection scans must cover `components/App*.tsx` and `app/(auth)/layout.tsx` first.
-
-**Commits:** `c3bc07b` (fix) + `9a5350e` (DS + logs) → pushed to main.
-
-  [outbox] cron-spot-fix-2026-03-29T14-45-01-2026-03-29T14-50-49-934Z.md
-twanii → 
-
-[2026-03-29T14:53:02.241Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T14:53:03.820Z] Safety push complete
-
-[2026-03-29T14:53:03.822Z] Cron run complete
-
 [2026-03-29T15:00:01.754Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T15:00:01.759Z] Task created: cron-spot-fix-2026-03-29T15-00-01.md
@@ -499,3 +467,35 @@ The next cycle (firing around `18:52+`) will clear the guard and resume normal s
 twanii → 
 
 [2026-03-29T18:53:02.555Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T18:53:04.652Z] Safety push complete
+
+[2026-03-29T18:53:04.653Z] Cron run complete
+
+[2026-03-29T19:00:01.934Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T19:00:01.973Z] Task created: cron-spot-fix-2026-03-29T19-00-01.md
+
+[2026-03-29T19:00:01.975Z] Spawning Lobe agent...
+
+[2026-03-29T19:00:01Z] FIX: app/barber/[slug]/page.tsx — inline style={{ fontWeight: 700, letterSpacing: "-0.04em" }} on brand <Link> → Tailwind classes font-bold tracking-[-0.04em]
+  Files: app/app/barber/[slug]/page.tsx, app/context/fadejunkie_ui.md
+  Commit: 9e82686
+  DS Update: CONFIRM [HARDENED x5] — Inline style props rule — brand nav link on public route had 2-property inline style block (fontWeight+letterSpacing); both have direct Tailwind equivalents; tracking-* conflict rule does NOT apply to non-heading elements
+  Pattern: Brand logo/nav link elements on public-facing routes are high-risk for inline style micro-typography debt — authored once, rarely revisited during code review
+
+[2026-03-29T19:08:02.586Z] Lobe exited with code: 0
+
+[2026-03-29T19:08:02.603Z] STDOUT (last 500 chars): 
+
+**DS Update:** Confirmed [HARDENED x5] on the inline-style rule — nav link brand elements on public routes are now documented as a confirmed high-risk authoring surface. `tracking-*` arbitrary values are correct and preferred on non-heading elements (the restriction on Tailwind text-transform utilities only applies where ungrouped globals.css element selectors compete).
+
+**Commit:** `9e82686` → pushed to main ✓
+
+  [outbox] cron-spot-fix-2026-03-29T19-00-01-2026-03-29T19-05-27-943Z.md
+twanii → 
+
+[2026-03-29T19:08:02.632Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T19-00-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T19-00-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T19-00-01.md'
+
+
+[2026-03-29T19:08:02.928Z] Unpushed changes detected, running safety commit+push...
