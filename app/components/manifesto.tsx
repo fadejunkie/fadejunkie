@@ -99,7 +99,7 @@ const Manifesto = () => {
               <span
                 style={{
                   fontFamily:
-                    "var(--font-geist-mono), ui-monospace, monospace",
+                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.625rem",
                   fontWeight: 500,
                   letterSpacing: "0.18em",
@@ -126,7 +126,7 @@ const Manifesto = () => {
                 <p
                   style={{
                     fontFamily:
-                      "var(--font-geist-mono), ui-monospace, monospace",
+                      "var(--font-mono), ui-monospace, monospace",
                     fontSize: "0.625rem",
                     fontWeight: 500,
                     letterSpacing: "0.16em",
