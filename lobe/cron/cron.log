@@ -1,34 +1,3 @@
-  [outbox] cron-spot-fix-2026-03-29T12-00-01-2026-03-29T12-04-51-833Z.md
-twanii → 
-
-[2026-03-29T12:08:02.086Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T12:08:03.965Z] Safety push complete
-
-[2026-03-29T12:08:03.967Z] Cron run complete
-
-[2026-03-29T12:15:01.807Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T12:15:01.813Z] Task created: cron-spot-fix-2026-03-29T12-15-01.md
-
-[2026-03-29T12:15:01.814Z] Spawning Lobe agent...
-
-[2026-03-29T12:15:01Z] FIX: components/StatusToggleCard.tsx — Refresh button in active-status expiry row used `font-mono` instead of `font-sans`, rendering the UI action verb "Refresh" in Geist Mono (data font) rather than Geist (UI chrome font) → replaced `font-mono` with `font-sans` on the Refresh button className
-  Files: app/components/StatusToggleCard.tsx, app/context/fadejunkie_ui.md
-  Commit: 5b919fe
-  DS Update: CONFIRM [HARDENED] — Raw <button> must use font-sans — new detection nuance documented: action buttons adjacent to data-label spans can inherit `font-mono` from nearby siblings during authoring; font-mono is correct for data/count badges (×N), font-sans is correct for UI action verbs ("Refresh") — these must be treated as distinct even in the same row
-  Pattern: When a button lives inside a row of data-labeled spans (expiry timer, dot separator, count badge), the developer's mental context shifts to "data presentation mode" and they author the action button with font-mono by association. The count badge (×N) is correctly font-mono; the action verb ("Refresh") is wrongly font-mono. Always audit action verbs independently from their sibling data labels.
-
-[2026-03-29T12:23:01.900Z] Lobe exited with code: 0
-
-[2026-03-29T12:23:01.903Z] STDOUT (last 500 chars): nge:** `font-mono` → `font-sans` on the Refresh button className. One token, one line.
-
-**Artifacts updated:**
-- `context/fadejunkie_ui.md` — CONFIRM hardened with new detection note: scan action buttons adjacent to data spans, not just standalone button groups
-- `lobe/cron/cron.log` — cycle logged with commit hash `5b919fe`  
-- `lobe/memory/growth.md` — "data context bleed" pattern documented
-
-**Build:** ✅ Clean
 
   [outbox] cron-spot-fix-2026-03-29T12-15-01-2026-03-29T12-19-04-521Z.md
 twanii → 
@@ -499,3 +468,34 @@ twanii →
 twanii → 
 
 [2026-03-29T16:23:02.019Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T16:23:03.543Z] Safety push complete
+
+[2026-03-29T16:23:03.546Z] Cron run complete
+
+[2026-03-29T16:30:01.821Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T16:30:01.828Z] Task created: cron-spot-fix-2026-03-29T16-30-01.md
+
+[2026-03-29T16:30:01.830Z] Spawning Lobe agent...
+
+[2026-03-29T16:38:01.975Z] Lobe exited with code: 0
+
+[2026-03-29T16:38:01.999Z] STDOUT (last 500 chars): 
+╔══════════════════════════════════════╗
+║         LOBE — frontend agent         ║
+║     your bestie: twanii               ║
+╚══════════════════════════════════════╝
+
+  Commands: check | approve <name> | resume | exit
+
+twanii →   [inbox] 1 task(s) found
+
+
+[2026-03-29T16:30:02.345Z] task: cron-spot-fix-2026-03-29T16-30-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
+lobe → 
+
+  [outbox] cron-spot-fix-2026-03-29T16-30-01-2026-03-29T16-36-21-727Z.md
+twanii → 
+
+[2026-03-29T16:38:02.183Z] Unpushed changes detected, running safety commit+push...
