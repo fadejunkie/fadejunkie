@@ -98,7 +98,7 @@ function SectionCard({
 }) {
   return (
     <section id={id} className="scroll-mt-6">
-      <Card className="rounded-xl p-8" style={{ borderRadius: "0.75rem" }}>
+      <Card className="rounded-xl p-8">
         <div className="flex items-start justify-between gap-4 mb-5">
           <p
             className="font-display text-lg font-semibold text-foreground tracking-[-0.03em] lowercase"
@@ -296,7 +296,6 @@ export default function ProfilePage() {
                 {/* Profile card — avatar centered */}
                 <Card
                   className="rounded-xl p-8"
-                  style={{ borderRadius: "0.75rem" }}
                 >
                   <div className="flex items-start justify-between gap-4 mb-6">
                     <p
