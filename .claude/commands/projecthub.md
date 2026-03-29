@@ -72,7 +72,8 @@ Create `<slug>/src/<ClientName>Hub.tsx` based on the Arquero template with these
 
 **Phases data:** Build the `phases[]` array from the provided scope. Each phase needs:
 - `id`, `name`, `subtitle`, `week`, `fee`, `short` (2-3 word label for card), `icon`
-- `milestones[]` each with `title`, `clientDesc`, `tasks[]` (with `label` + optional `blocker:true`)
+- `milestones[]` each with `title`, `clientDesc`, `tasks[]` (with `label` + optional `blocker:true` + optional `link:"/path"`)
+- Add client approval blockers at the end of key milestones (e.g. logo design, brand system)
 
 **Scope page:** Build a scope table from the phases — name, deliverables, week, fee. Include total.
 
@@ -82,6 +83,15 @@ Create `<slug>/src/<ClientName>Hub.tsx` based on the Arquero template with these
 - Payment schedule section (milestones or monthly terms)
 - Standard clauses: scope, revisions, IP, confidentiality, termination, limitation of liability
 - Signature block (client + provider)
+
+**Milestone deliverables (STANDARD — always include):** Add to every hub:
+- `MilestoneDeliverables` component — renders a DELIVERABLES section below each milestone's task list
+- Ops mode: "+ ADD" button → type picker (Screenshot/PDF/Link) + label + URL fields → SAVE
+- Client mode: view-only list of attached deliverables
+- Shows type badge (PDF/IMG/URL), clickable link, date, remove button (ops only)
+- Wire `getDeliverables` query + `addDeliverable`/`removeDeliverable` mutations in main hub, pass as props to WorkflowPage
+- WorkflowPage passes `deliverables, onAdd, onRemove` to each `MilestoneDeliverables` instance
+- Reference implementation: `sydneyspillman/src/SydneyHub.tsx` → search for `MilestoneDeliverables`
 
 **Website mockup (if requested):** Adapt the `WebsitePage` component:
 - Update `SiteNav` links to client's actual nav structure
@@ -101,10 +111,23 @@ export default defineSchema({
     key: v.string(),
     value: v.boolean(),
   }).index("by_project_key", ["projectId", "key"]),
+
+  projectDeliverables: defineTable({
+    projectId: v.string(),
+    milestoneKey: v.string(),
+    label: v.string(),
+    url: v.string(),
+    type: v.string(),
+    addedAt: v.number(),
+  }).index("by_project_milestone", ["projectId", "milestoneKey"]),
 });
 ```
 
-Create `<slug>/convex/<slug>Tasks.ts` with `getTasks` query and `setTask` mutation using `projectId: "<slug>-<client>"`.
+Create `<slug>/convex/<slug>Tasks.ts` with:
+- `getTasks` query + `setTask` mutation using `projectId: "<slug>-<client>"`
+- `getDeliverables` query — returns all deliverables for a projectId
+- `addDeliverable` mutation — inserts a deliverable (projectId, milestoneKey, label, url, type, addedAt)
+- `removeDeliverable` mutation — deletes by `v.id("projectDeliverables")`
 
 ### 2d. Update `index.html`
 
@@ -167,7 +190,7 @@ Deliver to the user:
 - **Single TSX file.** Keep everything in `<ClientName>Hub.tsx` — no separate component files unless the file exceeds 2,000 lines.
 - **`// @ts-nocheck` at top.** Always. Inline styles throughout — no Tailwind, no CSS modules.
 - **Inline `<style>` tag** for responsive classes (`.hdr-pad`, `.nav-btn`, `.nav-label`, breakpoints at 768px + 480px).
-- **Convex for task state only.** All other data is hardcoded in the TSX file — no CMS, no DB reads for content.
+- **Convex for task state + deliverables.** Task checkboxes and milestone deliverables are stored in Convex. All other data is hardcoded in the TSX file — no CMS, no DB reads for content.
 - **Dark theme default** with light toggle persisted in `localStorage("${slug}-theme")`.
 - **Product images** go in `public/` and are referenced as `/filename.png` (no `./` or imports).
 - **PowerShell for all Cloudflare API calls** — write to `.ps1` file, run with `powershell -File`. Never use curl for HTTPS on Windows.

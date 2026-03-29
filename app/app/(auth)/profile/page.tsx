@@ -14,7 +14,7 @@ import ActiveStatusBadges from "@/components/ActiveStatusBadges";
 import { cn } from "@/lib/utils";
 import { Pencil } from "lucide-react";
 
-type SectionId = "my-profile" | "paths" | "gallery";
+type SectionId = "my-profile" | "paths";
 
 // ── Field display helpers ─────────────────────────────────────────────────────
 
@@ -152,7 +152,7 @@ export default function ProfilePage() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
   const activeSection: SectionId =
-    tabParam === "paths" || tabParam === "gallery" ? tabParam : "my-profile";
+    tabParam === "paths" ? tabParam : "my-profile";
 
   const avatarRef = useRef<HTMLInputElement>(null);
   const slugCheckTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -456,6 +456,11 @@ export default function ProfilePage() {
                       )}
                     </div>
                   </div>
+                </SectionCard>
+
+                {/* Gallery */}
+                <SectionCard id="gallery" title="gallery">
+                  <GalleryGrid barberId={barber._id} editable />
                 </SectionCard>
 
                 {/* Live page */}
@@ -775,12 +780,6 @@ export default function ProfilePage() {
         {/* ── PATHS ── */}
         {activeSection === "paths" && <PathSelector />}
 
-        {/* ── GALLERY ── */}
-        {activeSection === "gallery" && barber && (
-          <SectionCard id="gallery" title="gallery">
-            <GalleryGrid barberId={barber._id} editable />
-          </SectionCard>
-        )}
     </div>
   );
 }

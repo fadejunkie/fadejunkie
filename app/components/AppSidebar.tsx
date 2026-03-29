@@ -12,7 +12,6 @@ const navItems = [
     label: "My Profile",
     children: [
       { href: "/profile?tab=paths", label: "Paths" },
-      { href: "/profile?tab=gallery", label: "Gallery" },
       { href: "/status", label: "Status" },
       { href: "/discover", label: "Discover" },
     ],
