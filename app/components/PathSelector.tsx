@@ -241,7 +241,7 @@ export default function PathSelector() {
   }
 
   return (
-    <Card className="rounded-xl shadow-sm" style={{ borderRadius: '0.75rem' }}>
+    <Card className="rounded-xl shadow-sm">
       {/* ── Collapsible header ── */}
       <button
         type="button"
