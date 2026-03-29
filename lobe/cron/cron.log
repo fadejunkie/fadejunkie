@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T22:54:22.218Z] Task created: cron-spot-fix-2026-03-29T22-54-22.md
 
 [2026-03-29T22:54:22.221Z] Spawning Lobe agent...
+
+[2026-03-29T22:54:22Z] FIX: app/signin/page.tsx — form panel wordmark <Link> had 6-property inline style block (fontFamily, fontSize, fontWeight, color, letterSpacing, textDecoration + display + marginBottom) → replaced with Tailwind classes: font-display text-2xl font-extrabold text-foreground tracking-[-0.04em] no-underline block mb-1.5
+  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 5e78be2
+  DS Update: CONFIRM [HARDENED] — Inline style fontFamily delivery rule — sign-in form panel wordmark Link confirmed as all-inline typography surface (same pattern as AppHeader logo Link, barber/[slug] eyebrows). Sign-in/auth pages are a reliable high-risk surface: branded, isolated authoring session, full typographic stack delivered via inline style for precision control. Form panel (mobile+desktop visible) fixed first; brand panel typography blocks queued for next cycle.
+  Pattern: Auth page all-inline typography — sign-in pages deliver the entire typographic stack (font, size, weight, tracking, color, decoration, display, margin) via inline style on brand wordmark Links. Detection: grep `fontFamily` in any signin/auth page. Fix: map every property to Tailwind equivalent, delete style prop. Priority: form panel (mobile+desktop) > brand panel (desktop-only).
