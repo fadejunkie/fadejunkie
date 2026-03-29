@@ -134,7 +134,7 @@ export default function DirectoryPage() {
                   key={type}
                   onClick={() => handleTypeChange(type)}
                   className={cn(
-                    "px-3.5 h-full font-semibold transition-colors",
+                    "px-3.5 h-full font-sans font-semibold transition-colors",
                     i > 0 && "border-l border-foreground",
                     activeType === type
                       ? "bg-foreground text-background"
@@ -158,7 +158,7 @@ export default function DirectoryPage() {
               <button
                 onClick={handleSearch}
                 disabled={geocoding}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-2 top-1/2 -translate-y-1/2 font-sans text-muted-foreground hover:text-foreground"
                 aria-label="Search"
               >
                 {geocoding ? (
@@ -200,7 +200,7 @@ export default function DirectoryPage() {
               {(query || radius > 0) && (
                 <button
                   onClick={() => { setQuery(""); setSearchCenter(null); setRadius(0); }}
-                  className="underline hover:no-underline"
+                  className="font-sans underline hover:no-underline"
                 >
                   Clear filters
                 </button>
