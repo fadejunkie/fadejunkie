@@ -1,22 +1,3 @@
-
-[2026-03-29T15:45:01.739Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T15:45:01.745Z] Task created: cron-spot-fix-2026-03-29T15-45-01.md
-
-[2026-03-29T15:45:01Z] FIX: components/PostCard.tsx — outer card div used `style={{ borderRadius: "var(--radius-3xl)" }}` inline style delivering a single CSS property with a direct Tailwind equivalent → removed inline style prop, added `rounded-3xl` to className
-  Files: app/components/PostCard.tsx, context/fadejunkie_ui.md
-  Commit: e41079d
-  DS Update: ADD — Inline style for structural CSS properties rule — the inline-style-to-Tailwind migration principle extends beyond fontFamily to borderRadius (and other layout properties). `style={{ borderRadius: "var(--radius-3xl)" }}` → `rounded-3xl`. Also documented the "dead className" conflict pattern: when both an inline borderRadius AND a Tailwind rounded-* class exist on the same element, the inline style wins and the Tailwind class is dead code.
-  Pattern: The inline-style anti-pattern is not font-specific. Any single CSS property with a direct Tailwind utility equivalent delivered via style={{}} is a P1 violation. borderRadius is the most common non-font variant: style={{ borderRadius: "var(--radius-3xl)" }} → rounded-3xl, style={{ borderRadius: "0.75rem" }} → rounded-xl. Grep `style={{` broadly — don't limit detection to fontFamily keys.
-
-[2026-03-29T15:45:01.747Z] Spawning Lobe agent...
-
-[2026-03-29T15:53:02.160Z] Lobe exited with code: 0
-
-[2026-03-29T15:53:02.162Z] STDOUT (last 500 chars): ted the "dead className" conflict pattern: when both `style={{ borderRadius }}` and a `rounded-*` class exist on the same element, the inline style silently wins, making the Tailwind class invisible dead code. Flagged `profile/page.tsx`, `PathSelector.tsx`, and `PostComposer.tsx` for follow-up cycles — all have the same pattern.
-
-**Build:** ✅ Clean — commits `e41079d` (fix) + `88e8f3a` (DS + log), pushed to main.
-
   [outbox] cron-spot-fix-2026-03-29T15-45-01-2026-03-29T15-52-17-404Z.md
 twanii → 
 
@@ -505,3 +486,16 @@ twanii →
   Commit: 7b74af4
   DS Update: CONFIRM [HARDENED x7] — Inline style structural CSS rule — dead-className variant on collapsible Card root. <Card className="rounded-xl" style={{ borderRadius: '0.75rem' }}> pattern confirmed as a new risk surface: Card doesn't strip style props, so both properties propagate to the root div, inline wins silently. Any <Card className="rounded-*" style={{ borderRadius }}/> in the codebase is a confirmed P1.
   Pattern: Collapsible/interactive card roots wrapping Radix UI Card are high-frequency dead-className surfaces — developers add rounded-* to className for visual intent AND pass borderRadius as style={{}} as a "safety net." Follow-up flagged: PostComposer.tsx:31 has style={{ borderRadius: "20px" }} on a <form> (no dead-className, just a Tailwind migration to rounded-[20px]).
+
+[2026-03-29T20:08:02.240Z] Lobe exited with code: 0
+
+[2026-03-29T20:08:02.243Z] STDOUT (last 500 chars): adius` via `style={{}}` as a safety net, not realising the Tailwind class is already doing (or trying to do) the job. Any `<Card className="rounded-*" style={{ borderRadius: ... }}>` in the codebase is a confirmed P1.
+
+---
+
+**Follow-up flagged for next cycle:** `components/PostComposer.tsx:31` — `style={{ borderRadius: "20px" }}` on a `<form>` (not a dead-className, just a Tailwind migration to `rounded-[20px]`).
+
+  [outbox] cron-spot-fix-2026-03-29T20-00-01-2026-03-29T20-05-28-684Z.md
+twanii → 
+
+[2026-03-29T20:08:02.393Z] Unpushed changes detected, running safety commit+push...
