@@ -29,8 +29,8 @@ export default function DevBanner() {
         position: "sticky",
         top: 0,
         zIndex: 60,
-        backgroundColor: "rgba(22,16,8,0.97)",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
+        backgroundColor: "var(--foreground)",
+        borderBottom: "1px solid color-mix(in oklch, var(--background) 6%, transparent)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -38,13 +38,13 @@ export default function DevBanner() {
       }}
     >
       <span
+        className="font-mono"
         style={{
-          fontFamily: "var(--font-mono), ui-monospace, monospace",
           fontSize: "0.6875rem",
           fontWeight: 500,
           letterSpacing: "0.1em",
           textTransform: "uppercase",
-          color: "#fff4ea",
+          color: "var(--background)",
           whiteSpace: "nowrap",
           lineHeight: 1,
         }}
@@ -62,7 +62,7 @@ export default function DevBanner() {
           transform: "translateY(-50%)",
           background: "none",
           border: "none",
-          color: "rgba(255,244,234,0.45)",
+          color: "color-mix(in oklch, var(--background) 45%, transparent)",
           cursor: "pointer",
           padding: "0.3125rem",
           display: "flex",
@@ -73,11 +73,11 @@ export default function DevBanner() {
           borderRadius: "0.25rem",
         }}
         onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLButtonElement).style.color = "#fff4ea")
+          ((e.currentTarget as HTMLButtonElement).style.color = "var(--background)")
         }
         onMouseLeave={(e) =>
           ((e.currentTarget as HTMLButtonElement).style.color =
-            "rgba(255,244,234,0.45)")
+            "color-mix(in oklch, var(--background) 45%, transparent)")
         }
       >
         <X size={11} strokeWidth={2} />
