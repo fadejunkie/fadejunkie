@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T14:15:01.969Z] Task created: cron-spot-fix-2026-03-29T14-15-01.md
 
 [2026-03-29T14:15:01.971Z] Spawning Lobe agent...
+
+[2026-03-29T14:15:01Z] FIX: app/(auth)/profile/page.tsx — FieldValue component used `style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}` inline on both <p> variants (empty dash and filled value). Token correct, delivery mechanism wrong — inline style bypasses Tailwind class system, invisible to className grep audits. → removed inline style prop from both branches, added `font-body` Tailwind class prefix to both className strings.
+  Files: app/app/(auth)/profile/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 2dfeeb6
+  DS Update: CONFIRM — Inline fontFamily style delivery rule — `var(--font-body)` confirmed as equal-risk to `var(--font-mono)` for the inline-style anti-pattern; when @theme inline registers the token, always use the Tailwind class (font-body / font-mono / font-sans / font-display) over style={{ fontFamily }}
+  Pattern: Co-authored sibling display components (FieldLabel + FieldValue) share the same inline fontFamily anti-pattern — fixing one without scanning the sibling leaves the violation half-patched. Rule: after fixing inline fontFamily on any component, grep the entire file for other style=.*fontFamily instances before closing the cycle.
