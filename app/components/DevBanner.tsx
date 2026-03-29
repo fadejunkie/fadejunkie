@@ -39,7 +39,7 @@ export default function DevBanner() {
     >
       <span
         style={{
-          fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+          fontFamily: "var(--font-mono), ui-monospace, monospace",
           fontSize: "0.6875rem",
           fontWeight: 500,
           letterSpacing: "0.1em",
