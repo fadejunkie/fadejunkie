@@ -21,8 +21,7 @@ type SectionId = "my-profile" | "paths";
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
     <p
-      className="text-[10px] text-muted-foreground uppercase tracking-[0.1em]"
-      style={{ fontFamily: "var(--font-mono), monospace" }}
+      className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.1em]"
     >
       {children}
     </p>
