@@ -35,7 +35,6 @@ export default function DiscoverTabs() {
                   ? "text-foreground border-b-2 border-foreground"
                   : "text-muted-foreground hover:text-foreground/70 border-b-2 border-transparent",
               ].join(" ")}
-              style={{ fontFamily: "var(--font-mono), monospace" }}
             >
               {label}
             </button>
