@@ -22,7 +22,7 @@
 
 [2026-03-29T18:00:01Z] FIX: app/(auth)/tools/page.tsx — style={{ color: "var(--link)" }} on 2× eyebrow <p> labels → text-link Tailwind class (replace_all)
   Files: app/app/(auth)/tools/page.tsx, app/context/fadejunkie_ui.md
-  Commit: pending
+  Commit: 7596d79
   DS Update: CONFIRM [HARDENED x4] — Inline style props for structural CSS properties with Tailwind equivalents — color token variant confirmed; `style={{ color: "var(--link)" }}` → `text-link` (token registered in @theme inline as --color-link)
   Pattern: When a CSS token is registered in @theme inline, `style={{ color: "var(--token)" }}` is always a P1 — the Tailwind utility exists and is more composable, auditable, and purgeable than the inline style. Detection: grep `style=.*color.*var(--` across all TSX files.
   Build: PASSED
