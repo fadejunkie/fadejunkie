@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T00:00:02.043Z] Task created: cron-spot-fix-2026-03-29T00-00-02.md
 
 [2026-03-29T00:00:02.048Z] Spawning Lobe agent...
+
+[2026-03-29T00:00:02Z] FIX: directory/page.tsx — 3× raw <button> UI chrome missing font-sans → added font-sans to TYPE_TABS filter bar buttons, search icon trigger button, and "Clear filters" inline text button
+  Files: app/app/directory/page.tsx
+  Commit: 9516fc9
+  DS Update: CONFIRM — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed on public-facing directory page; rule now spans auth-interior AND public routes (5+ files total)
+  Pattern: Public-facing filter/search bars with raw <button> elements are multi-instance risk surfaces — scan TYPE_TABS, icon triggers, and empty-state inline text buttons as a group on every directory-style page.
