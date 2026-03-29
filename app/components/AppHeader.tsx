@@ -65,8 +65,7 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
       <div className="flex items-center gap-3">
         <button
           onClick={() => signOut()}
-          className="hidden sm:inline text-xs text-muted-foreground hover:text-foreground transition-colors"
-          style={{ fontFamily: "var(--font-mono), monospace" }}
+          className="hidden sm:inline font-sans text-xs text-muted-foreground hover:text-foreground transition-colors"
         >
           sign out
         </button>
