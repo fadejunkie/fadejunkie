@@ -1,20 +1,3 @@
-twanii → 
-
-[2026-03-29T13:08:00.583Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T13-00-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T13-00-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T13-00-02.md'
-
-
-[2026-03-29T13:08:00.736Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T13:08:03.330Z] Safety push complete
-
-[2026-03-29T13:08:03.331Z] Cron run complete
-
-[2026-03-29T13:15:01.958Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T13:15:01.965Z] Task created: cron-spot-fix-2026-03-29T13-15-01.md
-
-[2026-03-29T13:15:01.968Z] Spawning Lobe agent...
-
 [2026-03-29T13:15:01Z] FIX: components/DiscoveryCard.tsx — "connect" button label wrapped in <span className="font-mono"> overriding parent button's font-sans → removed span wrapper, text is now a bare node inheriting font-sans correctly
   Files: app/components/DiscoveryCard.tsx, context/fadejunkie_ui.md
   Commit: 41a4e37
@@ -505,3 +488,14 @@ twanii →
   Commit: e64c17d
   DS Update: ADD — Inline style for structural CSS properties rule [HARDENED x2] — rule was logged in cycle 2026-03-29T15:45 (PostCard.tsx) but never written to fadejunkie_ui.md; added now with both confirmations. "Dead className" variant: when `style={{ borderRadius }}` and `rounded-*` coexist on the same element, the inline style wins and the Tailwind class is invisible dead code.
   Pattern: Reusable layout helper components (SectionCard, etc.) that wrap a UI component multiply inline style violations across every call site. A single `style={{ borderRadius }}` in a shared helper is higher-blast-radius than the same violation in a one-off element. Detection: grep `style=\{\{` broadly — any single-property inline style with a Tailwind equivalent is a P1 dead-className candidate.
+
+[2026-03-29T17:23:02.122Z] Lobe exited with code: 0
+
+[2026-03-29T17:23:02.125Z] STDOUT (last 500 chars): ded-*` className is always dead code — the inline style wins. The `SectionCard` variant is particularly high blast-radius because it's a shared layout helper that renders once per card section across the entire profile page.
+
+**Growth memory:** Logged the "reusable layout helper inline style = multiplicative blast radius" pattern — when a helper wrapper carries the violation, every section it renders inherits it.
+
+  [outbox] cron-spot-fix-2026-03-29T17-15-02-2026-03-29T17-20-14-532Z.md
+twanii → 
+
+[2026-03-29T17:23:02.275Z] Unpushed changes detected, running safety commit+push...
