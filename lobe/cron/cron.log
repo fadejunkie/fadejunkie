@@ -1,24 +1,3 @@
-  code: 'ERR_USE_AFTER_CLOSE'
-}
-
-Node.js v24.13.1
-
-
-[2026-03-29T16:53:03.721Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T16:53:05.334Z] Safety push complete
-
-[2026-03-29T16:53:05.336Z] Cron run complete
-
-[2026-03-29T17:00:01.864Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T17:00:01.871Z] Task created: cron-spot-fix-2026-03-29T17-00-01.md
-
-[2026-03-29T17:00:01.873Z] Spawning Lobe agent...
-
-[2026-03-29T17:00:00.000Z] FIX: app/(auth)/website/page.tsx — 3× 6-property inline style blocks on section eyebrow <p> labels ("Shop Identity", "About", "Contact & Hours") → replaced with Tailwind classes `font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-5`
-  Files: app/app/(auth)/website/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: dbcb6a1
   DS Update: ↻ Revised — Section-label rule "Correct pattern" was documenting inline style syntax; updated to Tailwind-class-only pattern after 4 cross-file confirmations that inline blocks are always replaced. Also added cycle note to the rule.
   Pattern: DS doc "Correct pattern" entries can document intermediate states as final — when a violation is fixed in two stages (h2→p THEN inline→Tailwind), only the first fix updates the rule example. The second fix (Tailwind migration) requires re-reading the rule and revising the example to match the higher standard. Auth-interior form pages (website, profile) share the same inline eyebrow authoring habit as public templates (ShopTemplate, barber/[slug]) — the pattern is confirmed systemic across all page categories.
 
@@ -505,3 +484,18 @@ Node.js v24.13.1
   Commit: e4affd1
   DS Update: CONFIRM [inline style structural CSS rule] — PostComposer.tsx:31 was previously queued as "noted for next cycle" in the DS doc. Confirmed and resolved. Added note clarifying hardcoded-px migration: `rounded-[20px]` not `rounded-xl`/`rounded-2xl` — exact spec value must be preserved.
   Pattern: Pure inline-style migration (no dead-className conflict) on a `<form>` root. Hardcoded px borderRadius must migrate to Tailwind arbitrary value `rounded-[N px]`, not to the nearest token class — silently rounding changes the visual output. FJ card radius = 20px = `rounded-[20px]`.
+
+[2026-03-29T21:08:03.144Z] Lobe exited with code: 0
+
+[2026-03-29T21:08:03.223Z] STDOUT (last 500 chars): ctural CSS properties belong in Tailwind, not inline styles" rule — added `rounded-[20px]` as the documented migration pattern for the 20px card radius token, with a note distinguishing *pure migrations* (inline → Tailwind) from *dead-className conflicts* (inline + redundant Tailwind class fighting each other).
+
+---
+
+**Build:** ✅ Clean — 18/18 static pages, TypeScript clean  
+**Commit:** `e4affd1`  
+**Pushed:** ✓
+
+  [outbox] cron-spot-fix-2026-03-29T21-00-02-2026-03-29T21-04-57-181Z.md
+twanii → 
+
+[2026-03-29T21:08:05.383Z] Unpushed changes detected, running safety commit+push...
