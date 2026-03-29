@@ -1,20 +1,3 @@
-[2026-03-29T00:23:02.453Z] STDOUT (last 500 chars): auth)/status/page.tsx`
-
-**DS Update (ADD):** Documented `var(--font-heading)` as an undefined token trap in `context/fadejunkie_ui.md`. The dangerous part: `system-ui` fallback is visually plausible enough (same weight/size class as League Spartan) to survive casual visual review. Detection rule added: **grep `font-heading` across all TSX files** — any occurrence is a confirmed bug since that token doesn't exist.
-
-  [outbox] cron-spot-fix-2026-03-29T00-15-02-2026-03-29T00-20-43-640Z.md
-twanii → 
-
-[2026-03-29T00:23:03.157Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T00:23:08.536Z] Safety push complete
-
-[2026-03-29T00:23:08.544Z] Cron run complete
-
-[2026-03-29T00:30:01.786Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T00:30:01.799Z] Task created: cron-spot-fix-2026-03-29T00-30-01.md
-
 [2026-03-29T00:30:01.803Z] Spawning Lobe agent...
 
 [2026-03-29T00:30:01Z] FIX: app/(auth)/profile/page.tsx — 2 card section labels ("Your Profile", "Gallery") had style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}; --font-heading is undefined in globals.css so they silently rendered in system-ui, bypassing League Spartan. Inline style also overrides any font-display Tailwind class. → removed broken inline style from both <p> tags, added font-display to className.
@@ -505,3 +488,14 @@ twanii →
   Commit: efd242b
   DS Update: ADD — "Monospace font token — always var(--font-mono), never var(--font-geist-mono) [HARDENED]" — rule existed in growth memory but was never written to fadejunkie_ui.md; added as new rule block with 3 confirmation entries and [HARDENED] marker
   Pattern: var(--font-geist-mono) is the implementation variable; var(--font-mono) is the design token. Component code must use the token, not the underlying variable. 14 instances on the landing page is the highest single-page ghost-token concentration found to date.
+
+[2026-03-29T08:38:01.932Z] Lobe exited with code: 0
+
+[2026-03-29T08:38:01.935Z] STDOUT (last 500 chars): he correct abstraction.
+
+**Why `var(--font-mono)` over `var(--font-geist-mono)`:** `globals.css` defines `--font-mono: var(--font-geist-mono)` — so `--font-mono` is the design token layer, `--font-geist-mono` is the implementation variable. Component code belongs at the design token layer. If the underlying font variable name ever changes, only `globals.css` needs updating, not every component that references it.
+
+  [outbox] cron-spot-fix-2026-03-29T08-30-01-2026-03-29T08-37-10-432Z.md
+twanii → 
+
+[2026-03-29T08:38:02.144Z] Unpushed changes detected, running safety commit+push...
