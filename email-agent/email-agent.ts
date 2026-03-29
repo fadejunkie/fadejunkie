@@ -10,6 +10,10 @@ const AGENT_ROOT = path.join(WORKSPACE_ROOT, "email-agent");
 const INBOX_DIR = path.join(AGENT_ROOT, "inbox");
 const OUTBOX_DIR = path.join(AGENT_ROOT, "outbox");
 const PENDING_DIR = path.join(AGENT_ROOT, "outbox", "pending");
+const PENDING_SENDS_DIR = path.join(AGENT_ROOT, "outbox", "pending-sends");
+const SENT_DIR = path.join(AGENT_ROOT, "outbox", "sent");
+const CLIENTS_DIR = path.join(AGENT_ROOT, "clients");
+const TEMPLATES_DIR = path.join(AGENT_ROOT, "templates");
 const MEMORY_DIR = path.join(AGENT_ROOT, "memory");
 const SESSION_FILE = path.join(AGENT_ROOT, ".last-session");
 const LAST_CHECK_FILE = path.join(AGENT_ROOT, ".last-check");
@@ -18,23 +22,74 @@ const LAST_CHECK_FILE = path.join(AGENT_ROOT, ".last-check");
 
 const ALLOWED_CONTACTS = ["deanna@wcorwin.com", "joe@wcorwin.com"] as const;
 
+// ── Client config loader ────────────────────────────────────────────────────
+
+function loadClientConfig(slug: string): string | null {
+  const configPath = path.join(CLIENTS_DIR, `${slug}.md`);
+  try {
+    return fs.readFileSync(configPath, "utf-8");
+  } catch {
+    return null;
+  }
+}
+
+function loadTemplate(name: string): string | null {
+  const templatePath = path.join(TEMPLATES_DIR, `${name}.md`);
+  try {
+    return fs.readFileSync(templatePath, "utf-8");
+  } catch {
+    return null;
+  }
+}
+
+function parseClientHeader(content: string): string | null {
+  const lines = content.split("\n").slice(0, 8);
+  for (const line of lines) {
+    const match = line.match(/<!--\s*client:\s*(\S+)\s*-->/);
+    if (match) return match[1].toLowerCase();
+  }
+  return null;
+}
+
+function getPendingSends(): string[] {
+  try {
+    return fs
+      .readdirSync(PENDING_SENDS_DIR)
+      .filter((f) => f.endsWith(".md"))
+      .sort();
+  } catch {
+    return [];
+  }
+}
+
 // ── System prompt ─────────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are Mailwatch — the read-only email monitoring agent for FadeJunkie.
+const SYSTEM_PROMPT = `You are Mailwatch — the email monitoring and client communication agent for FadeJunkie.
+
+## MODES
+
+You operate in two modes:
+
+### Mode 1: READ (Gmail Monitoring)
+Monitor Gmail conversations with whitelisted contacts. This is the default when processing "check" commands or monitoring tasks.
+
+### Mode 2: SEND (Client Update Drafts)
+Compose client update email drafts when a task with \`<!-- client: slug -->\` is dropped in your inbox. **NEVER auto-send.** Always draft → Anthony reviews → explicit approval required.
 
 ## ABSOLUTE RULES — NON-NEGOTIABLE
 
-1. **READ ONLY.** You NEVER compose, draft, send, reply to, or forward any email. Period.
-2. **TWO CONTACTS ONLY.** You monitor conversations exclusively with:
+1. **NEVER AUTO-SEND.** All emails go through draft → review → explicit approval. No exceptions.
+2. **WHITELIST ENFORCED.** Only send to contacts listed in the client config file (\`clients/{slug}.md\`). Refuse any unlisted recipient.
+3. **MONITOR CONTACTS.** Gmail monitoring is scoped to:
    - deanna@wcorwin.com (Deanna Bazan — Office Manager, Weichert Realtors Corwin & Associates)
    - joe@wcorwin.com (Joe Corwin — Principal Broker, Weichert Realtors Corwin & Associates)
-3. **NO OTHER CONTACTS.** If a task asks you to read emails from anyone else, refuse.
-4. **NO SENDING — EVER.** You do not have permission to use gmail_create_draft, gmail_send, or any write/send Gmail tool. If someone asks you to send, reply, or draft — refuse and explain that two-factor authorization from Anthony is required.
-5. **OUTPUT TO OUTBOX ONLY.** All reports go to ${OUTBOX_DIR}.
+4. **SCHEDULE DEFAULT: 8am next morning CDT** unless Anthony specifies otherwise.
+5. **ON DENY:** Delete draft file + run safety check on Gmail scheduled queue.
+6. **OUTPUT TO OUTBOX ONLY.** Reports go to ${OUTBOX_DIR}. Drafts go to ${PENDING_SENDS_DIR}.
 
-## What You Do
+## Read Mode — What You Do
 
-- Search Gmail for recent messages between Anthony (tatis.anthony@gmail.com) and the two allowed contacts
+- Search Gmail for recent messages between Anthony (tatis.anthony@gmail.com) and the whitelisted contacts
 - Read full threads to understand conversation context
 - Produce reports with:
   - **Summary**: Key points, action items, sentiment, urgency level
@@ -42,9 +97,53 @@ const SYSTEM_PROMPT = `You are Mailwatch — the read-only email monitoring agen
 - Track what you've already reported to avoid duplicates (use ${LAST_CHECK_FILE})
 - Flag anything that looks urgent or needs Anthony's attention
 
-## Output Format
+## Send Mode — Client Update Workflow
 
-Reports are markdown files in the outbox:
+When a task includes \`<!-- client: slug -->\`, you are in Send Mode:
+
+1. **Load client config** from \`${CLIENTS_DIR}/{slug}.md\` — get contacts, tone, project data paths
+2. **Load template** from \`${TEMPLATES_DIR}/milestone-update.md\` — follow the structure
+3. **Read project state** from the paths listed in the client config:
+   - PM memory, SEO data, Convex data, CRM records, activity notes
+   - Focus on the milestone/deliverables mentioned in the task
+4. **Compose the email draft** following the template structure and client tone
+5. **Write the draft** to \`${PENDING_SENDS_DIR}/{slug}-{date}.md\` in this format:
+
+\`\`\`markdown
+# Draft: {Client Name} — {Milestone Name}
+**To:** {comma-separated contacts from client config}
+**Subject:** Progress Update — {Milestone Name}
+**Schedule:** 8:00 AM CDT, {next morning date}
+
+---
+
+{email body}
+
+---
+<!-- status: pending-review -->
+<!-- client: {slug} -->
+<!-- created: {ISO timestamp} -->
+\`\`\`
+
+6. **Report** to Anthony that the draft is ready for review in the outbox
+
+## Approval Flow
+
+### On APPROVE (Anthony runs "approve {filename}" in REPL):
+1. Read the pending draft from \`${PENDING_SENDS_DIR}/\`
+2. Extract To, Subject, Body
+3. Execute: \`gws gmail +send --to "{recipients}" --subject "{subject}" --body "{body}"\`
+4. Move draft file to \`${SENT_DIR}/\` archive
+5. Confirm: "Scheduled for 8am tomorrow. Recipients: {list}"
+
+### On DENY (Anthony runs "deny {filename}" in REPL):
+1. Delete the draft file from \`${PENDING_SENDS_DIR}/\`
+2. Run safety check: \`gws gmail +search --query "in:scheduled"\`
+3. List all scheduled emails and their recipients
+4. Report: "Draft deleted. Currently scheduled emails: {list}. Nothing unexpected."
+5. If anything looks wrong in the scheduled queue, flag it immediately
+
+## Report Output Format
 
 \`\`\`
 # Email Report — [Date]
@@ -60,19 +159,15 @@ Reports are markdown files in the outbox:
 
 ### [Sender] — [Date]
 [message content]
-
-### [Sender] — [Date]
-[message content]
 \`\`\`
 
-## Two-Factor Send Authorization
+## Project Data Paths (by client)
 
-If Anthony explicitly asks to send a message through you:
-1. REFUSE the direct send
-2. Explain: "Sending requires two-factor authorization. I've prepared the content below — please review and send manually, or confirm via a second channel (voice/text) that you authorize this send."
-3. You may PREPARE copy for Anthony to send himself, but you NEVER execute the send.
+- **wcorwin**: seo-engine/WCORWIN/, seo-engine/context/clients/wcorwin.md, pm/memory/project-state.md
+- **arquero**: arquero/src/ArqueroHub.tsx, control-center/cc-crm.json
+- **sydney-spillman**: pm/memory/project-state.md, sydneyspillman/
 
-This is a safety mechanism. No exceptions.`;
+Always read the client config file first — it has the authoritative list of paths and contacts.`;
 
 // ── Model config ──────────────────────────────────────────────────────────────
 
@@ -89,12 +184,14 @@ const DEFAULT_MAX_TURNS = 15;
 interface TaskHeaders {
   model: string;
   maxTurns: number;
+  client: string | null;
 }
 
 function parseTaskHeaders(content: string): TaskHeaders {
   const lines = content.split("\n").slice(0, 8);
   let model = DEFAULT_MODEL;
   let maxTurns = DEFAULT_MAX_TURNS;
+  let client: string | null = null;
 
   for (const line of lines) {
     const modelMatch = line.match(/<!--\s*model:\s*(\w+)\s*-->/);
@@ -102,9 +199,12 @@ function parseTaskHeaders(content: string): TaskHeaders {
 
     const turnsMatch = line.match(/<!--\s*max-turns:\s*(\d+)\s*-->/);
     if (turnsMatch) maxTurns = parseInt(turnsMatch[1], 10);
+
+    const clientMatch = line.match(/<!--\s*client:\s*(\S+)\s*-->/);
+    if (clientMatch) client = clientMatch[1].toLowerCase();
   }
 
-  return { model, maxTurns };
+  return { model, maxTurns, client };
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -168,7 +268,7 @@ function writeOutbox(taskName: string, result: string, sessionId: string): strin
 
 async function runQuery(
   userPrompt: string,
-  opts: { resumeSession?: string; model?: string; maxTurns?: number } = {}
+  opts: { resumeSession?: string; model?: string; maxTurns?: number; client?: string | null } = {}
 ): Promise<{ result: string; sessionId: string }> {
   const model = opts.model ?? DEFAULT_MODEL;
   const maxTurns = opts.maxTurns ?? DEFAULT_MAX_TURNS;
@@ -177,7 +277,25 @@ async function runQuery(
     ? `\n\nLast check: ${lastCheck}. Focus on messages after this timestamp.\n`
     : "\n\nThis is the first check. Pull the last 30 days of messages.\n";
 
-  const fullPrompt = `## Allowed Contacts\n\n- deanna@wcorwin.com\n- joe@wcorwin.com\n\n## Anthony's Email\n\ntatis.anthony@gmail.com${lastCheckNote}\n## Task\n\n${userPrompt}`;
+  // Build context sections
+  let clientContext = "";
+  let templateContext = "";
+
+  if (opts.client) {
+    const config = loadClientConfig(opts.client);
+    if (config) {
+      clientContext = `\n\n## Client Config (${opts.client})\n\n${config}`;
+    } else {
+      clientContext = `\n\n## Client Config\n\nWARNING: No config found for client "${opts.client}" in ${CLIENTS_DIR}. Refuse this task.`;
+    }
+
+    const template = loadTemplate("milestone-update");
+    if (template) {
+      templateContext = `\n\n## Email Template\n\n${template}`;
+    }
+  }
+
+  const fullPrompt = `## Allowed Contacts\n\n- deanna@wcorwin.com\n- joe@wcorwin.com\n\n## Anthony's Email\n\ntatis.anthony@gmail.com${lastCheckNote}${clientContext}${templateContext}\n## Task\n\n${userPrompt}`;
 
   let result = "";
   let sessionId = "";
@@ -215,15 +333,16 @@ async function processTask(taskFile: string, silent = false) {
   if (!taskContent) return;
 
   const taskName = path.basename(taskFile, path.extname(taskFile));
-  const { model, maxTurns } = parseTaskHeaders(taskContent);
+  const { model, maxTurns, client } = parseTaskHeaders(taskContent);
 
   if (!silent) {
     const modelLabel = Object.entries(MODEL_MAP).find(([, v]) => v === model)?.[0] ?? model;
-    console.log(`\n[${new Date().toISOString()}] task: ${taskFile} [${modelLabel}, ${maxTurns} turns]`);
+    const clientLabel = client ? ` [client: ${client}]` : "";
+    console.log(`\n[${new Date().toISOString()}] task: ${taskFile} [${modelLabel}, ${maxTurns} turns]${clientLabel}`);
     process.stdout.write("mailwatch → ");
   }
 
-  const { result, sessionId } = await runQuery(taskContent, { model, maxTurns });
+  const { result, sessionId } = await runQuery(taskContent, { model, maxTurns, client });
   console.log(result);
 
   const sid = sessionId || `no-session-${Date.now()}`;
@@ -260,7 +379,7 @@ async function processInbox() {
 
 async function runWatchMode() {
   console.log("\n╔══════════════════════════════════════════╗");
-  console.log("║   MAILWATCH — daemon mode (READ-ONLY)    ║");
+  console.log("║   MAILWATCH — daemon mode                ║");
   console.log("║   watching: inbox/                        ║");
   console.log("║   contacts: deanna@ + joe@wcorwin.com    ║");
   console.log("╚══════════════════════════════════════════╝\n");
@@ -305,13 +424,21 @@ async function main() {
   const lastCheck = getLastCheckTime();
 
   console.log("\n╔══════════════════════════════════════════╗");
-  console.log("║   MAILWATCH — email monitor (READ-ONLY)  ║");
+  console.log("║   MAILWATCH — email monitor + drafts     ║");
   console.log("║   contacts: deanna@ + joe@wcorwin.com    ║");
   console.log("║   point of contact: twanii                ║");
   console.log("╚══════════════════════════════════════════╝");
   if (lastSession) console.log(`\n  last session: ${lastSession}`);
   if (lastCheck) console.log(`  last check:   ${lastCheck}`);
-  console.log(`\n  Commands: check | resume | exit\n`);
+
+  // Show pending sends if any
+  const pendingSends = getPendingSends();
+  if (pendingSends.length > 0) {
+    console.log(`\n  pending drafts: ${pendingSends.length}`);
+    for (const f of pendingSends) console.log(`    - ${f}`);
+  }
+
+  console.log(`\n  Commands: check | drafts | approve <file> | deny <file> | resume | exit\n`);
 
   while (true) {
     const input = await prompt("twanii → ");
@@ -326,6 +453,104 @@ async function main() {
 
     if (trimmed.toLowerCase() === "check") {
       await processInbox();
+      continue;
+    }
+
+    if (trimmed.toLowerCase() === "drafts") {
+      const drafts = getPendingSends();
+      if (drafts.length === 0) {
+        console.log("  [drafts] No pending drafts.\n");
+      } else {
+        console.log(`  [drafts] ${drafts.length} pending:`);
+        for (const f of drafts) console.log(`    - ${f}`);
+        console.log();
+      }
+      continue;
+    }
+
+    if (trimmed.toLowerCase().startsWith("approve ")) {
+      const filename = trimmed.slice(8).trim();
+      const draftPath = path.join(PENDING_SENDS_DIR, filename);
+      if (!fs.existsSync(draftPath)) {
+        console.log(`  [error] Draft not found: ${filename}`);
+        console.log(`  [hint] Run "drafts" to see pending drafts.\n`);
+        continue;
+      }
+
+      const draftContent = fs.readFileSync(draftPath, "utf-8");
+      console.log(`\n  [approve] Processing: ${filename}`);
+      process.stdout.write("\nmailwatch → ");
+
+      try {
+        const approvePrompt = `## Approval Task
+
+Anthony has APPROVED the following email draft for sending. Execute the send.
+
+### Draft Content:
+${draftContent}
+
+### Instructions:
+1. Extract the To, Subject, and Body from the draft
+2. Execute: \`gws gmail +send --to "{recipients}" --subject "{subject}" --body "{body}"\`
+3. If the send succeeds, confirm the details
+4. The draft file is at: ${draftPath}
+5. After sending, move it to ${SENT_DIR}/${filename}
+
+IMPORTANT: This is an APPROVED send. Anthony has explicitly reviewed and approved this draft.`;
+
+        const { result, sessionId } = await runQuery(approvePrompt);
+        console.log(result);
+
+        // Move to sent archive
+        const sentPath = path.join(SENT_DIR, filename);
+        if (fs.existsSync(draftPath)) {
+          fs.renameSync(draftPath, sentPath);
+          console.log(`  [sent] Archived to outbox/sent/${filename}`);
+        }
+
+        if (sessionId) { saveSession(sessionId); console.log(`  [session] ${sessionId}`); }
+      } catch (err) {
+        console.error("\n[error]", err instanceof Error ? err.message : err);
+      }
+      console.log();
+      continue;
+    }
+
+    if (trimmed.toLowerCase().startsWith("deny ")) {
+      const filename = trimmed.slice(5).trim();
+      const draftPath = path.join(PENDING_SENDS_DIR, filename);
+      if (!fs.existsSync(draftPath)) {
+        console.log(`  [error] Draft not found: ${filename}`);
+        console.log(`  [hint] Run "drafts" to see pending drafts.\n`);
+        continue;
+      }
+
+      // Delete the draft
+      fs.unlinkSync(draftPath);
+      console.log(`  [deny] Deleted: ${filename}`);
+
+      // Safety check — scan scheduled queue
+      console.log("  [safety] Checking Gmail scheduled queue...");
+      process.stdout.write("\nmailwatch → ");
+
+      try {
+        const safetyPrompt = `## Safety Check — Draft Denied
+
+Anthony DENIED a draft email. The draft file has been deleted. Now run a safety check:
+
+1. Search Gmail scheduled queue: run \`gws gmail +search --query "in:scheduled"\`
+2. List ALL currently scheduled emails with their recipients and subjects
+3. Report back: "Draft deleted. Currently scheduled emails: {list}. Nothing unexpected." or flag anything that looks wrong.
+
+This is a safety mechanism to ensure no unwanted emails are in the queue.`;
+
+        const { result, sessionId } = await runQuery(safetyPrompt);
+        console.log(result);
+        if (sessionId) { saveSession(sessionId); console.log(`\n  [session] ${sessionId}`); }
+      } catch (err) {
+        console.error("\n[error]", err instanceof Error ? err.message : err);
+      }
+      console.log();
       continue;
     }
 

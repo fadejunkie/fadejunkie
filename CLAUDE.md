@@ -14,7 +14,7 @@ C:/Users/twani/fadejunkie/   ← root (git repo)
   ink/                        ← Ink agent — copywriter & voice (has its own CLAUDE.md)
   seo-engine/                 ← SEO Engine agent — SEO strategist (has its own CLAUDE.md)
   sentinel/                   ← Sentinel agent — QA & deploy gate (has its own CLAUDE.md)
-  email-agent/                ← Mailwatch agent — read-only Gmail monitor for Wcorwin (has its own CLAUDE.md)
+  email-agent/                ← Mailwatch agent — email monitor + client update drafts (has its own CLAUDE.md)
   pm/                         ← PM agent — autonomous project driver (has its own CLAUDE.md)
   control-center/             ← Dashboard server, CRM, metrics, content calendar
   arquero/                    ← Arquero Co. client project (Vite + Convex storefront)
@@ -49,7 +49,7 @@ All seven agents share the same communication pattern:
 | Ink | `ink/` | Copywriting — proposals, social, contracts, brand voice | execute | opus |
 | SEO Engine | `seo-engine/` | SEO strategy, audits, keywords, client deliverables | plan | opus |
 | Sentinel | `sentinel/` | QA — build verification, visual QA, deploy gate | execute | sonnet |
-| Mailwatch | `email-agent/` | Read-only Gmail monitor — Wcorwin contacts only | execute | sonnet |
+| Mailwatch | `email-agent/` | Email monitor + client update drafts — sends require approval | execute | sonnet |
 | PM | `pm/` | Project driver — reads state, routes next milestone | execute | sonnet |
 
 **Running agents from within a Claude Code session** (nested session bypass required):
@@ -103,7 +103,7 @@ Trust levels determine whether Dispatch auto-executes or sends plan-mode tasks:
 - **MEDIUM** (Convex, SEO Engine): Auto-execute additions/reads. Plan mode for destructive/client-facing changes.
 - **LOW** (Funkie): Always plan mode unless updating context/goals.
 - **AUTO** (Sentinel): Always execute. QA is always action.
-- **READ-ONLY** (Mailwatch): Always execute. Read-only Gmail access — no send capability. Scoped to two contacts.
+- **CONTROLLED** (Mailwatch): Always execute. Read monitoring is automatic. Sends require explicit Anthony approval per-email via REPL (`approve`/`deny`).
 
 ### Escalation Path
 Agent → Dispatch → Anthony. When an agent can't resolve something, Dispatch writes to `dispatch/escalations/`. Anthony reviews escalations and provides direction.

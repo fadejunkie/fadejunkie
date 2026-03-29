@@ -1,33 +1,4 @@
 
-**Build:** ✓ Clean  
-**Commit:** `472e857` — pushed to `main`
-
-  [outbox] cron-spot-fix-2026-03-29T17-30-01-2026-03-29T17-34-06-325Z.md
-twanii → 
-
-[2026-03-29T17:38:01.966Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T17-30-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T17-30-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T17-30-01.md'
-
-
-[2026-03-29T17:38:02.179Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T17:38:03.798Z] Safety push complete
-
-[2026-03-29T17:38:03.799Z] Cron run complete
-
-[2026-03-29T17:45:01.859Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T17:45:01.866Z] Task created: cron-spot-fix-2026-03-29T17-45-01.md
-
-[2026-03-29T17:45:01.868Z] Spawning Lobe agent...
-
-[2026-03-29T17:46:38Z] SKIP: last commit was 2026-03-29T17:38:02Z (8m36s ago) — < 10 minute overlap guard. No fix this cycle.
-
-[2026-03-29T17:53:01.945Z] Lobe exited with code: 0
-
-[2026-03-29T17:53:01.947Z] STDOUT (last 500 chars):  commit landed at `2026-03-29T17:38:02Z` (the `PostCard.tsx` letterSpacing fix), and only **~8m 36s** have elapsed — just under the 10-minute overlap threshold. The cycle logged the skip to `cron.log` and halted cleanly with no code changes.
-
-The guard is working as intended — it prevents two cron runs from stomping on each other when they fire in quick succession. The next cycle should clear in about 90 seconds.
-
   [outbox] cron-spot-fix-2026-03-29T17-45-01-2026-03-29T17-46-56-767Z.md
 twanii → 
 
@@ -499,3 +470,32 @@ CONFIRM [HARDENED x8] on the **Inline style props rule**. Extended the confirmed
 twanii → 
 
 [2026-03-29T21:38:02.912Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T21:38:06.350Z] Safety push complete
+
+[2026-03-29T21:38:06.355Z] Cron run complete
+
+[2026-03-29T21:45:02.728Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T21:45:02.764Z] Task created: cron-spot-fix-2026-03-29T21-45-02.md
+
+[2026-03-29T21:45:02.771Z] Spawning Lobe agent...
+
+[2026-03-29T21:45:02Z] SKIP: last cron commit was 7 minutes ago (< 10 minute overlap threshold). Last commit: e3326b3 at 2026-03-29T21:38:03Z — cron: spot-fix 2026-03-29T21-30-02 (runner safety commit)
+
+[2026-03-29T21:53:03.161Z] Lobe exited with code: 0
+
+[2026-03-29T21:53:03.199Z] STDOUT (last 500 chars):  `21:38`
+- Compared against the `21:45` task timestamp → 7 min delta < 10 min threshold
+- Logged `SKIP: last commit 7 min ago` to `cron.log`
+- No files modified, no commit made
+
+The next cycle will run clean once ≥10 minutes have elapsed from that last commit. The overlap guard is working exactly as designed — prevents two cycles from stomping on each other when the scheduler fires faster than the work completes.
+
+  [outbox] cron-spot-fix-2026-03-29T21-45-02-2026-03-29T21-47-05-187Z.md
+twanii → 
+
+[2026-03-29T21:53:03.204Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T21-45-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T21-45-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T21-45-02.md'
+
+
+[2026-03-29T21:53:03.728Z] Unpushed changes detected, running safety commit+push...
