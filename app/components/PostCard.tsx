@@ -85,12 +85,11 @@ export default function PostCard({
             <button
               onClick={handleLike}
               className={cn(
-                "font-sans flex items-center gap-1.5 text-xs transition-colors duration-150",
+                "font-sans flex items-center gap-1.5 text-xs tracking-[-0.01em] transition-colors duration-150",
                 liked
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               )}
-              style={{ letterSpacing: "-0.01em" }}
             >
               <Heart
                 size={14}
