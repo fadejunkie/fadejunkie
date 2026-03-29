@@ -1,21 +1,3 @@
-  DS Update: CONFIRM — Raw <button> UI chrome always needs font-sans [HARDENED] — 7th+ confirmation; practice-test joins resources, exam-guide, flashcards, profile, directory, PostCard as confirmed instances. Practice-test is significant because the answer-option buttons are user-facing interactive controls that appear on every single question — the multiplier effect is even higher than per-post PostCard.
-  Pattern: Interactive answer-option buttons that are styled as bordered choice cards (w-full, text-left, rounded-lg, border) need font-sans even though they look like "content" — they are UI controls, not authored prose, and must use Geist.
-
-[2026-03-29T07:08:03.026Z] Lobe exited with code: 0
-
-[2026-03-29T07:08:03.107Z] STDOUT (last 500 chars): confirmation to the `[HARDENED]` raw `<button>` font-sans rule in `context/fadejunkie_ui.md`. New design note: choice-card-styled buttons (full-width, bordered, text-left) can look "content-like" but are still UI controls — the rule applies regardless of visual styling. If it has `onClick` that changes state, it needs `font-sans`.
-
-**Commits:** `a69e9ef` (fix) + `558852f` (DS/log/memory) → pushed to `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-29T07-00-02-2026-03-29T07-05-03-598Z.md
-twanii → 
-
-[2026-03-29T07:08:03.328Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T07:08:05.708Z] Safety push complete
-
-[2026-03-29T07:08:05.711Z] Cron run complete
-
 [2026-03-29T07:15:01.891Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T07:15:01.928Z] Task created: cron-spot-fix-2026-03-29T07-15-01.md
@@ -506,3 +488,14 @@ twanii →
   DS Update: CONFIRM [HARDENED x7] — font-display on page h1s — scope extended: public routes confirmed equal risk to auth-interior routes. directory/page.tsx h1 "Texas Barber Shops/Schools" was rendering in Courier Prime. textTransform override already present (correct for DB string), font class missing.
   Pattern: Public route h1s are equal risk to auth-interior h1s for missing font-display. The absence is invisible in dev (Courier Prime and League Spartan look superficially similar at small sizes) — only noticeable when comparing side-by-side with a fixed page. Any page file (auth OR public) with <h1 className=... missing font-display is a confirmed P1.
 
+
+[2026-03-29T11:23:01.866Z] Lobe exited with code: 0
+
+[2026-03-29T11:23:01.869Z] STDOUT (last 500 chars): Name. One-token fix: `font-display` added.
+
+**Design System Hardened:** The `font-display` on h1 rule is now confirmed **[HARDENED x7]** with scope explicitly extended — this is the first confirmed violation on a **public route** (not auth-interior). The rule now universally covers every page h1 regardless of route type. `context/fadejunkie_ui.md` updated with the cross-file evidence and the scope expansion note.
+
+  [outbox] cron-spot-fix-2026-03-29T11-15-01-2026-03-29T11-19-12-316Z.md
+twanii → 
+
+[2026-03-29T11:23:02.041Z] Unpushed changes detected, running safety commit+push...
