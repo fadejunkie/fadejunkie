@@ -51,7 +51,7 @@ export default function PostCard({
   }
 
   return (
-    <div className="bg-card border border-border p-6" style={{ borderRadius: "var(--radius-3xl)" }}>
+    <div className="bg-card border border-border rounded-3xl p-6">
       <div className="flex items-start gap-3">
         <Avatar src={barberAvatarUrl} name={barberName ?? "?"} size={36} />
         <div className="flex-1 min-w-0">
