@@ -22,7 +22,7 @@ function CardBody({
   return (
     <Card className="p-5 h-full flex flex-col gap-3 hover:border-foreground/20 hover:shadow-sm transition-all">
       {/* UPPERCASE olive category label */}
-      <p className="text-[10px] font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--link)" }}>
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--link)" }}>
         {category}
       </p>
 
