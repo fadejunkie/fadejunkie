@@ -1,20 +1,3 @@
-
-**Build:** ✅ Passed (18/18 static pages)  
-**Commit:** `5bed5d7` → pushed to `origin/main`
-
-**Design System Update (CONFIRM):** Added confirmation to the `<h2>`/`<h3>`-section-label rule — collapsible card headers are now a documented risk surface.
-
-**New Pattern:** A developer comment acknowledging a CSS inheritance issue is a signal, not a solution. The fix still has to be made.
-
-  [outbox] cron-spot-fix-2026-03-29T06-30-02-2026-03-29T06-34-36-515Z.md
-twanii → 
-
-[2026-03-29T06:38:03.417Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T06:38:08.503Z] Safety push complete
-
-[2026-03-29T06:38:08.514Z] Cron run complete
-
 [2026-03-29T06:45:02.514Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T06:45:02.567Z] Task created: cron-spot-fix-2026-03-29T06-45-02.md
@@ -505,3 +488,14 @@ Node.js v24.13.1
   Commit: aaaaa36
   DS Update: ADD — "style={{ textTransform: 'none' }} required on all user-data h1 headings [HARDENED]" — rule existed in growth.md but was never formalized in fadejunkie_ui.md. Added with two code references and Tailwind-vs-inline-style escalation note.
   Pattern: The global h1 lowercase rule is intentional for editorial copy but destructive for user-data strings. Any h1 that renders a DB field must escape the cascade with style={{textTransform:'none'}}. Tailwind utilities (.normal-case, .capitalize) will silently lose to the ungrouped CSS selector.
+
+[2026-03-29T10:53:01.907Z] Lobe exited with code: 0
+
+[2026-03-29T10:53:01.911Z] STDOUT (last 500 chars): HARDEN — ADD to `fadejunkie_ui.md`**
+
+The `textTransform: "none"` pattern existed in `growth.md` but was never formalized in the canonical DS doc. Added it as a new hardened rule: *the global `h1` lowercase rule is a brand rule, not a data rule — any h1 rendering a database field must escape the cascade via inline style, since Tailwind utilities like `.normal-case` silently lose to ungrouped CSS selectors in v4.*
+
+  [outbox] cron-spot-fix-2026-03-29T10-45-01-2026-03-29T10-52-18-784Z.md
+twanii → 
+
+[2026-03-29T10:53:02.151Z] Unpushed changes detected, running safety commit+push...
