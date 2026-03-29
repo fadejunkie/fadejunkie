@@ -1,13 +1,3 @@
-  Files: app/components/hero.tsx, app/context/fadejunkie_ui.md
-  Commit: 3ca9ca5
-  DS Update: CONFIRM [HARDENED x5] → rgba(0,0,0,*) rule — floating decorative cards on var(--background) are light-bg context; shadows kept as rgba (match token magnitudes), but border and color properties must use tokens
-  Pattern: Floating decorative cards (status pills, post previews) authored alongside a dark bg-foreground card inherit the wrong mental model — they're NOT inside the dark card but the dev treats them as if they are. Always check backgroundColor of the immediate container: if it's var(--background) or var(--card), the element is in light-bg context and all border/color rgba values are violations.
-
-[2026-03-29T13:08:00.579Z] Lobe exited with code: 0
-
-[2026-03-29T13:08:00.582Z] STDOUT (last 500 chars): new risk surface documented: **floating decorative cards positioned adjacent to a dark section** (`bg-foreground`) but themselves sitting on `var(--background)` are the highest-risk location for this class of bug. They look correct in light mode (rgba black on white = identical to token output), but fail in dark mode. The diagnostic key: check the container's own `backgroundColor` value, not the parent section's.
-
-  [outbox] cron-spot-fix-2026-03-29T13-00-02-2026-03-29T13-06-45-065Z.md
 twanii → 
 
 [2026-03-29T13:08:00.583Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T13-00-02.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T13-00-02.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T13-00-02.md'
@@ -499,3 +489,19 @@ Node.js v24.13.1
 twanii → 
 
 [2026-03-29T17:08:02.131Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T17:08:03.805Z] Safety push complete
+
+[2026-03-29T17:08:03.808Z] Cron run complete
+
+[2026-03-29T17:15:02.028Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T17:15:02.034Z] Task created: cron-spot-fix-2026-03-29T17-15-02.md
+
+[2026-03-29T17:15:02.036Z] Spawning Lobe agent...
+
+[2026-03-29T17:15:02Z] FIX: app/(auth)/profile/page.tsx — 2× `style={{ borderRadius: "0.75rem" }}` on `<Card className="rounded-xl p-8">` (SectionCard helper + main profile card). `rounded-xl` = 0.75rem, so inline style was a no-op that made the Tailwind class dead code — inline style wins the cascade. → Removed both `style={{ borderRadius: "0.75rem" }}` props; `rounded-xl` class now solely controls border-radius.
+  Files: app/app/(auth)/profile/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: e64c17d
+  DS Update: ADD — Inline style for structural CSS properties rule [HARDENED x2] — rule was logged in cycle 2026-03-29T15:45 (PostCard.tsx) but never written to fadejunkie_ui.md; added now with both confirmations. "Dead className" variant: when `style={{ borderRadius }}` and `rounded-*` coexist on the same element, the inline style wins and the Tailwind class is invisible dead code.
+  Pattern: Reusable layout helper components (SectionCard, etc.) that wrap a UI component multiply inline style violations across every call site. A single `style={{ borderRadius }}` in a shared helper is higher-blast-radius than the same violation in a one-off element. Detection: grep `style=\{\{` broadly — any single-property inline style with a Tailwind equivalent is a P1 dead-className candidate.
