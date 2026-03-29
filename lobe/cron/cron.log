@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T15:15:01.733Z] Task created: cron-spot-fix-2026-03-29T15-15-01.md
 
 [2026-03-29T15:15:01.735Z] Spawning Lobe agent...
+
+[2026-03-29T15:15:00Z] FIX: components/ActiveStatusBadges.tsx — inline style={{ fontFamily: "var(--font-mono), monospace" }} on badge label <span> → font-mono Tailwind className
+  Files: components/ActiveStatusBadges.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 3941437
+  DS Update: CONFIRM — Monospace font token rule (Tailwind-class-first variant) — ActiveStatusBadges.tsx:29 had inline fontFamily with correct token but wrong delivery mechanism; replaced with font-mono className. Status badge components are cross-view surfaces — one inline style violation propagates everywhere the badge renders.
+  Pattern: Badge/indicator components that render across multiple views (ActiveStatusBadges, PublicStatusBadges, PostStatusIndicator) are high-reach surfaces. A single inline fontFamily in a badge affects every page that shows status — treat them as equal-priority scan targets to globally-mounted layout components.
