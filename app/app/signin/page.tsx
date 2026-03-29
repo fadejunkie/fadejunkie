@@ -351,7 +351,7 @@ function SignInForm() {
                     fontWeight: 500,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.45)",
+                    color: "var(--muted-foreground)",
                     display: "block",
                     marginBottom: "0.5rem",
                   }}
@@ -380,7 +380,7 @@ function SignInForm() {
                     fontWeight: 500,
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.45)",
+                    color: "var(--muted-foreground)",
                     display: "block",
                     marginBottom: "0.5rem",
                   }}
@@ -435,7 +435,7 @@ function SignInForm() {
                 textAlign: "center",
                 fontFamily: "var(--font-body), 'Courier Prime', monospace",
                 fontSize: "0.8125rem",
-                color: "rgba(0,0,0,0.5)",
+                color: "var(--muted-foreground)",
                 marginTop: "1.75rem",
               }}
             >
