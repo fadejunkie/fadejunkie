@@ -320,11 +320,11 @@ export default function LandingPage() {
                       ? "var(--foreground)"
                       : "var(--card)",
                     border: path.dark
-                      ? "1px solid rgba(255,255,255,0.06)"
+                      ? "1px solid color-mix(in oklch, var(--background) 6%, transparent)"
                       : "1px solid var(--border)",
                     boxShadow: path.dark
-                      ? "0 24px 72px rgba(0,0,0,0.32), 0 8px 24px rgba(0,0,0,0.18)"
-                      : "0 2px 16px rgba(0,0,0,0.05)",
+                      ? `0 24px 72px color-mix(in oklch, var(--foreground) 32%, transparent), 0 8px 24px color-mix(in oklch, var(--foreground) 18%, transparent)`
+                      : `0 2px 16px color-mix(in oklch, var(--foreground) 5%, transparent)`,
                     textDecoration: "none",
                     transition: "transform 0.18s ease, box-shadow 0.18s ease",
                   }}
@@ -338,7 +338,7 @@ export default function LandingPage() {
                       fontWeight: 500,
                       letterSpacing: "0.18em",
                       color: path.dark
-                        ? "rgba(255,255,255,0.18)"
+                        ? "color-mix(in oklch, var(--background) 18%, transparent)"
                         : "color-mix(in oklch, var(--foreground) 18%, transparent)",
                     }}
                   >
@@ -352,13 +352,13 @@ export default function LandingPage() {
                         width: 26,
                         height: 26,
                         color: path.dark
-                          ? "rgba(255,255,255,0.28)"
+                          ? "color-mix(in oklch, var(--background) 28%, transparent)"
                           : "color-mix(in oklch, var(--foreground) 30%, transparent)",
                         strokeWidth: 1.5,
                         marginBottom: "1.25rem",
                       }}
                     />
-                    <h3
+                    <p
                       style={{
                         fontFamily:
                           "var(--font-display), 'League Spartan', sans-serif",
@@ -371,7 +371,7 @@ export default function LandingPage() {
                       }}
                     >
                       {path.name}
-                    </h3>
+                    </p>
                     <p
                       style={{
                         fontFamily:
@@ -381,7 +381,7 @@ export default function LandingPage() {
                         letterSpacing: "0.14em",
                         textTransform: "uppercase",
                         color: path.dark
-                          ? "rgba(255,255,255,0.4)"
+                          ? "color-mix(in oklch, var(--background) 40%, transparent)"
                           : "var(--muted-foreground)",
                         marginBottom: "0.875rem",
                       }}
@@ -395,7 +395,7 @@ export default function LandingPage() {
                         fontSize: "0.875rem",
                         lineHeight: 1.6,
                         color: path.dark
-                          ? "rgba(255,255,255,0.45)"
+                          ? "color-mix(in oklch, var(--background) 45%, transparent)"
                           : "var(--muted-foreground)",
                         maxWidth: "22rem",
                       }}
@@ -415,7 +415,7 @@ export default function LandingPage() {
                       fontSize: "0.8125rem",
                       fontWeight: 600,
                       color: path.dark
-                        ? "rgba(255,255,255,0.7)"
+                        ? "color-mix(in oklch, var(--background) 70%, transparent)"
                         : "var(--foreground)",
                     }}
                   >
