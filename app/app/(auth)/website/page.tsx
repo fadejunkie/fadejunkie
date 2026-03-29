@@ -88,7 +88,7 @@ export default function WebsitePage() {
             <p
               className="mb-5"
               style={{
-                fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                fontFamily: "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.625rem",
                 fontWeight: 500,
                 letterSpacing: "0.14em",
@@ -106,7 +106,7 @@ export default function WebsitePage() {
             <p
               className="mb-5"
               style={{
-                fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                fontFamily: "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.625rem",
                 fontWeight: 500,
                 letterSpacing: "0.14em",
@@ -121,7 +121,7 @@ export default function WebsitePage() {
             <p
               className="mb-5"
               style={{
-                fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                fontFamily: "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.625rem",
                 fontWeight: 500,
                 letterSpacing: "0.14em",
