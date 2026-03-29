@@ -27,13 +27,13 @@ export function StickyNav({ logo, menu, auth }: StickyNavProps) {
       className="sticky top-0 z-50 backdrop-blur-md border-b"
       style={{
         backgroundColor: scrolled
-          ? "rgba(255,255,255,0.97)"
-          : "rgba(255,255,255,0.90)",
+          ? "color-mix(in oklch, var(--background) 97%, transparent)"
+          : "color-mix(in oklch, var(--background) 90%, transparent)",
         borderColor: scrolled
-          ? "rgba(0,0,0,0.12)"
-          : "rgba(0,0,0,0.07)",
+          ? "color-mix(in oklch, var(--foreground) 12%, transparent)"
+          : "color-mix(in oklch, var(--foreground) 7%, transparent)",
         boxShadow: scrolled
-          ? "0 1px 20px rgba(0,0,0,0.05)"
+          ? "0 1px 20px color-mix(in oklch, var(--foreground) 5%, transparent)"
           : "none",
         transition:
           "background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",
