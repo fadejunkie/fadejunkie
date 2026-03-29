@@ -25,8 +25,7 @@ export default function ActiveStatusBadges() {
           {/* Active dot */}
           <span className="w-1.5 h-1.5 rounded-full bg-foreground/50 group-hover:bg-foreground shrink-0 transition-colors duration-150" />
           <span
-            className="text-[10px] text-foreground/60 group-hover:text-foreground transition-colors duration-150 leading-none"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
+            className="font-mono text-[10px] text-foreground/60 group-hover:text-foreground transition-colors duration-150 leading-none"
           >
             {toToggleLabel(s.toggleKey)}
           </span>
