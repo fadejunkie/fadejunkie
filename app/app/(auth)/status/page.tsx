@@ -13,8 +13,7 @@ export default function StatusPage() {
       {/* ── Page header ── */}
       <div className="space-y-1">
         <h1
-          className="text-2xl font-semibold text-foreground"
-          style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}
+          className="font-display text-2xl font-semibold text-foreground"
         >
           your status
         </h1>

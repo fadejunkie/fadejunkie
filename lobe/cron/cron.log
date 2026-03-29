@@ -1,30 +1,3 @@
-[2026-03-28T19:00:02.122Z] Task created: cron-spot-fix-2026-03-28T19-00-02.md
-
-[2026-03-28T19:00:02.123Z] Spawning Lobe agent...
-
-[2026-03-28T19:00:02Z] FIX: app/(auth)/tools/exam-guide/page.tsx — 3x <h3> card labels corrupted by global League Spartan/lowercase CSS → replaced with <p>
-  Files: app/app/(auth)/tools/exam-guide/page.tsx
-  Commit: 493e847
-  DS Update: ADD (→ HARDENED) — section-label heading rule — 4th cross-file confirmation; rule now documented and [HARDENED] in fadejunkie_ui.md
-  Pattern: <h3> inside Card components is highest-risk location for this violation. Three distinct labels in one file: service name accordion header (line 437), "End of Exam Disinfection" info card (line 638), "Study with Flashcards" CTA card (line 645). All three corrupted to League Spartan lowercase with -0.03em tracking without the fix.
-
-[2026-03-28T19:08:02.212Z] Lobe exited with code: 0
-
-[2026-03-28T19:08:02.213Z] STDOUT (last 500 chars): All three swapped to `<p>` with identical classNames. Zero visual change, but the League Spartan/lowercase corruption is gone.
-
-**DS Hardened:** Added the section-label rule to `fadejunkie_ui.md` and marked it `[HARDENED]` — 4th cross-file confirmation (tools/page, practice-test/page, ShopTemplate, exam-guide/page). Every `<h3>` inside a Card component is now documented as a high-risk location for this violation.
-
-  [outbox] cron-spot-fix-2026-03-28T19-00-02-2026-03-28T19-05-09-037Z.md
-twanii → 
-
-[2026-03-28T19:08:02.343Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T19:08:03.916Z] Safety push complete
-
-[2026-03-28T19:08:03.918Z] Cron run complete
-
-[2026-03-28T19:15:02.144Z] WARN: Stale lockfile detected, removing
-
 [2026-03-28T19:15:02.151Z] Task created: cron-spot-fix-2026-03-28T19-15-02.md
 
 [2026-03-28T19:15:02.152Z] Spawning Lobe agent...
@@ -499,3 +472,30 @@ twanii →
 twanii → 
 
 [2026-03-29T00:08:02.830Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T00:08:06.560Z] Safety push complete
+
+[2026-03-29T00:08:06.566Z] Cron run complete
+
+[2026-03-29T00:15:02.204Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T00:15:02.221Z] Task created: cron-spot-fix-2026-03-29T00-15-02.md
+
+[2026-03-29T00:15:02.228Z] Spawning Lobe agent...
+
+[2026-03-28T00:00:00.000Z] FIX: app/(auth)/status/page.tsx — h1 "your status" had style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}; --font-heading is undefined in globals.css so it fell through to system-ui, bypassing League Spartan entirely. Inline style also overrides any font-display Tailwind class. → removed broken inline style, added font-display to className.
+  Files: app/(auth)/status/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: ef0dc55
+  DS Update: ADD — var(--font-heading) undefined token trap — --font-heading is not in globals.css @theme inline; every usage silently resolves to system-ui. When combined with inline style it also overrides the font-display Tailwind class. Detection: grep font-heading across all TSX. Fix: remove inline style, use font-display class only.
+  Pattern: Undefined CSS variable token in inline fontFamily style is a silent P0 — no browser error, no warning, just the wrong font rendered. The fallback (system-ui) is plausible enough that the bug can survive visual review in isolation. grep font-heading is now a required first-pass scan for any new component file.
+
+[2026-03-29T00:23:02.446Z] Lobe exited with code: 0
+
+[2026-03-29T00:23:02.453Z] STDOUT (last 500 chars): auth)/status/page.tsx`
+
+**DS Update (ADD):** Documented `var(--font-heading)` as an undefined token trap in `context/fadejunkie_ui.md`. The dangerous part: `system-ui` fallback is visually plausible enough (same weight/size class as League Spartan) to survive casual visual review. Detection rule added: **grep `font-heading` across all TSX files** — any occurrence is a confirmed bug since that token doesn't exist.
+
+  [outbox] cron-spot-fix-2026-03-29T00-15-02-2026-03-29T00-20-43-640Z.md
+twanii → 
+
+[2026-03-29T00:23:03.157Z] Unpushed changes detected, running safety commit+push...
