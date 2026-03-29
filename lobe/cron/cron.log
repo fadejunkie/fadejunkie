@@ -1,18 +1,3 @@
-
----
-
-[2026-03-29T08:15:01Z] FIX: app/components/hero.tsx — 6× ghost token `var(--font-geist-mono)` → `var(--font-mono)`
-  Files: app/components/hero.tsx, app/context/fadejunkie_ui.md, lobe/cron/cron.log
-  Commit: 7c19792
-  DS Update: CONFIRM [HARDENED x4] — `var(--font-mono)` canonical token rule — 4th cross-file confirmation (signin, website builder, landing page hero, website page). Shared hero components are high-risk ghost-token surfaces — built in visual isolation, rarely cross-referenced against the token table.
-  Pattern: `var(--font-geist-mono)` ghost token scope is now confirmed across auth pages, public pages, AND shared components. Any remaining instance in the codebase is a guaranteed P1. Next scan target: `app/page.tsx` which the prior cycle scan found 10+ instances.
-
-[2026-03-29T08:23:01.779Z] Lobe exited with code: 0
-
-[2026-03-29T08:23:01.781Z] STDOUT (last 500 chars): ace documented:** Shared visual showcase components (`hero.tsx`, bento grids, etc.) are authored in isolation as standalone visual artifacts — they rarely get cross-referenced against the token table during development, making them equally vulnerable as page files to ghost-token reintroduction.
-
-**NEXT CYCLE TARGET:** `app/page.tsx` — the scan found 10 instances of the same ghost token on the landing page itself.
-
   [outbox] cron-spot-fix-2026-03-29T08-15-01-2026-03-29T08-19-44-272Z.md
 twanii → 
 
@@ -505,3 +490,12 @@ twanii →
   Commit: ae97503
   DS Update: CONFIRM — Raw <button> font-sans rule — new detection variant documented: button can have font-sans in className AND still render in wrong font if inline fontFamily style is present (inline style beats className). Detection checklist now requires checking both className AND style prop.
   Pattern: "false safe" button — passes font-sans grep scan but has inline fontFamily that silently wins the cascade. The fix is to remove the inline fontFamily entirely, not just add font-sans. Confirmed across DiscoverTabs (font-mono override) and EditToggle in profile/page.tsx (same pattern, prior cycle).
+
+[2026-03-29T12:38:01.938Z] Lobe exited with code: 0
+
+[2026-03-29T12:38:01.940Z] STDOUT (last 500 chars): ** — the existing detection rule only scanned for `<button>` elements missing `font-sans` in className. It missed the case where `font-sans` is present but an inline `fontFamily` prop overrides it. The detection checklist now requires checking both. This is the same pattern logged in growth.md from a prior cycle (`EditToggle` had the same structure) — now it's properly hardened in the canonical design system doc.
+
+  [outbox] cron-spot-fix-2026-03-29T12-30-01-2026-03-29T12-34-59-706Z.md
+twanii → 
+
+[2026-03-29T12:38:02.071Z] Unpushed changes detected, running safety commit+push...
