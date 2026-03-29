@@ -101,12 +101,7 @@ function SectionCard({
       <Card className="rounded-xl p-8" style={{ borderRadius: "0.75rem" }}>
         <div className="flex items-start justify-between gap-4 mb-5">
           <p
-            className="text-lg font-semibold text-foreground"
-            style={{
-              fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-              letterSpacing: "-0.03em",
-              textTransform: "lowercase",
-            }}
+            className="font-display text-lg font-semibold text-foreground tracking-[-0.03em] lowercase"
           >
             {title}
           </p>
@@ -285,10 +280,7 @@ export default function ProfilePage() {
         {barber === undefined && (
           <div className="flex items-center justify-center h-48">
             <span
-              className="text-sm text-muted-foreground"
-              style={{
-                fontFamily: "var(--font-body), 'Courier Prime', monospace",
-              }}
+              className="font-body text-sm text-muted-foreground"
             >
               Loading...
             </span>
@@ -308,13 +300,7 @@ export default function ProfilePage() {
                 >
                   <div className="flex items-start justify-between gap-4 mb-6">
                     <p
-                      className="text-lg font-semibold text-foreground"
-                      style={{
-                        fontFamily:
-                          "var(--font-display), 'League Spartan', sans-serif",
-                        letterSpacing: "-0.03em",
-                        textTransform: "lowercase",
-                      }}
+                      className="font-display text-lg font-semibold text-foreground tracking-[-0.03em] lowercase"
                     >
                       my profile
                     </p>
@@ -335,8 +321,7 @@ export default function ProfilePage() {
                         />
                       ) : (
                         <span
-                          className="text-[10px] text-muted-foreground/40"
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
+                          className="font-mono text-[10px] text-muted-foreground/40"
                         >
                           no photo
                         </span>
@@ -344,18 +329,13 @@ export default function ProfilePage() {
                     </div>
                     <div className="text-center">
                       <p
-                        className="text-base font-semibold text-foreground"
-                        style={{
-                          fontFamily:
-                            "var(--font-body), 'Courier Prime', monospace",
-                        }}
+                        className="font-body text-base font-semibold text-foreground"
                       >
                         {barber.name || "—"}
                       </p>
                       {barber.slug && (
                         <p
-                          className="text-xs text-muted-foreground mt-0.5"
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
+                          className="font-mono text-xs text-muted-foreground mt-0.5"
                         >
                           @{barber.slug}
                         </p>
@@ -369,11 +349,7 @@ export default function ProfilePage() {
 
                   {saved && (
                     <p
-                      className="text-center text-xs text-muted-foreground"
-                      style={{
-                        fontFamily:
-                          "var(--font-body), 'Courier Prime', monospace",
-                      }}
+                      className="font-body text-center text-xs text-muted-foreground"
                     >
                       Saved.
                     </p>
@@ -438,11 +414,7 @@ export default function ProfilePage() {
                           {(barber.services ?? []).map((s) => (
                             <span
                               key={s}
-                              className="inline-flex items-center border border-border rounded px-2.5 py-1 text-xs text-foreground"
-                              style={{
-                                fontFamily:
-                                  "var(--font-body), 'Courier Prime', monospace",
-                              }}
+                              className="font-body inline-flex items-center border border-border rounded px-2.5 py-1 text-xs text-foreground"
                             >
                               {s}
                             </span>
@@ -497,8 +469,7 @@ export default function ProfilePage() {
                         />
                       ) : (
                         <span
-                          className="text-[10px] text-muted-foreground/40"
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
+                          className="font-mono text-[10px] text-muted-foreground/40"
                         >
                           no photo
                         </span>
@@ -526,8 +497,7 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Name
                       </label>
@@ -542,8 +512,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Slug
                       </label>
@@ -555,14 +524,13 @@ export default function ProfilePage() {
                       />
                       {form.slug.length >= 3 && (
                         <p
-                          className={cn("text-[10px] mt-1", {
+                          className={cn("font-mono text-[10px] mt-1", {
                             "text-muted-foreground":
                               slugStatus === "ok" ||
                               slugStatus === "checking" ||
                               slugStatus === "idle",
                             "text-destructive": slugStatus === "taken",
                           })}
-                          style={{ fontFamily: "var(--font-mono), monospace" }}
                         >
                           {slugStatus === "ok" && `✓ available`}
                           {slugStatus === "taken" && `✗ taken`}
@@ -576,8 +544,7 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Phone
                       </label>
@@ -592,8 +559,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Instagram
                       </label>
@@ -611,8 +577,7 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Booking URL
                       </label>
@@ -630,8 +595,7 @@ export default function ProfilePage() {
                     </div>
                     <div>
                       <label
-                        className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                        style={{ fontFamily: "var(--font-mono), monospace" }}
+                        className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                       >
                         Shop Name
                       </label>
@@ -648,8 +612,7 @@ export default function ProfilePage() {
                   {/* Location */}
                   <div>
                     <label
-                      className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                      style={{ fontFamily: "var(--font-mono), monospace" }}
+                      className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                     >
                       Location
                     </label>
@@ -665,8 +628,7 @@ export default function ProfilePage() {
                   {/* Bio */}
                   <div>
                     <label
-                      className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                      style={{ fontFamily: "var(--font-mono), monospace" }}
+                      className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                     >
                       Bio
                     </label>
@@ -684,8 +646,7 @@ export default function ProfilePage() {
                   {/* Services */}
                   <div>
                     <label
-                      className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
-                      style={{ fontFamily: "var(--font-mono), monospace" }}
+                      className="font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground block mb-1.5"
                     >
                       Services
                     </label>
@@ -758,11 +719,7 @@ export default function ProfilePage() {
                     )}
                     {saved && (
                       <span
-                        className="text-xs text-muted-foreground ml-auto"
-                        style={{
-                          fontFamily:
-                            "var(--font-body), 'Courier Prime', monospace",
-                        }}
+                        className="font-body text-xs text-muted-foreground ml-auto"
                       >
                         Saved.
                       </span>
