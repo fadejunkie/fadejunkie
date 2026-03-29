@@ -45,7 +45,7 @@ export default function ShopTemplate({ shop, preview = false, statusSummary }: S
 
       {/* Hero */}
       <section className="px-6 py-16 border-b border-border text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl font-semibold text-foreground tracking-tight leading-tight">
+        <h1 className="text-4xl font-display font-semibold text-foreground" style={{ textTransform: "none" }}>
           {shop.shopName}
         </h1>
         {shop.tagline && (
