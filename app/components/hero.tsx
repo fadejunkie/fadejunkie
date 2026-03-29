@@ -462,7 +462,7 @@ const Hero = () => {
               fontWeight: 500,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
-              color: "rgba(0,0,0,0.4)",
+              color: "var(--muted-foreground)",
               marginBottom: "1.25rem",
             }}
             initial={{ opacity: 0, y: 8 }}
@@ -500,7 +500,7 @@ const Hero = () => {
                   fontStyle: "italic",
                   fontSize: "0.72em",
                   letterSpacing: "0.01em",
-                  color: "rgba(0,0,0,0.5)",
+                  color: "color-mix(in oklch, var(--foreground) 50%, transparent)",
                 }}
               >
                 to the
@@ -517,7 +517,7 @@ const Hero = () => {
                 "var(--font-body), 'Courier Prime', 'Courier New', monospace",
               fontSize: "1rem",
               lineHeight: 1.65,
-              color: "rgba(0,0,0,0.6)",
+              color: "var(--muted-foreground)",
               maxWidth: "29rem",
               marginBottom: "2rem",
             }}
