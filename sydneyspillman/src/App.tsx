@@ -7,7 +7,7 @@ export default function App() {
   const isOps = hostname === OPS_HOSTNAME || hostname === "localhost";
   const path = window.location.pathname;
 
-  if (path === "/discovery") {
+  if (path === "/discovery" || path === "/discovery/") {
     return <DiscoveryPage />;
   }
 

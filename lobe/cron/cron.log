@@ -1,35 +1,3 @@
-
-**Commit pushed:** `f3d5cd8` → `origin/main`
-
-  [outbox] cron-spot-fix-2026-03-28T21-15-02-2026-03-28T21-18-11-708Z.md
-twanii → 
-
-[2026-03-28T21:23:02.446Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T21:23:04.064Z] Safety push complete
-
-[2026-03-28T21:23:04.065Z] Cron run complete
-
-[2026-03-28T21:30:02.235Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T21:30:02.241Z] Task created: cron-spot-fix-2026-03-28T21-30-02.md
-
-[2026-03-28T21:30:02.242Z] Spawning Lobe agent...
-
-[2026-03-28T21:30:00Z] FIX: app/(auth)/resources/page.tsx — <h1> "Resources" missing font-display class; rendered in Courier Prime (typewriter body font) instead of League Spartan (display font) on every page load → added font-display to className
-  Files: app/app/(auth)/resources/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 2e6732e
-  DS Update: CONFIRM [HARDENED] — Page h1 headings require font-display — 3rd cross-file confirmation (flashcards, practice-test, resources). Rule now marked [HARDENED] in fadejunkie_ui.md.
-  Pattern: The font-display missing h1 violation is universal across ALL auth interior pages, not just tool pages. resources/page.tsx is the first non-tool auth page confirmed. Remaining violations still outstanding: website/page.tsx, tools/page.tsx, exam-guide/page.tsx — to be fixed in successive cycles.
-
-
-[2026-03-28T21:38:02.319Z] Lobe exited with code: 0
-
-[2026-03-28T21:38:02.320Z] STDOUT (last 500 chars): s require explicit `font-display`"* is now `[HARDENED]` — confirmed across flashcards, practice-test, and resources pages. Three cross-file confirmations from different auth-interior route types locks it as ground truth.
-
-**Flagged for upcoming cycles:** `website/page.tsx`, `tools/page.tsx`, and `exam-guide/page.tsx` all have h1s missing `font-display` — three more surgical fixes queued for the next three cycles.
-
-  [outbox] cron-spot-fix-2026-03-28T21-30-02-2026-03-28T21-33-55-193Z.md
 twanii → 
 
 [2026-03-28T21:38:02.439Z] Unpushed changes detected, running safety commit+push...
@@ -503,3 +471,31 @@ fatal: unable to access 'https://github.com/fadejunkie/fadejunkie.git/': Could n
 [2026-03-29T06:30:00Z] SKIP: inbox has 2 unprocessed task(s): cron-spot-fix-2026-03-29T02-45-02.md, status-polish-pass.md
   Action: No fix performed, no commit, no DS update.
   Reason: lobe/inbox/ contains unprocessed .md task files; manual tasks (status-polish-pass.md) take priority over autonomous cron scanning.
+
+[2026-03-29T06:30:00Z] FIX: app/page.tsx — path cards (Student + Client) had `backgroundColor: "rgba(255,255,255,0.8)"` and `border: "1px solid rgba(0,0,0,0.08)"` — hardcoded white/black rgba values bypassing the CSS token system. Replaced with `var(--card)` + `var(--border)`.
+  Files: app/page.tsx
+  Commit: 0e56446
+  DS Update: CHALLENGE — Light-mode card backgrounds must use var(--card) not rgba(255,255,255,*) — hardcoded rgba on Student + Client path cards; fix applied; new rule added to Cron Notes
+  Pattern: Cards on var(--background) must use var(--card) + var(--border). rgba(255,255,255,*) / rgba(0,0,0,*) are only permitted inside known dark containers (bg-foreground sections) where the parent color is fixed at authoring time.
+
+[2026-03-29T06:30:02.543Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T06:30:02.582Z] Task created: cron-spot-fix-2026-03-29T06-30-02.md
+
+[2026-03-29T06:30:02.591Z] Spawning Lobe agent...
+
+[2026-03-29T06:38:03.100Z] Lobe exited with code: 0
+
+[2026-03-29T06:38:03.134Z] STDOUT (last 500 chars): ton. Two-token surgical change.
+
+**Build:** ✅ Passed (18/18 static pages)  
+**Commit:** `5bed5d7` → pushed to `origin/main`
+
+**Design System Update (CONFIRM):** Added confirmation to the `<h2>`/`<h3>`-section-label rule — collapsible card headers are now a documented risk surface.
+
+**New Pattern:** A developer comment acknowledging a CSS inheritance issue is a signal, not a solution. The fix still has to be made.
+
+  [outbox] cron-spot-fix-2026-03-29T06-30-02-2026-03-29T06-34-36-515Z.md
+twanii → 
+
+[2026-03-29T06:38:03.417Z] Unpushed changes detected, running safety commit+push...

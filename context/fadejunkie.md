@@ -115,6 +115,7 @@ Client work funds the platform build AND informs what features to build next.
 C:/Users/twani/fadejunkie/   ← workspace root (git repo)
   app/                        ← Next.js + Convex project (run npm commands from here)
   funkie/                     ← Funkie agent
+  pm/                         ← PM agent — autonomous project driver
   context/                    ← this file
 ```
 

@@ -7,6 +7,7 @@
 - SEO/audit/keywords/ranking/backlinks → SEO Engine
 - Strategy/goals/prioritization/product decisions → Funkie
 - Build/test/QA/deploy/screenshot → Sentinel
+- PM status/progress/project-drive/next-action → PM
 
 ## Client Project Routing
 - **Sydney Spillman tasks** → use `<!-- client: sydneyspillman -->` header. Source: `sydneyspillman/`. SEO Engine context at `seo-engine/context/clients/sydneyspillman.md`. Slash command: `/sydneyspillman-hub-update`.

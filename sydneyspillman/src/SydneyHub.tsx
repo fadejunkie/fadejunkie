@@ -1,7 +1,22 @@
 // @ts-nocheck
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Component } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
+
+class ErrorBoundary extends Component{
+  state={hasError:false,error:null};
+  static getDerivedStateFromError(error){return{hasError:true,error}}
+  render(){
+    if(this.state.hasError){
+      return <div style={{padding:40,fontFamily:"Inter,sans-serif",maxWidth:600,margin:"0 auto"}}>
+        <div style={{fontSize:18,fontWeight:700,color:"#ef4444",marginBottom:12}}>Something went wrong</div>
+        <pre style={{fontSize:11,color:"#64748b",whiteSpace:"pre-wrap",wordBreak:"break-all"}}>{String(this.state.error)}</pre>
+        <button onClick={()=>window.location.reload()} style={{marginTop:16,padding:"8px 20px",fontSize:12,background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>Reload</button>
+      </div>
+    }
+    return this.props.children;
+  }
+}
 
 /* ── color system ── */
 const BLUE="#2563eb",BLUE2="#3b82f6",NAVY="#1e3a5f",GREEN="#22c55e",EMBER="#ef4444";
@@ -820,6 +835,7 @@ export function DiscoveryPage(){
   const existing=useQuery(api.sydneyTasks.getDiscovery,{projectId:"sydney-spillman"});
 
   useEffect(()=>{
+    if(existing===undefined)return;
     if(existing&&!submitted){
       try{
         const parsed=JSON.parse(existing.responses);
@@ -847,6 +863,7 @@ export function DiscoveryPage(){
   const toggleTheme=()=>{const next=!dark;setDark(next);try{localStorage.setItem("sydney-theme",next?"dark":"light")}catch{}};
 
   return(
+    <ErrorBoundary>
     <div style={{minHeight:"100vh",background:c.BG,color:c.INK,fontFamily:"Inter,sans-serif",transition:"background 0.3s,color 0.3s"}}>
       <Grain/>
       {/* Header */}
@@ -928,6 +945,7 @@ export function DiscoveryPage(){
         <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>Built by Anthony's Brand Builder</div>
       </div>
     </div>
+    </ErrorBoundary>
   );
 }
 

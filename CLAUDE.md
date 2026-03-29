@@ -15,6 +15,7 @@ C:/Users/twani/fadejunkie/   ← root (git repo)
   seo-engine/                 ← SEO Engine agent — SEO strategist (has its own CLAUDE.md)
   sentinel/                   ← Sentinel agent — QA & deploy gate (has its own CLAUDE.md)
   email-agent/                ← Mailwatch agent — read-only Gmail monitor for Wcorwin (has its own CLAUDE.md)
+  pm/                         ← PM agent — autonomous project driver (has its own CLAUDE.md)
   control-center/             ← Dashboard server, CRM, metrics, content calendar
   arquero/                    ← Arquero Co. client project (Vite + Convex storefront)
   browser-agent/              ← Playwright browser agent — screenshots, visual QA
@@ -49,6 +50,7 @@ All seven agents share the same communication pattern:
 | SEO Engine | `seo-engine/` | SEO strategy, audits, keywords, client deliverables | plan | opus |
 | Sentinel | `sentinel/` | QA — build verification, visual QA, deploy gate | execute | sonnet |
 | Mailwatch | `email-agent/` | Read-only Gmail monitor — Wcorwin contacts only | execute | sonnet |
+| PM | `pm/` | Project driver — reads state, routes next milestone | execute | sonnet |
 
 **Running agents from within a Claude Code session** (nested session bypass required):
 ```bash
@@ -66,6 +68,7 @@ Examples for each agent:
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx seo-engine/seo-engine.ts
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx sentinel/sentinel.ts
 (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx email-agent/email-agent.ts
+(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx pm/pm.ts
 ```
 
 ### Task file headers
