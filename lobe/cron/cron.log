@@ -1,22 +1,3 @@
-
-[2026-03-29T12:00:01.822Z] Task created: cron-spot-fix-2026-03-29T12-00-01.md
-
-[2026-03-29T12:00:01.824Z] Spawning Lobe agent...
-
-[2026-03-29T12:00:01Z] FIX: app/(auth)/profile/page.tsx — EditToggle raw <button> had inline style={{ fontFamily: "var(--font-mono), monospace" }} rendering UI chrome edit/cancel control in Geist Mono instead of Geist; inline style silently overrides any Tailwind font class → removed inline fontFamily style, added font-sans to className
-  Files: app/app/(auth)/profile/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 52a44ec
-  DS Update: CONFIRM — Raw <button> must use font-sans [HARDENED] — new detection gap documented: inline fontFamily style prop on <button> bypasses the className grep scan; must also grep <button for style={{fontFamily}} props
-  Pattern: An inline style={{ fontFamily }} on a raw <button> that is NOT var(--font-sans) is a P1 violation and evades the standard "grep <button without font-sans in className" detection. Detection must be extended to cover both className and style prop. EditToggle in profile/page.tsx is the canonical case — UI chrome control (edit/cancel pill), mono font, inline style overriding className.
-
-[2026-03-29T12:08:01.903Z] Lobe exited with code: 0
-
-[2026-03-29T12:08:01.905Z] STDOUT (last 500 chars): ith a new detection gap note: **the `style` prop on `<button>` elements must also be scanned** for `fontFamily` overrides that bypass the className grep. The full detection pattern is now:
-1. grep `<button` → check for `font-sans` in `className`
-2. grep `<button` → check for `fontFamily` in `style` prop that isn't `var(--font-sans)`
-
-Both gaps live in the same violation class. Parallel entry added to `growth.md`.
-
   [outbox] cron-spot-fix-2026-03-29T12-00-01-2026-03-29T12-04-51-833Z.md
 twanii → 
 
@@ -505,3 +486,16 @@ twanii →
   Commit: 9d1f6cb
   DS Update: CONFIRM — Monospace font token Tailwind-class-first rule — all-inline typography block variant confirmed on public barber profile page; /barber/[slug] is the external-facing profile URL for every barber on the platform, making it equal-risk to ShopTemplate. Both eyebrow labels cleaned in one commit.
   Pattern: Public barber profile page (/barber/[slug]) must be co-scanned with ShopTemplate on every eyebrow-label audit — they share authoring patterns and will carry the same inline-style anti-patterns simultaneously.
+
+[2026-03-29T16:23:01.888Z] Lobe exited with code: 0
+
+[2026-03-29T16:23:01.890Z] STDOUT (last 500 chars): assName audits — exactly what makes them the hardest violations to catch systematically.
+
+**Design system update:** Confirmed the "all-inline typography block" rule with the barber slug page as a new instance. Also noted in growth memory that `/barber/[slug]` and `ShopTemplate` share the same authoring patterns — co-scan these two surfaces on every eyebrow-label audit pass.
+
+**Build:** ✅ Passed, pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-29T16-15-01-2026-03-29T16-19-11-609Z.md
+twanii → 
+
+[2026-03-29T16:23:02.019Z] Unpushed changes detected, running safety commit+push...
