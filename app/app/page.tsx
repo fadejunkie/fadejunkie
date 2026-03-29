@@ -339,7 +339,7 @@ export default function LandingPage() {
                       letterSpacing: "0.18em",
                       color: path.dark
                         ? "rgba(255,255,255,0.18)"
-                        : "rgba(0,0,0,0.18)",
+                        : "color-mix(in oklch, var(--foreground) 18%, transparent)",
                     }}
                   >
                     {path.num}
@@ -353,7 +353,7 @@ export default function LandingPage() {
                         height: 26,
                         color: path.dark
                           ? "rgba(255,255,255,0.28)"
-                          : "rgba(0,0,0,0.3)",
+                          : "color-mix(in oklch, var(--foreground) 30%, transparent)",
                         strokeWidth: 1.5,
                         marginBottom: "1.25rem",
                       }}
@@ -382,7 +382,7 @@ export default function LandingPage() {
                         textTransform: "uppercase",
                         color: path.dark
                           ? "rgba(255,255,255,0.4)"
-                          : "rgba(0,0,0,0.4)",
+                          : "var(--muted-foreground)",
                         marginBottom: "0.875rem",
                       }}
                     >
@@ -396,7 +396,7 @@ export default function LandingPage() {
                         lineHeight: 1.6,
                         color: path.dark
                           ? "rgba(255,255,255,0.45)"
-                          : "rgba(0,0,0,0.55)",
+                          : "var(--muted-foreground)",
                         maxWidth: "22rem",
                       }}
                     >
