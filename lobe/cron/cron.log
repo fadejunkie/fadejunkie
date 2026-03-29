@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T13:45:02.001Z] Task created: cron-spot-fix-2026-03-29T13-45-02.md
 
 [2026-03-29T13:45:02.004Z] Spawning Lobe agent...
+
+[2026-03-29T13:45:02Z] FIX: components/ResourceCard.tsx — <h3> rendering businessName was a half-fixed prior violation: textTransform:"none" was added (cycle 2026-03-28T15:45) but the heading tag itself was never changed to <p>. Global CSS still forced League Spartan font + line-height:1.05 + tight tracking on the business name. → Changed <h3> to <p>, removed now-redundant textTransform:"none" style prop.
+  Files: app/components/ResourceCard.tsx, context/fadejunkie_ui.md
+  Commit: cdc2bbd
+  DS Update: CHALLENGE — Section-label heading rule — ResourceCard had a partial fix (textTransform only) but the heading TAG remained as <h3>. Full fix requires tag change, not just style override. textTransform:"none" on a heading is a diagnostic signal that the tag should be a <p>.
+  Pattern: A `style={{ textTransform: "none" }}` on an h2/h3/h4 is a red flag — it's an override fighting the globals.css h1–h4 rules. The correct solution is always to change the tag to <p>, not to accumulate inline style overrides. Prior partial fixes are a risk surface: a file that received a textTransform fix but not a tag change should be re-scanned for the heading-tag violation.
