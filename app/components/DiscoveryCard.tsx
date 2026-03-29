@@ -333,7 +333,7 @@ export default function DiscoveryCard({
                 aria-label={`Connect with ${displayName} about ${toggleLabel}`}
               >
                 <UserPlus style={{ width: 12, height: 12 }} />
-                <span className="font-mono">connect</span>
+                connect
               </button>
             )}
           </div>
