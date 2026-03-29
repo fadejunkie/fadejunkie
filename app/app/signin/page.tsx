@@ -272,16 +272,7 @@ function SignInForm() {
             <div style={{ marginBottom: "2.5rem" }}>
               <Link
                 href="/"
-                style={{
-                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-                  fontSize: "1.5rem",
-                  fontWeight: 800,
-                  color: "var(--foreground)",
-                  letterSpacing: "-0.04em",
-                  textDecoration: "none",
-                  display: "block",
-                  marginBottom: "0.375rem",
-                }}
+                className="font-display text-2xl font-extrabold text-foreground tracking-[-0.04em] no-underline block mb-1.5"
               >
                 fadejunkie
               </Link>
