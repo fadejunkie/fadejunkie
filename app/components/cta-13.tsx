@@ -105,7 +105,7 @@ const Cta13 = ({
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
           style={{
-            fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+            fontFamily: "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.625rem",
             fontWeight: 500,
             letterSpacing: "0.18em",
