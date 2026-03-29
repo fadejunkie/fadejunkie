@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T07:00:02.195Z] Task created: cron-spot-fix-2026-03-29T07-00-02.md
 
 [2026-03-29T07:00:02.198Z] Spawning Lobe agent...
+
+[2026-03-29T07:00:02Z] FIX: app/(auth)/tools/practice-test/page.tsx — 3 raw <button> elements missing font-sans: (1) flag toggle button "⚑ Flagged / ⚐ Flag" in question card header, (2) answer-option selection buttons (A/B/C/D — the highest-traffic UI control in the entire tool, used on every question), (3) back-chevron icon button in Results phase header → added font-sans as first class in className on all three
+  Files: app/app/(auth)/tools/practice-test/page.tsx, context/fadejunkie_ui.md
+  Commit: a69e9ef
+  DS Update: CONFIRM — Raw <button> UI chrome always needs font-sans [HARDENED] — 7th+ confirmation; practice-test joins resources, exam-guide, flashcards, profile, directory, PostCard as confirmed instances. Practice-test is significant because the answer-option buttons are user-facing interactive controls that appear on every single question — the multiplier effect is even higher than per-post PostCard.
+  Pattern: Interactive answer-option buttons that are styled as bordered choice cards (w-full, text-left, rounded-lg, border) need font-sans even though they look like "content" — they are UI controls, not authored prose, and must use Geist.
