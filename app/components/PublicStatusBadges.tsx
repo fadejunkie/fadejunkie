@@ -24,16 +24,7 @@ export default function PublicStatusBadges({
         {allStatuses.map((s) => (
           <span
             key={s.toggleKey}
-            style={{
-              fontFamily: "var(--font-mono), ui-monospace, monospace",
-              fontSize: "0.625rem",
-              color: "var(--foreground)",
-              opacity: 0.6,
-              border: "1px solid color-mix(in oklch, var(--foreground) 18%, transparent)",
-              borderRadius: "2px",
-              padding: "1px 5px",
-              letterSpacing: "0.02em",
-            }}
+            className="font-mono text-[0.625rem] text-foreground/60 border border-foreground/[18%] rounded-[2px] px-[5px] py-px tracking-[0.02em]"
           >
             {s.label}
           </span>
@@ -46,32 +37,14 @@ export default function PublicStatusBadges({
     <div className="space-y-2.5">
       {summary.map((group) => (
         <div key={group.path}>
-          <p
-            style={{
-              fontFamily: "var(--font-mono), ui-monospace, monospace",
-              fontSize: "0.5625rem",
-              fontWeight: 500,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: "var(--muted-foreground)",
-              marginBottom: "0.375rem",
-            }}
-          >
+          <p className="font-mono text-[9px] font-medium tracking-[0.12em] uppercase text-muted-foreground mb-1.5">
             {group.pathLabel}
           </p>
           <div className="flex flex-wrap gap-1">
             {group.statuses.map((s) => (
               <span
                 key={s.toggleKey}
-                style={{
-                  fontFamily: "var(--font-mono), ui-monospace, monospace",
-                  fontSize: "0.625rem",
-                  color: "var(--foreground)",
-                  border: "1px solid color-mix(in oklch, var(--foreground) 18%, transparent)",
-                  borderRadius: "2px",
-                  padding: "2px 6px",
-                  letterSpacing: "0.02em",
-                }}
+                className="font-mono text-[0.625rem] text-foreground border border-foreground/[18%] rounded-[2px] px-1.5 py-0.5 tracking-[0.02em]"
               >
                 {s.label}
               </span>
