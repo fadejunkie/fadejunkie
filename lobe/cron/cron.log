@@ -1,24 +1,3 @@
-  Commit: 61ab49c
-  DS Update: CONFIRM [HARDENED] — Section-label elements must NOT use heading tags — 5th cross-file confirmation; rule now demonstrated on plain card body titles (not just eyebrow labels or interior section headers), confirming full breadth of the rule
-  Pattern: <h3> in card bodies (font-bold, font-semibold titles) is as prone to global-CSS corruption as <h2> eyebrows — grep must target <h3 not just <h2 when hunting section-label violations
-
-[2026-03-28T18:53:02.208Z] Lobe exited with code: 0
-
-[2026-03-28T18:53:02.209Z] STDOUT (last 500 chars):  **5th** cross-file confirmation of the section-label rule. Notably, this was plain `<h3>` card body titles (not just `<h2>` uppercase eyebrows) — expanding the scan pattern from `<h2` to also cover `<h3` in card interiors.
-
-**New growth insight:** The `<h3>` card title violation is just as prevalent as the `<h2>` eyebrow violation. Future detection greps must target `<h3` inside Card components, not just `<h2>`.
-
-  [outbox] cron-spot-fix-2026-03-28T18-45-02-2026-03-28T18-48-58-663Z.md
-twanii → 
-
-[2026-03-28T18:53:02.324Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-28T18:53:03.897Z] Safety push complete
-
-[2026-03-28T18:53:03.899Z] Cron run complete
-
-[2026-03-28T19:00:02.116Z] WARN: Stale lockfile detected, removing
-
 [2026-03-28T19:00:02.122Z] Task created: cron-spot-fix-2026-03-28T19-00-02.md
 
 [2026-03-28T19:00:02.123Z] Spawning Lobe agent...
@@ -505,3 +484,18 @@ twanii →
   Commit: 9516fc9
   DS Update: CONFIRM — Raw <button> UI chrome always needs font-sans [HARDENED] — confirmed on public-facing directory page; rule now spans auth-interior AND public routes (5+ files total)
   Pattern: Public-facing filter/search bars with raw <button> elements are multi-instance risk surfaces — scan TYPE_TABS, icon triggers, and empty-state inline text buttons as a group on every directory-style page.
+
+[2026-03-29T00:08:02.260Z] Lobe exited with code: 0
+
+[2026-03-29T00:08:02.269Z] STDOUT (last 500 chars): ral changes, zero logic touched.
+
+**Build:** ✅ Clean (18 routes, no TypeScript errors)
+
+**Commits:** `9516fc9` (fix) + `adcc8b0` (DS/memory/log updates) — both pushed to `main`
+
+**Design System Update:** CONFIRM — The [HARDENED] rule "raw `<button>` UI chrome always needs `font-sans`" is now confirmed across both auth-interior pages AND public-facing routes. The scope is the full codebase, not just `app/(auth)/`.
+
+  [outbox] cron-spot-fix-2026-03-29T00-00-02-2026-03-29T00-03-40-459Z.md
+twanii → 
+
+[2026-03-29T00:08:02.830Z] Unpushed changes detected, running safety commit+push...
