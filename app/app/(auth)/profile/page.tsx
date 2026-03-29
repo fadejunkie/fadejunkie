@@ -74,12 +74,11 @@ function EditToggle({
       type="button"
       onClick={editing ? onCancel : onEdit}
       className={cn(
-        "flex items-center gap-1.5 border rounded-full px-5 py-1.5 text-xs transition-colors duration-150 shrink-0",
+        "font-sans flex items-center gap-1.5 border rounded-full px-5 py-1.5 text-xs transition-colors duration-150 shrink-0",
         editing
           ? "border-foreground/30 bg-foreground text-background hover:bg-foreground/85"
           : "border-border text-muted-foreground hover:border-foreground/35 hover:text-foreground"
       )}
-      style={{ fontFamily: "var(--font-mono), monospace" }}
     >
       <Pencil size={11} strokeWidth={2} />
       {editing ? "cancel" : "edit"}
