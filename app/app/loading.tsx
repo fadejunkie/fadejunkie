@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <div
       style={{
-        backgroundColor: "#fff4ea",
+        backgroundColor: "var(--background)",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -12,8 +12,8 @@ export default function Loading() {
       <div
         style={{
           height: 57,
-          borderBottom: "1px solid rgba(22,16,8,0.08)",
-          backgroundColor: "rgba(255,244,234,0.88)",
+          borderBottom: "1px solid var(--border)",
+          backgroundColor: "var(--background)",
           display: "flex",
           alignItems: "center",
           padding: "0 max(1.5rem, 3vw)",
@@ -26,7 +26,7 @@ export default function Loading() {
             width: 88,
             height: 14,
             borderRadius: 4,
-            backgroundColor: "rgba(22,16,8,0.08)",
+            backgroundColor: "color-mix(in oklch, var(--foreground) 8%, transparent)",
           }}
         />
       </div>
@@ -54,7 +54,7 @@ export default function Loading() {
               width: 140,
               height: 11,
               borderRadius: 3,
-              backgroundColor: "rgba(22,16,8,0.06)",
+              backgroundColor: "color-mix(in oklch, var(--foreground) 6%, transparent)",
             }}
           />
           <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
@@ -64,7 +64,7 @@ export default function Loading() {
                 width: "80%",
                 height: 60,
                 borderRadius: 6,
-                backgroundColor: "rgba(22,16,8,0.07)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 7%, transparent)",
               }}
             />
             <div
@@ -73,7 +73,7 @@ export default function Loading() {
                 width: "70%",
                 height: 60,
                 borderRadius: 6,
-                backgroundColor: "rgba(22,16,8,0.05)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 5%, transparent)",
                 animationDelay: "0.1s",
               }}
             />
@@ -83,7 +83,7 @@ export default function Loading() {
                 width: "55%",
                 height: 60,
                 borderRadius: 6,
-                backgroundColor: "rgba(22,16,8,0.04)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 4%, transparent)",
                 animationDelay: "0.2s",
               }}
             />
@@ -102,7 +102,7 @@ export default function Loading() {
                 width: "85%",
                 height: 14,
                 borderRadius: 3,
-                backgroundColor: "rgba(22,16,8,0.05)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 5%, transparent)",
                 animationDelay: "0.05s",
               }}
             />
@@ -112,7 +112,7 @@ export default function Loading() {
                 width: "65%",
                 height: 14,
                 borderRadius: 3,
-                backgroundColor: "rgba(22,16,8,0.04)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 4%, transparent)",
                 animationDelay: "0.1s",
               }}
             />
@@ -124,7 +124,7 @@ export default function Loading() {
                 width: 130,
                 height: 48,
                 borderRadius: 40,
-                backgroundColor: "rgba(22,16,8,0.10)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 10%, transparent)",
               }}
             />
             <div
@@ -133,7 +133,7 @@ export default function Loading() {
                 width: 110,
                 height: 48,
                 borderRadius: 40,
-                backgroundColor: "rgba(22,16,8,0.05)",
+                backgroundColor: "color-mix(in oklch, var(--foreground) 5%, transparent)",
                 animationDelay: "0.15s",
               }}
             />
@@ -151,7 +151,7 @@ export default function Loading() {
               width: 316,
               height: 380,
               borderRadius: "1.375rem",
-              backgroundColor: "rgba(22,16,8,0.07)",
+              backgroundColor: "color-mix(in oklch, var(--foreground) 7%, transparent)",
             }}
           />
         </div>
