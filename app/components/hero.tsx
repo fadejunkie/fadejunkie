@@ -350,7 +350,7 @@ const HeroCard = () => {
           gap: "0.45rem",
           boxShadow:
             "0 4px 24px rgba(0,0,0,0.12), 0 1px 6px rgba(0,0,0,0.06)",
-          border: "1px solid rgba(0,0,0,0.08)",
+          border: "1px solid var(--border)",
         }}
       >
         <div className="hero-active-dot" />
@@ -362,7 +362,7 @@ const HeroCard = () => {
             fontWeight: 500,
             letterSpacing: "0.13em",
             textTransform: "uppercase",
-            color: "rgba(0,0,0,0.55)",
+            color: "var(--muted-foreground)",
           }}
         >
           2,400+ barbers online
@@ -387,7 +387,7 @@ const HeroCard = () => {
           padding: "0.875rem 1rem",
           boxShadow:
             "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)",
-          border: "1px solid rgba(0,0,0,0.08)",
+          border: "1px solid var(--border)",
           maxWidth: 176,
         }}
         className="hero-side-pill"
@@ -400,7 +400,7 @@ const HeroCard = () => {
             fontWeight: 500,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
-            color: "rgba(0,0,0,0.4)",
+            color: "var(--muted-foreground)",
             marginBottom: "0.3rem",
           }}
         >
