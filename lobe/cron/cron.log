@@ -1,14 +1,4 @@
 
-[2026-03-29T08:00:01.663Z] Spawning Lobe agent...
-
-[2026-03-29T08:00:01.663Z] Lobe agent running cycle 2026-03-29T08:00:01
-
-[2026-03-29T08:04:30.000Z] FIX: app/(auth)/website/page.tsx — 3× var(--font-geist-mono) ghost token in eyebrow section-label <p> tags → var(--font-mono)
-  Files: app/app/(auth)/website/page.tsx, app/context/fadejunkie_ui.md
-  Commit: d0b50f5
-  DS Update: CONFIRM — var(--font-mono) canonical token rule [HARDENED] — 3rd cross-file confirmation (signin, website, now closing out website builder form)
-  Pattern: Eyebrow labels built card-by-card during form construction are highest-risk surface for ghost-token reintroduction — added in isolation without cross-referencing token table
-
 
 [2026-03-29T08:08:01.770Z] Lobe exited with code: 0
 
@@ -499,3 +489,19 @@ Both gaps live in the same violation class. Parallel entry added to `growth.md`.
 twanii → 
 
 [2026-03-29T12:08:02.086Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T12:08:03.965Z] Safety push complete
+
+[2026-03-29T12:08:03.967Z] Cron run complete
+
+[2026-03-29T12:15:01.807Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T12:15:01.813Z] Task created: cron-spot-fix-2026-03-29T12-15-01.md
+
+[2026-03-29T12:15:01.814Z] Spawning Lobe agent...
+
+[2026-03-29T12:15:01Z] FIX: components/StatusToggleCard.tsx — Refresh button in active-status expiry row used `font-mono` instead of `font-sans`, rendering the UI action verb "Refresh" in Geist Mono (data font) rather than Geist (UI chrome font) → replaced `font-mono` with `font-sans` on the Refresh button className
+  Files: app/components/StatusToggleCard.tsx, app/context/fadejunkie_ui.md
+  Commit: 5b919fe
+  DS Update: CONFIRM [HARDENED] — Raw <button> must use font-sans — new detection nuance documented: action buttons adjacent to data-label spans can inherit `font-mono` from nearby siblings during authoring; font-mono is correct for data/count badges (×N), font-sans is correct for UI action verbs ("Refresh") — these must be treated as distinct even in the same row
+  Pattern: When a button lives inside a row of data-labeled spans (expiry timer, dot separator, count badge), the developer's mental context shifts to "data presentation mode" and they author the action button with font-mono by association. The count badge (×N) is correctly font-mono; the action verb ("Refresh") is wrongly font-mono. Always audit action verbs independently from their sibling data labels.
