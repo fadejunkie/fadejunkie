@@ -130,10 +130,10 @@ const Footer2 = ({
             </div>
             {menuItems.map((section, sectionIdx) => (
               <div key={sectionIdx}>
-                <h3
+                <p
                   className="mb-4 font-bold"
                   style={{
-                    fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+                    fontFamily: "var(--font-mono), ui-monospace, monospace",
                     fontSize: "0.5625rem",
                     letterSpacing: "0.16em",
                     textTransform: "uppercase",
@@ -141,7 +141,7 @@ const Footer2 = ({
                   }}
                 >
                   {section.title}
-                </h3>
+                </p>
                 <ul className="space-y-3">
                   {section.links.map((link, linkIdx) => (
                     <li key={linkIdx}>
