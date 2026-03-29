@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T00:30:01.799Z] Task created: cron-spot-fix-2026-03-29T00-30-01.md
 
 [2026-03-29T00:30:01.803Z] Spawning Lobe agent...
+
+[2026-03-29T00:30:01Z] FIX: app/(auth)/profile/page.tsx — 2 card section labels ("Your Profile", "Gallery") had style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}; --font-heading is undefined in globals.css so they silently rendered in system-ui, bypassing League Spartan. Inline style also overrides any font-display Tailwind class. → removed broken inline style from both <p> tags, added font-display to className.
+  Files: app/(auth)/profile/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 05fd5ad
+  DS Update: CONFIRM — var(--font-heading) undefined token trap — second cross-file confirmation (profile/page.tsx:115,298); pattern is a legacy/misremembered alias, not an isolated typo. Detection: grep font-heading is mandatory first-pass scan.
+  Pattern: var(--font-heading) recurs across multiple auth pages — it appears to be an intended-but-never-registered CSS variable. Every occurrence is a silent P1: system-ui renders instead of League Spartan. Affects both <h1> headings AND <p> section labels used as visual card titles.
