@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T13:15:01.965Z] Task created: cron-spot-fix-2026-03-29T13-15-01.md
 
 [2026-03-29T13:15:01.968Z] Spawning Lobe agent...
+
+[2026-03-29T13:15:01Z] FIX: components/DiscoveryCard.tsx — "connect" button label wrapped in <span className="font-mono"> overriding parent button's font-sans → removed span wrapper, text is now a bare node inheriting font-sans correctly
+  Files: app/components/DiscoveryCard.tsx, context/fadejunkie_ui.md
+  Commit: 41a4e37
+  DS Update: CONFIRM — Raw <button> font-sans rule — child-span override variant: a <span className="font-mono"> inside a font-sans button silently wins the cascade; button action labels must be bare text nodes with no child font class override
+  Pattern: Detection for <button> font-sans compliance must include scanning inner elements — not just the button's own className and style prop, but also any child <span>/<strong> that carries a font class on label text.
