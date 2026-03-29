@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T15:00:01.759Z] Task created: cron-spot-fix-2026-03-29T15-00-01.md
 
 [2026-03-29T15:00:01.761Z] Spawning Lobe agent...
+
+[2026-03-29T15:00:01Z] FIX: components/MatchesFeed.tsx — 5× inline style={{ fontFamily }} props replaced with Tailwind font classes: 2× font-body on <p> empty-state messages, 1× font-mono on <Link> CTA, 1× font-mono on <p> section header, 1× font-mono on <strong> inside section header → tokens were correct (no ghost tokens), delivery mechanism was wrong (inline style bypasses Tailwind class system)
+  Files: app/components/MatchesFeed.tsx, context/fadejunkie_ui.md
+  Commit: 71003d3
+  DS Update: CONFIRM — Monospace/body font token Tailwind-class-first rule — multi-element batch variant documented: authors who use inline fontFamily once apply it to all elements in the same file; a single hit should trigger a full-file scan for all style={{ fontFamily }} occurrences before closing the cycle
+  Pattern: When a co-authored file has one inline fontFamily violation, it reliably has more — the inline style habit is file-scoped, not element-scoped. Full-file grep for style=.*fontFamily is mandatory after the first hit. MatchesFeed.tsx (5 hits across 3 element types) is the canonical reference.
