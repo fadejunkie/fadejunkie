@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T16:45:01.888Z] Task created: cron-spot-fix-2026-03-29T16-45-01.md
 
 [2026-03-29T16:45:01.891Z] Spawning Lobe agent...
+
+[2026-03-29T16:45:01Z] FIX: components/ui/Input.tsx — focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)] hardcoded rgba focus-ring shadow → focus:shadow-focus-ring (token-based, inverts in dark mode)
+  Files: app/app/globals.css, app/components/ui/Input.tsx
+  Commit: f3c5541
+  DS Update: CONFIRM — "No hardcoded colors — tokens only" — extended to cover 0-offset focus-ring box shadows; added --shadow-focus-ring CSS token using color-mix(in oklch, var(--foreground) 6%, transparent)
+  Pattern: Focus-ring glow shadows require the same color-mix token treatment as all other shadows. `rgba(0,0,0,0.06)` at 0-offset is invisible in dark mode. Add --shadow-focus-ring to :root + @theme inline; reference via shadow-focus-ring Tailwind utility.
