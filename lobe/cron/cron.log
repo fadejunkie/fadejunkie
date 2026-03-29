@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T15:30:01.762Z] Task created: cron-spot-fix-2026-03-29T15-30-01.md
 
 [2026-03-29T15:30:01.765Z] Spawning Lobe agent...
+
+[2026-03-29T15:30:01Z] FIX: components/AppHeader.tsx — logo <Link> used full inline style block (fontFamily, fontSize, fontWeight, letterSpacing, color, textTransform, lineHeight) with correct var(--font-display) token but wrong delivery mechanism → replaced entire inline style prop with Tailwind classes: font-display text-base font-bold tracking-[-0.04em] text-foreground lowercase leading-none
+  Files: app/components/AppHeader.tsx, context/fadejunkie_ui.md
+  Commit: 3422505
+  DS Update: CONFIRM — Monospace/display font token Tailwind-class-first rule — all-inline typography block variant: when all typographic properties (font, size, weight, tracking, color, transform, line-height) are delivered as a single inline style object, the entire block is invisible to className audits; fix is to map every property to Tailwind equivalent and delete the style prop entirely
+  Pattern: A component that delivers its full typographic stack via inline style props (not just fontFamily) is the most complete form of the inline-style anti-pattern. The logo link in AppHeader is the canonical "all-inline typography block" case — 7 CSS properties as inline style, all mapping directly to Tailwind classes. After fixing fontFamily, always check if the same element has other style props that also have Tailwind equivalents.
