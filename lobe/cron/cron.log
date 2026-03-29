@@ -1,22 +1,3 @@
-[2026-03-29T09:15:01.724Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T09:15:01.731Z] Task created: cron-spot-fix-2026-03-29T09-15-01.md
-
-[2026-03-29T09:15:01.733Z] Spawning Lobe agent...
-
-[2026-03-29T09:23:01.831Z] Lobe exited with code: 0
-
-[2026-03-29T09:23:01.833Z] STDOUT (last 500 chars): ont reference. That kind of multiplication makes it a P1 even if the visual difference is subtle.
-
-**Commit:** `fac3fea` → pushed to `origin/main`
-
-**Design system update:** Hardened the `var(--font-mono)` rule to [HARDENED x6] with a note that static data arrays (PILLARS, STATS, TESTIMONIALS) are especially high-density surfaces for ghost token violations — one bad source line × N array items = N broken renders.
-
-  [outbox] cron-spot-fix-2026-03-29T09-15-01-2026-03-29T09-20-02-028Z.md
-twanii → 
-
-[2026-03-29T09:23:01.970Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-29T09:23:04.020Z] Safety push complete
 
 [2026-03-29T09:23:04.021Z] Cron run complete
@@ -505,3 +486,16 @@ twanii →
   Commit: 0493a19
   DS Update: CONFIRM [HARDENED — globally-mounted header] — Raw <button> font-sans rule — inline fontFamily: var(--font-mono) override variant. Globally-mounted layout components (sticky header) are the highest-impact surface: a single wrong font on one button affects every authenticated page simultaneously. Detection must include style={{ fontFamily: "var(--font-mono)..." }} on buttons, not just missing font-sans class.
   Pattern: AppHeader is rendered on every auth page — any typography violation here is a sitewide regression. Sticky/persistent layout components warrant their own audit pass in the rotation.
+
+[2026-03-29T13:38:02.409Z] Lobe exited with code: 0
+
+[2026-03-29T13:38:02.443Z] STDOUT (last 500 chars): **Fix:** Removed the inline `fontFamily` style, added `font-sans` to the button's className.
+
+**Design system hardened:** Confirmed the `raw <button> UI chrome always needs font-sans [HARDENED]` rule with a new high-impact reference — globally-mounted components are the worst variant of this violation because the blast radius is the entire authenticated app, not just one page.
+
+**Build:** Clean. Pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-29T13-30-01-2026-03-29T13-35-33-019Z.md
+twanii → 
+
+[2026-03-29T13:38:02.780Z] Unpushed changes detected, running safety commit+push...
