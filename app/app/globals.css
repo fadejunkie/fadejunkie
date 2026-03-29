@@ -93,6 +93,8 @@
   --shadow-2xl: 0 24px 64px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.08);
   /* Inset for pressed states */
   --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.10);
+  /* Focus ring — resolves through foreground token, inverts correctly in dark mode */
+  --shadow-focus-ring: 0 0 0 3px color-mix(in oklch, var(--foreground) 6%, transparent);
 
   /* ── Section spacing ─────────────────────────────────────── */
   --section-gap-sm: clamp(3rem, 5vw, 4rem);
@@ -136,6 +138,7 @@
   --shadow-lg:  var(--shadow-lg);
   --shadow-xl:  var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+  --shadow-focus-ring: var(--shadow-focus-ring);
   /* Easing */
   --ease-standard:   var(--ease-standard);
   --ease-expressive: var(--ease-expressive);

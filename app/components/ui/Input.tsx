@@ -35,7 +35,7 @@ const inputBase = [
   "hover:border-foreground/30",
   // Focus — full foreground border + subtle depth shadow, no ring halo
   "focus:outline-none focus:border-foreground/60",
-  "focus:shadow-[0_0_0_3px_rgba(0,0,0,0.06)]",
+  "focus:shadow-focus-ring",
   // Disabled
   "disabled:cursor-not-allowed disabled:opacity-50",
   // File input styling
