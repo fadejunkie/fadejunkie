@@ -305,8 +305,7 @@ export default function DiscoveryCard({
           <div className="flex items-center gap-1.5">
             {showMatchIndicator && (
               <Link2
-                className="text-muted-foreground/40 shrink-0"
-                style={{ width: 14, height: 14 }}
+                className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0"
               />
             )}
             <span className="font-mono text-[11px] text-muted-foreground">
@@ -322,7 +321,7 @@ export default function DiscoveryCard({
 
             {sent ? (
               <span className="font-mono flex items-center gap-0.5 text-[11px] text-muted-foreground/50">
-                <Check style={{ width: 11, height: 11 }} />
+                <Check className="w-[11px] h-[11px]" />
                 sent
               </span>
             ) : (
@@ -332,7 +331,7 @@ export default function DiscoveryCard({
                 className="font-sans flex items-center gap-1 text-[11px] text-muted-foreground/45 hover:text-foreground transition-colors duration-150"
                 aria-label={`Connect with ${displayName} about ${toggleLabel}`}
               >
-                <UserPlus style={{ width: 12, height: 12 }} />
+                <UserPlus className="w-3 h-3" />
                 connect
               </button>
             )}
