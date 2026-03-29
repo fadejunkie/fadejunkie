@@ -134,7 +134,7 @@ const HeroCard = () => {
             <p
               style={{
                 fontFamily:
-                  "var(--font-geist-mono), ui-monospace, monospace",
+                  "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.5625rem",
                 fontWeight: 500,
                 letterSpacing: "0.13em",
@@ -223,7 +223,7 @@ const HeroCard = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-geist-mono), ui-monospace, monospace",
+                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5rem",
                   fontWeight: 500,
                   letterSpacing: "0.13em",
@@ -357,7 +357,7 @@ const HeroCard = () => {
         <span
           style={{
             fontFamily:
-              "var(--font-geist-mono), ui-monospace, monospace",
+              "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.5rem",
             fontWeight: 500,
             letterSpacing: "0.13em",
@@ -395,7 +395,7 @@ const HeroCard = () => {
         <p
           style={{
             fontFamily:
-              "var(--font-geist-mono), ui-monospace, monospace",
+              "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.5rem",
             fontWeight: 500,
             letterSpacing: "0.12em",
@@ -457,7 +457,7 @@ const Hero = () => {
           <motion.p
             style={{
               fontFamily:
-                "var(--font-geist-mono), 'Geist Mono', ui-monospace, monospace",
+                "var(--font-mono), 'Geist Mono', ui-monospace, monospace",
               fontSize: "0.6875rem",
               fontWeight: 500,
               letterSpacing: "0.16em",
@@ -626,7 +626,7 @@ const Hero = () => {
               <p
                 style={{
                   fontFamily:
-                    "var(--font-geist-mono), ui-monospace, monospace",
+                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5rem",
                   fontWeight: 500,
                   letterSpacing: "0.13em",
