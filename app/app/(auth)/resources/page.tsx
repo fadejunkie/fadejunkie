@@ -53,7 +53,7 @@ export default function ResourcesPage() {
       {!resources && (
         <div className="grid gap-3 sm:grid-cols-3">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-card border border-border h-36 animate-pulse" style={{ borderRadius: "20px" }} />
+            <div key={i} className="bg-card border border-border h-36 animate-pulse rounded-[20px]" />
           ))}
         </div>
       )}
