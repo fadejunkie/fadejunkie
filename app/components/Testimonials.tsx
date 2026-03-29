@@ -150,7 +150,7 @@ const TestimonialCard = ({
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "0.2rem" }}>
           <span
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
               fontWeight: 500,
               letterSpacing: "0.13em",
@@ -162,7 +162,7 @@ const TestimonialCard = ({
           </span>
           <span
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
               color: "var(--border)",
             }}
@@ -171,7 +171,7 @@ const TestimonialCard = ({
           </span>
           <span
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.5rem",
               fontWeight: 500,
               letterSpacing: "0.13em",
@@ -202,7 +202,7 @@ const Testimonials = () => {
         <motion.p
           style={{
             fontFamily:
-              "var(--font-geist-mono), ui-monospace, monospace",
+              "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.5625rem",
             fontWeight: 500,
             letterSpacing: "0.16em",
