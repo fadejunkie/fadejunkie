@@ -37,15 +37,7 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
 
         <Link
           href="/home"
-          style={{
-            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-            fontSize: "1rem",
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            color: "var(--foreground)",
-            textTransform: "lowercase",
-            lineHeight: 1,
-          }}
+          className="font-display text-base font-bold tracking-[-0.04em] text-foreground lowercase leading-none"
         >
           fadejunkie
         </Link>
