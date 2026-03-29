@@ -248,13 +248,12 @@ export default function PathSelector() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="path-selector-content"
-        className="w-full flex items-center justify-between px-6 pt-5 pb-5 text-left"
+        className="w-full flex items-center justify-between px-6 pt-5 pb-5 text-left font-sans"
       >
         <div className="space-y-0.5 min-w-0 flex-1 mr-4">
-          {/* h2 inherits: League Spartan, lowercase, -0.04em tracking from globals.css */}
-          <h2 className="text-base font-semibold text-foreground">
+          <p className="text-base font-semibold text-foreground">
             your paths
-          </h2>
+          </p>
           {myPaths !== undefined && (
             <p className="font-body text-xs text-muted-foreground truncate">
               {summaryText}
