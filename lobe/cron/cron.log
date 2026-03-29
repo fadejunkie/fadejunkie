@@ -1,13 +1,3 @@
-[2026-03-28T23:23:07.392Z] Safety push complete
-
-[2026-03-28T23:23:07.411Z] Cron run complete
-
-[2026-03-28T23:30:02.028Z] WARN: Stale lockfile detected, removing
-
-[2026-03-28T23:30:02.042Z] Task created: cron-spot-fix-2026-03-28T23-30-02.md
-
-[2026-03-28T23:30:02.046Z] Spawning Lobe agent...
-
 [2026-03-28T23:30:02Z] SKIP: inbox has 1 unprocessed task — cron-spot-fix-2026-03-28T23-30-02.md
   Action: No fix performed, no commit, no DS update.
   Reason: lobe/inbox/ contains an unprocessed .md task file; manual tasks take priority over autonomous cron scanning.
@@ -499,3 +489,19 @@ Everything's solid. The push to `main` at `43c8981` is production-ready.
 twanii → 
 
 [2026-03-29T07:38:01.973Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T07:38:03.859Z] Safety push complete
+
+[2026-03-29T07:38:03.860Z] Cron run complete
+
+[2026-03-29T07:45:01.658Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T07:45:01.665Z] Task created: cron-spot-fix-2026-03-29T07-45-01.md
+
+[2026-03-29T07:45:01.666Z] Spawning Lobe agent...
+
+[2026-03-29T07:45:01Z] FIX: app/signin/page.tsx — 5× `var(--font-geist-mono)` ghost token → `var(--font-mono)`. Affected: brand panel eyebrow eyebrow, social proof sub-labels, Email/Password form labels. Ghost token not registered in FJ globals.css @theme inline; silently falls through to ui-monospace (system font) in environments where Next.js doesn't expose the variable.
+  Files: app/app/signin/page.tsx, app/context/fadejunkie_ui.md
+  Commit: cf311d3
+  DS Update: CHALLENGE (doc was wrong) — typography table had `--font-geist-mono` as the monospace variable; corrected to `--font-mono`. Added [HARDENED] rule with challenge note.
+  Pattern: The design doc itself propagated the ghost token — the typography table listed `--font-geist-mono` as the canonical variable. Every component author referencing the doc would write the wrong token. Fixing the doc is as important as fixing the component.
