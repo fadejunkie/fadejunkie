@@ -54,8 +54,7 @@ export default function AppHeader({ onMenuClick }: AppHeaderProps) {
       {/* Center: slug */}
       {handle && (
         <span
-          className="absolute left-1/2 -translate-x-1/2 hidden sm:block text-xs text-muted-foreground"
-          style={{ fontFamily: "var(--font-mono), monospace" }}
+          className="absolute left-1/2 -translate-x-1/2 hidden sm:block text-xs text-muted-foreground font-mono"
         >
           {handle}
         </span>
