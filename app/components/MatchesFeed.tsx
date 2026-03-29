@@ -77,15 +77,13 @@ export default function MatchesFeed() {
       return (
         <div className="flex flex-col items-center justify-center h-44 gap-3 text-center">
           <p
-            className="text-sm text-muted-foreground max-w-xs leading-relaxed"
-            style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
+            className="font-body text-sm text-muted-foreground max-w-xs leading-relaxed"
           >
             activate some statuses to see who you match with
           </p>
           <Link
             href="/status"
-            className="text-xs text-foreground underline underline-offset-3 hover:text-muted-foreground transition-colors"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
+            className="font-mono text-xs text-foreground underline underline-offset-3 hover:text-muted-foreground transition-colors"
           >
             go to statuses &rarr;
           </Link>
@@ -96,8 +94,7 @@ export default function MatchesFeed() {
     return (
       <div className="flex flex-col items-center justify-center h-44 gap-2 text-center">
         <p
-          className="text-sm text-muted-foreground max-w-xs leading-relaxed"
-          style={{ fontFamily: "var(--font-body), 'Courier Prime', monospace" }}
+          className="font-body text-sm text-muted-foreground max-w-xs leading-relaxed"
         >
           no matches right now &mdash; check back as more people activate statuses
         </p>
@@ -111,13 +108,11 @@ export default function MatchesFeed() {
         <div key={group.myStatus._id} className="space-y-3">
           {/* ── Section header ── */}
           <p
-            className="text-xs text-muted-foreground"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
+            className="font-mono text-xs text-muted-foreground"
           >
             because you&apos;re{" "}
             <strong
-              className="text-foreground font-medium"
-              style={{ fontFamily: "var(--font-mono), monospace" }}
+              className="font-mono text-foreground font-medium"
             >
               {humanizeKeyLower(group.myStatus.toggleKey)}
             </strong>
