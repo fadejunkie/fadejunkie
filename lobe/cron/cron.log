@@ -1,13 +1,3 @@
-
-[2026-03-29T11:30:01.803Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T11:30:01.808Z] Task created: cron-spot-fix-2026-03-29T11-30-01.md
-
-[2026-03-29T11:30:01.810Z] Spawning Lobe agent...
-
-[2026-03-29T11:30:01Z] SKIP: Last commit 8 minutes ago (< 10 min threshold). No fix attempted.
-  Files: none
-  Commit: none
   DS Update: none
   Pattern: Cooldown guard triggered — previous cron cycle (11:15Z) committed 8 min before this invocation. Skip prevents micro-churn on rapid re-runs.
 
@@ -499,3 +489,19 @@ twanii →
 twanii → 
 
 [2026-03-29T15:38:02.282Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T15:38:03.874Z] Safety push complete
+
+[2026-03-29T15:38:03.876Z] Cron run complete
+
+[2026-03-29T15:45:01.739Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T15:45:01.745Z] Task created: cron-spot-fix-2026-03-29T15-45-01.md
+
+[2026-03-29T15:45:01Z] FIX: components/PostCard.tsx — outer card div used `style={{ borderRadius: "var(--radius-3xl)" }}` inline style delivering a single CSS property with a direct Tailwind equivalent → removed inline style prop, added `rounded-3xl` to className
+  Files: app/components/PostCard.tsx, context/fadejunkie_ui.md
+  Commit: e41079d
+  DS Update: ADD — Inline style for structural CSS properties rule — the inline-style-to-Tailwind migration principle extends beyond fontFamily to borderRadius (and other layout properties). `style={{ borderRadius: "var(--radius-3xl)" }}` → `rounded-3xl`. Also documented the "dead className" conflict pattern: when both an inline borderRadius AND a Tailwind rounded-* class exist on the same element, the inline style wins and the Tailwind class is dead code.
+  Pattern: The inline-style anti-pattern is not font-specific. Any single CSS property with a direct Tailwind utility equivalent delivered via style={{}} is a P1 violation. borderRadius is the most common non-font variant: style={{ borderRadius: "var(--radius-3xl)" }} → rounded-3xl, style={{ borderRadius: "0.75rem" }} → rounded-xl. Grep `style={{` broadly — don't limit detection to fontFamily keys.
+
+[2026-03-29T15:45:01.747Z] Spawning Lobe agent...
