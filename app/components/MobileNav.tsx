@@ -96,7 +96,7 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
         <div className="p-5 border-t border-border">
           <button
             onClick={() => signOut()}
-            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+            className="font-sans text-[13px] text-muted-foreground hover:text-foreground transition-colors"
           >
             Sign out
           </button>
