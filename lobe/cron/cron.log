@@ -1,29 +1,4 @@
 
-[2026-03-29T10:45:01.783Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T10:45:01.789Z] Task created: cron-spot-fix-2026-03-29T10-45-01.md
-
-[2026-03-29T10:45:01.791Z] Spawning Lobe agent...
-
-[2026-03-29T10:45:01Z] FIX: components/ShopTemplate.tsx + app/barber/[slug]/page.tsx — public-facing h1 elements rendering user-generated content (shop name, barber name) were subject to global `h1 { text-transform: lowercase }` rule. ShopTemplate h1 was completely missing the `style={{ textTransform: "none" }}` override — a P0 (shop names displayed all-lowercase on every public shop page). barber/[slug]/page.tsx had the override but was missing `font-display` in className. Fixed both.
-  Files: app/components/ShopTemplate.tsx, app/app/barber/[slug]/page.tsx, app/context/fadejunkie_ui.md
-  Commit: aaaaa36
-  DS Update: ADD — "style={{ textTransform: 'none' }} required on all user-data h1 headings [HARDENED]" — rule existed in growth.md but was never formalized in fadejunkie_ui.md. Added with two code references and Tailwind-vs-inline-style escalation note.
-  Pattern: The global h1 lowercase rule is intentional for editorial copy but destructive for user-data strings. Any h1 that renders a DB field must escape the cascade with style={{textTransform:'none'}}. Tailwind utilities (.normal-case, .capitalize) will silently lose to the ungrouped CSS selector.
-
-[2026-03-29T10:53:01.907Z] Lobe exited with code: 0
-
-[2026-03-29T10:53:01.911Z] STDOUT (last 500 chars): HARDEN — ADD to `fadejunkie_ui.md`**
-
-The `textTransform: "none"` pattern existed in `growth.md` but was never formalized in the canonical DS doc. Added it as a new hardened rule: *the global `h1` lowercase rule is a brand rule, not a data rule — any h1 rendering a database field must escape the cascade via inline style, since Tailwind utilities like `.normal-case` silently lose to ungrouped CSS selectors in v4.*
-
-  [outbox] cron-spot-fix-2026-03-29T10-45-01-2026-03-29T10-52-18-784Z.md
-twanii → 
-
-[2026-03-29T10:53:02.151Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T10:53:03.892Z] Safety push complete
-
 [2026-03-29T10:53:03.893Z] Cron run complete
 
 [2026-03-29T11:00:01.822Z] WARN: Stale lockfile detected, removing
@@ -505,3 +480,22 @@ twanii →
   Commit: 71003d3
   DS Update: CONFIRM — Monospace/body font token Tailwind-class-first rule — multi-element batch variant documented: authors who use inline fontFamily once apply it to all elements in the same file; a single hit should trigger a full-file scan for all style={{ fontFamily }} occurrences before closing the cycle
   Pattern: When a co-authored file has one inline fontFamily violation, it reliably has more — the inline style habit is file-scoped, not element-scoped. Full-file grep for style=.*fontFamily is mandatory after the first hit. MatchesFeed.tsx (5 hits across 3 element types) is the canonical reference.
+
+[2026-03-29T15:08:01.882Z] Lobe exited with code: 0
+
+[2026-03-29T15:08:01.884Z] STDOUT (last 500 chars): d classes, are invisible to className grep audits, and break the utility-first contract.
+
+---
+
+**📐 DS Update — CONFIRM**
+
+Hardened the "inline fontFamily = Tailwind class" rule in `context/fadejunkie_ui.md` with a new batch-variant note: **a single inline fontFamily hit in a file means the whole file has more.** `MatchesFeed.tsx` is now the canonical 5-hit reference.
+
+---
+
+**Commit:** `d5200e3` pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-29T15-00-01-2026-03-29T15-06-09-718Z.md
+twanii → 
+
+[2026-03-29T15:08:02.037Z] Unpushed changes detected, running safety commit+push...
