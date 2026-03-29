@@ -1,27 +1,3 @@
-  Pattern: A single "clean" section in a file does NOT guarantee the entire file is token-clean. rgba(0,0,0,*) can survive in sub-sections authored at different times. When the grep scan shows a component is mostly clean, scroll every section explicitly — especially element clusters (e.g., stacked avatars + caption) that feel similar to already-fixed sections but were written separately.
-
-[2026-03-29T18:23:01.969Z] Lobe exited with code: 0
-
-[2026-03-29T18:23:01.972Z] STDOUT (last 500 chars):  — 18/18 static pages, TypeScript clean
-
-**DS Harden:** CHALLENGE note added to the "no hardcoded colors" rule with a new insight — a component can have clean token usage in its primary sections while silently carrying `rgba()` violations in sub-sections authored at different times. Partial scans aren't sufficient; the whole file needs sweeping.
-
-**Commits:** `4b3119e` (fix) + `681df96` (docs/log/processed inbox)
-
-  [outbox] cron-spot-fix-2026-03-29T18-15-01-2026-03-29T18-21-41-179Z.md
-twanii → 
-
-[2026-03-29T18:23:01.973Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T18-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T18-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T18-15-01.md'
-
-
-[2026-03-29T18:23:02.133Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T18:23:03.735Z] Safety push complete
-
-[2026-03-29T18:23:03.737Z] Cron run complete
-
-[2026-03-29T18:30:01.889Z] WARN: Stale lockfile detected, removing
-
 [2026-03-29T18:30:01.895Z] Task created: cron-spot-fix-2026-03-29T18-30-01.md
 
 [2026-03-29T18:30:01.897Z] Spawning Lobe agent...
@@ -499,3 +475,27 @@ Node.js v24.13.1
 
 
 [2026-03-29T22:08:12.182Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T22:08:15.302Z] Safety push complete
+
+[2026-03-29T22:08:15.311Z] Cron run complete
+
+[2026-03-29T22:15:02.877Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T22:15:02.907Z] Task created: cron-spot-fix-2026-03-29T22-15-02.md
+
+[2026-03-29T22:15:02.909Z] Spawning Lobe agent...
+
+[2026-03-29T22:17:10Z] SKIP: last cron commit was 8m58s ago (22:08:12Z) — under 10-minute cooldown. No fix this cycle.
+
+[2026-03-29T22:23:04.574Z] Lobe exited with code: 0
+
+[2026-03-29T22:23:04.603Z] STDOUT (last 500 chars):  turns]
+lobe → **SKIP — cooldown active.** The last cron commit (`d0a0cb3`, a safety snapshot) landed at `22:08:12Z` — only 8m58s before this cycle triggered at `22:17:10Z`. That's inside the 10-minute overlap prevention window.
+
+The skip was logged to `lobe/cron/cron.log`. The next cycle (when it fires ≥10 minutes after the last commit) will proceed normally and pick up the scan from where the rotation left off.
+
+  [outbox] cron-spot-fix-2026-03-29T22-15-02-2026-03-29T22-17-38-922Z.md
+twanii → 
+
+[2026-03-29T22:23:05.585Z] Unpushed changes detected, running safety commit+push...
