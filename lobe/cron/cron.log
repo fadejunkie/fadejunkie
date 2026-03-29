@@ -501,3 +501,9 @@ twanii →
 [2026-03-29T18:15:01.884Z] Spawning Lobe agent...
 
 [2026-03-29T18:15:01Z] SKIP: inbox has 1 task (cron-spot-fix-2026-03-29T18-15-01.md) AND last commit was 8 minutes ago (< 10-minute threshold) — both skip conditions active
+
+[2026-03-29T18:15:01Z] FIX: components/hero.tsx — proof bar rgba(0,0,0,*) dark mode bug → CSS token replacements
+  Files: app/components/hero.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 4b3119e
+  DS Update: CHALLENGE — "No hardcoded colors — tokens only" rule — hero.tsx proof bar had 4× rgba(0,0,0,*) values (borderTop, avatar bg x2, initials color, caption color) in a component otherwise clean on this rule. Floating pill cards above already used var(--border)/var(--background) correctly — the proof bar was an inconsistent pocket from a separate authoring pass.
+  Pattern: A single "clean" section in a file does NOT guarantee the entire file is token-clean. rgba(0,0,0,*) can survive in sub-sections authored at different times. When the grep scan shows a component is mostly clean, scroll every section explicitly — especially element clusters (e.g., stacked avatars + caption) that feel similar to already-fixed sections but were written separately.
