@@ -1,30 +1,3 @@
-[2026-03-29T00:30:01.803Z] Spawning Lobe agent...
-
-[2026-03-29T00:30:01Z] FIX: app/(auth)/profile/page.tsx — 2 card section labels ("Your Profile", "Gallery") had style={{ fontFamily: "var(--font-heading), system-ui, sans-serif" }}; --font-heading is undefined in globals.css so they silently rendered in system-ui, bypassing League Spartan. Inline style also overrides any font-display Tailwind class. → removed broken inline style from both <p> tags, added font-display to className.
-  Files: app/(auth)/profile/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 05fd5ad
-  DS Update: CONFIRM — var(--font-heading) undefined token trap — second cross-file confirmation (profile/page.tsx:115,298); pattern is a legacy/misremembered alias, not an isolated typo. Detection: grep font-heading is mandatory first-pass scan.
-  Pattern: var(--font-heading) recurs across multiple auth pages — it appears to be an intended-but-never-registered CSS variable. Every occurrence is a silent P1: system-ui renders instead of League Spartan. Affects both <h1> headings AND <p> section labels used as visual card titles.
-
-[2026-03-29T00:38:02.021Z] Lobe exited with code: 0
-
-[2026-03-29T00:38:02.028Z] STDOUT (last 500 chars): ndefined token trap rule in `fadejunkie_ui.md`. Pattern now confirmed across `status/page.tsx` (h1) and `profile/page.tsx` (2× section label `<p>` tags) — this appears to be a legacy token that was *intended* but never registered in the CSS theme layer. Every occurrence of `font-heading` in the codebase is a silent failure.
-
-**Commits:** `05fd5ad` (code fix) + `7155d20` (DS/memory/log updates) → pushed to `main`.
-
-  [outbox] cron-spot-fix-2026-03-29T00-30-01-2026-03-29T00-34-46-171Z.md
-twanii → 
-
-[2026-03-29T00:38:02.033Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T00-30-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T00-30-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T00-30-01.md'
-
-
-[2026-03-29T00:38:02.610Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T00:38:06.271Z] Safety push complete
-
-[2026-03-29T00:38:06.275Z] Cron run complete
-
-[2026-03-29T00:45:02.058Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T00:45:02.070Z] Task created: cron-spot-fix-2026-03-29T00-45-02.md
 
@@ -499,3 +472,30 @@ twanii →
 twanii → 
 
 [2026-03-29T08:38:02.144Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T08:38:03.972Z] Safety push complete
+
+[2026-03-29T08:38:03.973Z] Cron run complete
+
+[2026-03-29T08:45:02.563Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T08:45:02.573Z] Task created: cron-spot-fix-2026-03-29T08-45-02.md
+
+[2026-03-29T08:45:02.575Z] Spawning Lobe agent...
+
+[2026-03-29T08:45:02.000Z] FIX: components/hero.tsx — 3× rgba(0,0,0,*) in light-mode hero text (eyebrow, italic span, description) → replaced with var(--muted-foreground) and color-mix(in oklch, var(--foreground) 50%, transparent)
+  Files: app/components/hero.tsx, app/context/fadejunkie_ui.md
+  Commit: 5f4313a (fix), 07c03c7 (DS hardening)
+  DS Update: CONFIRM → rgba(0,0,0,*) rule earned [HARDENED] marker — 3rd cross-file confirmation (page.tsx ×2, hero.tsx). Token mapping: rgba(0,0,0,0.4–0.6) → var(--muted-foreground); rgba(0,0,0,0.5) mid-tone → color-mix(in oklch, var(--foreground) 50%, transparent)
+  Pattern: Hero components author dark-card and light-page-bg text in the same file. The dark-card context (bg-foreground) legitimately uses rgba(255,255,255,*) for layering. The light-bg text outside that bubble uses hardcoded rgba(0,0,0,*) that the dev copies from the same mental model — but it's wrong outside the inverted context. Always audit text elements that are SIBLING to a dark card, not INSIDE it.
+
+[2026-03-29T08:53:02.680Z] Lobe exited with code: 0
+
+[2026-03-29T08:53:02.682Z] STDOUT (last 500 chars): s "the dark section" when really only the profile card is inverted.
+
+**HARDEN:** `rgba(0,0,0,*)` rule in `fadejunkie_ui.md` now marked `[HARDENED]` — 3rd cross-file confirmation, spanning `app/page.tsx`, `app/components/hero.tsx`. Key insight added: *hero components are high-risk because dark-card and light-bg text live in the same file, and devs carry the dark-card mental model into adjacent light-context text.*
+
+  [outbox] cron-spot-fix-2026-03-29T08-45-02-2026-03-29T08-50-27-697Z.md
+twanii → 
+
+[2026-03-29T08:53:02.843Z] Unpushed changes detected, running safety commit+push...
