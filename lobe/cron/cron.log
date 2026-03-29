@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T12:30:01.846Z] Task created: cron-spot-fix-2026-03-29T12-30-01.md
 
 [2026-03-29T12:30:01.848Z] Spawning Lobe agent...
+
+[2026-03-29T12:30:01Z] FIX: components/DiscoverTabs.tsx — primary tab navigation buttons ("browse" / "matches") had `style={{ fontFamily: "var(--font-mono), monospace" }}` inline style overriding `font-sans` className → removed inline fontFamily style; buttons now correctly render in Geist (UI chrome font) via font-sans
+  Files: app/components/DiscoverTabs.tsx, app/context/fadejunkie_ui.md, app/lobe/memory/growth.md
+  Commit: ae97503
+  DS Update: CONFIRM — Raw <button> font-sans rule — new detection variant documented: button can have font-sans in className AND still render in wrong font if inline fontFamily style is present (inline style beats className). Detection checklist now requires checking both className AND style prop.
+  Pattern: "false safe" button — passes font-sans grep scan but has inline fontFamily that silently wins the cascade. The fix is to remove the inline fontFamily entirely, not just add font-sans. Confirmed across DiscoverTabs (font-mono override) and EditToggle in profile/page.tsx (same pattern, prior cycle).
