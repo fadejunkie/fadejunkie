@@ -48,7 +48,7 @@ export default function TermsPage() {
       >
         <p
           style={{
-            fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+            fontFamily: "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.625rem",
             fontWeight: 500,
             letterSpacing: "0.16em",
@@ -119,7 +119,7 @@ export default function TermsPage() {
           <Link
             href="/"
             style={{
-              fontFamily: "var(--font-geist-mono), ui-monospace, monospace",
+              fontFamily: "var(--font-mono), ui-monospace, monospace",
               fontSize: "0.6875rem",
               fontWeight: 500,
               letterSpacing: "0.12em",
