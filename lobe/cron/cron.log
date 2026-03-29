@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T14:30:01.750Z] Task created: cron-spot-fix-2026-03-29T14-30-01.md
 
 [2026-03-29T14:30:01.753Z] Spawning Lobe agent...
+
+[2026-03-29T14:30:01Z] FIX: components/ResourceCard.tsx — category eyebrow <p> with tracking-[0.12em] uppercase pattern missing font-mono → inherits var(--font-body) (Courier Prime) on every resource card in the grid → added font-mono as first class in className
+  Files: components/ResourceCard.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: a216aa5
+  DS Update: CONFIRM — Category/taxonomy eyebrow labels must always carry font-mono [HARDENED x3] — ResourceCard.tsx category chip confirmed as third instance alongside PathSelector.tsx and tools/page.tsx; risk surface extended to shared card display components
+  Pattern: Shared card display components (ResourceCard, PostCard, DiscoveryCard) are the highest-impact font-mono violation surface — a single missing font-mono class on a rendered-N-times component multiplies the visual defect across the entire grid. Audit shared components before page files.
