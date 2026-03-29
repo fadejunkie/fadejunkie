@@ -1,29 +1,4 @@
 
-The next cycle (firing around `18:52+`) will clear the guard and resume normal scanning. The rotation will continue from where the last cycle left off — `app/loading.tsx` was the last fix, so the scanner will move on to the next unscanned surfaces in the rotation.
-
-  [outbox] cron-spot-fix-2026-03-29T18-45-02-2026-03-29T18-47-04-752Z.md
-twanii → 
-
-[2026-03-29T18:53:02.555Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T18:53:04.652Z] Safety push complete
-
-[2026-03-29T18:53:04.653Z] Cron run complete
-
-[2026-03-29T19:00:01.934Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T19:00:01.973Z] Task created: cron-spot-fix-2026-03-29T19-00-01.md
-
-[2026-03-29T19:00:01.975Z] Spawning Lobe agent...
-
-[2026-03-29T19:00:01Z] FIX: app/barber/[slug]/page.tsx — inline style={{ fontWeight: 700, letterSpacing: "-0.04em" }} on brand <Link> → Tailwind classes font-bold tracking-[-0.04em]
-  Files: app/app/barber/[slug]/page.tsx, app/context/fadejunkie_ui.md
-  Commit: 9e82686
-  DS Update: CONFIRM [HARDENED x5] — Inline style props rule — brand nav link on public route had 2-property inline style block (fontWeight+letterSpacing); both have direct Tailwind equivalents; tracking-* conflict rule does NOT apply to non-heading elements
-  Pattern: Brand logo/nav link elements on public-facing routes are high-risk for inline style micro-typography debt — authored once, rarely revisited during code review
-
-[2026-03-29T19:08:02.586Z] Lobe exited with code: 0
-
 [2026-03-29T19:08:02.603Z] STDOUT (last 500 chars): 
 
 **DS Update:** Confirmed [HARDENED x5] on the inline-style rule — nav link brand elements on public routes are now documented as a confirmed high-risk authoring surface. `tracking-*` arbitrary values are correct and preferred on non-heading elements (the restriction on Tailwind text-transform utilities only applies where ungrouped globals.css element selectors compete).
@@ -505,3 +480,22 @@ twanii →
   Commit: 5e78be2
   DS Update: CONFIRM [HARDENED] — Inline style fontFamily delivery rule — sign-in form panel wordmark Link confirmed as all-inline typography surface (same pattern as AppHeader logo Link, barber/[slug] eyebrows). Sign-in/auth pages are a reliable high-risk surface: branded, isolated authoring session, full typographic stack delivered via inline style for precision control. Form panel (mobile+desktop visible) fixed first; brand panel typography blocks queued for next cycle.
   Pattern: Auth page all-inline typography — sign-in pages deliver the entire typographic stack (font, size, weight, tracking, color, decoration, display, margin) via inline style on brand wordmark Links. Detection: grep `fontFamily` in any signin/auth page. Fix: map every property to Tailwind equivalent, delete style prop. Priority: form panel (mobile+desktop) > brand panel (desktop-only).
+
+[2026-03-29T23:02:22.555Z] Lobe exited with code: 0
+
+[2026-03-29T23:02:22.589Z] STDOUT (last 500 chars):  fadejunkie
+</Link>
+```
+
+**Build:** ✅ Clean — 18/18 routes, no TypeScript errors.
+**Commit:** `5e78be2` pushed to main.
+
+---
+
+**DS HARDEN — CONFIRMED**
+The "all-inline typography block on auth page wordmarks" rule got another confirmation. The `BrandPanel` on the same sign-in page still carries inline typography on its quote, eyebrow, tagline, and social-proof elements — those are queued as next cycle candidates.
+
+  [outbox] cron-spot-fix-2026-03-29T22-54-22-2026-03-29T22-59-30-545Z.md
+twanii → 
+
+[2026-03-29T23:02:22.909Z] Unpushed changes detected, running safety commit+push...
