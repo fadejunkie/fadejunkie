@@ -1,41 +1,3 @@
-twanii → 
-
-[2026-03-29T16:08:02.144Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T16:08:03.729Z] Safety push complete
-
-[2026-03-29T16:08:03.731Z] Cron run complete
-
-[2026-03-29T16:15:01.806Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T16:15:01.812Z] Task created: cron-spot-fix-2026-03-29T16-15-01.md
-
-[2026-03-29T16:15:01.813Z] Spawning Lobe agent...
-
-[2026-03-29T16:15:01Z] FIX: app/barber/[slug]/page.tsx — 2× section eyebrow <p> labels ("Services", "Gallery") used full 7-property inline style block (fontFamily, fontSize, fontWeight, letterSpacing, textTransform, color, marginBottom) with correct var(--font-mono) token but wrong delivery mechanism → replaced both inline style blocks with Tailwind classes: font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase text-muted-foreground mb-2/mb-3
-  Files: app/barber/[slug]/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 9d1f6cb
-  DS Update: CONFIRM — Monospace font token Tailwind-class-first rule — all-inline typography block variant confirmed on public barber profile page; /barber/[slug] is the external-facing profile URL for every barber on the platform, making it equal-risk to ShopTemplate. Both eyebrow labels cleaned in one commit.
-  Pattern: Public barber profile page (/barber/[slug]) must be co-scanned with ShopTemplate on every eyebrow-label audit — they share authoring patterns and will carry the same inline-style anti-patterns simultaneously.
-
-[2026-03-29T16:23:01.888Z] Lobe exited with code: 0
-
-[2026-03-29T16:23:01.890Z] STDOUT (last 500 chars): assName audits — exactly what makes them the hardest violations to catch systematically.
-
-**Design system update:** Confirmed the "all-inline typography block" rule with the barber slug page as a new instance. Also noted in growth memory that `/barber/[slug]` and `ShopTemplate` share the same authoring patterns — co-scan these two surfaces on every eyebrow-label audit pass.
-
-**Build:** ✅ Passed, pushed to `main`.
-
-  [outbox] cron-spot-fix-2026-03-29T16-15-01-2026-03-29T16-19-11-609Z.md
-twanii → 
-
-[2026-03-29T16:23:02.019Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T16:23:03.543Z] Safety push complete
-
-[2026-03-29T16:23:03.546Z] Cron run complete
-
-[2026-03-29T16:30:01.821Z] WARN: Stale lockfile detected, removing
 
 [2026-03-29T16:30:01.828Z] Task created: cron-spot-fix-2026-03-29T16-30-01.md
 
@@ -499,3 +461,41 @@ twanii →
 
 
 [2026-03-29T20:23:02.669Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-29T20:23:04.871Z] Safety push complete
+
+[2026-03-29T20:23:04.873Z] Cron run complete
+
+[2026-03-29T20:30:01.947Z] WARN: Stale lockfile detected, removing
+
+[2026-03-29T20:30:01.953Z] Task created: cron-spot-fix-2026-03-29T20-30-01.md
+
+[2026-03-29T20:30:01.955Z] Spawning Lobe agent...
+
+[2026-03-29T20:38:09.729Z] Lobe exited with code: 1
+
+[2026-03-29T20:38:09.795Z] STDOUT (last 500 chars): h, var(--foreground) 30%, transparent)`  
+- Tagline eyebrow + description: `rgba(0,0,0,0.4/0.55)` → `var(--muted-foreground)`
+
+**📐 DS Hardened:** Revised the rgba ternary rule in `fadejunkie_ui.md` — a ternary is only safe when the non-dark branch uses a CSS token. `rgba()` in both branches = P1 violation regardless of how "conditional" it looks. Shadow-only exemption made explicit.
+
+Build passed ✅, committed and pushed.
+
+  [outbox] cron-spot-fix-2026-03-29T20-30-01-2026-03-29T20-38-09-638Z.md
+
+
+[2026-03-29T20:38:09.797Z] STDERR (last 500 chars):  readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
+    at new Promise (<anonymous>)
+    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
+    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+
+Node.js v24.13.1
+
+
+[2026-03-29T20:38:10.152Z] Unpushed changes detected, running safety commit+push...
