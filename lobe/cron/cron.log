@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T09:00:01.717Z] Task created: cron-spot-fix-2026-03-29T09-00-01.md
 
 [2026-03-29T09:00:01.718Z] Spawning Lobe agent...
+
+[2026-03-29T09:00:01Z] FIX: components/Testimonials.tsx — var(--font-geist-mono) ghost token x4 → replaced with var(--font-mono)
+  Files: app/components/Testimonials.tsx, app/context/fadejunkie_ui.md
+  Commit: 41bf2cc
+  DS Update: CONFIRM [HARDENED x5] — var(--font-mono) rule — Testimonials.tsx confirmed 4 ghost token instances in inline fontFamily strings (TestimonialCard attribution row: specialty/dot/location spans + Testimonials section eyebrow). All replaced with canonical var(--font-mono). Rule hardened to x5.
+  Pattern: Inline style fontFamily strings are invisible to Tailwind-class audits. Any landing-page section component (Testimonials, hero, CTA) built in isolation is high-risk for ghost-token accumulation. Grep targeting `font-geist-mono` in string literals remains the only reliable detection.
