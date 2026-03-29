@@ -33,3 +33,10 @@
   DS Update: CONFIRM [HARDENED x6] — Inline style props rule — pure display component (no "use client", props-in/JSX-out) confirmed as highest-risk surface for full-block inline styles; entire style blocks eliminated across all 3 element types in the component
   Pattern: Pure display components authored in isolation (no hooks, no directives) are fastest-authored and least-audited — they receive full inline style blocks during scaffolding and are rarely revisited. Detection: grep `style=\{\{` in components/ files lacking "use client" directive — these have highest density of unreviewed inline style accumulation. Fix converts ALL properties in the block (fontFamily→font-mono, fontSize→text-*, color→text-*, opacity modifier, border opacity variant, rounded-[Npx], padding utilities, tracking utility) removing the style prop entirely.
   Build: PASSED
+
+[2026-03-29T21:00:00Z] FIX: app/page.tsx Three Paths section — rgba(0,0,0,*) light-branch in 4× prop-based dark/light ternaries → token replacements (color-mix + var(--muted-foreground))
+  Files: app/app/page.tsx, app/context/fadejunkie_ui.md, app/lobe/memory/growth.md
+  Commit: 9f3599d
+  DS Update: CHALLENGE+REVISE — rgba rule ternary exception was over-broad — "ternary is theme-safe" only holds when BOTH branches use tokens; both-rgba ternary is P1 regardless. Exception clause revised. Also added shadow-only rgba exemption explicitly to rule text.
+  Pattern: Prop-driven dual-mode components (path cards, anything with a `.dark` boolean) accumulate rgba ternaries in every color property — dev thinks "handled dark/light" but light branch is still hardcoded rgba. boxShadow rgba values at documented shadow token magnitudes are exempt; color values are not.
+  Build: PASSED (18/18 static pages, 0 TypeScript errors)
