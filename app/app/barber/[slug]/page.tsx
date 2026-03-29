@@ -29,8 +29,7 @@ export default async function BarberProfilePage({ params }: PageProps) {
       <header className="border-b border-border px-5 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-display lowercase text-lg"
-          style={{ fontWeight: 700, letterSpacing: "-0.04em" }}
+          className="font-display lowercase text-lg font-bold tracking-[-0.04em]"
         >fadejunkie</Link>
         <Button variant="outline" size="sm" asChild>
           <Link href="/signin?mode=signup">Join</Link>
