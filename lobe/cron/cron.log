@@ -1,21 +1,3 @@
-twanii →   [inbox] 1 task(s) found
-
-
-[2026-03-29T10:30:02.178Z] task: cron-spot-fix-2026-03-29T10-30-01.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
-lobe → 
-
-  [outbox] cron-spot-fix-2026-03-29T10-30-01-2026-03-29T10-40-44-895Z.md
-
-
-[2026-03-29T10:40:44.933Z] STDERR (last 500 chars):  readline was closed
-    at [kQuestion] (node:internal/readline/interface:441:13)
-    at Interface.question (node:readline:158:20)
-    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
-    at new Promise (<anonymous>)
-    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
-    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
-  code: 'ERR_USE_AFTER_CLOSE'
 }
 
 Node.js v24.13.1
@@ -504,3 +486,16 @@ twanii →
   Commit: c3bc07b
   DS Update: CONFIRM — Monospace font token rule (Tailwind-class-first variant) — globally-mounted header component, renders on every authenticated route
   Pattern: Globally-mounted layout components (AppHeader, AppSidebar) are equal-risk surfaces for inline fontFamily violations. Their failures are higher-impact because they render on every page.
+
+[2026-03-29T14:53:02.094Z] Lobe exited with code: 0
+
+[2026-03-29T14:53:02.096Z] STDOUT (last 500 chars): -class-first* rule in `fadejunkie_ui.md`:
+
+> Globally-mounted layout components (`AppHeader`, `AppSidebar`, layout wrappers) are **equal-risk surfaces** for inline fontFamily violations — and their failures are higher-impact because they render on every route. Detection scans must cover `components/App*.tsx` and `app/(auth)/layout.tsx` first.
+
+**Commits:** `c3bc07b` (fix) + `9a5350e` (DS + logs) → pushed to main.
+
+  [outbox] cron-spot-fix-2026-03-29T14-45-01-2026-03-29T14-50-49-934Z.md
+twanii → 
+
+[2026-03-29T14:53:02.241Z] Unpushed changes detected, running safety commit+push...
