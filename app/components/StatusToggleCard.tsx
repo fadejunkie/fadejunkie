@@ -140,7 +140,7 @@ export default function StatusToggleCard({
                   onRefresh();
                 }}
                 className={cn(
-                  "flex items-center gap-1 font-mono",
+                  "flex items-center gap-1 font-sans",
                   "text-[10px] text-muted-foreground hover:text-foreground",
                   "transition-colors duration-150",
                 )}
