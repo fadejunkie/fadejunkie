@@ -1,21 +1,3 @@
-  Files: app/(auth)/tools/exam-guide/page.tsx
-  Commit: 87f0422
-  DS Update: CONFIRM [HARDENED x6] — auth-interior page h1 requires font-display — 6th cross-file confirmation (exam-guide joins flashcards, practice-test, resources, website, tools); rule fully closed across all known tool pages.
-  Pattern: font-display on page h1s — every auth-interior route h1 must explicitly declare font-display; globals.css does not cascade display font family to h1 elements, only text-transform and letter-spacing.
-
-[2026-03-28T23:23:02.040Z] Lobe exited with code: 0
-
-[2026-03-28T23:23:02.056Z] STDOUT (last 500 chars): ll 18 routes generated.
-
-**Commit:** `87f0422` → pushed to `origin/main`
-
-**Design System:** Hardened the `font-display` rule with a 6th confirmation. The full sweep of auth-interior tool page h1s is now done — **flashcards**, **practice-test**, **resources**, **website**, **tools**, and **exam-guide** are all confirmed. Going forward, any new auth route h1 missing `font-display` is treated as a lint-level error.
-
-  [outbox] cron-spot-fix-2026-03-28T23-15-01-2026-03-28T23-17-52-686Z.md
-twanii → 
-
-[2026-03-28T23:23:02.789Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-28T23:23:07.392Z] Safety push complete
 
 [2026-03-28T23:23:07.411Z] Cron run complete
@@ -499,3 +481,21 @@ twanii →
 [2026-03-29T07:30:01.671Z] Task created: cron-spot-fix-2026-03-29T07-30-01.md
 
 [2026-03-29T07:30:01.672Z] Spawning Lobe agent...
+
+[2026-03-29T07:38:01.804Z] Lobe exited with code: 0
+
+[2026-03-29T07:38:01.807Z] STDOUT (last 500 chars):  TS errors.** ✅
+
+The background build confirms the rgba token fixes from the cron cycle are clean in production. Compiled in 5.6s with Turbopack, all routes generate correctly:
+
+- 18 routes (dynamic server-rendered)
+- No TypeScript errors
+- No missing module errors
+- The lockfile warning is pre-existing and unrelated to this cycle's changes
+
+Everything's solid. The push to `main` at `43c8981` is production-ready.
+
+  [outbox] cron-spot-fix-2026-03-29T07-30-01-2026-03-29T07-35-37-714Z.md
+twanii → 
+
+[2026-03-29T07:38:01.973Z] Unpushed changes detected, running safety commit+push...
