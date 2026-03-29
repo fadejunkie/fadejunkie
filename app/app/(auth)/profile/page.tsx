@@ -315,7 +315,7 @@ export default function ProfilePage() {
         {/* Scrollable nav items */}
         <div className="flex-1 pt-8 px-4 space-y-5 overflow-y-auto">
           {/* Settings group */}
-          <div className="space-y-0.5">
+          <div className="space-y-2">
             <p
               className="text-[9px] text-muted-foreground/40 uppercase tracking-[0.14em] px-4 pb-2"
               style={{ fontFamily: "var(--font-mono), monospace" }}
@@ -338,7 +338,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Navigate group */}
-          <div className="space-y-0.5">
+          <div className="space-y-2">
             <p
               className="text-[9px] text-muted-foreground/40 uppercase tracking-[0.14em] px-4 pb-2"
               style={{ fontFamily: "var(--font-mono), monospace" }}
@@ -444,7 +444,7 @@ export default function ProfilePage() {
 
           {/* ── VIEW MODE ── */}
           {barber != null && !editingProfile && (
-            <div className="grid grid-cols-2 gap-x-6 gap-y-6">
+            <div className="grid grid-cols-2 gap-x-12 gap-y-6">
               {/* Name */}
               <div>
                 <FieldLabel>Name</FieldLabel>
