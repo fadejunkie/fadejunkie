@@ -1,25 +1,3 @@
-[2026-03-29T19:30:02.086Z] Task created: cron-spot-fix-2026-03-29T19-30-02.md
-
-[2026-03-29T19:30:02.087Z] Spawning Lobe agent...
-
-[2026-03-29T19:45:00.000Z] FIX: components/ui/shadcnblocks-com-footer2.tsx — 8 rgba(255,255,255,*) hardcoded colors on dark-forced footer surface → all replaced with color-mix(in oklch, var(--background) N%, transparent) + bg-foreground
-  Files: app/components/ui/shadcnblocks-com-footer2.tsx, context/fadejunkie_ui.md
-  Commit: 6f5f76b
-  DS Update: CONFIRM — Alpha-transparency / rgba(255,255,255,*) rule — dark-section saturation archetype confirmed: #000000 bg + rgba(255,255,255,*) text is a total-violation fingerprint in third-party template components
-  Pattern: Template components with hardcoded dark backgrounds pervasively use rgba(255,255,255,*) across all text tiers — detect by grepping #000000 bg + rgba(255,255,255 in the same file; fix is bg-foreground + color-mix(in oklch, var(--background) N%, transparent) for every opacity tier
-
-[2026-03-29T19:38:02.388Z] Lobe exited with code: 0
-
-[2026-03-29T19:38:02.391Z] STDOUT (last 500 chars): ity tier while resolving through the token
-- `onMouseEnter`/`onMouseLeave` JS style mutations updated to the same `color-mix` values
-
-**HARDEN — CONFIRM** · Alpha-transparency rule
-
-Added a new confirmation entry documenting the **compound detection fingerprint**: when `#000000` bg + `rgba(255,255,255,*)` text coexist in the same component, it's always total saturation — plan a comprehensive pass, not a spot fix.
-
-  [outbox] cron-spot-fix-2026-03-29T19-30-02-2026-03-29T19-36-32-357Z.md
-twanii → 
-
 [2026-03-29T19:38:02.582Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T19:38:04.184Z] Safety push complete
@@ -505,3 +483,19 @@ twanii →
   Commit: 1ca17e6
   DS Update: CONFIRM — No hardcoded colors rule — "backgroundColor: var(--foreground)" section is an implicit dark-inverted zone; every child rgba(255,255,255,*) → color-mix with --background
   Pattern: Any section using var(--foreground) as its background color is a P0 rgba saturation risk — all children must use --background-based color-mix tokens, never rgba(255,255,255,*)
+
+[2026-03-30T00:23:01.611Z] Lobe exited with code: 0
+
+[2026-03-30T00:23:01.614Z] STDOUT (last 500 chars): utput is identical. In dark mode, `--background` = black, so the color-mix produces black-based tints — correctly readable on the now-white `--foreground` surface.
+
+**Build:** ✅ Passed  
+**Commits:** `1ca17e6` (code) + `1cc3d14` (DS doc + cron log + growth memory)  
+**DS update:** CONFIRM — documented the `var(--foreground)` inverted-section pattern as a confirmed design rule with this batch fix as the reference.
+
+  [outbox] cron-spot-fix-2026-03-30T00-15-01-2026-03-30T00-22-18-490Z.md
+twanii → 
+
+[2026-03-30T00:23:01.615Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-30T00-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-30T00-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-30T00-15-01.md'
+
+
+[2026-03-30T00:23:01.756Z] Unpushed changes detected, running safety commit+push...
