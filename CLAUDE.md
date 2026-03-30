@@ -7,68 +7,34 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 C:/Users/twani/fadejunkie/   ← root (git repo)
   app/                        ← Next.js + Convex product (has its own CLAUDE.md)
-  dispatch/                   ← Dispatch agent — orchestrator (has its own CLAUDE.md)
-  funkie/                     ← Funkie agent — product operator (has its own CLAUDE.md)
-  lobe/                       ← Lobe agent — frontend engineer (has its own CLAUDE.md)
-  convex-agent/               ← Convex agent — backend engineer (has its own CLAUDE.md)
-  ink/                        ← Ink agent — copywriter & voice (has its own CLAUDE.md)
-  seo-engine/                 ← SEO Engine agent — SEO strategist (has its own CLAUDE.md)
-  sentinel/                   ← Sentinel agent — QA & deploy gate (has its own CLAUDE.md)
-  email-agent/                ← Mailwatch agent — email monitor + client update drafts (has its own CLAUDE.md)
-  pm/                         ← PM agent — autonomous project driver (has its own CLAUDE.md)
-  control-center/             ← Dashboard server, CRM, metrics, content calendar
+  control-center/             ← Dashboard server, CRM, metrics, content calendar (deprecated — use Twanii)
   arquero/                    ← Arquero Co. client project (Vite + Convex storefront)
   browser-agent/              ← Playwright browser agent — screenshots, visual QA
   context/                    ← shared project memory injected into agent prompts
   _archive/                   ← dead scripts, old concepts, reports (gitignored)
 ```
 
+**Agents have moved to `~/agents/`.** See `~/agents/agents.json` for the full roster.
+Agent inboxes: `~/agents/{agent}/inbox/`, outboxes: `~/agents/{agent}/outbox/`
+
 ## Frontend Ownership Rule
 
-**Lobe owns all frontend/UI code.** Never directly edit HTML, CSS, or React components. Always write a task brief and drop it in `lobe/inbox/`. No exceptions, even for one-liners.
+**Lobe owns all frontend/UI code.** Never directly edit HTML, CSS, or React components. Always write a task brief and drop it in `~/agents/lobe/inbox/`. No exceptions, even for one-liners.
 
 ## Agent System
 
-All seven agents share the same communication pattern:
+Agents live at `~/agents/` (separate from this project). They serve all projects.
 
 | Action | Path |
 |--------|------|
-| Send a task | Drop a `.md` file in `<agent>/inbox/` |
-| Read results | Check `<agent>/outbox/` |
-| Review plans | Check `<agent>/outbox/pending/` |
-| Approve a plan | `approve <filename>` in agent REPL, or move file to inbox with `<!-- execute -->` prepended |
+| Send a task | Drop a `.md` file in `~/agents/{agent}/inbox/` |
+| Read results | Check `~/agents/{agent}/outbox/` |
+| Review plans | Check `~/agents/{agent}/outbox/pending/` |
+| Approve a plan | `approve <filename>` in agent REPL |
 
-### Agent Roster
-
-| Agent | Directory | Role | Default Mode | Model |
-|-------|-----------|------|-------------|-------|
-| Dispatch | `dispatch/` | Orchestrator — decomposes & routes tasks | execute | opus |
-| Funkie | `funkie/` | Strategy, product decisions, goals | plan | sonnet |
-| Lobe | `lobe/` | Frontend UI/UX, components, design | execute | sonnet |
-| Convex | `convex-agent/` | Backend — schema, mutations, queries, auth | execute | sonnet |
-| Ink | `ink/` | Copywriting — proposals, social, contracts, brand voice | execute | opus |
-| SEO Engine | `seo-engine/` | SEO strategy, audits, keywords, client deliverables | plan | opus |
-| Sentinel | `sentinel/` | QA — build verification, visual QA, deploy gate | execute | sonnet |
-| Mailwatch | `email-agent/` | Email monitor + client update drafts — sends require approval | execute | sonnet |
-| PM | `pm/` | Project driver — reads state, routes next milestone | execute | sonnet |
-
-**Running agents from within a Claude Code session** (nested session bypass required):
+**Running agents:**
 ```bash
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx <agent>.ts
-```
-The `env -u CLAUDECODE` unsets the nested session check. The `sleep 300` keeps stdin open while the agent completes its API calls.
-
-Examples for each agent:
-```bash
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx dispatch/dispatch.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx funkie/funkie.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx lobe/lobe.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx convex-agent/convex-agent.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx ink/ink.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx seo-engine/seo-engine.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx sentinel/sentinel.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx email-agent/email-agent.ts
-(echo "check" && sleep 300) | env -u CLAUDECODE npx tsx pm/pm.ts
+cd ~/agents && (echo "check" && sleep 300) | env -u CLAUDECODE npx tsx {agent}/{agent}.ts
 ```
 
 ### Task file headers
@@ -90,12 +56,12 @@ Examples for each agent:
 ## V2 Architecture
 
 ### Orchestration Layer
-Dispatch is the orchestrator. Instead of manually routing tasks to individual agents, drop a high-level task in `dispatch/inbox/` and Dispatch will:
+Dispatch is the orchestrator. Instead of manually routing tasks to individual agents, drop a high-level task in `~/agents/dispatch/inbox/` and Dispatch will:
 1. Decompose it into atomic subtasks
 2. Route each to the right specialist agent
 3. Manage dependency chains between subtasks
 4. Write a manifest tracking all subtasks
-5. Escalate ambiguous decisions to `dispatch/escalations/`
+5. Escalate ambiguous decisions to `~/agents/dispatch/escalations/`
 
 ### Trust Levels
 Trust levels determine whether Dispatch auto-executes or sends plan-mode tasks:
@@ -106,7 +72,7 @@ Trust levels determine whether Dispatch auto-executes or sends plan-mode tasks:
 - **CONTROLLED** (Mailwatch): Always execute. Read monitoring is automatic. Sends require explicit Anthony approval per-email via REPL (`approve`/`deny`).
 
 ### Escalation Path
-Agent → Dispatch → Anthony. When an agent can't resolve something, Dispatch writes to `dispatch/escalations/`. Anthony reviews escalations and provides direction.
+Agent → Dispatch → Anthony. When an agent can't resolve something, Dispatch writes to `~/agents/dispatch/escalations/`. Anthony reviews escalations and provides direction.
 
 ## Control Center
 

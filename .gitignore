@@ -43,12 +43,37 @@ lobe/test-demo/
 browser-agent/shots/*.png
 sentinel/shots/*.png
 
-# Agent package-lock files (local installs, not shared)
-dispatch/package-lock.json
-convex-agent/package-lock.json
-ink/package-lock.json
-sentinel/package-lock.json
+# Agent dirs (migrated to ~/agents/)
+dispatch/
+funkie/
+convex-agent/
+ink/
+email-agent/
+pm/
 
-# Agent outbox results (only plans in pending/ are worth tracking)
-*/outbox/*.md
-!*/outbox/pending/
+# Lobe agent files (keep components/ and cron/ which are FJ-specific)
+lobe/*.ts
+lobe/package*.json
+lobe/tsconfig.json
+lobe/CLAUDE.md
+lobe/inbox/
+lobe/outbox/
+lobe/memory/
+
+# SEO Engine agent files (keep WCORWIN/ which is FJ-specific)
+seo-engine/*.ts
+seo-engine/package*.json
+seo-engine/tsconfig.json
+seo-engine/CLAUDE.md
+seo-engine/inbox/
+seo-engine/outbox/
+seo-engine/memory/
+seo-engine/context/
+
+# Sentinel agent files (keep shots/ which is FJ-specific)
+sentinel/*.ts
+sentinel/package*.json
+sentinel/CLAUDE.md
+sentinel/inbox/
+sentinel/outbox/
+sentinel/memory/
