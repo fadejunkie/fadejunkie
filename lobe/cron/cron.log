@@ -499,3 +499,9 @@ twanii →
 [2026-03-29T23:55:16.496Z] Task created: cron-spot-fix-2026-03-29T23-55-16.md
 
 [2026-03-29T23:55:16.500Z] Spawning Lobe agent...
+
+[2026-03-29T23:55:16.000Z] FIX: BrandPanel (`app/signin/page.tsx`) — <h1> editorial quote had 6-property all-inline typography block (fontFamily, fontSize, fontWeight, letterSpacing, lineHeight, color, margin, marginBottom) with no className → migrated 7/8 properties to Tailwind classes (font-display font-extrabold tracking-[-0.04em] leading-[1.05] text-foreground m-0 mb-5); retained only fontSize: clamp(2.25rem, 3.5vw, 3.5rem) as inline style (clamp exception)
+  Files: app/app/signin/page.tsx
+  Commit: b308485
+  DS Update: CONFIRM — Page h1 headings require font-display — BrandPanel h1 confirmed; also documented clamp() font-size as the canonical inline-style exception to the full migration rule
+  Pattern: clamp() font-size is the one legitimate holdout from the inline-style-to-Tailwind migration rule — keep only fontSize: "clamp(...)" in style prop; move all other typographic properties to className. A className + minimal style={{ fontSize: clamp(...) }} combo is intentional, not incomplete.
