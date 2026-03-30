@@ -46,7 +46,7 @@ const HalftoneAccent = () => (
             cx={col * 24 + 10}
             cy={row * 24 + 10}
             r={r}
-            fill="rgba(0,0,0,1)"
+            fill="var(--foreground)"
           />
         );
       })
