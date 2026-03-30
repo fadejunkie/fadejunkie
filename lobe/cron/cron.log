@@ -499,3 +499,9 @@ twanii →
 [2026-03-30T00:15:01.527Z] Task created: cron-spot-fix-2026-03-30T00-15-01.md
 
 [2026-03-30T00:15:01.529Z] Spawning Lobe agent...
+
+[2026-03-30T00:15:01Z] FIX: app/page.tsx — Features section (lines 432–826) — 34× rgba(255,255,255,*) on mock-UI child elements inside a `backgroundColor: "var(--foreground)"` dark section → color-mix(in oklch, var(--background) N%, transparent) for all text, bg, border, icon, and progress-bar color values
+  Files: app/app/page.tsx, context/fadejunkie_ui.md
+  Commit: 1ca17e6
+  DS Update: CONFIRM — No hardcoded colors rule — "backgroundColor: var(--foreground)" section is an implicit dark-inverted zone; every child rgba(255,255,255,*) → color-mix with --background
+  Pattern: Any section using var(--foreground) as its background color is a P0 rgba saturation risk — all children must use --background-based color-mix tokens, never rgba(255,255,255,*)
