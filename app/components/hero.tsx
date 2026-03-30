@@ -78,7 +78,7 @@ const HeroCard = () => {
           padding: "1.875rem",
           border: "1px solid color-mix(in oklch, var(--background) 8%, transparent)",
           boxShadow:
-            "0 40px 80px rgba(0,0,0,0.22), 0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
+            "0 40px 80px color-mix(in oklch, var(--foreground) 22%, transparent), 0 12px 32px color-mix(in oklch, var(--foreground) 12%, transparent), 0 2px 8px color-mix(in oklch, var(--foreground) 8%, transparent)",
         }}
       >
         {/* Header: avatar + meta */}
@@ -349,7 +349,7 @@ const HeroCard = () => {
           alignItems: "center",
           gap: "0.45rem",
           boxShadow:
-            "0 4px 24px rgba(0,0,0,0.12), 0 1px 6px rgba(0,0,0,0.06)",
+            "0 4px 24px color-mix(in oklch, var(--foreground) 12%, transparent), 0 1px 6px color-mix(in oklch, var(--foreground) 6%, transparent)",
           border: "1px solid var(--border)",
         }}
       >
@@ -386,7 +386,7 @@ const HeroCard = () => {
           borderRadius: "1rem",
           padding: "0.875rem 1rem",
           boxShadow:
-            "0 8px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)",
+            "0 8px 32px color-mix(in oklch, var(--foreground) 10%, transparent), 0 2px 8px color-mix(in oklch, var(--foreground) 5%, transparent)",
           border: "1px solid var(--border)",
           maxWidth: 176,
         }}
@@ -692,8 +692,8 @@ const Hero = () => {
 
         /* Active dot pulse — B&W: jet black pulse, no color */
         @keyframes fj-pulse {
-          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,0,0,0.32); }
-          50%       { opacity: 0.7; box-shadow: 0 0 0 4px rgba(0,0,0,0); }
+          0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in oklch, var(--foreground) 32%, transparent); }
+          50%       { opacity: 0.7; box-shadow: 0 0 0 4px color-mix(in oklch, var(--foreground) 0%, transparent); }
         }
         .hero-active-dot {
           width: 7px;
