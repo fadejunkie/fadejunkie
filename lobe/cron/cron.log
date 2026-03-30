@@ -1,25 +1,3 @@
-  Commit: 11f3108
-  DS Update: CONFIRM — Inline style for structural CSS properties rule — multi-property named style const applied to globally-mounted sidebar nav links; pattern extended to cover `style={variableName}` (not just inline object literals); globally-mounted = highest blast radius
-  Pattern: Named style const objects (const linkStyle = {}) applied via style={linkStyle} are the hardest inline-style violation to detect — each usage shows only `style={linkStyle}`, not the actual properties. Detection: grep `style={[a-z]` (style referencing a variable) catches these; `style={{` (inline object) catches the other variant. Both need to be in the scan.
-
-
-[2026-03-29T20:53:45.672Z] Lobe exited with code: 1
-
-[2026-03-29T20:53:45.684Z] STDOUT (last 500 chars): ent         ║
-║     your bestie: twanii               ║
-╚══════════════════════════════════════╝
-
-  Commands: check | approve <name> | resume | exit
-
-twanii →   [inbox] 1 task(s) found
-
-
-[2026-03-29T20:45:03.409Z] task: cron-spot-fix-2026-03-29T20-45-02.md (EXECUTE) → fadejunkie [sonnet, 25 turns]
-lobe → Build confirmed clean ✅ — the background build task (exit code 0) validates the fix. Both commits are pushed to `main`.
-
-  [outbox] cron-spot-fix-2026-03-29T20-45-02-2026-03-29T20-53-44-929Z.md
-
-
 [2026-03-29T20:53:45.689Z] STDERR (last 500 chars):  readline was closed
     at [kQuestion] (node:internal/readline/interface:441:13)
     at Interface.question (node:readline:158:20)
@@ -505,3 +483,19 @@ Node.js v24.13.1
   Commit: 8eef999
   DS Update: CONFIRM [HARDENED x8] — Standalone rgba in inline styles rule — scope extended to SVG inline fill/stroke attributes; these are NOT caught by style={} prop scanners and require a separate grep pass (fill="rgba and stroke="rgba)
   Pattern: SVG color attributes (fill=, stroke=) bypass style prop scanning — grep targeting style=.*rgba misses them. Always run a separate pass for fill="rgba and stroke="rgba in TSX files. The scroll-cue chevron stroke is a functional affordance, not just decorative — invisible in dark mode is a P1 regardless of the element's decorative appearance.
+
+[2026-03-30T01:38:01.566Z] Lobe exited with code: 0
+
+[2026-03-30T01:38:01.571Z] STDOUT (last 500 chars): .*rgba` passes right over them. The rest of `hero.tsx` had already been cleaned up across multiple prior sessions, leaving these two as the last holdouts.
+
+**🧠 Design system hardened:** The rgba violation rule now explicitly covers SVG `fill=` and `stroke=` attributes. Two new grep passes added to detection protocol: `fill="rgba` and `stroke="rgba` across all TSX files.
+
+**✅ Build clean** — 18/18 routes passing.
+
+  [outbox] cron-spot-fix-2026-03-30T01-30-01-2026-03-30T01-35-08-121Z.md
+twanii → 
+
+[2026-03-30T01:38:01.572Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-30T01-30-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-30T01-30-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-30T01-30-01.md'
+
+
+[2026-03-30T01:38:01.718Z] Unpushed changes detected, running safety commit+push...
