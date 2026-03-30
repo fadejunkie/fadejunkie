@@ -1,25 +1,3 @@
-[2026-03-29T19:08:02.632Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T19-00-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T19-00-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T19-00-01.md'
-
-
-[2026-03-29T19:08:02.928Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T19:08:04.982Z] Safety push complete
-
-[2026-03-29T19:08:04.983Z] Cron run complete
-
-[2026-03-29T19:15:02.215Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T19:15:02.263Z] Task created: cron-spot-fix-2026-03-29T19-15-02.md
-
-[2026-03-29T19:15:02.266Z] Spawning Lobe agent...
-
-[2026-03-29T19:23:03.105Z] Lobe exited with code: 0
-
-[2026-03-29T19:23:03.125Z] STDOUT (last 500 chars): arber profile (`/barber/[slug]`). A pure display component (no hooks, no `"use client"`) authored in isolation — exactly the pattern that produces full-block inline style debt.
-
-**DS Rule hardened to [HARDENED x6]** — pure display components are now documented as the highest-risk surface for this violation class. Detection pattern added: `grep -l 'style=\{\{' components/` filtered to files without `"use client"`.
-
-  [outbox] cron-spot-fix-2026-03-29T19-15-02-2026-03-29T19-21-43-609Z.md
 twanii → 
 
 [2026-03-29T19:23:03.288Z] Unpushed changes detected, running safety commit+push...
@@ -505,3 +483,19 @@ twanii →
   Commit: b308485
   DS Update: CONFIRM — Page h1 headings require font-display — BrandPanel h1 confirmed; also documented clamp() font-size as the canonical inline-style exception to the full migration rule
   Pattern: clamp() font-size is the one legitimate holdout from the inline-style-to-Tailwind migration rule — keep only fontSize: "clamp(...)" in style prop; move all other typographic properties to className. A className + minimal style={{ fontSize: clamp(...) }} combo is intentional, not incomplete.
+
+[2026-03-30T00:03:16.785Z] Lobe exited with code: 0
+
+[2026-03-30T00:03:16.841Z] STDOUT (last 500 chars): has no Tailwind equivalent.
+
+**DS Update:** CONFIRMED the `font-display` rule on brand panel headings, and added a formal note that `clamp()` font-size values are the **one intentional exception** where a single-property inline style alongside full Tailwind classes is correct and complete — not a violation.
+
+**Growth memory:** Updated with the `clamp()` exception pattern so future cycles don't re-flag it as debt.
+
+  [outbox] cron-spot-fix-2026-03-29T23-55-16-2026-03-30T00-01-15-941Z.md
+twanii → 
+
+[2026-03-30T00:03:16.842Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T23-55-16.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T23-55-16.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T23-55-16.md'
+
+
+[2026-03-30T00:03:17.506Z] Unpushed changes detected, running safety commit+push...
