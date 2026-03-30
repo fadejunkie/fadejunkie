@@ -89,16 +89,8 @@ const TestimonialCard = ({
 
     {/* Quote */}
     <p
-      style={{
-        fontFamily:
-          "var(--font-body), 'Courier Prime', monospace",
-        fontSize: "clamp(0.9375rem, 1.5vw, 1rem)",
-        fontWeight: 400,
-        fontStyle: "italic",
-        lineHeight: 1.65,
-        color: "var(--foreground)",
-        flex: 1,
-      }}
+      className="font-body italic leading-[1.65] text-foreground flex-1"
+      style={{ fontSize: "clamp(0.9375rem, 1.5vw, 1rem)" }}
     >
       &ldquo;{quote}&rdquo;
     </p>
@@ -119,66 +111,24 @@ const TestimonialCard = ({
           flexShrink: 0,
         }}
       >
-        <span
-          style={{
-            fontFamily:
-              "var(--font-display), 'League Spartan', sans-serif",
-            fontSize: "0.5625rem",
-            fontWeight: 700,
-            color: "var(--foreground)",
-            letterSpacing: "-0.01em",
-          }}
-        >
+        <span className="font-display text-[0.5625rem] font-bold text-foreground tracking-[-0.01em]">
           {initials}
         </span>
       </div>
 
       {/* Name + location */}
       <div>
-        <p
-          style={{
-            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-            fontSize: "0.8125rem",
-            fontWeight: 700,
-            color: "var(--foreground)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.2,
-          }}
-        >
+        <p className="font-display text-[0.8125rem] font-bold text-foreground tracking-[-0.02em] leading-[1.2]">
           {name}
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", marginTop: "0.2rem" }}>
-          <span
-            style={{
-              fontFamily: "var(--font-mono), ui-monospace, monospace",
-              fontSize: "0.5rem",
-              fontWeight: 500,
-              letterSpacing: "0.13em",
-              textTransform: "uppercase",
-              color: "var(--muted-foreground)",
-            }}
-          >
+          <span className="font-mono text-[0.5rem] font-medium tracking-[0.13em] uppercase text-muted-foreground">
             {specialty}
           </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono), ui-monospace, monospace",
-              fontSize: "0.5rem",
-              color: "var(--border)",
-            }}
-          >
+          <span className="font-mono text-[0.5rem] text-border">
             ·
           </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono), ui-monospace, monospace",
-              fontSize: "0.5rem",
-              fontWeight: 500,
-              letterSpacing: "0.13em",
-              textTransform: "uppercase",
-              color: "var(--muted-foreground)",
-            }}
-          >
+          <span className="font-mono text-[0.5rem] font-medium tracking-[0.13em] uppercase text-muted-foreground">
             {location}
           </span>
         </div>
@@ -200,16 +150,7 @@ const Testimonials = () => {
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Section label */}
         <motion.p
-          style={{
-            fontFamily:
-              "var(--font-mono), ui-monospace, monospace",
-            fontSize: "0.5625rem",
-            fontWeight: 500,
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-            color: "var(--muted-foreground)",
-            marginBottom: "1rem",
-          }}
+          className="font-mono text-[0.5625rem] font-medium tracking-[0.16em] uppercase text-muted-foreground mb-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -220,16 +161,8 @@ const Testimonials = () => {
 
         {/* Section headline */}
         <motion.h2
-          style={{
-            fontFamily:
-              "var(--font-display), 'League Spartan', sans-serif",
-            fontSize: "clamp(2.25rem, 5vw, 4rem)",
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            lineHeight: 1.0,
-            color: "var(--foreground)",
-            marginBottom: "3rem",
-          }}
+          className="font-display font-extrabold tracking-[-0.04em] leading-none text-foreground mb-12"
+          style={{ fontSize: "clamp(2.25rem, 5vw, 4rem)" }}
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -238,15 +171,8 @@ const Testimonials = () => {
           Barbers.
           <br />
           <span
-            style={{
-              fontFamily:
-                "var(--font-body), 'Courier Prime', monospace",
-              fontWeight: 400,
-              fontStyle: "italic",
-              fontSize: "0.72em",
-              letterSpacing: "0.01em",
-              color: "var(--muted-foreground)",
-            }}
+            className="font-body font-normal italic text-muted-foreground tracking-[0.01em]"
+            style={{ fontSize: "0.72em" }}
           >
             In their own words.
           </span>
