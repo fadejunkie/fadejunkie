@@ -104,9 +104,8 @@ const HeroCard = () => {
             }}
           >
             <span
+              className="font-display"
               style={{
-                fontFamily:
-                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: 700,
                 color: "color-mix(in oklch, var(--background) 55%, transparent)",
@@ -118,9 +117,8 @@ const HeroCard = () => {
           </div>
           <div>
             <p
+              className="font-display"
               style={{
-                fontFamily:
-                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "1rem",
                 fontWeight: 700,
                 color: "var(--background)",
@@ -132,9 +130,8 @@ const HeroCard = () => {
               Jordan Morales
             </p>
             <p
+              className="font-mono"
               style={{
-                fontFamily:
-                  "var(--font-mono), ui-monospace, monospace",
                 fontSize: "0.5625rem",
                 fontWeight: 500,
                 letterSpacing: "0.13em",
@@ -152,9 +149,8 @@ const HeroCard = () => {
           {skills.map((skill) => (
             <div key={skill.label} style={{ marginBottom: "0.7rem" }}>
               <span
+                className="font-body"
                 style={{
-                  fontFamily:
-                    "var(--font-body), 'Courier Prime', monospace",
                   fontSize: "0.6875rem",
                   color: "color-mix(in oklch, var(--background) 50%, transparent)",
                   display: "block",
@@ -207,9 +203,8 @@ const HeroCard = () => {
           ].map((stat) => (
             <div key={stat.l}>
               <p
+                className="font-display"
                 style={{
-                  fontFamily:
-                    "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "1.125rem",
                   fontWeight: 800,
                   color: "var(--background)",
@@ -221,9 +216,8 @@ const HeroCard = () => {
                 {stat.v}
               </p>
               <p
+                className="font-mono"
                 style={{
-                  fontFamily:
-                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5rem",
                   fontWeight: 500,
                   letterSpacing: "0.13em",
@@ -355,9 +349,8 @@ const HeroCard = () => {
       >
         <div className="hero-active-dot" />
         <span
+          className="font-mono"
           style={{
-            fontFamily:
-              "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.5rem",
             fontWeight: 500,
             letterSpacing: "0.13em",
@@ -393,9 +386,8 @@ const HeroCard = () => {
         className="hero-side-pill"
       >
         <p
+          className="font-mono"
           style={{
-            fontFamily:
-              "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.5rem",
             fontWeight: 500,
             letterSpacing: "0.12em",
@@ -407,9 +399,8 @@ const HeroCard = () => {
           Board exam
         </p>
         <p
+          className="font-body"
           style={{
-            fontFamily:
-              "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.6875rem",
             lineHeight: 1.45,
             color: "var(--foreground)",
@@ -491,9 +482,8 @@ const Hero = () => {
               Addicted
               <br />
               <span
+                className="font-body"
                 style={{
-                  fontFamily:
-                    "var(--font-body), 'Courier Prime', monospace",
                   fontWeight: 400,
                   fontStyle: "italic",
                   fontSize: "0.72em",
@@ -587,9 +577,8 @@ const Hero = () => {
                   }}
                 >
                   <span
+                    className="font-display"
                     style={{
-                      fontFamily:
-                        "var(--font-display), 'League Spartan', sans-serif",
                       fontSize: "0.4375rem",
                       fontWeight: 700,
                       color: "var(--muted-foreground)",
@@ -605,9 +594,8 @@ const Hero = () => {
             {/* Text */}
             <div>
               <p
+                className="font-display"
                 style={{
-                  fontFamily:
-                    "var(--font-display), 'League Spartan', sans-serif",
                   fontSize: "0.8125rem",
                   fontWeight: 700,
                   color: "var(--foreground)",
@@ -618,9 +606,8 @@ const Hero = () => {
                 2,400+ barbers already in
               </p>
               <p
+                className="font-mono"
                 style={{
-                  fontFamily:
-                    "var(--font-mono), ui-monospace, monospace",
                   fontSize: "0.5rem",
                   fontWeight: 500,
                   letterSpacing: "0.13em",
