@@ -61,11 +61,10 @@ export default function TermsPage() {
         </p>
 
         <h1
+          className="font-display"
           style={{
-            fontFamily: "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
             fontWeight: 800,
-            letterSpacing: "-0.04em",
             lineHeight: 1.0,
             color: "var(--foreground)",
             marginBottom: "2.5rem",
