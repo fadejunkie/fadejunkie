@@ -1,37 +1,4 @@
 
-[2026-03-29T22:38:13.539Z] Safety push complete
-
-[2026-03-29T22:38:13.544Z] Cron run complete
-
-[2026-03-29T22:54:22.185Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T22:54:22.218Z] Task created: cron-spot-fix-2026-03-29T22-54-22.md
-
-[2026-03-29T22:54:22.221Z] Spawning Lobe agent...
-
-[2026-03-29T22:54:22Z] FIX: app/signin/page.tsx — form panel wordmark <Link> had 6-property inline style block (fontFamily, fontSize, fontWeight, color, letterSpacing, textDecoration + display + marginBottom) → replaced with Tailwind classes: font-display text-2xl font-extrabold text-foreground tracking-[-0.04em] no-underline block mb-1.5
-  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 5e78be2
-  DS Update: CONFIRM [HARDENED] — Inline style fontFamily delivery rule — sign-in form panel wordmark Link confirmed as all-inline typography surface (same pattern as AppHeader logo Link, barber/[slug] eyebrows). Sign-in/auth pages are a reliable high-risk surface: branded, isolated authoring session, full typographic stack delivered via inline style for precision control. Form panel (mobile+desktop visible) fixed first; brand panel typography blocks queued for next cycle.
-  Pattern: Auth page all-inline typography — sign-in pages deliver the entire typographic stack (font, size, weight, tracking, color, decoration, display, margin) via inline style on brand wordmark Links. Detection: grep `fontFamily` in any signin/auth page. Fix: map every property to Tailwind equivalent, delete style prop. Priority: form panel (mobile+desktop) > brand panel (desktop-only).
-
-[2026-03-29T23:02:22.555Z] Lobe exited with code: 0
-
-[2026-03-29T23:02:22.589Z] STDOUT (last 500 chars):  fadejunkie
-</Link>
-```
-
-**Build:** ✅ Clean — 18/18 routes, no TypeScript errors.
-**Commit:** `5e78be2` pushed to main.
-
----
-
-**DS HARDEN — CONFIRMED**
-The "all-inline typography block on auth page wordmarks" rule got another confirmation. The `BrandPanel` on the same sign-in page still carries inline typography on its quote, eyebrow, tagline, and social-proof elements — those are queued as next cycle candidates.
-
-  [outbox] cron-spot-fix-2026-03-29T22-54-22-2026-03-29T22-59-30-545Z.md
-twanii → 
-
 [2026-03-29T23:02:22.909Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T23:02:27.813Z] Safety push complete
@@ -505,3 +472,30 @@ twanii →
   Commit: 3921ea7
   DS Update: CONFIRM [HARDENED] — motion.* inline fontFamily rule — manifesto.tsx is the 5th confirmed file; also adds new sub-variant: the violation spreads to child <p>/<span>/<div> elements inside motion.div wrappers, not only on motion.* elements directly
   Pattern: inline fontFamily violations inside framer-motion components are NOT limited to motion.* elements themselves — they extend to all child elements nested inside motion.div wrappers. Full-file grep fontFamily on any component with motion imports catches both variants.
+
+[2026-03-30T03:39:07.005Z] Lobe exited with code: 1
+
+[2026-03-30T03:39:07.010Z] STDOUT (last 500 chars):  `font-body` Tailwind class |
+
+**New insight hardened:** The inline `fontFamily` violation doesn't just affect direct `motion.*` elements — it spreads to standard `<p>`, `<span>`, and `<div>` children nested *inside* `motion.div` wrappers. Any component with framer-motion imports needs a full-file grep for `fontFamily`, not just a scan of the `motion.*` elements themselves.
+
+Build: ✅ 18/18 routes clean — pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-30T03-30-01-2026-03-30T03-39-06-933Z.md
+
+
+[2026-03-30T03:39:07.011Z] STDERR (last 500 chars):  readline was closed
+    at [kQuestion] (node:internal/readline/interface:441:13)
+    at Interface.question (node:readline:158:20)
+    at <anonymous> (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:38)
+    at new Promise (<anonymous>)
+    at prompt (C:\Users\twani\fadejunkie\lobe\lobe.ts:428:10)
+    at main (C:\Users\twani\fadejunkie\lobe\lobe.ts:444:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
+  code: 'ERR_USE_AFTER_CLOSE'
+}
+
+Node.js v24.13.1
+
+
+[2026-03-30T03:39:07.377Z] Unpushed changes detected, running safety commit+push...
