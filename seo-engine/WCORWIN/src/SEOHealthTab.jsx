@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { Ring, AnimNum } from "./SEOJourneyTracker";
 import { ACCENT, INK, BODY, MUTED, LIGHT, BG, WHITE, GREEN } from "./data";
+import { generateAuditPdf } from "./generateAuditPdf";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -205,7 +206,36 @@ export default function SEOHealthTab() {
   const latest  = useQuery(api.seoAudits.getLatestAudit, { projectId: "wcorwin" });
   const history = useQuery(api.seoAudits.listAudits,     { projectId: "wcorwin", limit: 7 });
 
-  const [reportOpen, setReportOpen] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  const handleViewReport = () => {
+    if (!latest) return;
+    setPdfLoading(true);
+    // Small timeout lets the loading state render before the sync PDF work runs
+    setTimeout(() => {
+      try {
+        const pdf = generateAuditPdf(latest);
+        const url = pdf.output("bloburl");
+        setPdfUrl(url);
+      } finally {
+        setPdfLoading(false);
+      }
+    }, 30);
+  };
+
+  const handleCloseModal = () => {
+    const url = pdfUrl;
+    setPdfUrl(null);
+    if (url) setTimeout(() => URL.revokeObjectURL(url), 200);
+  };
+
+  // Escape key closes the modal
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") handleCloseModal(); };
+    if (pdfUrl) window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [pdfUrl]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Loading ──
   if (latest === undefined || history === undefined) {
@@ -371,45 +401,89 @@ export default function SEOHealthTab() {
           </div>
         )}
 
-        {/* E. Full report toggle */}
+        {/* E. View Full Report CTA */}
         {latest.rawReport && (
-          <div style={{
-            background: WHITE, borderRadius: 12, border: `1px solid ${LIGHT}`,
-            overflow: "hidden",
-          }}>
+          <div style={{ textAlign: "center", paddingTop: 4 }}>
             <button
-              onClick={() => setReportOpen((o) => !o)}
+              onClick={handleViewReport}
+              disabled={pdfLoading}
               style={{
-                width: "100%", padding: "14px 24px",
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-                background: "none", border: "none",
-                borderBottom: reportOpen ? `1px solid ${LIGHT}` : "none",
-                cursor: "pointer", fontFamily: mono, fontSize: 13, color: INK,
-                textAlign: "left", outline: "none",
+                background: pdfLoading ? MUTED : ACCENT,
+                color: WHITE,
+                border: "none",
+                borderRadius: 8,
+                padding: "12px 28px",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: font,
+                cursor: pdfLoading ? "default" : "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                letterSpacing: "-0.01em",
+                transition: "background 0.15s ease",
+                outline: "none",
               }}
             >
-              <span>View full report</span>
-              <span style={{
-                display: "inline-block",
-                transform: reportOpen ? "rotate(180deg)" : "rotate(0deg)",
-                transition: "transform 0.2s ease",
-                fontSize: 14, lineHeight: 1,
-              }}>
-                ↓
-              </span>
+              {pdfLoading ? "Generating…" : "View Full Report"}
+              {!pdfLoading && <span style={{ fontSize: 15, lineHeight: 1 }}>↗</span>}
             </button>
-            {reportOpen && (
-              <pre style={{
-                margin: 0, padding: "20px 24px",
-                fontSize: 12, fontFamily: mono,
-                color: BODY, lineHeight: 1.7,
-                overflowX: "auto", maxHeight: 480, overflowY: "auto",
-                whiteSpace: "pre-wrap", wordBreak: "break-word",
-                background: BG,
-              }}>
-                {latest.rawReport}
-              </pre>
-            )}
+          </div>
+        )}
+
+        {/* F. PDF Modal Overlay */}
+        {pdfUrl && (
+          <div
+            onClick={handleCloseModal}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              background: "rgba(0,0,0,0.85)",
+              display: "flex",
+              alignItems: "stretch",
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); handleCloseModal(); }}
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 18,
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                background: "rgba(255,255,255,0.14)",
+                border: "1px solid rgba(255,255,255,0.18)",
+                color: WHITE,
+                fontSize: 17,
+                lineHeight: 1,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 10000,
+                fontFamily: font,
+                outline: "none",
+                backdropFilter: "blur(4px)",
+              }}
+              title="Close (Esc)"
+            >
+              ✕
+            </button>
+            {/* PDF iframe */}
+            <iframe
+              src={pdfUrl}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+                display: "block",
+              }}
+              title="WCORWIN SEO Audit Report"
+            />
           </div>
         )}
       </div>
