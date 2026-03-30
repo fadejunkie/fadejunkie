@@ -52,16 +52,10 @@ const Manifesto = () => {
           >
             {/* Opening mark */}
             <div
+              className="font-display font-extrabold leading-[0.8] text-border select-none tracking-[-0.04em]"
               style={{
-                fontFamily:
-                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(3.5rem, 7vw, 5.5rem)",
-                fontWeight: 800,
-                lineHeight: 0.8,
-                color: "var(--border)",
                 marginBottom: "0.5rem",
-                userSelect: "none",
-                letterSpacing: "-0.04em",
               }}
               aria-hidden="true"
             >
@@ -69,15 +63,9 @@ const Manifesto = () => {
             </div>
 
             <p
+              className="font-body font-normal italic leading-[1.35] text-foreground"
               style={{
-                fontFamily:
-                  "var(--font-body), 'Courier Prime', monospace",
                 fontSize: "clamp(1.375rem, 3vw, 2.25rem)",
-                fontWeight: 400,
-                fontStyle: "italic",
-                letterSpacing: "0",
-                lineHeight: 1.35,
-                color: "var(--foreground)",
                 marginBottom: "2.5rem",
               }}
             >
@@ -97,15 +85,7 @@ const Manifesto = () => {
                 }}
               />
               <span
-                style={{
-                  fontFamily:
-                    "var(--font-mono), ui-monospace, monospace",
-                  fontSize: "0.625rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "var(--muted-foreground)",
-                }}
+                className="font-mono font-medium text-[0.625rem] tracking-[0.18em] uppercase text-muted-foreground"
               >
                 Shop Talk
               </span>
@@ -124,27 +104,12 @@ const Manifesto = () => {
                 transition={{ duration: 0.5, ease, delay: i * 0.08 }}
               >
                 <p
-                  style={{
-                    fontFamily:
-                      "var(--font-mono), ui-monospace, monospace",
-                    fontSize: "0.625rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.16em",
-                    textTransform: "uppercase",
-                    color: "var(--muted-foreground)",
-                    marginBottom: "0.75rem",
-                  }}
+                  className="font-mono font-medium text-[0.625rem] tracking-[0.16em] uppercase text-muted-foreground mb-3"
                 >
                   {pillar.label}
                 </p>
                 <p
-                  style={{
-                    fontFamily:
-                      "var(--font-body), 'Courier Prime', monospace",
-                    fontSize: "0.9375rem",
-                    lineHeight: 1.65,
-                    color: "var(--muted-foreground)",
-                  }}
+                  className="font-body text-[0.9375rem] leading-[1.65] text-muted-foreground"
                 >
                   {pillar.text}
                 </p>

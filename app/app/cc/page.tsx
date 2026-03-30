@@ -12,9 +12,15 @@ const LOCAL = "http://localhost:4747";
 const CRM_STAGES = ["identified", "contacted", "meeting", "proposal", "active"];
 const CONTENT_STATUSES = ["idea", "writing", "review", "scheduled", "published"];
 const AGENTS_CFG = [
-  { name: "FUNKIE", dir: "funkie", role: "Product Operator", color: "var(--funkie)" },
-  { name: "LOBE", dir: "lobe", role: "Frontend Engineer", color: "var(--lobe)" },
-  { name: "SEO ENGINE", dir: "seo-engine", role: "SEO Strategist", color: "var(--seo)" },
+  { name: "DISPATCH",   dir: "dispatch",     role: "Orchestrator",        color: "var(--ag-blue)",   trust: "HIGH",       model: "opus"   },
+  { name: "FUNKIE",     dir: "funkie",        role: "Product Operator",    color: "var(--funkie)",    trust: "LOW",        model: "sonnet" },
+  { name: "LOBE",       dir: "lobe",          role: "Frontend Engineer",   color: "var(--lobe)",      trust: "HIGH",       model: "sonnet" },
+  { name: "CONVEX",     dir: "convex-agent",  role: "Backend Engineer",    color: "var(--ag-green)",  trust: "MEDIUM",     model: "sonnet" },
+  { name: "INK",        dir: "ink",           role: "Copywriter & Voice",  color: "var(--ag-rose)",   trust: "HIGH",       model: "opus"   },
+  { name: "SEO ENGINE", dir: "seo-engine",    role: "SEO Strategist",      color: "var(--seo)",       trust: "MEDIUM",     model: "opus"   },
+  { name: "SENTINEL",   dir: "sentinel",      role: "QA Gate",             color: "var(--ag-orange)", trust: "AUTO",       model: "sonnet" },
+  { name: "MAILWATCH",  dir: "email-agent",   role: "Email Monitor",       color: "var(--ag-indigo)", trust: "CONTROLLED", model: "sonnet" },
+  { name: "PM",         dir: "pm",            role: "Project Driver",      color: "var(--ag-slate)",  trust: "AUTO",       model: "sonnet" },
 ];
 
 // ─── Helper Functions ──────────────────────────────────────────────────────────
@@ -33,11 +39,29 @@ function stageBg(s: string) {
 }
 function agentColor(n: string) {
   const k = (n || "").toLowerCase();
-  return k.includes("funkie") ? "var(--funkie)" : k.includes("lobe") ? "var(--lobe)" : k.includes("seo") ? "var(--seo)" : "var(--text-3)";
+  if (k.includes("dispatch")) return "var(--ag-blue)";
+  if (k.includes("funkie")) return "var(--funkie)";
+  if (k.includes("lobe")) return "var(--lobe)";
+  if (k.includes("convex")) return "var(--ag-green)";
+  if (k.includes("ink")) return "var(--ag-rose)";
+  if (k.includes("seo")) return "var(--seo)";
+  if (k.includes("sentinel")) return "var(--ag-orange)";
+  if (k.includes("mail")) return "var(--ag-indigo)";
+  if (k.includes("pm")) return "var(--ag-slate)";
+  return "var(--text-3)";
 }
 function agentBg(n: string) {
   const k = (n || "").toLowerCase();
-  return k.includes("funkie") ? "var(--amber-soft)" : k.includes("lobe") ? "var(--violet-soft)" : k.includes("seo") ? "var(--cyan-soft)" : "var(--bg-inset)";
+  if (k.includes("dispatch")) return "var(--blue-soft)";
+  if (k.includes("funkie")) return "var(--amber-soft)";
+  if (k.includes("lobe")) return "var(--violet-soft)";
+  if (k.includes("convex")) return "var(--green-soft)";
+  if (k.includes("ink")) return "var(--ag-rose-soft)";
+  if (k.includes("seo")) return "var(--cyan-soft)";
+  if (k.includes("sentinel")) return "var(--ag-orange-soft)";
+  if (k.includes("mail")) return "var(--ag-indigo-soft)";
+  if (k.includes("pm")) return "var(--ag-slate-soft)";
+  return "var(--bg-inset)";
 }
 function csColor(s: string) {
   return s === "idea" ? "var(--text-3)" : s === "writing" ? "var(--blue)" : s === "review" ? "var(--amber)" : s === "scheduled" ? "var(--violet)" : s === "published" ? "var(--green)" : "var(--text-3)";
@@ -825,44 +849,208 @@ function NotesPanel({ notes, addNoteM, removeNoteM, addToast }: any) {
 
 // ─── Agent Components — LOCAL ONLY ────────────────────────────────────────────
 
-function AgentCard({ agent, openSheet }: any) {
+function TrustBadge({ level }: { level: string }) {
+  const map: Record<string, { bg: string; color: string; label: string }> = {
+    HIGH:       { bg: "var(--green-soft)", color: "var(--green)", label: "HIGH" },
+    MEDIUM:     { bg: "var(--amber-soft)", color: "var(--amber)", label: "MED" },
+    LOW:        { bg: "var(--red-soft)", color: "var(--red)", label: "LOW" },
+    AUTO:       { bg: "var(--blue-soft)", color: "var(--blue)", label: "AUTO" },
+    CONTROLLED: { bg: "var(--ag-indigo-soft)", color: "var(--ag-indigo)", label: "CTRL" },
+  };
+  const cfg = map[level] || map.MEDIUM;
+  return <span className="trust-badge" style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span>;
+}
+
+function ModelChip({ model }: { model: string }) {
+  const colors: Record<string, string> = { opus: "var(--ag-rose)", sonnet: "var(--lobe)", haiku: "var(--seo)" };
+  return (
+    <span style={{ fontSize: "10px", fontFamily: "var(--font-mono)", padding: "2px 6px", borderRadius: "4px", background: "var(--bg-inset)", color: colors[model] || "var(--text-3)", fontWeight: 600 }}>
+      {model}
+    </span>
+  );
+}
+
+function AgentCard({ agent, openSheet, onQuickTask, fetchLocal, addToast }: any) {
   const pending = agent.pending || [];
   const inbox = agent.inbox || [];
-  const done = agent.done || [];
-  const latestDone = done.length > 0 ? done[done.length - 1] : null;
+  const doneCount = agent.doneCount || 0;
+  const recentDone = agent.recentDone || [];
+  const currentTask = agent.currentTask || null;
+  const trust = agent.trust || "MEDIUM";
+  const model = agent.model || "sonnet";
+  const inboxAge = agent.inboxAge || null;
+  const isActive = inbox.length > 0 || (agent.status && agent.status !== "idle");
+  const isEscalated = inboxAge !== null && inboxAge > 2 * 60 * 60 * 1000; // 2 hours
+
+  const [cmdValue, setCmdValue] = useState("");
+  const [sending, setSending] = useState(false);
+
+  async function handleQuickTask(e: React.KeyboardEvent) {
+    if (e.key !== "Enter" || !cmdValue.trim() || sending) return;
+    setSending(true);
+    try {
+      await fetchLocal("/api/task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ agent: agent.dir, title: cmdValue.trim(), content: "" }),
+      });
+      addToast(`Task sent to ${agent.name}`, "success");
+      setCmdValue("");
+    } catch {
+      addToast("Failed to send task", "error");
+    }
+    setSending(false);
+  }
+
   return (
-    <div style={{ ...card, borderTop: "3px solid " + agent.color, position: "relative" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: "14px" }}>{agent.name}</div>
-          <div style={{ fontSize: "12px", color: "var(--text-3)" }}>{agent.role}</div>
+    <div
+      className={`agent-card${isEscalated ? " escalated" : ""}`}
+      style={{
+        ...card,
+        borderTop: `3px solid ${agent.color}`,
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        ...(isActive && !isEscalated ? {
+          animation: "pulse-ring 2.5s ease-in-out infinite",
+          "--pulse-color": agent.color.replace("var(", "").replace(")", ""),
+        } as React.CSSProperties : {}),
+      }}
+    >
+      {/* ── Header: Name + Role + Badges ── */}
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "10px" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "2px" }}>
+            <div style={{
+              width: "8px", height: "8px", borderRadius: "50%", flexShrink: 0,
+              background: isEscalated ? "var(--red)" : isActive ? "var(--green)" : "var(--text-3)",
+              ...(isActive && !isEscalated ? { animation: "glow 2s ease-in-out infinite" } : {}),
+            }} />
+            <span style={{ fontWeight: 700, fontSize: "14px", letterSpacing: "-0.2px" }}>{agent.name}</span>
+          </div>
+          <div style={{ fontSize: "11px", color: "var(--text-3)", marginLeft: "16px" }}>{agent.role}</div>
         </div>
-        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: agent.status === "idle" || !agent.status ? "var(--text-3)" : "var(--green)" }} />
+        <div style={{ display: "flex", gap: "4px", alignItems: "center", flexShrink: 0 }}>
+          <TrustBadge level={trust} />
+          <ModelChip model={model} />
+        </div>
       </div>
+
+      {/* ── Agent Monologue ── */}
+      {currentTask && (
+        <div style={{
+          padding: "6px 10px", borderRadius: "var(--radius)", background: "var(--bg-subtle)",
+          marginBottom: "10px", fontSize: "11px", fontStyle: "italic", color: "var(--text-2)",
+          whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+          borderLeft: `2px solid ${agent.color}`,
+          animation: "slide-up 0.3s var(--ease)",
+        }}>
+          {currentTask}
+        </div>
+      )}
+
+      {/* ── Escalation Warning ── */}
+      {isEscalated && (
+        <div style={{
+          padding: "6px 10px", borderRadius: "var(--radius)", background: "var(--red-soft)",
+          marginBottom: "10px", fontSize: "11px", fontWeight: 600, color: "var(--red)",
+          fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.5px",
+          display: "flex", alignItems: "center", gap: "6px",
+        }}>
+          <span style={{ display: "inline-block", width: "6px", height: "6px", borderRadius: "50%", background: "var(--red)", animation: "pulse 1s ease-in-out infinite" }} />
+          NEEDS ATTENTION · {Math.floor((inboxAge || 0) / 3600000)}h stale
+        </div>
+      )}
+
+      {/* ── Pending Plans ── */}
       {pending.length > 0 && (
-        <div style={{ marginBottom: "12px" }}>
-          <div style={{ fontSize: "11px", fontWeight: 600, color: "var(--amber)", marginBottom: "6px", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Pending Plans</div>
+        <div style={{ marginBottom: "10px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 600, color: "var(--amber)", marginBottom: "5px", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            {pending.length} Pending Plan{pending.length > 1 ? "s" : ""}
+          </div>
           {pending.map((p: any, i: number) => {
-            const name = typeof p === "string" ? p : p.name || p.file;
+            const name = typeof p === "string" ? p : p.title || p.name || p.file;
+            const file = typeof p === "string" ? p : p.file;
             return (
-              <div key={i} style={{ padding: "8px", background: "var(--amber-soft)", borderRadius: "var(--radius)", marginBottom: "4px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontSize: "12px", fontWeight: 500 }}>{name}</span>
-                <div style={{ display: "flex", gap: "4px" }}>
-                  <button onClick={() => openSheet({ type: "plan", agent: agent.dir, file: name })} style={{ ...btnGhost, padding: "2px 8px", fontSize: "11px" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--bg-hover)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>View</button>
-                  <button onClick={() => openSheet({ type: "approve", agent: agent.dir, file: name })} style={{ ...btnGhost, padding: "2px 8px", fontSize: "11px", color: "var(--green)", borderColor: "var(--green)" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--green-soft)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>Approve</button>
-                  <button onClick={() => openSheet({ type: "reject", agent: agent.dir, file: name })} style={{ ...btnGhost, padding: "2px 8px", fontSize: "11px", color: "var(--red)", borderColor: "var(--red)" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--red-soft)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>Reject</button>
+              <div key={i} style={{ padding: "6px 8px", background: "var(--amber-soft)", borderRadius: "6px", marginBottom: "3px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "6px" }}>
+                <span style={{ fontSize: "11px", fontWeight: 500, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name}</span>
+                <div style={{ display: "flex", gap: "3px", flexShrink: 0 }}>
+                  <button onClick={() => openSheet({ type: "plan", agent: agent.dir, file })} style={{ ...btnGhost, padding: "1px 6px", fontSize: "10px", borderRadius: "4px" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--bg-hover)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>View</button>
+                  <button onClick={() => openSheet({ type: "approve", agent: agent.dir, file })} style={{ ...btnGhost, padding: "1px 6px", fontSize: "10px", borderRadius: "4px", color: "var(--green)", borderColor: "var(--green)" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--green-soft)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>&#10003;</button>
+                  <button onClick={() => openSheet({ type: "reject", agent: agent.dir, file })} style={{ ...btnGhost, padding: "1px 6px", fontSize: "10px", borderRadius: "4px", color: "var(--red)", borderColor: "var(--red)" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--red-soft)")} onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}>&#10005;</button>
                 </div>
               </div>
             );
           })}
         </div>
       )}
-      {inbox.length > 0 && <div style={{ display: "inline-flex", alignItems: "center", gap: "4px", padding: "3px 10px", borderRadius: "10px", background: "var(--blue-soft)", color: "var(--blue)", fontSize: "11px", fontFamily: "var(--font-mono)", marginBottom: "10px" }}>{inbox.length} in inbox</div>}
-      <div style={{ fontSize: "12px", color: "var(--text-3)", marginBottom: "10px" }}>
-        <span style={{ fontFamily: "var(--font-mono)" }}>{done.length}</span> tasks done
-        {latestDone && <span> · latest: {typeof latestDone === "string" ? latestDone : latestDone.name || latestDone.file}</span>}
+
+      {/* ── Stats Row: Inbox + Done ── */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px", flexWrap: "wrap" }}>
+        {inbox.length > 0 && (
+          <span style={{ display: "inline-flex", alignItems: "center", gap: "3px", padding: "2px 8px", borderRadius: "8px", background: "var(--blue-soft)", color: "var(--blue)", fontSize: "10px", fontFamily: "var(--font-mono)", fontWeight: 600 }}>
+            {inbox.length} queued
+          </span>
+        )}
+        <span style={{ fontSize: "11px", color: "var(--text-3)", fontFamily: "var(--font-mono)" }}>
+          {doneCount} done
+        </span>
+        {agent.lastDoneTime && (
+          <span style={{ fontSize: "10px", color: "var(--text-3)" }}>
+            · last {relTime(agent.lastDoneTime)}
+          </span>
+        )}
       </div>
-      <button onClick={() => openSheet({ type: "task", agent: agent.dir })} style={{ ...btnPrimary, width: "100%", fontSize: "12px" }} onMouseOver={(e) => (e.currentTarget.style.opacity = "0.85")} onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}>Send Task</button>
+
+      {/* ── Outbox Filmstrip ── */}
+      {recentDone.length > 0 && (
+        <div style={{ display: "flex", gap: "4px", marginBottom: "10px", overflowX: "auto", paddingBottom: "2px" }}>
+          {recentDone.map((d: any, i: number) => (
+            <div key={i} className="filmstrip-item" title={d.label} style={{
+              padding: "3px 8px", borderRadius: "6px", background: "var(--bg-inset)",
+              fontSize: "9px", fontFamily: "var(--font-mono)", color: "var(--text-3)",
+              whiteSpace: "nowrap", maxWidth: "90px", overflow: "hidden", textOverflow: "ellipsis",
+              flexShrink: 0, cursor: "default",
+              transition: "background 0.15s var(--ease), color 0.15s var(--ease)",
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = "var(--bg-hover)"; e.currentTarget.style.color = "var(--text-2)"; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = "var(--bg-inset)"; e.currentTarget.style.color = "var(--text-3)"; }}
+            >
+              {d.label}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Spacer ── */}
+      <div style={{ flex: 1 }} />
+
+      {/* ── Command Slot ── */}
+      <div style={{ position: "relative" }}>
+        <input
+          className="cmd-slot"
+          value={cmdValue}
+          onChange={(e) => setCmdValue(e.target.value)}
+          onKeyDown={handleQuickTask}
+          placeholder={`> task ${agent.name.toLowerCase()}...`}
+          disabled={sending}
+          style={{
+            width: "100%", padding: "7px 10px", paddingRight: "32px",
+            border: "1px solid var(--border)", borderRadius: "8px",
+            fontSize: "11px", fontFamily: "var(--font-mono)",
+            background: "var(--bg-subtle)", color: "var(--text-1)",
+            outline: "none",
+            opacity: sending ? 0.5 : 1,
+          }}
+        />
+        <span style={{
+          position: "absolute", right: "8px", top: "50%", transform: "translateY(-50%)",
+          fontSize: "9px", fontFamily: "var(--font-mono)", color: "var(--text-3)",
+          pointerEvents: "none",
+        }}>
+          {sending ? "..." : "&#9166;"}
+        </span>
+      </div>
     </div>
   );
 }
@@ -1147,12 +1335,37 @@ function ContentTab({ content, notes, openSheet, addNoteM, removeNoteM, addToast
   );
 }
 
-function AgentsTab({ agents, openSheet, historyData, connected, fetchLocal }: any) {
+function FleetStatusBar({ agents }: { agents: any[] }) {
+  const active = agents.filter((a: any) => (a.inbox || []).length > 0).length;
+  const pendingTotal = agents.reduce((s: number, a: any) => s + (a.pending || []).length, 0);
+  const escalated = agents.filter((a: any) => (a.inboxAge || 0) > 2 * 60 * 60 * 1000).length;
+  const totalDone = agents.reduce((s: number, a: any) => s + (a.doneCount || 0), 0);
+  return (
+    <div style={{ ...card, padding: "14px 20px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+        <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: escalated > 0 ? "var(--red)" : active > 0 ? "var(--green)" : "var(--text-3)", ...(active > 0 && !escalated ? { animation: "glow 2s ease-in-out infinite" } : {}) }} />
+        <span style={{ fontSize: "13px", fontWeight: 600 }}>Fleet</span>
+      </div>
+      <div style={{ display: "flex", gap: "16px", fontSize: "12px", fontFamily: "var(--font-mono)", color: "var(--text-2)" }}>
+        <span><strong style={{ color: "var(--green)" }}>{active}</strong> active</span>
+        <span><strong style={{ color: "var(--text-1)" }}>{agents.length - active}</strong> idle</span>
+        {pendingTotal > 0 && <span><strong style={{ color: "var(--amber)" }}>{pendingTotal}</strong> plans pending</span>}
+        {escalated > 0 && <span style={{ color: "var(--red)", fontWeight: 600 }}>{escalated} escalated</span>}
+        <span>{totalDone} total done</span>
+      </div>
+    </div>
+  );
+}
+
+function AgentsTab({ agents, openSheet, historyData, connected, fetchLocal, addToast }: any) {
   return (
     <div>
       <LocalOnly connected={connected}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "32px" }}>
-          {agents.map((ag: any) => <AgentCard key={ag.name} agent={ag} openSheet={openSheet} />)}
+        <FleetStatusBar agents={agents} />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "32px" }}>
+          {agents.map((ag: any) => (
+            <AgentCard key={ag.name} agent={ag} openSheet={openSheet} fetchLocal={fetchLocal} addToast={addToast} />
+          ))}
         </div>
       </LocalOnly>
       <SectionTitle>Task History</SectionTitle>
@@ -1188,6 +1401,10 @@ const CSS_VARS = `
   --violet:#7c3aed;--violet-soft:rgba(124,58,237,0.07);
   --cyan:#0891b2;--cyan-soft:rgba(8,145,178,0.07);
   --funkie:#d97706;--lobe:#7c3aed;--seo:#0891b2;
+  --ag-blue:#2563eb;--ag-green:#16a34a;--ag-rose:#e11d48;--ag-orange:#ea580c;
+  --ag-indigo:#4f46e5;--ag-slate:#64748b;
+  --ag-rose-soft:rgba(225,29,72,0.07);--ag-orange-soft:rgba(234,88,12,0.07);
+  --ag-indigo-soft:rgba(79,70,229,0.07);--ag-slate-soft:rgba(100,116,139,0.07);
   --font-sans:-apple-system,'SF Pro Display','Inter','Segoe UI',sans-serif;
   --font-mono:'Geist Mono','SF Mono','Fira Code',monospace;
   --ease:cubic-bezier(0.4,0,0.2,1);
@@ -1202,6 +1419,21 @@ body{font-family:var(--font-sans);font-size:14px;color:var(--text-1);background:
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes toast-progress{from{width:100%}to{width:0%}}
 @keyframes glow{0%,100%{box-shadow:0 0 4px rgba(22,163,74,.4)}50%{box-shadow:0 0 10px rgba(22,163,74,.7)}}
+@keyframes pulse-ring{0%,100%{box-shadow:0 0 0 0 var(--pulse-color,rgba(22,163,74,0.4))}50%{box-shadow:0 0 0 4px var(--pulse-color,rgba(22,163,74,0.15))}}
+@keyframes escalation-flare{0%,100%{border-color:var(--amber)}50%{border-color:var(--red)}}
+@keyframes slide-up{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes filmstrip-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+.agent-card{transition:transform 0.2s var(--ease),box-shadow 0.2s var(--ease);}
+.agent-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.agent-card.escalated{animation:escalation-flare 2s ease-in-out infinite;border-color:var(--amber);}
+.cmd-slot{transition:border-color 0.15s var(--ease),box-shadow 0.15s var(--ease);}
+.cmd-slot:focus{border-color:var(--text-2);box-shadow:0 0 0 3px rgba(0,0,0,0.04);}
+.filmstrip-item{animation:filmstrip-in 0.2s var(--ease) both;}
+.filmstrip-item:nth-child(2){animation-delay:0.04s}
+.filmstrip-item:nth-child(3){animation-delay:0.08s}
+.filmstrip-item:nth-child(4){animation-delay:0.12s}
+.filmstrip-item:nth-child(5){animation-delay:0.16s}
+.trust-badge{font-size:9px;font-weight:700;letter-spacing:0.5px;padding:2px 6px;border-radius:4px;font-family:var(--font-mono);text-transform:uppercase;}
 `;
 
 // ─── Main Page ─────────────────────────────────────────────────────────────────
@@ -1263,7 +1495,7 @@ export default function CCPage() {
     const live = (localData?.agents || []).find((a: any) =>
       (a.name || "").toLowerCase().includes(cfg.dir) || (a.dir || "") === cfg.dir
     );
-    return { ...cfg, ...(live || {}), name: cfg.name, role: cfg.role, color: cfg.color };
+    return { ...cfg, ...(live || {}), name: cfg.name, role: cfg.role, color: cfg.color, trust: cfg.trust, model: cfg.model };
   });
 
   return (
@@ -1318,6 +1550,7 @@ export default function CCPage() {
             historyData={historyData}
             connected={connected}
             fetchLocal={fetchLocal}
+            addToast={addToast}
           />
         )}
         {activeTab === "system" && (

@@ -151,9 +151,15 @@ function buildGit() {
 
 function buildAgents() {
   const defs = [
-    { name: 'FUNKIE',     dir: 'funkie',     role: 'Primary Operator — Planning & Execution', color: 'amber'  },
-    { name: 'LOBE',       dir: 'lobe',       role: 'Frontend Specialist — UI & Design',       color: 'violet' },
-    { name: 'SEO ENGINE', dir: 'seo-engine', role: 'SEO Strategist — Content & Search',       color: 'cyan'   },
+    { name: 'DISPATCH',   dir: 'dispatch',     role: 'Orchestrator',        color: 'blue',   trust: 'HIGH',       model: 'opus'   },
+    { name: 'FUNKIE',     dir: 'funkie',        role: 'Product Operator',    color: 'amber',  trust: 'LOW',        model: 'sonnet' },
+    { name: 'LOBE',       dir: 'lobe',          role: 'Frontend Engineer',   color: 'violet', trust: 'HIGH',       model: 'sonnet' },
+    { name: 'CONVEX',     dir: 'convex-agent',  role: 'Backend Engineer',    color: 'green',  trust: 'MEDIUM',     model: 'sonnet' },
+    { name: 'INK',        dir: 'ink',           role: 'Copywriter & Voice',  color: 'rose',   trust: 'HIGH',       model: 'opus'   },
+    { name: 'SEO ENGINE', dir: 'seo-engine',    role: 'SEO Strategist',      color: 'cyan',   trust: 'MEDIUM',     model: 'opus'   },
+    { name: 'SENTINEL',   dir: 'sentinel',      role: 'QA Gate',             color: 'orange', trust: 'AUTO',       model: 'sonnet' },
+    { name: 'MAILWATCH',  dir: 'email-agent',   role: 'Email Monitor',       color: 'indigo', trust: 'CONTROLLED', model: 'sonnet' },
+    { name: 'PM',         dir: 'pm',            role: 'Project Driver',      color: 'slate',  trust: 'AUTO',       model: 'sonnet' },
   ];
 
   return defs.map(ag => {
@@ -189,9 +195,40 @@ function buildAgents() {
       if (doneTimes.length) lastDoneTime = new Date(Math.max(...doneTimes)).toISOString();
     } catch {}
 
+    // Current task — first inbox file title (for Agent Monologue)
+    let currentTask = null;
+    if (inbox.length > 0) {
+      const firstInbox = read(`${ag.dir}/inbox/${inbox[0]}`);
+      currentTask = firstInbox.split('\n').find(l => l.startsWith('#'))?.replace(/^#+\s*/, '') ?? inbox[0].replace('.md', '');
+    }
+
+    // Inbox age — oldest inbox file timestamp (for Escalation Flare)
+    let inboxAge = null;
+    if (inbox.length > 0) {
+      try {
+        const ages = inbox.map(f => statSync(join(ROOT, ag.dir, 'inbox', f)).mtimeMs);
+        inboxAge = Date.now() - Math.min(...ages);
+      } catch {}
+    }
+
+    // Recent done — last 5 completed task names (for Outbox Filmstrip)
+    let recentDone = [];
+    try {
+      recentDone = done
+        .map(f => ({ file: f, mtime: statSync(join(ROOT, ag.dir, 'outbox', f)).mtimeMs }))
+        .sort((a, b) => b.mtime - a.mtime)
+        .slice(0, 5)
+        .map(d => {
+          const label = d.file.replace(/^_done-/, '').replace(/\.md$/, '').replace(/-/g, ' ');
+          return { file: d.file, label, time: new Date(d.mtime).toISOString() };
+        });
+    } catch {}
+
     return { name: ag.name, dir: ag.dir, role: ag.role, color: ag.color,
+             trust: ag.trust, model: ag.model,
              inbox, pending: pendingDetails, doneCount: done.length, latest,
-             taskCount: allResults.length, lastDoneTime };
+             taskCount: allResults.length, lastDoneTime,
+             currentTask, inboxAge, recentDone };
   });
 }
 
