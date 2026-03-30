@@ -1,26 +1,4 @@
 
-[2026-03-29T20:15:01.993Z] Spawning Lobe agent...
-
-[2026-03-29T20:15:00Z] FIX: components/ResourceCard.tsx — category eyebrow <p> had style={{ color: "var(--link)" }} alongside font-mono tracking-[0.12em] className → removed inline style block, appended text-link to className
-  Files: app/components/ResourceCard.tsx, app/context/fadejunkie_ui.md
-  Commit: dd94c05
-  DS Update: CONFIRM [HARDENED x5] — Inline color token → Tailwind text-* rule — shared card display component (ResourceCard) confirmed as high-multiplier surface; single violation corrupts color for every resources page card simultaneously
-  Pattern: Shared card display components (ResourceCard, PostCard, DiscoveryCard) are the highest-multiplier surface for inline style violations — one style={{ color }} on the category eyebrow renders incorrectly across the entire card grid. Detection: grep style=.*color.*var(-- in components/**/*.tsx catches these before they multiply.
-
-[2026-03-29T20:23:02.457Z] Lobe exited with code: 0
-
-[2026-03-29T20:23:02.464Z] STDOUT (last 500 chars):  component rendered for every affiliate listing — one inline style instance multiplies across the whole resources grid simultaneously.
-
-**DS Hardened:** The "inline `color` token → Tailwind `text-*` utility" rule is now confirmed [HARDENED x5], with the pattern extended from page-level labels to shared card display components.
-
-**Commits pushed:** `dd94c05` (fix) + `1ce4d03` (DS update + cron log + growth memory)
-
-  [outbox] cron-spot-fix-2026-03-29T20-15-01-2026-03-29T20-19-24-583Z.md
-twanii → 
-
-[2026-03-29T20:23:02.467Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-29T20-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-29T20-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-29T20-15-01.md'
-
-
 [2026-03-29T20:23:02.669Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T20:23:04.871Z] Safety push complete
@@ -505,3 +483,19 @@ twanii →
   Commit: be55e63
   DS Update: CONFIRM — inline fontFamily → Tailwind class rule — stat strip clamp-exception variant confirmed; `clamp()` fontSize is the one legitimate holdout; all other typographic props (fontFamily, fontWeight, letterSpacing, color, display, textTransform) migrated to className
   Pattern: Large-file inline-style sweeps must be re-audited per-element after prior passes — isolated stat strip sections can escape section-level sweeps. The clamp() font-size exception pattern is now confirmed across 2+ files and multiple component types.
+
+[2026-03-30T01:08:01.643Z] Lobe exited with code: 0
+
+[2026-03-30T01:08:01.648Z] STDOUT (last 500 chars): anges.
+
+**Build:** Clean. 18/18 routes. Committed & pushed (`be55e63`).
+
+**DS Update:** CONFIRM on the inline-fontFamily → Tailwind migration rule, with a new note that large-file sweeps require per-element re-auditing after prior passes — compound elements like stat strips often survive initial sweeps because the outer container looks clean while individual `<span>` children still carry full inline style blocks.
+
+  [outbox] cron-spot-fix-2026-03-30T01-00-01-2026-03-30T01-05-38-910Z.md
+twanii → 
+
+[2026-03-30T01:08:01.649Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-30T01-00-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-30T01-00-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-30T01-00-01.md'
+
+
+[2026-03-30T01:08:02.081Z] Unpushed changes detected, running safety commit+push...
