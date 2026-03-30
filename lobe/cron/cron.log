@@ -1,13 +1,3 @@
-[2026-03-29T19:38:02.582Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T19:38:04.184Z] Safety push complete
-
-[2026-03-29T19:38:04.186Z] Cron run complete
-
-[2026-03-29T19:45:01.915Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T19:45:01.921Z] Task created: cron-spot-fix-2026-03-29T19-45-01.md
-
 [2026-03-29T19:45:01.923Z] Spawning Lobe agent...
 
 [2026-03-29T19:45:01.000Z] FIX: components/DiscoveryCard.tsx — 3× Lucide icon style={{ width, height }} inline props → Tailwind w-*/h-* classes
@@ -499,3 +489,19 @@ twanii →
 
 
 [2026-03-30T00:23:01.756Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T00:23:06.472Z] Safety push complete
+
+[2026-03-30T00:23:06.475Z] Cron run complete
+
+[2026-03-30T00:30:01.492Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T00:30:01.524Z] Task created: cron-spot-fix-2026-03-30T00-30-01.md
+
+[2026-03-30T00:30:01.526Z] Spawning Lobe agent...
+
+[2026-03-30T00:30:01Z] FIX: components/cta-13.tsx — 3× rgba(255,255,255,*) inside backgroundColor:"var(--foreground)" dark section → color-mix tokens and var(--background)
+  Files: app/components/cta-13.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 6415362
+  DS Update: CONFIRM [HARDENED x2] — var(--foreground) inverted-section rule — confirmed rule extends from page-level sections (app/page.tsx) to shared reusable CTA components (cta-13.tsx); detection surface expanded to components/ directory grep
+  Pattern: Shared reusable components with `backgroundColor: "var(--foreground)"` are higher risk than page sections — they're authored in isolation, never re-reviewed, and the rgba values persist until a grep-based scan targets components/ specifically. Three rgba values replaced: SVG fill → var(--background), eyebrow label 40% → color-mix 40%, description 55% → color-mix 55%. Also noted: cta-13.tsx:174 has style={{ width: 15, height: 15 }} on Lucide ArrowRight icon — queued for next cycle.
