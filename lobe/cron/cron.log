@@ -1,14 +1,4 @@
 
-[2026-03-29T20:23:02.669Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T20:23:04.871Z] Safety push complete
-
-[2026-03-29T20:23:04.873Z] Cron run complete
-
-[2026-03-29T20:30:01.947Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T20:30:01.953Z] Task created: cron-spot-fix-2026-03-29T20-30-01.md
-
 [2026-03-29T20:30:01.955Z] Spawning Lobe agent...
 
 [2026-03-29T20:38:09.729Z] Lobe exited with code: 1
@@ -499,3 +489,19 @@ twanii →
 
 
 [2026-03-30T01:08:02.081Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T01:08:09.672Z] Safety push complete
+
+[2026-03-30T01:08:09.676Z] Cron run complete
+
+[2026-03-30T01:15:01.340Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T01:15:01.374Z] Task created: cron-spot-fix-2026-03-30T01-15-01.md
+
+[2026-03-30T01:15:01.377Z] Spawning Lobe agent...
+
+[2026-03-30T01:15:01Z] FIX: components/shadcnblocks-com-navbar1.tsx — 3 logo <span> elements had identical 6-property inline style blocks (fontFamily, fontWeight, letterSpacing, color, textTransform, lineHeight) across desktop nav, mobile nav bar, and mobile sheet header → migrated all Tailwind-representable properties to className (font-display font-bold lowercase leading-none tracking-[-0.04em] text-foreground); only fontSize retained as inline style (1.1875rem desktop, 1.0625rem mobile — non-standard px values with no readable Tailwind equivalent)
+  Files: app/components/shadcnblocks-com-navbar1.tsx, context/fadejunkie_ui.md
+  Commit: 72c661a
+  DS Update: CONFIRM — Inline style for structural CSS properties rule — all-inline typography block variant; new sub-pattern: duplicated inline style blocks across responsive variants (desktop/mobile/sheet) — fixing one without the others is a common partial-fix failure mode; always search the full file after fixing one instance
+  Pattern: Responsive components duplicate the same inline style block 2-3× (desktop, mobile bar, mobile sheet). After fixing one responsive variant, always grep the entire file — responsive copies are easy to miss and the partial fix leaves 2 of 3 copies still broken.
