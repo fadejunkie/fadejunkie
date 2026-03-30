@@ -1,14 +1,4 @@
 
-[2026-03-29T20:08:02.393Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T20:08:04.338Z] Safety push complete
-
-[2026-03-29T20:08:04.340Z] Cron run complete
-
-[2026-03-29T20:15:01.983Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T20:15:01.991Z] Task created: cron-spot-fix-2026-03-29T20-15-01.md
-
 [2026-03-29T20:15:01.993Z] Spawning Lobe agent...
 
 [2026-03-29T20:15:00Z] FIX: components/ResourceCard.tsx — category eyebrow <p> had style={{ color: "var(--link)" }} alongside font-mono tracking-[0.12em] className → removed inline style block, appended text-link to className
@@ -499,3 +489,19 @@ twanii →
 
 
 [2026-03-30T00:53:01.595Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T00:53:08.886Z] Safety push complete
+
+[2026-03-30T00:53:08.888Z] Cron run complete
+
+[2026-03-30T01:00:01.386Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T01:00:01.396Z] Task created: cron-spot-fix-2026-03-30T01-00-01.md
+
+[2026-03-30T01:00:01.399Z] Spawning Lobe agent...
+
+[2026-03-30T01:01:19Z] FIX: app/page.tsx — social proof stat strip spans had inline fontFamily + letterSpacing style props → migrated to Tailwind font-display/font-mono classes; clamp() fontSize and marginTop retained as inline style
+  Files: app/app/page.tsx, context/fadejunkie_ui.md
+  Commit: be55e63
+  DS Update: CONFIRM — inline fontFamily → Tailwind class rule — stat strip clamp-exception variant confirmed; `clamp()` fontSize is the one legitimate holdout; all other typographic props (fontFamily, fontWeight, letterSpacing, color, display, textTransform) migrated to className
+  Pattern: Large-file inline-style sweeps must be re-audited per-element after prior passes — isolated stat strip sections can escape section-level sweeps. The clamp() font-size exception pattern is now confirmed across 2+ files and multiple component types.
