@@ -1,27 +1,3 @@
-twanii → 
-
-[2026-03-29T21:23:03.578Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T21:23:07.748Z] Safety push complete
-
-[2026-03-29T21:23:07.753Z] Cron run complete
-
-[2026-03-29T21:30:02.338Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T21:30:02.393Z] Task created: cron-spot-fix-2026-03-29T21-30-02.md
-
-[2026-03-29T21:30:02.396Z] Spawning Lobe agent...
-
-[2026-03-29T21:30:02Z] FIX: app/(auth)/resources/page.tsx — skeleton loading div had `style={{ borderRadius: "20px" }}` inline style instead of Tailwind class → replaced with `rounded-[20px]` in className, removed style prop
-  Files: app/app/(auth)/resources/page.tsx, app/context/fadejunkie_ui.md
-  Commit: c1b17cf
-  DS Update: CONFIRM [HARDENED x8] — Inline style props rule — borderRadius inline style on skeleton loading placeholder (`animate-pulse` div) is the same violation class as card root and reusable helper components; risk surface extended to skeleton divs
-  Pattern: Skeleton loading placeholders (`animate-pulse` divs) are authored rapidly to match real card shapes — developers copy radius/height/border but reach for inline style. Detection: grep `style=.*borderRadius` on any element with `animate-pulse`.
-
-[2026-03-29T21:38:02.668Z] Lobe exited with code: 0
-
-[2026-03-29T21:38:02.671Z] STDOUT (last 500 chars): e_ui.md`
-
 CONFIRM [HARDENED x8] on the **Inline style props rule**. Extended the confirmed risk surface to include **skeleton loading divs** (`animate-pulse` elements) — they're scaffolded in rapid bursts to match real card geometry, developers reach for inline style because it feels "temporary," and then it ships. Detection shortcut: `grep style=.*borderRadius` + `animate-pulse` on the same element = instant P1.
 
   [outbox] cron-spot-fix-2026-03-29T21-30-02-2026-03-29T21-36-45-051Z.md
@@ -506,3 +482,20 @@ Node.js v24.13.1
   Commit: 90ca909
   DS Update: CONFIRM — Monospace font token / inline fontFamily migration rule — cta-13.tsx confirms motion.* CTA sections are reliable inline-fontFamily surfaces; 3-font-role batch fix (font-mono, font-display, font-body)
   Pattern: framer-motion motion.* components in landing-page sections (CTA, Testimonials) are the highest-concentration inline-fontFamily risk surface — the animation authoring context reliably leads devs to inline fontFamily. Any component file with `motion.` imports must get a `grep fontFamily` pass.
+
+[2026-03-30T02:23:01.602Z] Lobe exited with code: 0
+
+[2026-03-30T02:23:01.604Z] STDOUT (last 500 chars): ` lost to Tailwind class.
+
+**Build:** ✅ Passed — 18 routes, no errors  
+**Commits:** Pushed to `main`
+
+**Design system hardened:** The framer-motion inline-fontFamily rule now has `cta-13.tsx` as a second confirmed instance alongside `Testimonials.tsx`. Any component with `motion.` imports gets a mandatory `grep fontFamily` pass — the animation authoring context reliably predicts the delivery-mechanism violation.
+
+  [outbox] cron-spot-fix-2026-03-30T02-15-01-2026-03-30T02-20-11-092Z.md
+twanii → 
+
+[2026-03-30T02:23:01.605Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-30T02-15-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-30T02-15-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-30T02-15-01.md'
+
+
+[2026-03-30T02:23:01.756Z] Unpushed changes detected, running safety commit+push...
