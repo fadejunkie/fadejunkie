@@ -84,15 +84,8 @@ const Navbar1 = ({
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
               <span
-                style={{
-                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-                  fontSize: "1.1875rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.04em",
-                  color: "var(--foreground)",
-                  textTransform: "lowercase",
-                  lineHeight: 1,
-                }}
+                className="font-display font-bold lowercase leading-none tracking-[-0.04em] text-foreground"
+                style={{ fontSize: "1.1875rem" }}
               >{logo.title}</span>
             </a>
             <div className="flex items-center">
@@ -117,15 +110,8 @@ const Navbar1 = ({
             <a href={logo.url} className="flex items-center gap-2">
               {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
               <span
-                style={{
-                  fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-                  fontSize: "1.0625rem",
-                  fontWeight: 700,
-                  letterSpacing: "-0.04em",
-                  color: "var(--foreground)",
-                  textTransform: "lowercase",
-                  lineHeight: 1,
-                }}
+                className="font-display font-bold lowercase leading-none tracking-[-0.04em] text-foreground"
+                style={{ fontSize: "1.0625rem" }}
               >{logo.title}</span>
             </a>
             <Sheet>
@@ -140,15 +126,8 @@ const Navbar1 = ({
                     <a href={logo.url} className="flex items-center gap-2">
                       {logo.src && <img src={logo.src} className="w-8" alt={logo.alt} />}
                       <span
-                        style={{
-                          fontFamily: "var(--font-display), 'League Spartan', sans-serif",
-                          fontSize: "1.0625rem",
-                          fontWeight: 700,
-                          letterSpacing: "-0.04em",
-                          color: "var(--foreground)",
-                          textTransform: "lowercase",
-                          lineHeight: 1,
-                        }}
+                        className="font-display font-bold lowercase leading-none tracking-[-0.04em] text-foreground"
+                        style={{ fontSize: "1.0625rem" }}
                       >{logo.title}</span>
                     </a>
                   </SheetTitle>
