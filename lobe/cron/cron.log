@@ -499,3 +499,9 @@ twanii →
 [2026-03-30T02:45:01.667Z] Task created: cron-spot-fix-2026-03-30T02-45-01.md
 
 [2026-03-30T02:45:01.675Z] Spawning Lobe agent...
+
+[2026-03-30T02:45:00Z] FIX: app/signin/page.tsx — SVG HalftoneAccent fill="rgba(0,0,0,1)" → fill="var(--foreground)" (dark mode: decorative dot texture invisible on dark bg)
+  Files: app/app/signin/page.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 829fd4a
+  DS Update: CONFIRM [HARDENED x9] — SVG inline fill/stroke rgba rule — HalftoneAccent is copy-pasted per-file; each copy site independently carries fill="rgba(0,0,0,1)"; global component grep misses it; only per-file fill="rgba grep detects it
+  Pattern: HalftoneAccent SVG dot-grid components are re-authored (not imported) per file — grep fill="rgba in EVERY file with a decorative dot-grid SVG individually; confirmed P1 dark-mode invisibility on signin brand panel
