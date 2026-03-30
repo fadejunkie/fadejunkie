@@ -76,7 +76,7 @@ const HeroCard = () => {
           backgroundColor: "var(--foreground)",
           borderRadius: "1.375rem",
           padding: "1.875rem",
-          border: "1px solid rgba(255,255,255,0.08)",
+          border: "1px solid color-mix(in oklch, var(--background) 8%, transparent)",
           boxShadow:
             "0 40px 80px rgba(0,0,0,0.22), 0 12px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
         }}
@@ -95,8 +95,8 @@ const HeroCard = () => {
               width: 46,
               height: 46,
               borderRadius: "50%",
-              backgroundColor: "rgba(255,255,255,0.07)",
-              border: "1px solid rgba(255,255,255,0.12)",
+              backgroundColor: "color-mix(in oklch, var(--background) 7%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--background) 12%, transparent)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -109,7 +109,7 @@ const HeroCard = () => {
                   "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "0.875rem",
                 fontWeight: 700,
-                color: "rgba(255,255,255,0.55)",
+                color: "color-mix(in oklch, var(--background) 55%, transparent)",
                 letterSpacing: "-0.01em",
               }}
             >
@@ -139,7 +139,7 @@ const HeroCard = () => {
                 fontWeight: 500,
                 letterSpacing: "0.13em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)",
+                color: "color-mix(in oklch, var(--background) 40%, transparent)",
               }}
             >
               Brooklyn, NY · Licensed 2019
@@ -156,7 +156,7 @@ const HeroCard = () => {
                   fontFamily:
                     "var(--font-body), 'Courier Prime', monospace",
                   fontSize: "0.6875rem",
-                  color: "rgba(255,255,255,0.5)",
+                  color: "color-mix(in oklch, var(--background) 50%, transparent)",
                   display: "block",
                   marginBottom: "0.3rem",
                 }}
@@ -167,7 +167,7 @@ const HeroCard = () => {
                 style={{
                   height: 2,
                   borderRadius: 9999,
-                  backgroundColor: "rgba(255,255,255,0.07)",
+                  backgroundColor: "color-mix(in oklch, var(--background) 7%, transparent)",
                 }}
               >
                 <motion.div
@@ -181,7 +181,7 @@ const HeroCard = () => {
                   style={{
                     height: 2,
                     borderRadius: 9999,
-                    backgroundColor: "#ffffff",
+                    backgroundColor: "var(--background)",
                     opacity: 0.55,
                   }}
                 />
@@ -196,7 +196,7 @@ const HeroCard = () => {
             display: "flex",
             gap: "1.5rem",
             paddingTop: "1.25rem",
-            borderTop: "1px solid rgba(255,255,255,0.07)",
+            borderTop: "1px solid color-mix(in oklch, var(--background) 7%, transparent)",
             marginBottom: "1.375rem",
           }}
         >
@@ -228,7 +228,7 @@ const HeroCard = () => {
                   fontWeight: 500,
                   letterSpacing: "0.13em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.32)",
+                  color: "color-mix(in oklch, var(--background) 32%, transparent)",
                 }}
               >
                 {stat.l}
@@ -250,8 +250,8 @@ const HeroCard = () => {
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.09)",
+              backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
               overflow: "hidden",
               position: "relative",
               display: "flex",
@@ -265,13 +265,13 @@ const HeroCard = () => {
               left: 0,
               right: 0,
               height: "65%",
-              background: "linear-gradient(to top, rgba(255,255,255,0.09), transparent)",
+              background: "linear-gradient(to top, color-mix(in oklch, var(--background) 9%, transparent), transparent)",
             }} />
             <div style={{
               width: 18,
               height: 18,
               borderRadius: "50%",
-              border: "1.5px solid rgba(255,255,255,0.22)",
+              border: "1.5px solid color-mix(in oklch, var(--background) 22%, transparent)",
               position: "relative",
               zIndex: 1,
             }} />
@@ -282,8 +282,8 @@ const HeroCard = () => {
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,255,255,0.09)",
-              border: "1px solid rgba(255,255,255,0.12)",
+              backgroundColor: "color-mix(in oklch, var(--background) 9%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--background) 12%, transparent)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -293,7 +293,7 @@ const HeroCard = () => {
               style={{
                 width: 15,
                 height: 15,
-                color: "rgba(255,255,255,0.55)",
+                color: "color-mix(in oklch, var(--background) 55%, transparent)",
                 strokeWidth: 1.5,
               }}
             />
@@ -304,8 +304,8 @@ const HeroCard = () => {
             style={{
               aspectRatio: "1",
               borderRadius: "0.625rem",
-              backgroundColor: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.09)",
+              backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -320,7 +320,7 @@ const HeroCard = () => {
                 style={{
                   height: 1.5,
                   width: `${w * 100}%`,
-                  backgroundColor: "rgba(255,255,255,0.25)",
+                  backgroundColor: "color-mix(in oklch, var(--background) 25%, transparent)",
                   borderRadius: 1,
                 }}
               />
