@@ -447,7 +447,7 @@ export default function LandingPage() {
                 fontWeight: 500,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",
-                color: "rgba(255,255,255,0.4)",
+                color: "color-mix(in oklch, var(--background) 40%, transparent)",
                 marginBottom: "1rem",
               }}
               initial={{ opacity: 0 }}
@@ -483,7 +483,7 @@ export default function LandingPage() {
                   fontStyle: "italic",
                   fontSize: "0.72em",
                   letterSpacing: "0.01em",
-                  color: "rgba(255,255,255,0.45)",
+                  color: "color-mix(in oklch, var(--background) 45%, transparent)",
                 }}
               >
                 the grind.
@@ -530,15 +530,15 @@ export default function LandingPage() {
                         key={i}
                         className="mb-2.5 rounded-xl p-3"
                         style={{
-                          backgroundColor: "rgba(255,255,255,0.06)",
-                          border: "1px solid rgba(255,255,255,0.09)",
+                          backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+                          border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
                         }}
                       >
                         <div className="mb-1.5 flex items-center gap-2">
                           <div
                             className="h-5 w-5 rounded-full flex-shrink-0"
                             style={{
-                              backgroundColor: "rgba(255,255,255,0.11)",
+                              backgroundColor: "color-mix(in oklch, var(--background) 11%, transparent)",
                             }}
                           />
                           <span
@@ -546,7 +546,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,255,255,0.55)",
+                              color: "color-mix(in oklch, var(--background) 55%, transparent)",
                               letterSpacing: "0.06em",
                             }}
                           >
@@ -557,7 +557,7 @@ export default function LandingPage() {
                               fontFamily:
                                 "var(--font-mono), ui-monospace, monospace",
                               fontSize: 9,
-                              color: "rgba(255,255,255,0.3)",
+                              color: "color-mix(in oklch, var(--background) 30%, transparent)",
                               marginLeft: "auto",
                               letterSpacing: "0.04em",
                             }}
@@ -571,7 +571,7 @@ export default function LandingPage() {
                               "var(--font-body), 'Courier Prime', monospace",
                             fontSize: 11,
                             lineHeight: 1.5,
-                            color: "rgba(255,255,255,0.45)",
+                            color: "color-mix(in oklch, var(--background) 45%, transparent)",
                           }}
                         >
                           {post.preview}
@@ -598,27 +598,27 @@ export default function LandingPage() {
                   <div
                     className="absolute inset-x-4 top-4 rounded-xl p-3.5"
                     style={{
-                      backgroundColor: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.09)",
+                      backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
                     }}
                   >
                     <div className="flex items-center gap-2.5 mb-3">
                       <div
                         className="h-8 w-8 rounded-full flex-shrink-0 flex items-center justify-center"
-                        style={{ backgroundColor: "rgba(255,255,255,0.09)", border: "1px solid rgba(255,255,255,0.13)" }}
+                        style={{ backgroundColor: "color-mix(in oklch, var(--background) 9%, transparent)", border: "1px solid color-mix(in oklch, var(--background) 13%, transparent)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.55)", letterSpacing: "-0.01em" }}>AM</span>
+                        <span style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 10, fontWeight: 700, color: "color-mix(in oklch, var(--background) 55%, transparent)", letterSpacing: "-0.01em" }}>AM</span>
                       </div>
                       <div>
-                        <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "-0.02em" }}>Andre Mitchell</p>
+                        <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 11, fontWeight: 700, color: "color-mix(in oklch, var(--background) 85%, transparent)", letterSpacing: "-0.02em" }}>Andre Mitchell</p>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <MapPin style={{ width: 8, height: 8, color: "rgba(255,255,255,0.35)" }} />
-                          <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
+                          <MapPin style={{ width: 8, height: 8, color: "color-mix(in oklch, var(--background) 35%, transparent)" }} />
+                          <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "color-mix(in oklch, var(--background) 40%, transparent)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Atlanta, GA</span>
                         </div>
                       </div>
                       <div className="ml-auto flex items-center gap-0.5">
-                        <Star style={{ width: 8, height: 8, color: "rgba(255,255,255,0.55)", fill: "rgba(255,255,255,0.55)" }} />
-                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "rgba(255,255,255,0.55)", letterSpacing: "0.06em" }}>4.9</span>
+                        <Star style={{ width: 8, height: 8, color: "color-mix(in oklch, var(--background) 55%, transparent)", fill: "color-mix(in oklch, var(--background) 55%, transparent)" }} />
+                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 8, color: "color-mix(in oklch, var(--background) 55%, transparent)", letterSpacing: "0.06em" }}>4.9</span>
                       </div>
                     </div>
                     <div className="flex gap-1.5 flex-wrap">
@@ -628,9 +628,9 @@ export default function LandingPage() {
                           fontSize: 7,
                           letterSpacing: "0.1em",
                           textTransform: "uppercase",
-                          color: "rgba(255,255,255,0.45)",
-                          backgroundColor: "rgba(255,255,255,0.06)",
-                          border: "1px solid rgba(255,255,255,0.09)",
+                          color: "color-mix(in oklch, var(--background) 45%, transparent)",
+                          backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+                          border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
                           borderRadius: "2rem",
                           padding: "0.2rem 0.45rem",
                         }}>{tag}</span>
@@ -656,36 +656,36 @@ export default function LandingPage() {
                   <div
                     className="absolute inset-x-4 top-4 rounded-xl overflow-hidden"
                     style={{
-                      backgroundColor: "rgba(255,255,255,0.06)",
-                      border: "1px solid rgba(255,255,255,0.09)",
+                      backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--background) 9%, transparent)",
                     }}
                   >
                     {/* Browser top bar */}
                     <div
                       className="flex items-center gap-1.5 px-2.5 py-2"
-                      style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
+                      style={{ borderBottom: "1px solid color-mix(in oklch, var(--background) 7%, transparent)" }}
                     >
                       {[1,2,3].map(i => (
-                        <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.18)" }} />
+                        <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "color-mix(in oklch, var(--background) 18%, transparent)" }} />
                       ))}
                       <div
                         className="flex-1 h-3 rounded-sm mx-2 flex items-center justify-center"
-                        style={{ backgroundColor: "rgba(255,255,255,0.06)" }}
+                        style={{ backgroundColor: "color-mix(in oklch, var(--background) 6%, transparent)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 6, color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
+                        <span style={{ fontFamily: "var(--font-mono), monospace", fontSize: 6, color: "color-mix(in oklch, var(--background) 40%, transparent)", letterSpacing: "0.08em" }}>cuts.by/morales</span>
                       </div>
-                      <ExternalLink style={{ width: 7, height: 7, color: "rgba(255,255,255,0.28)" }} />
+                      <ExternalLink style={{ width: 7, height: 7, color: "color-mix(in oklch, var(--background) 28%, transparent)" }} />
                     </div>
                     {/* Mock site content */}
                     <div className="p-3">
-                      <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 13, fontWeight: 800, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.80)", marginBottom: "0.5rem" }}>Morales Cuts</p>
-                      <p style={{ fontFamily: "var(--font-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
+                      <p style={{ fontFamily: "var(--font-display), sans-serif", fontSize: 13, fontWeight: 800, letterSpacing: "-0.03em", color: "color-mix(in oklch, var(--background) 80%, transparent)", marginBottom: "0.5rem" }}>Morales Cuts</p>
+                      <p style={{ fontFamily: "var(--font-mono), monospace", fontSize: 7, letterSpacing: "0.1em", textTransform: "uppercase", color: "color-mix(in oklch, var(--background) 40%, transparent)", marginBottom: "0.75rem" }}>Brooklyn, NY · Walk-ins welcome</p>
                       <div
                         className="inline-flex items-center gap-1 rounded-full px-2.5 py-1"
-                        style={{ backgroundColor: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.14)" }}
+                        style={{ backgroundColor: "color-mix(in oklch, var(--background) 10%, transparent)", border: "1px solid color-mix(in oklch, var(--background) 14%, transparent)" }}
                       >
-                        <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: 8, color: "rgba(255,255,255,0.65)", letterSpacing: "-0.01em" }}>Book a cut</span>
-                        <ArrowRight style={{ width: 7, height: 7, color: "rgba(255,255,255,0.45)" }} />
+                        <span style={{ fontFamily: "var(--font-sans), sans-serif", fontSize: 8, color: "color-mix(in oklch, var(--background) 65%, transparent)", letterSpacing: "-0.01em" }}>Book a cut</span>
+                        <ArrowRight style={{ width: 7, height: 7, color: "color-mix(in oklch, var(--background) 45%, transparent)" }} />
                       </div>
                     </div>
                   </div>
@@ -710,8 +710,8 @@ export default function LandingPage() {
                     className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-xl px-4 py-3"
                     style={{
                       width: "82%",
-                      backgroundColor: "rgba(255,255,255,0.07)",
-                      border: "1px solid rgba(255,255,255,0.10)",
+                      backgroundColor: "color-mix(in oklch, var(--background) 7%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--background) 10%, transparent)",
                     }}
                   >
                     <p
@@ -721,7 +721,7 @@ export default function LandingPage() {
                         fontSize: 8,
                         letterSpacing: "0.15em",
                         textTransform: "uppercase",
-                        color: "rgba(255,255,255,0.4)",
+                        color: "color-mix(in oklch, var(--background) 40%, transparent)",
                         marginBottom: "0.5rem",
                       }}
                     >
@@ -733,7 +733,7 @@ export default function LandingPage() {
                           "var(--font-body), 'Courier Prime', monospace",
                         fontSize: 10,
                         lineHeight: 1.5,
-                        color: "rgba(255,255,255,0.6)",
+                        color: "color-mix(in oklch, var(--background) 60%, transparent)",
                       }}
                     >
                       What angle produces a bevel cut when held flat against
@@ -745,7 +745,7 @@ export default function LandingPage() {
                         height: 2,
                         width: "100%",
                         borderRadius: 9999,
-                        backgroundColor: "rgba(255,255,255,0.08)",
+                        backgroundColor: "color-mix(in oklch, var(--background) 8%, transparent)",
                       }}
                     >
                       <div
@@ -789,8 +789,8 @@ export default function LandingPage() {
                         transition={{ duration: 0.4, ease, delay: 0.1 * i }}
                         className="flex items-center gap-2 rounded-lg px-2.5 py-2"
                         style={{
-                          backgroundColor: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.08)",
+                          backgroundColor: "color-mix(in oklch, var(--background) 5%, transparent)",
+                          border: "1px solid color-mix(in oklch, var(--background) 8%, transparent)",
                         }}
                       >
                         <span
@@ -799,7 +799,7 @@ export default function LandingPage() {
                             fontSize: 7,
                             letterSpacing: "0.1em",
                             textTransform: "uppercase",
-                            color: "rgba(255,255,255,0.45)",
+                            color: "color-mix(in oklch, var(--background) 45%, transparent)",
                             flexShrink: 0,
                             width: 48,
                           }}
@@ -810,7 +810,7 @@ export default function LandingPage() {
                           style={{
                             fontFamily: "var(--font-body), 'Courier Prime', monospace",
                             fontSize: 10,
-                            color: "rgba(255,255,255,0.6)",
+                            color: "color-mix(in oklch, var(--background) 60%, transparent)",
                           }}
                         >
                           {item.name}
