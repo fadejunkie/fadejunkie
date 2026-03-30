@@ -8,6 +8,9 @@
  * @module
  */
 
+import type * as crons from "../crons.js";
+import type * as seoAudits from "../seoAudits.js";
+import type * as seoAuditsCron from "../seoAuditsCron.js";
 import type * as wcorwinTasks from "../wcorwinTasks.js";
 
 import type {
@@ -17,6 +20,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  crons: typeof crons;
+  seoAudits: typeof seoAudits;
+  seoAuditsCron: typeof seoAuditsCron;
   wcorwinTasks: typeof wcorwinTasks;
 }>;
 
