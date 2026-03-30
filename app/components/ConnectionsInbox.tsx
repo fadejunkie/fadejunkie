@@ -84,8 +84,7 @@ export default function ConnectionsInbox() {
         )}
 
         <Inbox
-          className="text-muted-foreground/30 ml-auto"
-          style={{ width: 15, height: 15 }}
+          className="text-muted-foreground/30 ml-auto w-[15px] h-[15px]"
         />
       </div>
 
