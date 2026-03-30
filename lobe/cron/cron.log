@@ -1,25 +1,4 @@
 
-[2026-03-29T20:00:01.908Z] Task created: cron-spot-fix-2026-03-29T20-00-01.md
-
-[2026-03-29T20:00:01.910Z] Spawning Lobe agent...
-
-[2026-03-29T20:00:01Z] FIX: components/PathSelector.tsx — <Card className="rounded-xl shadow-sm" style={{ borderRadius: '0.75rem' }}> had the canonical dead-className variant: rounded-xl = 0.75rem, inline style wins cascade, Tailwind class is dead code → removed style={{ borderRadius: '0.75rem' }}, rounded-xl is now sole source of truth
-  Files: app/components/PathSelector.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: 7b74af4
-  DS Update: CONFIRM [HARDENED x7] — Inline style structural CSS rule — dead-className variant on collapsible Card root. <Card className="rounded-xl" style={{ borderRadius: '0.75rem' }}> pattern confirmed as a new risk surface: Card doesn't strip style props, so both properties propagate to the root div, inline wins silently. Any <Card className="rounded-*" style={{ borderRadius }}/> in the codebase is a confirmed P1.
-  Pattern: Collapsible/interactive card roots wrapping Radix UI Card are high-frequency dead-className surfaces — developers add rounded-* to className for visual intent AND pass borderRadius as style={{}} as a "safety net." Follow-up flagged: PostComposer.tsx:31 has style={{ borderRadius: "20px" }} on a <form> (no dead-className, just a Tailwind migration to rounded-[20px]).
-
-[2026-03-29T20:08:02.240Z] Lobe exited with code: 0
-
-[2026-03-29T20:08:02.243Z] STDOUT (last 500 chars): adius` via `style={{}}` as a safety net, not realising the Tailwind class is already doing (or trying to do) the job. Any `<Card className="rounded-*" style={{ borderRadius: ... }}>` in the codebase is a confirmed P1.
-
----
-
-**Follow-up flagged for next cycle:** `components/PostComposer.tsx:31` — `style={{ borderRadius: "20px" }}` on a `<form>` (not a dead-className, just a Tailwind migration to `rounded-[20px]`).
-
-  [outbox] cron-spot-fix-2026-03-29T20-00-01-2026-03-29T20-05-28-684Z.md
-twanii → 
-
 [2026-03-29T20:08:02.393Z] Unpushed changes detected, running safety commit+push...
 
 [2026-03-29T20:08:04.338Z] Safety push complete
@@ -505,3 +484,18 @@ twanii →
   Commit: cfb90fc
   DS Update: CONFIRM — inverted-section rgba rule — hero.tsx confirmed 20 instances (card border, avatar bg+border+initials color, skill label text, skill bar track+fill, stats divider+label text, 3× thumbnail bg+border, thumbnail gradient, thumbnail circle border, thumbnail lines, scissors icon color); also #ffffff skill bar fill → var(--background). All 20 fixed.
   Pattern: var(--foreground) bg sections make all rgba(255,255,255,*) children invisible in dark mode; color-mix with var(--background) is the correct fix. hero.tsx rgba sweep complete — largest single-component batch (20 instances).
+
+[2026-03-30T00:53:01.438Z] Lobe exited with code: 0
+
+[2026-03-30T00:53:01.440Z] STDOUT (last 500 chars):  ✅ Clean — 18/18 routes, TypeScript clean  
+**Commits:** `cfb90fc` (hero.tsx fix) → `97a3156` (DS + log + memory)
+
+The queued item from the previous cycle (hero.tsx sweep) is now **RESOLVED**. The inverted-section rgba rule now has 3 cross-file confirmations: `app/page.tsx` (34 instances), `components/cta-13.tsx` (3 instances), `components/hero.tsx` (20 instances) — marked **[HARDENED]** in the design system doc.
+
+  [outbox] cron-spot-fix-2026-03-30T00-45-01-2026-03-30T00-50-51-508Z.md
+twanii → 
+
+[2026-03-30T00:53:01.441Z] STDERR (last 500 chars):   [error] cron-spot-fix-2026-03-30T00-45-01.md: ENOENT: no such file or directory, rename 'C:\Users\twani\fadejunkie\lobe\inbox\cron-spot-fix-2026-03-30T00-45-01.md' -> 'C:\Users\twani\fadejunkie\lobe\outbox\_done-cron-spot-fix-2026-03-30T00-45-01.md'
+
+
+[2026-03-30T00:53:01.595Z] Unpushed changes detected, running safety commit+push...
