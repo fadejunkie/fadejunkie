@@ -83,7 +83,7 @@ const Cta13 = ({
                 cx={col * 24 + 12}
                 cy={row * 24 + 12}
                 r={r}
-                fill="rgba(255,255,255,1)"
+                fill="var(--background)"
               />
             );
           })
@@ -110,7 +110,7 @@ const Cta13 = ({
             fontWeight: 500,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.4)",
+            color: "color-mix(in oklch, var(--background) 40%, transparent)",
             marginBottom: "1.5rem",
           }}
         >
@@ -147,7 +147,7 @@ const Cta13 = ({
               "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.9375rem",
             lineHeight: 1.65,
-            color: "rgba(255,255,255,0.55)",
+            color: "color-mix(in oklch, var(--background) 55%, transparent)",
             maxWidth: "28rem",
             margin: "0 auto 3rem",
           }}
