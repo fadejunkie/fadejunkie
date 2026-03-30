@@ -36,6 +36,8 @@ body{font-family:var(--font-sans);font-size:14px;color:var(--text-1);background:
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes toast-progress{from{width:100%}to{width:0%}}
 @keyframes glow{0%,100%{box-shadow:0 0 4px rgba(22,163,74,.4)}50%{box-shadow:0 0 10px rgba(22,163,74,.7)}}
+@keyframes pulse-ring{0%,100%{box-shadow:0 0 0 3px var(--ring-color,#8a8a87),0 0 8px 1px var(--ring-color,#8a8a87)}50%{box-shadow:0 0 0 5px var(--ring-color,#8a8a87),0 0 16px 3px var(--ring-color,#8a8a87)}}
+@keyframes burn-reset{0%{transform:scale(1.2);color:var(--green)}30%{transform:scale(1);color:var(--green)}100%{color:var(--text-3)}}
 </style>
 </head>
 <body>
@@ -781,20 +783,106 @@ function NotesPanel({notesData, fetchNotes, addToast}) {
 }
 
 
+function agentMood(agent) {
+  var inbox = (agent.inbox||[]).length;
+  var doneCount = agent.doneCount || 0;
+  var lastDone = agent.lastDoneTime ? Date.now() - new Date(agent.lastDoneTime).getTime() : Infinity;
+  var mins = lastDone / 60000;
+  // Shipping: completed something in last 30min and inbox is manageable
+  if(mins < 30 && inbox <= 1) return {emoji:'\u{1F680}',label:'Shipping'};
+  // Backlogged: 3+ inbox items piling up
+  if(inbox >= 3) return {emoji:'\u{23F3}',label:'Backlogged'};
+  // Active: has inbox work or recent output
+  if(inbox > 0 || mins < 60) return {emoji:'\u{26A1}',label:'Active'};
+  // Idle: nothing happening for a while
+  if(doneCount > 0) return {emoji:'\u{1F319}',label:'Idle'};
+  // Cold: never produced output
+  return {emoji:'\u{1F9CA}',label:'Cold'};
+}
+
+function BurnClock({lastDoneTime, color}) {
+  var [elapsed, setElapsed] = useState('--:--');
+  var [prevTime, setPrevTime] = useState(lastDoneTime);
+  var [justReset, setJustReset] = useState(false);
+
+  useEffect(function(){
+    if(prevTime && lastDoneTime && lastDoneTime !== prevTime) {
+      setJustReset(true);
+      var t = setTimeout(function(){setJustReset(false);}, 1500);
+      return function(){clearTimeout(t);};
+    }
+  }, [lastDoneTime]);
+
+  useEffect(function(){setPrevTime(lastDoneTime);}, [lastDoneTime]);
+
+  useEffect(function(){
+    function tick(){
+      if(!lastDoneTime){setElapsed('--:--');return;}
+      var ms = Math.max(0, Date.now() - new Date(lastDoneTime).getTime());
+      var s = Math.floor(ms/1000), m = Math.floor(s/60), h = Math.floor(m/60);
+      if(h > 0) setElapsed(h+'h '+String(m%60).padStart(2,'0')+'m');
+      else setElapsed(String(m).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
+    }
+    tick();
+    var i = setInterval(tick, 1000);
+    return function(){clearInterval(i);};
+  }, [lastDoneTime]);
+
+  var warmth = 'var(--text-3)';
+  if(lastDoneTime) {
+    var mins = (Date.now() - new Date(lastDoneTime).getTime()) / 60000;
+    if(mins > 120) warmth = 'var(--red)';
+    else if(mins > 60) warmth = 'var(--amber)';
+  }
+
+  return React.createElement('span', {
+    title: 'Time since last completed task',
+    style: {
+      fontSize:'11px', fontFamily:'var(--font-mono)', fontWeight:600,
+      color: justReset ? 'var(--green)' : warmth,
+      transform: justReset ? 'scale(1.15)' : 'scale(1)',
+      transition: 'all 0.4s var(--ease)',
+      display:'inline-block'
+    }
+  }, elapsed);
+}
+
 function AgentCard({agent, openSheet}) {
   const pending = agent.pending || [];
   const inbox = agent.inbox || [];
   const done = agent.done || [];
   const latestDone = done.length>0 ? done[done.length-1] : null;
 
+  var mood = agentMood(agent);
+  var isActive = (inbox.length > 0) || (agent.lastDoneTime && (Date.now() - new Date(agent.lastDoneTime).getTime()) < 1800000);
+  var initial = (agent.name||'?')[0];
+
   return (
     <div style={{...card,borderTop:'3px solid '+agent.color,position:'relative'}}>
       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:'12px'}}>
-        <div>
-          <div style={{fontWeight:700,fontSize:'14px'}}>{agent.name}</div>
-          <div style={{fontSize:'12px',color:'var(--text-3)'}}>{agent.role}</div>
+        <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+          <div style={{
+            width:'38px',height:'38px',borderRadius:'50%',
+            display:'flex',alignItems:'center',justifyContent:'center',
+            fontSize:'15px',fontWeight:700,fontFamily:'var(--font-mono)',
+            color:agent.color,background:'var(--bg-inset)',
+            boxShadow: isActive
+              ? '0 0 0 3px '+agent.color+', 0 0 12px 2px '+agent.color
+              : '0 0 0 2px var(--border)',
+            animation: isActive ? 'pulse-ring 2.4s ease-in-out infinite' : 'none',
+            '--ring-color': agent.color,
+            transition:'box-shadow 0.6s var(--ease)',
+            flexShrink:0
+          }}>{initial}</div>
+          <div>
+            <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+              <span style={{fontWeight:700,fontSize:'14px'}}>{agent.name}</span>
+              <span title={mood.label} style={{fontSize:'14px',cursor:'default'}}>{mood.emoji}</span>
+            </div>
+            <div style={{fontSize:'12px',color:'var(--text-3)'}}>{agent.role}</div>
+          </div>
         </div>
-        <div style={{width:'8px',height:'8px',borderRadius:'50%',background:agent.status==='idle'||!agent.status?'var(--text-3)':'var(--green)'}}/>
+        <BurnClock lastDoneTime={agent.lastDoneTime} color={agent.color}/>
       </div>
       {pending.length>0 && (
         <div style={{marginBottom:'12px'}}>

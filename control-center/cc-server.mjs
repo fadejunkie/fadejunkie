@@ -182,9 +182,16 @@ function buildAgents() {
     const latest = allResults.sort((a, b) => b.mtime - a.mtime)[0]
       ?.file.replace(/-\d{4}-\d{2}-\d{2}T[\d\-]+Z\.md$/, '').replace(/-/g, ' ') ?? '';
 
+    // Last done timestamp for Burn Clock + Pulse Ring
+    let lastDoneTime = null;
+    try {
+      const doneTimes = done.map(f => statSync(join(ROOT, ag.dir, 'outbox', f)).mtimeMs);
+      if (doneTimes.length) lastDoneTime = new Date(Math.max(...doneTimes)).toISOString();
+    } catch {}
+
     return { name: ag.name, dir: ag.dir, role: ag.role, color: ag.color,
              inbox, pending: pendingDetails, doneCount: done.length, latest,
-             taskCount: allResults.length };
+             taskCount: allResults.length, lastDoneTime };
   });
 }
 
