@@ -499,3 +499,9 @@ twanii →
 [2026-03-30T02:00:01.809Z] Task created: cron-spot-fix-2026-03-30T02-00-01.md
 
 [2026-03-30T02:00:01.814Z] Spawning Lobe agent...
+
+[2026-03-30T02:00:01Z] FIX: components/Testimonials.tsx — 7 inline fontFamily style props across 3 font roles (font-body, font-display, font-mono) → Tailwind font classes; clamp() font-size values retained as sole inline style holdouts
+  Files: app/components/Testimonials.tsx, context/fadejunkie_ui.md
+  Commit: f8f1e1c
+  DS Update: CONFIRM — font Tailwind-class-first rule — mixed-font-type batch variant: framer-motion `motion.*` components are a reliable inline-fontFamily surface; animation authoring focus causes fontFamily to go inline as shortcut. Detection: grep fontFamily in any component with motion. imports.
+  Pattern: Landing page animated sections (motion.p, motion.h2, motion.div) authored as self-contained framer-motion units reliably contain inline fontFamily props — the animation concern monopolizes dev attention and font tokens go inline. All 3 font roles (font-body, font-display, font-mono) can appear in one component simultaneously.
