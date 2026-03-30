@@ -192,30 +192,14 @@ export default function LandingPage() {
               transition={{ duration: 0.5, ease }}
             >
               <span
-                style={{
-                  fontFamily:
-                    "var(--font-display), 'League Spartan', sans-serif",
-                  fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)",
-                  fontWeight: 800,
-                  letterSpacing: "-0.04em",
-                  color: "var(--foreground)",
-                  display: "block",
-                }}
+                className="font-display font-extrabold tracking-[-0.04em] text-foreground block"
+                style={{ fontSize: "clamp(1.25rem, 2.5vw, 2.25rem)" }}
               >
                 <AnimatedStatValue value={stat.value} />
               </span>
               <span
-                style={{
-                  fontFamily:
-                    "var(--font-mono), ui-monospace, monospace",
-                  fontSize: "0.5625rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--muted-foreground)",
-                  marginTop: "0.3rem",
-                  display: "block",
-                }}
+                className="font-mono font-medium tracking-[0.14em] uppercase text-muted-foreground block"
+                style={{ fontSize: "0.5625rem", marginTop: "0.3rem" }}
               >
                 {stat.label}
               </span>
