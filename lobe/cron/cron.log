@@ -1,23 +1,3 @@
-[2026-03-29T22:23:35.381Z] Safety push complete
-
-[2026-03-29T22:23:35.383Z] Cron run complete
-
-[2026-03-29T22:30:02.827Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T22:30:02.841Z] Task created: cron-spot-fix-2026-03-29T22-30-02.md
-
-[2026-03-29T22:30:02.845Z] Spawning Lobe agent...
-
-[2026-03-29T22:45:00Z] FIX: app/signin/page.tsx — 3 rgba(0,0,0,*) values broke dark mode on stacked avatar backgrounds, form panel tint, and tab divider → replaced with color-mix(in oklch, var(--foreground) N%, transparent) and var(--border)
-  Files: app/app/signin/page.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: bb5bb91
-  DS Update: CONFIRM — "No hardcoded colors — tokens only" rule — signin page had 3 rgba(0,0,0,*) on: stacked social-proof avatar backgrounds, form panel bg tint, tab switcher divider border. All 3 break dark mode. Fixed to color-mix tokens and var(--border).
-  Pattern: Social-proof "stacked avatars" elements reliably carry rgba on avatar backgroundColor — borderRadius:"50%" + backgroundColor: rgba() is the detection fingerprint. scan sign-in and onboarding pages for this element.
-  NOTED: app/signin/page.tsx also has inline style fontFamily/letterSpacing/fontSize on wordmark Link and tagline <p> — should migrate to Tailwind classes in a future cycle (not fixing this cycle — one fix only).
-  NOTED: app/cc/page.tsx has rgba(0,0,0,*) in card boxShadow and modal backdrop — cc is an internal admin page, lower priority than public-facing signin.
-
-[2026-03-29T22:38:03.033Z] Lobe exited with code: 0
-
 [2026-03-29T22:38:03.064Z] STDOUT (last 500 chars): ain`.
 
 **DS hardening:** CONFIRM — social-proof stacked avatar elements (`borderRadius: "50%"` + `backgroundColor: rgba()`) flagged as a reliable rgba violation surface. Detection fingerprint added to the design system doc.
@@ -505,3 +485,17 @@ twanii →
   Commit: 860b0b4
   DS Update: CONFIRM [HARDENED x10] — Inline style props for structural CSS properties rule — icon dimension variant; width/height on Lucide icons delivered via style={{}} when non-standard size used; w-[15px] h-[15px] is always the correct Tailwind equivalent
   Pattern: Lucide icon sizing via style={{ width: N, height: N }} is a reliable inline-style surface — detected by grepping style={{ width: across TSX files. Any icon with a non-standard dimension (not 16/20/24) that uses style={{}} instead of w-[Npx] h-[Npx] is a confirmed P1.
+
+[2026-03-30T03:23:02.187Z] Lobe exited with code: 0
+
+[2026-03-30T03:23:02.189Z] STDOUT (last 500 chars): classes `w-[15px] h-[15px]` in className.
+
+**Design system update:**
+- CONFIRM [HARDENED x10] — Lucide icon inline `width`/`height` is a confirmed pattern. Non-standard pixel sizes (15px) are the trigger — devs reach for inline style rather than `w-[15px] h-[15px]` Tailwind arbitrary classes. Detection: grep `style={{ width:` across all TSX.
+
+**Commits pushed:** `860b0b4` (fix) + `a4483fd` (DS doc + log) → `main`
+
+  [outbox] cron-spot-fix-2026-03-30T03-15-01-2026-03-30T03-21-10-066Z.md
+twanii → 
+
+[2026-03-30T03:23:02.317Z] Unpushed changes detected, running safety commit+push...
