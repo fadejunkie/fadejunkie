@@ -1,13 +1,3 @@
-CONFIRM [HARDENED x8] on the **Inline style props rule**. Extended the confirmed risk surface to include **skeleton loading divs** (`animate-pulse` elements) — they're scaffolded in rapid bursts to match real card geometry, developers reach for inline style because it feels "temporary," and then it ships. Detection shortcut: `grep style=.*borderRadius` + `animate-pulse` on the same element = instant P1.
-
-  [outbox] cron-spot-fix-2026-03-29T21-30-02-2026-03-29T21-36-45-051Z.md
-twanii → 
-
-[2026-03-29T21:38:02.912Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T21:38:06.350Z] Safety push complete
-
-[2026-03-29T21:38:06.355Z] Cron run complete
 
 [2026-03-29T21:45:02.728Z] WARN: Stale lockfile detected, removing
 
@@ -499,3 +489,20 @@ twanii →
 
 
 [2026-03-30T02:23:01.756Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T02:23:11.441Z] Safety push complete
+
+[2026-03-30T02:23:11.443Z] Cron run complete
+
+[2026-03-30T02:30:01.466Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T02:30:01.476Z] Task created: cron-spot-fix-2026-03-30T02-30-01.md
+
+[2026-03-30T02:30:01.490Z] Spawning Lobe agent...
+
+[2026-03-30T02:30:00Z] FIX: components/hero.tsx — 3 inline fontFamily style props on motion.* copy elements (eyebrow motion.p, headline motion.h1, description motion.p) → Tailwind font classes (font-mono, font-display, font-body)
+  Files: app/components/hero.tsx, context/fadejunkie_ui.md
+  Commit: edf5453
+  DS Update: CONFIRM [HARDENED] — motion.* inline fontFamily rule — confirmed across 4 files (Testimonials, cta-13, MatchesFeed, hero); pattern is now hardened. Also noted: hero.tsx has 13 remaining inline fontFamily props on non-motion elements (HeroCard internals, social proof strip) — queued for future cycles.
+  Pattern: motion.* inline fontFamily is now HARDENED — 4-file confirmation (Testimonials.tsx, cta-13.tsx, MatchesFeed.tsx, hero.tsx). Every component with motion. imports has a guaranteed inline-fontFamily violation until explicitly swept. hero.tsx copy elements (eyebrow/headline/description) are now clean; HeroCard internals remain.
+
