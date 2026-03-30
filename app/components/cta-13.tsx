@@ -104,8 +104,8 @@ const Cta13 = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+          className="font-mono"
           style={{
-            fontFamily: "var(--font-mono), ui-monospace, monospace",
             fontSize: "0.625rem",
             fontWeight: 500,
             letterSpacing: "0.18em",
@@ -122,9 +122,8 @@ const Cta13 = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.65, ease: [0.25, 0.1, 0.25, 1], delay: 0.07 }}
+          className="font-display"
           style={{
-            fontFamily:
-              "var(--font-display), 'League Spartan', sans-serif",
             fontSize: "clamp(2.5rem, 6vw, 5rem)",
             fontWeight: 800,
             letterSpacing: "-0.04em",
@@ -142,9 +141,8 @@ const Cta13 = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1], delay: 0.14 }}
+          className="font-body"
           style={{
-            fontFamily:
-              "var(--font-body), 'Courier Prime', monospace",
             fontSize: "0.9375rem",
             lineHeight: 1.65,
             color: "color-mix(in oklch, var(--background) 55%, transparent)",
