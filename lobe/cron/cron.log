@@ -499,3 +499,9 @@ twanii →
 [2026-03-30T01:45:01.398Z] Task created: cron-spot-fix-2026-03-30T01-45-01.md
 
 [2026-03-30T01:45:01.402Z] Spawning Lobe agent...
+
+[2026-03-30T01:45:01Z] FIX: components/hero.tsx — rgba(0,0,0,*) in boxShadow strings (3 elements) and @keyframes fj-pulse CSS declaration (2 keyframe stops) → color-mix(in oklch, var(--foreground) N%, transparent) in all 5 positions
+  Files: components/hero.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 46793d7
+  DS Update: CONFIRM — No hardcoded colors rule — extended scope: @keyframes inside JSX <style> tags and raw boxShadow compound strings are rgba detection blind spots; only `grep rgba(` raw catches them. hero.tsx is now fully rgba-clean (inline styles, SVG attributes, CSS keyframes all swept).
+  Pattern: CSS @keyframes and compound boxShadow string values are invisible to style=.*rgba grep patterns. The fj-pulse keyframe animation (active-dot status signal) was a functional P1 — invisible glow in dark mode breaks the live-barber affordance. Detection protocol updated: always run grep -n "rgba(" <file> raw after any sweep to catch non-JSX-prop rgba contexts.
