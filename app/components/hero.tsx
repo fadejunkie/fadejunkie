@@ -455,9 +455,8 @@ const Hero = () => {
         <div>
           {/* Eyebrow */}
           <motion.p
+            className="font-mono"
             style={{
-              fontFamily:
-                "var(--font-mono), 'Geist Mono', ui-monospace, monospace",
               fontSize: "0.6875rem",
               fontWeight: 500,
               letterSpacing: "0.16em",
@@ -475,9 +474,8 @@ const Hero = () => {
           {/* Headline — League Spartan 800, tight tracking */}
           <div style={{ marginBottom: "1.5rem" }}>
             <motion.h1
+              className="font-display"
               style={{
-                fontFamily:
-                  "var(--font-display), 'League Spartan', sans-serif",
                 fontSize: "clamp(3rem, 6.5vw, 6.25rem)",
                 fontWeight: 800,
                 letterSpacing: "-0.04em",
@@ -512,9 +510,8 @@ const Hero = () => {
 
           {/* Description */}
           <motion.p
+            className="font-body"
             style={{
-              fontFamily:
-                "var(--font-body), 'Courier Prime', 'Courier New', monospace",
               fontSize: "1rem",
               lineHeight: 1.65,
               color: "var(--muted-foreground)",
