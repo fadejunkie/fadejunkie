@@ -1,13 +1,3 @@
-[2026-03-29T20:38:12.784Z] Cron run complete
-
-[2026-03-29T20:45:02.399Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T20:45:02.437Z] Task created: cron-spot-fix-2026-03-29T20-45-02.md
-
-[2026-03-29T20:45:02.441Z] Spawning Lobe agent...
-
-[2026-03-29T20:45:02Z] FIX: components/AppSidebar.tsx — `const linkStyle = { fontFamily: "var(--font-sans), system-ui, sans-serif", letterSpacing: "-0.01em" }` applied as `style={linkStyle}` on 3 <Link> nav elements → deleted const, moved font-sans + tracking-[-0.01em] into linkBase className (parent + standalone links) and child dropdown link className
-  Files: app/components/AppSidebar.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
   Commit: 11f3108
   DS Update: CONFIRM — Inline style for structural CSS properties rule — multi-property named style const applied to globally-mounted sidebar nav links; pattern extended to cover `style={variableName}` (not just inline object literals); globally-mounted = highest blast radius
   Pattern: Named style const objects (const linkStyle = {}) applied via style={linkStyle} are the hardest inline-style violation to detect — each usage shows only `style={linkStyle}`, not the actual properties. Detection: grep `style={[a-z]` (style referencing a variable) catches these; `style={{` (inline object) catches the other variant. Both need to be in the scan.
@@ -499,3 +489,19 @@ Node.js v24.13.1
 
 
 [2026-03-30T01:23:28.675Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T01:23:34.246Z] Safety push complete
+
+[2026-03-30T01:23:34.247Z] Cron run complete
+
+[2026-03-30T01:30:01.419Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T01:30:01.445Z] Task created: cron-spot-fix-2026-03-30T01-30-01.md
+
+[2026-03-30T01:30:01.449Z] Spawning Lobe agent...
+
+[2026-03-30T01:30:00Z] FIX: components/hero.tsx — SVG inline fill="rgba(0,0,0,1)" (HalftoneAccent dots) + stroke="rgba(0,0,0,0.5)" (scroll-cue chevron) → fill="var(--foreground)" + stroke="color-mix(in oklch, var(--foreground) 50%, transparent)"
+  Files: app/components/hero.tsx, app/context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 8eef999
+  DS Update: CONFIRM [HARDENED x8] — Standalone rgba in inline styles rule — scope extended to SVG inline fill/stroke attributes; these are NOT caught by style={} prop scanners and require a separate grep pass (fill="rgba and stroke="rgba)
+  Pattern: SVG color attributes (fill=, stroke=) bypass style prop scanning — grep targeting style=.*rgba misses them. Always run a separate pass for fill="rgba and stroke="rgba in TSX files. The scroll-cue chevron stroke is a functional affordance, not just decorative — invisible in dark mode is a P1 regardless of the element's decorative appearance.
