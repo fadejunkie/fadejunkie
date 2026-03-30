@@ -1,13 +1,3 @@
-[2026-03-29T22:23:04.603Z] STDOUT (last 500 chars):  turns]
-lobe → **SKIP — cooldown active.** The last cron commit (`d0a0cb3`, a safety snapshot) landed at `22:08:12Z` — only 8m58s before this cycle triggered at `22:17:10Z`. That's inside the 10-minute overlap prevention window.
-
-The skip was logged to `lobe/cron/cron.log`. The next cycle (when it fires ≥10 minutes after the last commit) will proceed normally and pick up the scan from where the rotation left off.
-
-  [outbox] cron-spot-fix-2026-03-29T22-15-02-2026-03-29T22-17-38-922Z.md
-twanii → 
-
-[2026-03-29T22:23:05.585Z] Unpushed changes detected, running safety commit+push...
-
 [2026-03-29T22:23:35.381Z] Safety push complete
 
 [2026-03-29T22:23:35.383Z] Cron run complete
@@ -499,3 +489,19 @@ lobe →
 twanii → 
 
 [2026-03-30T03:08:02.161Z] Unpushed changes detected, running safety commit+push...
+
+[2026-03-30T03:08:19.706Z] Safety push complete
+
+[2026-03-30T03:08:19.710Z] Cron run complete
+
+[2026-03-30T03:15:01.959Z] WARN: Stale lockfile detected, removing
+
+[2026-03-30T03:15:01.976Z] Task created: cron-spot-fix-2026-03-30T03-15-01.md
+
+[2026-03-30T03:15:01.981Z] Spawning Lobe agent...
+
+[2026-03-30T03:15:01Z] FIX: components/ConnectionsInbox.tsx — Inbox icon had style={{ width: 15, height: 15 }} → Tailwind w-[15px] h-[15px] classes; inline style block removed
+  Files: app/components/ConnectionsInbox.tsx, context/fadejunkie_ui.md, lobe/cron/cron.log
+  Commit: 860b0b4
+  DS Update: CONFIRM [HARDENED x10] — Inline style props for structural CSS properties rule — icon dimension variant; width/height on Lucide icons delivered via style={{}} when non-standard size used; w-[15px] h-[15px] is always the correct Tailwind equivalent
+  Pattern: Lucide icon sizing via style={{ width: N, height: N }} is a reliable inline-style surface — detected by grepping style={{ width: across TSX files. Any icon with a non-standard dimension (not 16/20/24) that uses style={{}} instead of w-[Npx] h-[Npx] is a confirmed P1.
