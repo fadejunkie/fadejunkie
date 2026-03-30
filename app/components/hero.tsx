@@ -46,7 +46,7 @@ const HalftoneAccent = () => (
             cx={col * 26 + 14}
             cy={row * 26 + 14}
             r={r}
-            fill="rgba(0,0,0,1)"
+            fill="var(--foreground)"
           />
         );
       })
@@ -653,7 +653,7 @@ const Hero = () => {
         transition={{ delay: 1.8, duration: 0.7 }}
       >
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <path d="M5.5 8.5L11 14L16.5 8.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M5.5 8.5L11 14L16.5 8.5" stroke="color-mix(in oklch, var(--foreground) 50%, transparent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </motion.div>
 
