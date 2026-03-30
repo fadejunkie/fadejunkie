@@ -1,22 +1,3 @@
-
-Node.js v24.13.1
-
-
-[2026-03-29T20:53:46.376Z] Unpushed changes detected, running safety commit+push...
-
-[2026-03-29T20:53:49.823Z] Safety push complete
-
-[2026-03-29T20:53:49.836Z] Cron run complete
-
-[2026-03-29T21:00:02.461Z] WARN: Stale lockfile detected, removing
-
-[2026-03-29T21:00:02.503Z] Task created: cron-spot-fix-2026-03-29T21-00-02.md
-
-[2026-03-29T21:00:02.507Z] Spawning Lobe agent...
-
-[2026-03-29T21:00:00.000Z] FIX: components/PostComposer.tsx — `style={{ borderRadius: "20px" }}` on `<form>` (pure inline-style migration case, no conflicting Tailwind class) → removed style prop, added `rounded-[20px]` to className. 20px is the FJ card radius from Component Patterns — arbitrary value used to preserve the exact design spec, not rounded to nearest token.
-  Files: app/components/PostComposer.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
-  Commit: e4affd1
   DS Update: CONFIRM [inline style structural CSS rule] — PostComposer.tsx:31 was previously queued as "noted for next cycle" in the DS doc. Confirmed and resolved. Added note clarifying hardcoded-px migration: `rounded-[20px]` not `rounded-xl`/`rounded-2xl` — exact spec value must be preserved.
   Pattern: Pure inline-style migration (no dead-className conflict) on a `<form>` root. Hardcoded px borderRadius must migrate to Tailwind arbitrary value `rounded-[N px]`, not to the nearest token class — silently rounding changes the visual output. FJ card radius = 20px = `rounded-[20px]`.
 
@@ -505,3 +486,16 @@ twanii →
   Commit: 46793d7
   DS Update: CONFIRM — No hardcoded colors rule — extended scope: @keyframes inside JSX <style> tags and raw boxShadow compound strings are rgba detection blind spots; only `grep rgba(` raw catches them. hero.tsx is now fully rgba-clean (inline styles, SVG attributes, CSS keyframes all swept).
   Pattern: CSS @keyframes and compound boxShadow string values are invisible to style=.*rgba grep patterns. The fj-pulse keyframe animation (active-dot status signal) was a functional P1 — invisible glow in dark mode breaks the live-barber affordance. Detection protocol updated: always run grep -n "rgba(" <file> raw after any sweep to catch non-JSX-prop rgba contexts.
+
+[2026-03-30T01:53:01.625Z] Lobe exited with code: 0
+
+[2026-03-30T01:53:01.655Z] STDOUT (last 500 chars): ,0,0.32)` glow on a black background is **completely invisible** — the "live" dot loses its life.
+
+**New hardened insight:** `@keyframes` blocks inside JSX `<style>` tags and compound `boxShadow` strings are **blind spots** for `style=.*rgba` grep patterns. The only reliable scanner is raw `grep -n "rgba(" <file>` — no JSX prop context assumed, catches everything.
+
+**Build:** 18/18 routes clean. Pushed to `main`.
+
+  [outbox] cron-spot-fix-2026-03-30T01-45-01-2026-03-30T01-50-53-445Z.md
+twanii → 
+
+[2026-03-30T01:53:02.094Z] Unpushed changes detected, running safety commit+push...
