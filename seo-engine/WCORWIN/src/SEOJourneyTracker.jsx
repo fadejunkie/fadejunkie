@@ -592,3 +592,6 @@ export default function SEOJourneyTracker() {
     </div>
   );
 }
+
+// Named exports for reuse in sibling components
+export { Ring, AnimNum };
