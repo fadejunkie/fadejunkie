@@ -499,3 +499,9 @@ twanii →
 [2026-03-30T03:30:01.404Z] Task created: cron-spot-fix-2026-03-30T03-30-01.md
 
 [2026-03-30T03:30:01.408Z] Spawning Lobe agent...
+
+[2026-03-30T03:30:01Z] FIX: components/manifesto.tsx — 5 inline fontFamily style props across 3 font roles (font-display on opening-mark div, font-body on editorial quote p, font-mono on attribution span + 2× pillar rows label p + body p) → Tailwind font classes; clamp() fontSize + marginBottom retained as inline style holdouts
+  Files: app/components/manifesto.tsx, context/fadejunkie_ui.md, lobe/memory/growth.md
+  Commit: 3921ea7
+  DS Update: CONFIRM [HARDENED] — motion.* inline fontFamily rule — manifesto.tsx is the 5th confirmed file; also adds new sub-variant: the violation spreads to child <p>/<span>/<div> elements inside motion.div wrappers, not only on motion.* elements directly
+  Pattern: inline fontFamily violations inside framer-motion components are NOT limited to motion.* elements themselves — they extend to all child elements nested inside motion.div wrappers. Full-file grep fontFamily on any component with motion imports catches both variants.
