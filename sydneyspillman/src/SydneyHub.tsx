@@ -432,23 +432,61 @@ function AgreementPage({c}){
    ═══════════════════════════════════════ */
 function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove}){
   const [adding,setAdding]=useState(false);
+  const [addMode,setAddMode]=useState("url");
   const [label,setLabel]=useState("");
   const [url,setUrl]=useState("");
   const [type,setType]=useState("screenshot");
+  const [mdContent,setMdContent]=useState("");
+  const [viewing,setViewing]=useState(null);
 
   const items=(deliverables||[]).filter(d=>d.milestoneKey===milestoneKey);
 
   const submit=()=>{
-    if(!label.trim()||!url.trim())return;
-    onAdd({milestoneKey,label:label.trim(),url:url.trim(),type});
-    setLabel("");setUrl("");setType("screenshot");setAdding(false);
+    if(!label.trim())return;
+    if(addMode==="url"){
+      if(!url.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:url.trim(),type});
+    } else {
+      if(!mdContent.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:"",type:"md",markdownContent:mdContent.trim()});
+    }
+    setLabel("");setUrl("");setType("screenshot");setMdContent("");setAdding(false);
   };
 
-  const isPdf=(u)=>u.toLowerCase().endsWith(".pdf");
-  const isImg=(u)=>/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary");
+  const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
+
+  const downloadMd=(d)=>{
+    const blob=new Blob([d.markdownContent],{type:"text/markdown"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=d.label.replace(/[^a-z0-9]+/gi,"-").toLowerCase()+".md";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  const btnSm=(active)=>({fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"3px 8px",borderRadius:3,cursor:"pointer",border:`1px solid ${active?c.BLUE+"44":c.EDGE}`,background:active?c.BLUE+"0c":"transparent",color:active?c.BLUE:c.SLATE});
 
   return(
     <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${c.EDGE}44`}}>
+      {/* Viewer modal */}
+      {viewing&&(
+        <div onClick={()=>setViewing(null)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.65)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:24}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:c.CARD,borderRadius:12,width:"100%",maxWidth:760,maxHeight:"82vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 24px 64px rgba(0,0,0,0.3)"}}>
+            <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"space-between",gap:12,flexShrink:0}}>
+              <div style={{fontWeight:700,fontSize:14,fontFamily:"'Playfair Display',serif",color:c.INK,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{viewing.label}</div>
+              <div style={{display:"flex",gap:6,flexShrink:0}}>
+                <button onClick={()=>downloadMd(viewing)} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"Inter,sans-serif",padding:"5px 12px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:4,cursor:"pointer"}}>↓ Download .md</button>
+                <button onClick={()=>setViewing(null)} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"5px 10px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>✕ Close</button>
+              </div>
+            </div>
+            <div style={{padding:"20px 24px",overflowY:"auto",flex:1}}>
+              <pre style={{fontFamily:"'Courier New',monospace",fontSize:12,lineHeight:1.75,color:c.STONE,whiteSpace:"pre-wrap",wordBreak:"break-word",margin:0}}>{viewing.markdownContent}</pre>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
         <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
         {isOps&&!adding&&(
@@ -460,35 +498,58 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
         <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",fontStyle:"italic",padding:"4px 0"}}>No deliverables uploaded yet</div>
       )}
 
-      {items.map(d=>(
-        <div key={d._id} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 10px",background:c.DEEP,borderRadius:6,marginBottom:4,border:`1px solid ${c.EDGE}44`}}>
-          <div style={{width:24,height:24,borderRadius:4,background:isPdf(d.url)?c.EMBER+"14":c.BLUE+"14",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <span style={{fontSize:10,fontWeight:700,color:isPdf(d.url)?c.EMBER:c.BLUE,fontFamily:"Inter,sans-serif"}}>{isPdf(d.url)?"PDF":isImg(d.url)?"IMG":"URL"}</span>
-          </div>
-          <div style={{flex:1,minWidth:0}}>
-            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:12,fontWeight:500,color:c.BLUE,textDecoration:"underline",fontFamily:"Inter,sans-serif"}} onClick={e=>e.stopPropagation()}>{d.label}</a>
-            <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:1}}>
-              {d.type==="screenshot"?"Screenshot":d.type==="pdf"?"PDF Document":"Link"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
+      {items.map(d=>{
+        const isContent=!!(d.markdownContent&&d.markdownContent.length>0);
+        return(
+          <div key={d._id} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",background:c.DEEP,borderRadius:6,marginBottom:4,border:`1px solid ${c.EDGE}44`}}>
+            <div style={{width:24,height:24,borderRadius:4,background:isContent?"#1e3a5f14":isPdf(d.url)?c.EMBER+"14":c.BLUE+"14",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+              <span style={{fontSize:10,fontWeight:700,color:isContent?c.NAVY:isPdf(d.url)?c.EMBER:c.BLUE,fontFamily:"Inter,sans-serif"}}>{isContent?"MD":isPdf(d.url)?"PDF":isImg(d.url)?"IMG":"URL"}</span>
             </div>
+            <div style={{flex:1,minWidth:0}}>
+              {isContent?(
+                <div style={{fontSize:12,fontWeight:500,color:c.INK,fontFamily:"Inter,sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+              ):(
+                <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:12,fontWeight:500,color:c.BLUE,textDecoration:"underline",fontFamily:"Inter,sans-serif"}} onClick={e=>e.stopPropagation()}>{d.label}</a>
+              )}
+              <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:1}}>
+                {isContent?"Agent document":d.type==="screenshot"?"Screenshot":d.type==="pdf"?"PDF Document":"Link"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
+              </div>
+            </div>
+            {isContent&&(
+              <>
+                <button onClick={e=>{e.stopPropagation();setViewing(d)}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"3px 9px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:3,cursor:"pointer",flexShrink:0}}>View</button>
+                <button onClick={e=>{e.stopPropagation();downloadMd(d)}} title="Download .md" style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"3px 7px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:3,cursor:"pointer",flexShrink:0}}>↓</button>
+              </>
+            )}
+            {isOps&&(
+              <button onClick={e=>{e.stopPropagation();onRemove(d._id)}} style={{fontSize:12,color:c.SLATE,background:"none",border:"none",cursor:"pointer",padding:"2px 6px",borderRadius:3,lineHeight:1,flexShrink:0}} title="Remove">×</button>
+            )}
           </div>
-          {isOps&&(
-            <button onClick={e=>{e.stopPropagation();onRemove(d._id)}} style={{fontSize:12,color:c.SLATE,background:"none",border:"none",cursor:"pointer",padding:"2px 6px",borderRadius:3,lineHeight:1}} title="Remove">×</button>
-          )}
-        </div>
-      ))}
+        );
+      })}
 
       {adding&&(
         <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.BLUE}22`,marginTop:4}}>
-          <div style={{display:"flex",gap:6,marginBottom:8}}>
-            {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
-              <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.BLUE+"44":c.EDGE}`,background:type===o.v?c.BLUE+"0c":"transparent",color:type===o.v?c.BLUE:c.SLATE}}>{o.l}</button>
-            ))}
+          <div style={{display:"flex",gap:6,marginBottom:10}}>
+            <button onClick={()=>setAddMode("url")} style={btnSm(addMode==="url")}>URL / File</button>
+            <button onClick={()=>setAddMode("content")} style={btnSm(addMode==="content")}>Paste Content</button>
           </div>
-          <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (e.g. Logo v2 mockups)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:6}}/>
-          <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL (paste link to image, PDF, or page)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+          {addMode==="url"&&(
+            <div style={{display:"flex",gap:6,marginBottom:8}}>
+              {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
+                <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.BLUE+"44":c.EDGE}`,background:type===o.v?c.BLUE+"0c":"transparent",color:type===o.v?c.BLUE:c.SLATE}}>{o.l}</button>
+              ))}
+            </div>
+          )}
+          <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (e.g. Competitor Audit)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:6}}/>
+          {addMode==="url"?(
+            <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL (paste link to image, PDF, or page)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+          ):(
+            <textarea value={mdContent} onChange={e=>setMdContent(e.target.value)} placeholder="Paste markdown content here…" rows={8} style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:11,fontFamily:"'Courier New',monospace",outline:"none",boxSizing:"border-box",marginBottom:8,resize:"vertical",lineHeight:1.6}}/>
+          )}
           <div style={{display:"flex",gap:6}}>
             <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 16px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
-            <button onClick={()=>{setAdding(false);setLabel("");setUrl("")}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
+            <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
           </div>
         </div>
       )}
@@ -1040,8 +1101,8 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
   const deliverables=useQuery(api.sydneyTasks.getDeliverables,{projectId:"sydney-spillman"})??[];
   const addDeliverableMutation=useMutation(api.sydneyTasks.addDeliverable);
   const removeDeliverableMutation=useMutation(api.sydneyTasks.removeDeliverable);
-  const onAddDeliverable=({milestoneKey,label,url,type})=>{
-    addDeliverableMutation({projectId:"sydney-spillman",milestoneKey,label,url,type,addedAt:Date.now()});
+  const onAddDeliverable=({milestoneKey,label,url,type,markdownContent})=>{
+    addDeliverableMutation({projectId:"sydney-spillman",milestoneKey,label,url:url||"",type,addedAt:Date.now(),...(markdownContent?{markdownContent}:{})});
   };
   const onRemoveDeliverable=(id)=>{removeDeliverableMutation({id})};
 

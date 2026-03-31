@@ -136,9 +136,10 @@ export const addDeliverable = mutation({
     projectId: v.string(),
     milestoneKey: v.string(),
     label: v.string(),
-    url: v.string(),
+    url: v.optional(v.string()),
     type: v.string(),
     addedAt: v.number(),
+    markdownContent: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("sydneyDeliverables", args);

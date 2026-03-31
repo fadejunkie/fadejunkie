@@ -19,33 +19,34 @@ Read `sydneyspillman/context/sydney-project.md` for full project context.
 
 ### 1. Client Intake Document
 Write to `sydneyspillman/content/01-client-intake.md`:
-- Brand story and values (professional warmth, community-focused, approachable)
-- Target audience profile (home buyers/sellers in San Antonio, first-time buyers, military relocations)
-- Service offerings summary
-- Unique value proposition
+- [x] Brand story and values (professional warmth, community-focused, approachable)
+- [x] Target audience profile (home buyers/sellers in San Antonio, first-time buyers, military relocations)
+- [x] Service offerings summary
+- [x] Unique value proposition
 
 ### 2. Brand Positioning Statement
 Write to `sydneyspillman/content/01-brand-positioning.md`:
-- Where Sydney Spillman sits in the SA real estate market
-- Differentiation from top SA agents (avoid generic "full-service" positioning)
-- Tone definition: professional warmth with approachable, community-focused energy
-- Anti-references: no corporate coldness, no generic template energy
+- [x] Where Sydney Spillman sits in the SA real estate market
+- [x] Differentiation from top SA agents (avoid generic "full-service" positioning)
+- [x] Tone definition: professional warmth with approachable, community-focused energy
+- [x] Anti-references: no corporate coldness, no generic template energy
 
 ### 3. Competitor Audit
 Write to `sydneyspillman/content/01-competitor-audit.md`:
-- Audit 5 comparable San Antonio real estate agents/teams
-- For each: website quality, brand positioning, social presence, SEO visibility
-- Gaps and opportunities for Sydney Spillman to differentiate
+- [x] Audit 5 comparable San Antonio real estate agents/teams
+- [x] For each: website quality, brand positioning, social presence, SEO visibility
+- [x] Gaps and opportunities for Sydney Spillman to differentiate
 
 ## Convex Task Keys (mark completed on finish)
-- `1-DISCOVERY SESSION-0` — Client intake
-- `1-DISCOVERY SESSION-1` — Brand positioning
-- `1-DISCOVERY SESSION-2` — Tone identification
-- `1-DISCOVERY SESSION-3` — Competitor audit
+- [x] `1-DISCOVERY SESSION-0` — Client intake
+- [x] `1-DISCOVERY SESSION-1` — Brand positioning
+- [x] `1-DISCOVERY SESSION-2` — Tone identification
+- [x] `1-DISCOVERY SESSION-3` — Competitor audit
 
 ## Completion
-Write all 3 deliverables to `sydneyspillman/content/`. Mark all 4 Convex task keys complete via:
-```
-npx convex run --prod sydneyTasks:setTask '{"projectId":"sydney-spillman","key":"1-DISCOVERY SESSION-0","value":true}'
-```
-(Repeat for keys 1-3)
+- [x] All 3 deliverables written to `sydneyspillman/content/`
+- [x] All 4 Convex task keys marked complete
+- [x] Milestone 02 (Mood + Direction) dispatched to Ink
+- [x] Client update email queued to Mailwatch
+
+**Completed:** 2026-03-31
