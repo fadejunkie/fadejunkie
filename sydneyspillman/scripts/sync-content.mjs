@@ -2,22 +2,31 @@
 /**
  * sync-content.mjs
  * Pushes content/*.md files into Convex sydneyDeliverables table.
- * Run from sydneyspillman/ root: node scripts/sync-content.mjs
- * Skips entries that already exist (matched by milestoneKey + label).
+ * Images referenced as ./images/filename.ext are embedded as base64 data URIs.
+ *
+ * Usage:
+ *   node scripts/sync-content.mjs                             # skip existing, add new
+ *   node scripts/sync-content.mjs --update                    # re-push all (delete + re-add)
+ *   node scripts/sync-content.mjs --update --file=01-brand-positioning.md  # single file
+ *
+ * Run from sydneyspillman/ root.
  */
-import { readFile } from 'fs/promises'
-import { join, dirname } from 'path'
+import { readFile, readdir } from 'fs/promises'
+import { existsSync } from 'fs'
+import { join, dirname, extname, basename } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
 const root = join(__dir, '..')
 
-// Use prod Convex deployment URL
-const convexUrl = 'https://unique-crab-445.convex.cloud'
-
+const CONVEX_URL = 'https://unique-crab-445.convex.cloud'
 const PROJECT_ID = 'sydney-spillman'
 
-// Mapping: content file → milestone key + label
+const args = process.argv.slice(2)
+const UPDATE_MODE = args.includes('--update')
+const SINGLE_FILE = args.find(a => a.startsWith('--file='))?.split('=')[1]
+
+// ── Markdown doc → Convex deliverable mapping ──────────────────────────────
 const CONTENT_MAP = [
   { file: '01-client-intake.md',       milestoneKey: '1-DISCOVERY SESSION', label: 'Client Intake' },
   { file: '01-brand-positioning.md',   milestoneKey: '1-DISCOVERY SESSION', label: 'Brand Positioning' },
@@ -26,8 +35,45 @@ const CONTENT_MAP = [
   { file: '02-mood-board.md',          milestoneKey: '1-MOOD + DIRECTION',  label: 'Mood Board' },
 ]
 
+// ── Image mime types ────────────────────────────────────────────────────────
+const MIME = {
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif':  'image/gif',
+  '.webp': 'image/webp',
+  '.svg':  'image/svg+xml',
+}
+
+// ── Embed ./images/filename.ext → base64 data URI ──────────────────────────
+async function embedImages(markdown) {
+  const imgPattern = /!\[([^\]]*)\]\(\.\/(images\/[^)]+)\)/g
+  const replacements = []
+
+  for (const match of markdown.matchAll(imgPattern)) {
+    const [full, alt, relPath] = match
+    const absPath = join(root, 'content', relPath)
+    if (!existsSync(absPath)) {
+      console.log(`    warn  image not found: ${relPath}`)
+      continue
+    }
+    const ext = extname(absPath).toLowerCase()
+    const mime = MIME[ext] || 'image/png'
+    const data = await readFile(absPath)
+    const b64 = data.toString('base64')
+    replacements.push({ full, alt, dataUri: `data:${mime};base64,${b64}` })
+  }
+
+  let result = markdown
+  for (const { full, alt, dataUri } of replacements) {
+    result = result.replace(full, `![${alt}](${dataUri})`)
+  }
+  return result
+}
+
+// ── Convex helpers ──────────────────────────────────────────────────────────
 async function convexQuery(path, args) {
-  const res = await fetch(`${convexUrl}/api/query`, {
+  const res = await fetch(`${CONVEX_URL}/api/query`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ path, args, format: 'json' }),
@@ -38,7 +84,7 @@ async function convexQuery(path, args) {
 }
 
 async function convexMutation(path, args) {
-  const res = await fetch(`${convexUrl}/api/mutation`, {
+  const res = await fetch(`${CONVEX_URL}/api/mutation`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ path, args, format: 'json' }),
@@ -48,28 +94,51 @@ async function convexMutation(path, args) {
   return data.value
 }
 
-// Fetch existing deliverables to avoid duplicates
+// ── Main ────────────────────────────────────────────────────────────────────
+console.log(`\n🔄  Sydney Deliverables Sync`)
+console.log(`    Mode: ${UPDATE_MODE ? 'UPDATE (delete + re-add)' : 'ADD (skip existing)'}`)
+if (SINGLE_FILE) console.log(`    File: ${SINGLE_FILE}`)
+console.log()
+
 const existing = await convexQuery('sydneyTasks:getDeliverables', { projectId: PROJECT_ID })
-const existingKeys = new Set(existing.map(d => `${d.milestoneKey}|${d.label}`))
+const existingByKey = new Map(existing.map(d => [`${d.milestoneKey}|${d.label}`, d]))
 
 console.log(`Found ${existing.length} existing deliverables in Convex.\n`)
 
 let added = 0
+let updated = 0
 let skipped = 0
 
-for (const { file, milestoneKey, label } of CONTENT_MAP) {
+const toProcess = SINGLE_FILE
+  ? CONTENT_MAP.filter(e => e.file === SINGLE_FILE)
+  : CONTENT_MAP
+
+for (const { file, milestoneKey, label } of toProcess) {
   const key = `${milestoneKey}|${label}`
-  if (existingKeys.has(key)) {
-    console.log(`  skip  ${label} (already in Convex)`)
+  const existingEntry = existingByKey.get(key)
+
+  const filePath = join(root, 'content', file)
+  if (!existsSync(filePath)) {
+    console.log(`  miss  ${label} (file not found: ${file})`)
+    continue
+  }
+
+  const rawMarkdown = await readFile(filePath, 'utf-8')
+  const markdownContent = await embedImages(rawMarkdown)
+
+  const imagesEmbedded = (markdownContent.match(/data:image\//g) || []).length
+  if (imagesEmbedded > 0) {
+    console.log(`    imgs  ${imagesEmbedded} image(s) embedded for ${label}`)
+  }
+
+  if (existingEntry && !UPDATE_MODE) {
+    console.log(`  skip  ${label} (already in Convex — run with --update to refresh)`)
     skipped++
     continue
   }
 
-  const filePath = join(root, 'content', file)
-  const markdownContent = await readFile(filePath, 'utf-8').catch(() => null)
-  if (!markdownContent) {
-    console.log(`  miss  ${label} (file not found: ${file})`)
-    continue
+  if (existingEntry && UPDATE_MODE) {
+    await convexMutation('sydneyTasks:removeDeliverable', { id: existingEntry._id })
   }
 
   await convexMutation('sydneyTasks:addDeliverable', {
@@ -82,8 +151,73 @@ for (const { file, milestoneKey, label } of CONTENT_MAP) {
     markdownContent,
   })
 
-  console.log(`  added ${label} → ${milestoneKey}`)
-  added++
+  if (existingEntry) {
+    console.log(`  ✓ upd  ${label} → ${milestoneKey}`)
+    updated++
+  } else {
+    console.log(`  ✓ add  ${label} → ${milestoneKey}`)
+    added++
+  }
 }
 
-console.log(`\nDone: ${added} added, ${skipped} skipped.`)
+// ── Standalone image deliverables ───────────────────────────────────────────
+// Any image in content/images/ NOT embedded in a doc → standalone deliverable
+const imagesDir = join(root, 'content', 'images')
+if (existsSync(imagesDir)) {
+  const imageFiles = (await readdir(imagesDir)).filter(f => MIME[extname(f).toLowerCase()])
+
+  // Collect filenames already referenced in docs
+  const embeddedFilenames = new Set()
+  for (const { file } of toProcess) {
+    const fp = join(root, 'content', file)
+    if (!existsSync(fp)) continue
+    const md = await readFile(fp, 'utf-8')
+    for (const m of md.matchAll(/!\[[^\]]*\]\(\.\/(images\/([^)]+))\)/g)) {
+      embeddedFilenames.add(m[2]) // just the filename part
+    }
+  }
+
+  const standaloneImages = imageFiles.filter(f => !embeddedFilenames.has(f))
+
+  if (standaloneImages.length > 0) {
+    console.log(`\nStandalone images (not embedded in any doc): ${standaloneImages.length}`)
+
+    for (const imgFile of standaloneImages) {
+      const imgLabel = basename(imgFile, extname(imgFile))
+        .replace(/[-_]/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase())
+
+      const milestoneKey = imgFile.startsWith('02-') ? '1-MOOD + DIRECTION' : '1-DISCOVERY SESSION'
+      const imgKey = `${milestoneKey}|${imgLabel}`
+      const existingImg = existingByKey.get(imgKey)
+
+      if (existingImg && !UPDATE_MODE) {
+        console.log(`  skip  ${imgLabel} (image already in Convex)`)
+        continue
+      }
+
+      const ext = extname(imgFile).toLowerCase()
+      const mime = MIME[ext] || 'image/png'
+      const data = await readFile(join(imagesDir, imgFile))
+      const dataUri = `data:${mime};base64,${data.toString('base64')}`
+
+      if (existingImg && UPDATE_MODE) {
+        await convexMutation('sydneyTasks:removeDeliverable', { id: existingImg._id })
+      }
+
+      await convexMutation('sydneyTasks:addDeliverable', {
+        projectId: PROJECT_ID,
+        milestoneKey,
+        label: imgLabel,
+        url: dataUri,
+        type: ext.replace('.', ''),
+        addedAt: Date.now(),
+      })
+
+      console.log(`  ✓ img  ${imgLabel} → ${milestoneKey}`)
+      added++
+    }
+  }
+}
+
+console.log(`\n✅  Done: ${added} added, ${updated} updated, ${skipped} skipped.\n`)
