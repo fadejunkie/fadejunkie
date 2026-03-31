@@ -674,7 +674,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
 /* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable}){
+function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable,directionPick,onPick}){
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -781,6 +781,10 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                         })}
                       </div>
                       <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables} onAdd={onAddDeliverable} onRemove={onRemoveDeliverable}/>
+                      {/* Direction picker — MOOD + DIRECTION milestone only */}
+                      {phase.id===1&&m.title==="MOOD + DIRECTION"&&(
+                        <DirectionPickerInline c={c} opsMode={view==="internal"} directionPick={directionPick} onPick={onPick}/>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1195,18 +1199,14 @@ export function DiscoveryPage(){
 }
 
 /* ═══════════════════════════════════════
-   DIRECTION PICKER PAGE
+   DIRECTION PICKER INLINE (milestone card)
    ═══════════════════════════════════════ */
-function DirectionPickerPage({c,opsMode,view,directionPick,onPick}:{c:any,opsMode:boolean,view:string,directionPick:any,onPick:(pick:string)=>Promise<void>}){
-  const saveDirectionPickMutation=useMutation(api.sydneyTasks.saveDirectionPick);
+function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:boolean,directionPick:any,onPick:(pick:string)=>Promise<void>}){
   const [confirming,setConfirming]=useState<string|null>(null);
   const [saving,setSaving]=useState(false);
-  const [localPick,setLocalPick]=useState<string|null>(null);
 
-  // ops-mode "change" clears local override
-  const effectivePick=localPick??directionPick?.pick;
+  const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
   const pickedAt=directionPick?.pickedAt;
-
   const optionNames:{[k:string]:string}={A:"Modern Minimal",B:"Warm Editorial"};
 
   const handlePick=async(pick:string)=>{
@@ -1214,159 +1214,107 @@ function DirectionPickerPage({c,opsMode,view,directionPick,onPick}:{c:any,opsMod
     try{await onPick(pick);}finally{setSaving(false);setConfirming(null);}
   };
 
-  const handleClear=async()=>{
-    setSaving(true);
-    try{
-      await saveDirectionPickMutation({projectId:"sydney-spillman",pick:"",pickedAt:0});
-      setLocalPick(null);
-    }finally{setSaving(false);}
-  };
+  const fmt=(ts:number)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
 
-  const fmt=(ts:number)=>new Date(ts).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"});
+  const options=[
+    {id:"A",name:"Modern Minimal",chips:["Clean","Confident","Precision"],img:"/images/direction-option-a.png",recommended:false},
+    {id:"B",name:"Warm Editorial",chips:["Warm","Story-driven","Editorial"],img:"/images/direction-option-b.png",recommended:true},
+  ];
 
-  /* ── LOCKED: confirmation state ── */
-  if(effectivePick&&effectivePick!==""){
-    const name=optionNames[effectivePick]||effectivePick;
+  /* ── LOCKED ── */
+  if(activePick){
+    const name=optionNames[activePick]||activePick;
     return(
-      <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
-
-        {/* OPS info block */}
-        {view==="internal"&&opsMode&&(
-          <div style={{background:c.BLUE+"08",border:`1px solid ${c.BLUE}22`,borderRadius:10,padding:"16px 20px",marginBottom:24}}>
-            <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:10,alignItems:"center"}}>
-              <div style={{fontSize:9,fontWeight:700,color:"#fff",background:c.BLUE,padding:"3px 10px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif"}}>DIRECTION APPROVED</div>
-              <div style={{fontSize:9,fontWeight:700,color:c.BLUE,background:c.BLUE+"14",padding:"3px 10px",borderRadius:3,letterSpacing:1,fontFamily:"Inter,sans-serif"}}>Option {effectivePick}: {name}</div>
-              {pickedAt?<div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{fmt(pickedAt)}</div>:null}
-            </div>
-            <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",marginBottom:12,lineHeight:1.6}}>
-              Next: Dispatch M03 Logo Design to Ink
-            </div>
-            <button onClick={handleClear} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"transparent",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"Inter,sans-serif",padding:0,opacity:saving?0.5:1}}>
-              {saving?"Clearing…":"Change Selection"}
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>
+            You chose Option {activePick} — {name}
+          </div>
+          {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
+          {opsMode&&(
+            <button onClick={()=>handlePick("")} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"Inter,sans-serif",padding:0,marginLeft:opsMode&&!pickedAt?0:8,opacity:saving?0.5:1}}>
+              {saving?"Clearing…":"Change"}
             </button>
-          </div>
-        )}
-
-        {/* Confirmation panel */}
-        <div style={{textAlign:"center",padding:"48px 20px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:12}}>
-          <div style={{width:64,height:64,borderRadius:"50%",background:c.GREEN+"14",border:`2px solid ${c.GREEN}33`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px",fontSize:28}}>✓</div>
-          <div style={{fontSize:26,fontWeight:900,color:c.INK,letterSpacing:1,fontFamily:"'Playfair Display',serif",marginBottom:10}}>
-            You chose Option {effectivePick} — {name}
-          </div>
-          <div style={{fontSize:13,color:c.SLATE,lineHeight:1.8,maxWidth:460,margin:"0 auto 20px",fontFamily:"Inter,sans-serif"}}>
-            Great choice. We've logged your selection and logo design will begin shortly. Anthony will share 3 logo concepts for your review.
-          </div>
-          {pickedAt?<div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",opacity:0.7}}>Submitted {fmt(pickedAt)}</div>:null}
+          )}
         </div>
       </div>
     );
   }
 
-  /* ── PICKER: no pick yet ── */
-  const options=[
-    {
-      id:"A",
-      name:"Modern Minimal",
-      chips:["Clean","Confident","Grid-based","Credibility-first"],
-      desc:"Professional and polished — organized whitespace, architectural photography, precision.",
-      img:"/images/direction-option-a.png",
-      recommended:false,
-    },
-    {
-      id:"B",
-      name:"Warm Editorial",
-      chips:["Warm","Story-driven","Editorial","Connection-first"],
-      desc:"Personal and inviting — lifestyle photography, editorial rhythm, warm textures.",
-      img:"/images/direction-option-b.png",
-      recommended:true,
-    },
-  ];
-
+  /* ── PICKER ── */
   return(
-    <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
-
-      {/* Header */}
-      <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{fontSize:11,color:c.BLUE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>PHASE 1 · MOOD + DIRECTION</div>
-        <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:1,fontFamily:"'Playfair Display',serif",marginBottom:8}}>Choose Your Direction</div>
-        <div style={{fontSize:13,color:c.SLATE,lineHeight:1.7,maxWidth:500,margin:"0 auto",fontFamily:"Inter,sans-serif"}}>
-          Both directions share the same colors and fonts. They differ in energy, layout, and photography style. Pick the one that feels most like you.
-        </div>
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      {/* Section header */}
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Pick the direction that feels most like you — this unlocks logo design.</div>
       </div>
 
       {/* Option cards */}
-      <div style={{display:"flex",gap:16,flexWrap:"wrap",marginBottom:24}}>
+      <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
         {options.map(opt=>(
-          <div key={opt.id} style={{flex:"1 1 280px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden"}}>
+          <div key={opt.id} style={{flex:"1 1 200px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:8,padding:14,cursor:"default",minWidth:200}}>
 
-            {/* Image area */}
-            <div style={{position:"relative",height:200,background:c.DEEP,overflow:"hidden"}}>
+            {/* Image */}
+            <div style={{position:"relative",marginBottom:10}}>
               <img
                 src={opt.img}
-                alt={`Option ${opt.id} — ${opt.name}`}
-                style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}
+                alt={`Option ${opt.id}`}
+                style={{width:"100%",height:120,objectFit:"cover",borderRadius:4,display:"block",background:c.DEEP}}
                 onError={e=>{(e.target as HTMLImageElement).style.display="none"}}
               />
-              {/* Fallback label shown when image missing */}
-              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none"}}>
-                <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",letterSpacing:1,opacity:0.5}}>Option {opt.id}</div>
+              {/* Fallback behind image */}
+              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",borderRadius:4}}>
+                <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",opacity:0.4}}>Option {opt.id}</div>
               </div>
               {opt.recommended&&(
-                <div style={{position:"absolute",top:10,right:10,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 10px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif"}}>RECOMMENDED</div>
+                <div style={{position:"absolute",top:6,right:6,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif"}}>RECOMMENDED</div>
               )}
             </div>
 
-            {/* Card body */}
-            <div style={{padding:"20px 20px 24px"}}>
-              {/* Option letter */}
-              <div style={{fontSize:32,fontWeight:900,color:c.BLUE,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:4}}>{opt.id}</div>
-              {/* Direction name */}
-              <div style={{fontSize:16,fontWeight:800,color:c.INK,marginBottom:12,letterSpacing:0.5}}>{opt.name}</div>
-              {/* Descriptor chips */}
-              <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
-                {opt.chips.map(chip=>(
-                  <div key={chip} style={{fontSize:9,fontWeight:700,color:c.SLATE,background:c.DEEP,border:`1px solid ${c.EDGE}`,borderRadius:20,padding:"3px 10px",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{chip}</div>
-                ))}
-              </div>
-              {/* Description */}
-              <div style={{fontSize:12,color:c.SLATE,lineHeight:1.7,fontFamily:"Inter,sans-serif",marginBottom:20}}>{opt.desc}</div>
-              {/* CTA */}
-              {confirming===opt.id?(
-                <div>
-                  <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",marginBottom:10,lineHeight:1.5}}>
-                    Confirm Option {opt.id} — {opt.name}? This will lock your direction selection.
-                  </div>
-                  <div style={{display:"flex",gap:8}}>
-                    <button
-                      onClick={()=>handlePick(opt.id)}
-                      disabled={saving}
-                      style={{flex:1,padding:"10px 0",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
-                      {saving?"SAVING…":"YES, CONFIRM"}
-                    </button>
-                    <button
-                      onClick={()=>setConfirming(null)}
-                      style={{padding:"10px 16px",fontSize:11,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:6,cursor:"pointer"}}>
-                      CANCEL
-                    </button>
-                  </div>
-                </div>
-              ):(
-                <button
-                  onClick={()=>setConfirming(opt.id)}
-                  style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer",transition:"opacity 0.15s"}}
-                  onMouseEnter={e=>(e.currentTarget.style.opacity="0.85")}
-                  onMouseLeave={e=>(e.currentTarget.style.opacity="1")}>
-                  CHOOSE THIS DIRECTION
-                </button>
-              )}
+            {/* Option letter */}
+            <div style={{fontSize:20,fontWeight:900,color:c.BLUE,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:3}}>{opt.id}</div>
+            {/* Direction name */}
+            <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
+            {/* Chips */}
+            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}}>
+              {opt.chips.map(chip=>(
+                <div key={chip} style={{fontSize:9,fontWeight:600,color:c.SLATE,background:c.DEEP,borderRadius:20,padding:"2px 8px",fontFamily:"Inter,sans-serif"}}>{chip}</div>
+              ))}
             </div>
+
+            {/* CTA / confirm */}
+            {confirming===opt.id?(
+              <div>
+                <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",marginBottom:8,lineHeight:1.4}}>
+                  Confirm Option {opt.id} — {optionNames[opt.id]}?
+                </div>
+                <div style={{display:"flex",gap:6}}>
+                  <button
+                    onClick={()=>handlePick(opt.id)}
+                    disabled={saving}
+                    style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
+                    {saving?"SAVING…":"YES"}
+                  </button>
+                  <button
+                    onClick={()=>setConfirming(null)}
+                    style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>
+                    CANCEL
+                  </button>
+                </div>
+              </div>
+            ):(
+              <button
+                onClick={()=>setConfirming(opt.id)}
+                style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer"}}
+                onMouseEnter={e=>(e.currentTarget.style.opacity="0.85")}
+                onMouseLeave={e=>(e.currentTarget.style.opacity="1")}>
+                CHOOSE OPTION {opt.id}
+              </button>
+            )}
           </div>
         ))}
-      </div>
-
-      {/* Footer note */}
-      <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.7,textAlign:"center",padding:"16px 20px",background:c.CARD,borderRadius:8,border:`1px solid ${c.EDGE}`}}>
-        Full breakdown with mood boards, website feel, print collateral, and side-by-side comparison available in the Workflow tab under Mood + Direction deliverables.
       </div>
     </div>
   );
@@ -1401,9 +1349,13 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
   };
   const onRemoveDeliverable=(id)=>{removeDeliverableMutation({id})};
 
+  const onPickDirection=async(pick:string)=>{
+    await saveDirectionPickMutation({projectId:"sydney-spillman",pick,pickedAt:pick?Date.now():0});
+    setTaskMutation({projectId:"sydney-spillman",key:"1-MOOD + DIRECTION-2",value:!!pick});
+  };
+
   const tabs=[
     {id:"workflow",label:"Workflow"},
-    {id:"direction",label:"Direction"},
     {id:"scope",label:"Scope"},
     {id:"agreement",label:"Agreement"},
     {id:"website",label:"Website Preview"},
@@ -1447,11 +1399,7 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
 
       {/* Content */}
       <div style={{minHeight:"calc(100vh - 120px)"}}>
-        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
-        {tab==="direction"&&<DirectionPickerPage c={c} opsMode={opsMode} view={view} directionPick={directionPick} onPick={async(pick)=>{
-          await saveDirectionPickMutation({projectId:"sydney-spillman",pick,pickedAt:Date.now()});
-          setTaskMutation({projectId:"sydney-spillman",key:"1-MOOD + DIRECTION-2",value:true});
-        }}/>}
+        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} directionPick={directionPick} onPick={onPickDirection}/>}
         {tab==="scope"&&<ScopePage c={c}/>}
         {tab==="agreement"&&<AgreementPage c={c}/>}
         {tab==="website"&&<WebsitePage c={c}/>}

@@ -3,8 +3,8 @@
   "name": "Arquero",
   "type": "client-hub",
   "health": "needs-attention",
-  "lastScanned": "2026-03-31T20:42:53.026Z",
-  "lastChanged": "2026-03-31T20:37:53.058Z",
+  "lastScanned": "2026-03-31T20:44:57.283Z",
+  "lastChanged": "2026-03-31T20:42:53.028Z",
   "currentPhase": "phase-1",
   "pendingTasks": [
     {
@@ -18,10 +18,7 @@
     "No content delivered yet",
     "Discovery questionnaire not filled"
   ],
-  "pmAlerts": [
-    "Task stalled: Arquero Co. — Phase 1 · Discovery Session",
-    "No deliverables produced yet"
-  ],
+  "pmAlerts": [],
   "agreementSigned": true,
   "contentEmpty": true,
   "contentFiles": [],
