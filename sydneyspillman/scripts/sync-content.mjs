@@ -28,12 +28,14 @@ const UPDATE_MODE = args.includes('--update')
 const SINGLE_FILE = args.find(a => a.startsWith('--file='))?.split('=')[1]
 
 // ── Markdown doc → Convex deliverable mapping ──────────────────────────────
+// taskKey: the sydneyTasks key to auto-check when this deliverable is synced
+// Format: '{phaseId}-{MILESTONE TITLE}-{taskIndex}' (see SydneyHub.tsx tasks array order)
 const CONTENT_MAP = [
-  { file: '01-client-intake.md',       milestoneKey: '1-DISCOVERY SESSION', label: 'Client Intake' },
-  { file: '01-brand-positioning.md',   milestoneKey: '1-DISCOVERY SESSION', label: 'Brand Positioning' },
-  { file: '01-competitor-audit.md',    milestoneKey: '1-DISCOVERY SESSION', label: 'Competitor Audit' },
-  { file: '02-direction-options.md',   milestoneKey: '1-MOOD + DIRECTION',  label: 'Direction Options' },
-  { file: '02-mood-board.md',          milestoneKey: '1-MOOD + DIRECTION',  label: 'Mood Board' },
+  { file: '01-client-intake.md',       milestoneKey: '1-DISCOVERY SESSION', label: 'Client Intake',      taskKey: '1-DISCOVERY SESSION-1' },
+  { file: '01-brand-positioning.md',   milestoneKey: '1-DISCOVERY SESSION', label: 'Brand Positioning',  taskKey: '1-DISCOVERY SESSION-2' },
+  { file: '01-competitor-audit.md',    milestoneKey: '1-DISCOVERY SESSION', label: 'Competitor Audit',   taskKey: '1-DISCOVERY SESSION-4' },
+  { file: '02-direction-options.md',   milestoneKey: '1-MOOD + DIRECTION',  label: 'Direction Options',  taskKey: '1-MOOD + DIRECTION-1' },
+  { file: '02-mood-board.md',          milestoneKey: '1-MOOD + DIRECTION',  label: 'Mood Board',         taskKey: '1-MOOD + DIRECTION-0' },
 ]
 
 // ── Image mime types ────────────────────────────────────────────────────────
@@ -141,6 +143,12 @@ for (const { file, milestoneKey, label } of toProcess) {
   } else {
     console.log(`  ✓ add  ${label} → ${milestoneKey}`)
     added++
+  }
+
+  // Auto-check the corresponding workflow task
+  if (taskKey) {
+    await convexMutation('sydneyTasks:setTask', { projectId: PROJECT_ID, key: taskKey, value: true })
+    console.log(`    ✓ chk  task ${taskKey}`)
   }
 }
 
