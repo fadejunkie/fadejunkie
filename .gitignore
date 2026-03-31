@@ -36,7 +36,7 @@ lobe/test-demo/
 # Sensitive files
 *.bin
 browser-agent/.env
-.claude/
+.claude/worktrees/
 
 # Session files
 */.last-session

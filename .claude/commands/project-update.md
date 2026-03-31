@@ -76,7 +76,7 @@ _(Add deploy commands for new projects as they're onboarded)_
 - **Location:** New Braunfels, TX
 - **Site:** wcorwin.anthonytatis.com
 - **Retainer:** $950/mo
-- **Login:** joe@joecorwin.com / REDACTED
+- **Login:** joe@joecorwin.com / (see browser-agent/.env)
 - **Receipts stored:** seo-engine/WCORWIN/
 
 ## Key Files (Global)
