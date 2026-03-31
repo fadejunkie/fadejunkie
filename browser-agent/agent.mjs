@@ -18,6 +18,9 @@ import { chromium } from 'playwright';
 import { mkdirSync, rmSync, readdirSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 
+// Load .env from browser-agent directory (Node 20.12+ built-in)
+try { process.loadEnvFile(new URL('.env', import.meta.url)); } catch {}
+
 const SHOTS_DIR = resolve(import.meta.dirname, 'shots');
 mkdirSync(SHOTS_DIR, { recursive: true });
 
@@ -25,8 +28,8 @@ mkdirSync(SHOTS_DIR, { recursive: true });
 const PROJECTS = {
   wcorwin: {
     url: 'https://wcorwin.anthonytatis.com',
-    email: 'joe@joecorwin.com',
-    password: 'REDACTED',
+    email: process.env.WCORWIN_EMAIL,
+    password: process.env.WCORWIN_PASSWORD,
     name: 'WCORWIN SEO Tracker',
   },
   fadejunkie: {
