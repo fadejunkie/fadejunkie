@@ -7,6 +7,9 @@
 
 ## Photography Direction
 
+![Photography Style Reference — Young couple on Texas porch, golden hour, Kinfolk editorial aesthetic](./images/mood-photography-style.png)
+*Photography direction: warm, candid, golden-hour lifestyle editorial. Real people in real neighborhoods.*
+
 ### Primary Style: Lifestyle Editorial
 Warm, natural-light photography that puts people in real places. Not staged showroom shots — real life happening in real neighborhoods.
 
@@ -17,9 +20,9 @@ Warm, natural-light photography that puts people in real places. Not staged show
 - Sydney herself: candid, confident, approachable. Laughing with clients. Walking a neighborhood. Pointing at something off-camera. Never the stiff headshot-on-white-background.
 
 **Photography references:**
-- Kinfolk magazine — warm editorial lifestyle, desaturated slightly, human-centered
-- Joanna Gaines / Magnolia editorial — warm interiors, real materials, inviting without being aspirational-cold
-- Emily Henderson studio — bright, clean, accessible homes that feel like someone actually lives there
+- [Kinfolk magazine](https://www.kinfolk.com/) — warm editorial lifestyle, desaturated slightly, human-centered. Copenhagen/Portland-based quarterly known for boundary-pushing photography and one of the most influential lifestyle aesthetics of the last decade. ([Instagram: @kinfolk](https://www.instagram.com/kinfolk/))
+- [Joanna Gaines / Magnolia editorial](https://magnolia.com/) — warm interiors, real materials, inviting without being aspirational-cold. See [Magnolia Journal](https://magnolia.com/blogs/article/a-tour-of-joanna-gaines-spring-garden) for editorial photography direction. ([Instagram: @joannagaines](https://www.instagram.com/joannagaines/))
+- [Emily Henderson Studio](https://stylebyemilyhenderson.com/) — bright, clean, accessible homes that feel like someone actually lives there. Her [projects page](https://stylebyemilyhenderson.com/projects-home) is an excellent reference for the "styled but lived-in" aesthetic. ([Instagram: @em_henderson](https://www.instagram.com/em_henderson/))
 
 ### Secondary Style: Architectural Context
 Clean exterior shots of homes and neighborhoods — but always with context. A house on its street, not isolated on white. The oak tree out front. The neighborhood park across the road. The sidewalk.
@@ -35,6 +38,9 @@ Clean exterior shots of homes and neighborhoods — but always with context. A h
 ---
 
 ## Color Direction
+
+![Sydney Spillman Color Palette — Primary Blue range, Warm Neutrals, and Accent colors with hex codes](./images/mood-color-palette.png)
+*Full brand color palette: blues for trust, warm neutrals for approachability, gold and sage accents for depth.*
 
 ### Foundation: White + Blue
 The palette established in discovery — white base with blue accents — is the starting point. Here's how it expands.
@@ -68,13 +74,18 @@ The palette established in discovery — white base with blue accents — is the
 
 **Guidance:** Accents should be used sparingly — a testimonial border, an icon fill, a small badge. The palette is blue + warm neutrals first. Accents add warmth without pulling focus.
 
+> **Palette tools:** View and share this palette via [Coolors](https://coolors.co/) (free palette generator) or [Adobe Color](https://color.adobe.com/create/color-wheel) (advanced color wheel with accessibility checker). Both tools can export for development and design handoff.
+
 ---
 
 ## Typography Direction
 
-### Display: Playfair Display (Serif)
+![Typography Showcase — Playfair Display serif headings paired with Inter sans-serif body text](./images/mood-typography.png)
+*Typography pairing: Playfair Display (editorial authority) + Inter (clean readability) with weight variations.*
 
-Playfair Display carries the editorial authority. It says "real estate is serious" without saying "corporate."
+### Display: [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) (Serif)
+
+Playfair Display carries the editorial authority. It says "real estate is serious" without saying "corporate." Transitional serif influenced by John Baskerville and Scotch Roman designs; extra-large x-height and short descenders make it ideal for headlines and display use. Free via [Google Fonts](https://fonts.google.com/specimen/Playfair+Display). Also see the updated [Playfair](https://fonts.google.com/specimen/Playfair) variable font version.
 
 | Context | Weight | Size Guidance | Example |
 |---------|--------|---------------|---------|
@@ -88,9 +99,9 @@ Playfair Display carries the editorial authority. It says "real estate is seriou
 - Playfair never goes below 18px — it's a display face, not a reading face.
 - Headline casing: sentence case, always. Never ALL CAPS (reads aggressive). Never Title Case On Every Word (reads template).
 
-### Body + UI: Inter (Sans-Serif)
+### Body + UI: [Inter](https://fonts.google.com/specimen/Inter) (Sans-Serif)
 
-Inter handles everything that isn't a headline. It's invisible in the best way — clean, readable, professional without personality (that's the serif's job).
+Inter handles everything that isn't a headline. It's invisible in the best way — clean, readable, professional without personality (that's the serif's job). Designed by [Rasmus Andersson](https://rsms.me/inter/) specifically for screen readability; variable font supporting weights from Thin (100) to Black (900). One of the most popular fonts on Google Fonts (414 billion accesses in 12 months ending May 2025). Free via [Google Fonts](https://fonts.google.com/specimen/Inter).
 
 | Context | Weight | Size | Example |
 |---------|--------|------|---------|

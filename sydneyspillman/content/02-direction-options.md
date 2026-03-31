@@ -11,6 +11,8 @@ Two visual directions for Sydney's brand. Both share the same core positioning (
 
 **One must be selected before logo design begins.**
 
+> **Design gallery references:** For a broader survey of real estate website design trends, see [21 Real Estate Website Design Examples That Sell the Lifestyle](https://reallygooddesigns.com/real-estate-website-design-examples/), [Luxury Presence Portfolio](https://www.luxurypresence.com/best-real-estate-agent-websites/), and [Best Real Estate Website Designs 2026 — DesignRush](https://www.designrush.com/best-designs/websites/trends/best-real-estate-website-designs).
+
 ---
 
 ## Option A: Modern Minimal
@@ -50,6 +52,11 @@ The feeling is "this agent is organized, polished, and takes her work seriously.
 - Military families: "Organized. She probably responds to emails fast."
 - Move-up buyers: "This feels polished. She's not some part-timer."
 
+> **See also:** [Compass](https://www.compass.com/) — the gold standard for modern minimal real estate design. Monochromatic palette, generous whitespace, map-driven browsing, clean card layouts. Also see [Ginger Martin + Co](https://www.luxurypresence.com/best-real-estate-agent-websites/) for a minimal agent-level site with high-end photography.
+
+![Direction Option A — Modern Minimal brand board card with blue accent, clean palette, and serif headline](./images/direction-option-a.png)
+*Option A visual: white space, blue accent, architectural confidence. "Where you live matters."*
+
 ### Pros
 - Immediately reads as professional and credible
 - Scales well — clean design systems are easier to maintain as the site grows
@@ -70,7 +77,7 @@ The feeling is "this agent is organized, polished, and takes her work seriously.
 ### The Mood
 Inviting. Story-driven. Lived-in.
 
-Think: a Kinfolk feature on a San Antonio neighborhood. The kind of design that makes you want to sit down and read. Photography leads with people and moments. Type has rhythm and personality. The page feels warm before you've read a word.
+Think: a [Kinfolk](https://www.kinfolk.com/) feature on a San Antonio neighborhood. The kind of design that makes you want to sit down and read. Photography leads with people and moments. Type has rhythm and personality. The page feels warm before you've read a word.
 
 The feeling is "this agent gets it — she's a real person who loves where she lives." It's personal with enough professional polish to maintain credibility — the serif headlines and structured layout keep it from tipping into casual.
 
@@ -101,6 +108,11 @@ The feeling is "this agent gets it — she's a real person who loves where she l
 - First-time buyers: "She seems really nice. I feel like I could call her and not feel dumb."
 - Military families: "She actually seems like she knows SA. Not just selling houses."
 - Move-up buyers: "This feels curated. She has taste."
+
+> **See also:** [The Agency](https://www.theagencyre.com/) — boutique brokerage with editorial-quality storytelling, lifestyle-forward photography, and a brand journal ([blog.theagencyre.com](https://blog.theagencyre.com/)). Also see [Verso](https://reallygooddesigns.com/real-estate-website-design-examples/) — warm color palette with soft hues that welcome visitors while maintaining sophistication. For non-real-estate editorial warmth inspiration, see [Kinfolk](https://www.kinfolk.com/).
+
+![Direction Option B — Warm Editorial brand board card with gold accent, warm palette, and serif tagline](./images/direction-option-b.png)
+*Option B visual: warm textures, gold accent, editorial storytelling energy. "Find your people."*
 
 ### Pros
 - Immediately warm and approachable — signals "real person" before the visitor reads a word

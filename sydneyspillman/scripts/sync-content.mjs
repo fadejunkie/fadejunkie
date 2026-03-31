@@ -21,6 +21,7 @@ const root = join(__dir, '..')
 
 const CONVEX_URL = 'https://unique-crab-445.convex.cloud'
 const PROJECT_ID = 'sydney-spillman'
+const SITE_URL = 'https://sydneyspillman.anthonytatis.com'
 
 const args = process.argv.slice(2)
 const UPDATE_MODE = args.includes('--update')
@@ -45,30 +46,13 @@ const MIME = {
   '.svg':  'image/svg+xml',
 }
 
-// ── Embed ./images/filename.ext → base64 data URI ──────────────────────────
-async function embedImages(markdown) {
-  const imgPattern = /!\[([^\]]*)\]\(\.\/(images\/[^)]+)\)/g
-  const replacements = []
-
-  for (const match of markdown.matchAll(imgPattern)) {
-    const [full, alt, relPath] = match
-    const absPath = join(root, 'content', relPath)
-    if (!existsSync(absPath)) {
-      console.log(`    warn  image not found: ${relPath}`)
-      continue
-    }
-    const ext = extname(absPath).toLowerCase()
-    const mime = MIME[ext] || 'image/png'
-    const data = await readFile(absPath)
-    const b64 = data.toString('base64')
-    replacements.push({ full, alt, dataUri: `data:${mime};base64,${b64}` })
-  }
-
-  let result = markdown
-  for (const { full, alt, dataUri } of replacements) {
-    result = result.replace(full, `![${alt}](${dataUri})`)
-  }
-  return result
+// ── Rewrite ./images/filename.ext → hosted Vercel URL ──────────────────────
+async function rewriteImageUrls(markdown) {
+  // Replace ./images/filename.ext with ${SITE_URL}/images/filename.ext
+  return markdown.replace(
+    /!\[([^\]]*)\]\(\.\/(images\/[^)]+)\)/g,
+    (_, alt, relPath) => `![${alt}](${SITE_URL}/${relPath})`
+  )
 }
 
 // ── Convex helpers ──────────────────────────────────────────────────────────
@@ -124,11 +108,11 @@ for (const { file, milestoneKey, label } of toProcess) {
   }
 
   const rawMarkdown = await readFile(filePath, 'utf-8')
-  const markdownContent = await embedImages(rawMarkdown)
+  const markdownContent = await rewriteImageUrls(rawMarkdown)
 
-  const imagesEmbedded = (markdownContent.match(/data:image\//g) || []).length
-  if (imagesEmbedded > 0) {
-    console.log(`    imgs  ${imagesEmbedded} image(s) embedded for ${label}`)
+  const imagesReferenced = (markdownContent.match(/sydneyspillman\.anthonytatis\.com\/images\//g) || []).length
+  if (imagesReferenced > 0) {
+    console.log(`    imgs  ${imagesReferenced} image URL(s) rewritten for ${label}`)
   }
 
   if (existingEntry && !UPDATE_MODE) {
@@ -197,9 +181,7 @@ if (existsSync(imagesDir)) {
       }
 
       const ext = extname(imgFile).toLowerCase()
-      const mime = MIME[ext] || 'image/png'
-      const data = await readFile(join(imagesDir, imgFile))
-      const dataUri = `data:${mime};base64,${data.toString('base64')}`
+      const hostedUrl = `${SITE_URL}/images/${imgFile}`
 
       if (existingImg && UPDATE_MODE) {
         await convexMutation('sydneyTasks:removeDeliverable', { id: existingImg._id })
@@ -209,7 +191,7 @@ if (existsSync(imagesDir)) {
         projectId: PROJECT_ID,
         milestoneKey,
         label: imgLabel,
-        url: dataUri,
+        url: hostedUrl,
         type: ext.replace('.', ''),
         addedAt: Date.now(),
       })

@@ -5,6 +5,11 @@
 
 ---
 
+![Sydney Spillman Brand Identity Card — brand name, tagline, primary color swatch, and three core values](./images/sydney-brand-identity-card.png)
+*Brand identity at a glance: Sydney Spillman & Associates — Professional Warmth, Community-First, Local Authority.*
+
+---
+
 ## Brand Story
 
 Sydney Spillman is a San Antonio, TX real estate agent building her practice around something the market is missing: a genuinely warm, community-first approach that treats every client like a neighbor, not a transaction.
@@ -23,7 +28,7 @@ As she builds her brand under Sydney Spillman & Associates, the goal is to posit
 | **Community-First** | She isn't just selling houses — she's matching people to neighborhoods. She talks schools, restaurants, vibes, neighbors |
 | **Approachability** | First-time buyers don't feel intimidated. Military families new to SA don't feel lost. Every client feels like they have a guide, not a gatekeeper |
 | **Integrity** | Honest market guidance even when it's not what clients want to hear. Long-term relationship over short-term transaction |
-| **Local Authority** | Deep working knowledge of North/Northwest San Antonio — Stone Oak, Alamo Ranch, Shavano Park, Helotes, Cibolo — not just generic "SA agent" coverage |
+| **Local Authority** | Deep working knowledge of North/Northwest San Antonio — [Stone Oak](https://www.trulia.com/n/tx/san-antonio/stone-oak/90492/), [Alamo Ranch](https://www.neighborhoods.com/alamo-ranch-san-antonio-tx), [Shavano Park](https://www.pods.com/blog/san-antonio-suburbs), [Helotes](https://www.pods.com/blog/san-antonio-suburbs), [Cibolo](https://www.pods.com/blog/san-antonio-suburbs) — not just generic "SA agent" coverage |
 
 ---
 
@@ -32,12 +37,12 @@ As she builds her brand under Sydney Spillman & Associates, the goal is to posit
 ### Primary: First-Time Home Buyers
 - Ages 26–38, households earning $55K–$100K/year
 - Often overwhelmed by the process — need education and reassurance, not just listings
-- Searching in San Antonio's accessible suburbs: Alamo Ranch, Helotes, far north SA, Converse, Schertz
-- Motivated by: qualifying for a home, starting a family, getting out of renting
+- Searching in San Antonio's accessible suburbs: [Alamo Ranch](https://www.neighborhoods.com/alamo-ranch-san-antonio-tx) ($180K–$500K), [Helotes](https://www.pods.com/blog/san-antonio-suburbs), far north SA, Converse, Schertz
+- Motivated by: qualifying for a home, starting a family, getting out of renting. SA median home price (~$294K–$315K) is roughly half of Austin's, making it one of the most accessible major metros in Texas ([Zillow SA Market](https://www.zillow.com/home-values/6915/san-antonio-tx/))
 - Sydney's edge: patience, education-forward communication, zero condescension
 
 ### Secondary: Military Families (Relocation)
-- Active-duty and veterans affiliated with JBSA (Joint Base San Antonio: Lackland, Randolph, Fort Sam Houston)
+- Active-duty and veterans affiliated with [JBSA (Joint Base San Antonio: Lackland, Randolph, Fort Sam Houston)](https://jbsaondemand.com/)
 - Often have tight PCS timelines — need an agent who moves fast and knows the area cold
 - VA loan expertise is expected; warmth and responsiveness are the differentiators
 - Searching in: Schertz, Converse, Universal City, Stone Oak, Helotes
@@ -46,7 +51,7 @@ As she builds her brand under Sydney Spillman & Associates, the goal is to posit
 ### Tertiary: Move-Up Buyers / Growing Families
 - Ages 32–48, upgrading from starter home to larger family home
 - Motivated by: more space, better school district, established neighborhood feel
-- Target areas: Stone Oak, Alamo Ranch, Shavano Park, The Dominion corridor
+- Target areas: [Stone Oak](https://www.trulia.com/n/tx/san-antonio/stone-oak/90492/) ($315K–$2.25M), [Alamo Ranch](https://www.neighborhoods.com/alamo-ranch-san-antonio-tx) ($180K–$500K), Shavano Park, The Dominion corridor
 - Sydney's edge: neighborhood-level knowledge, helping families understand school district boundaries, community amenities
 
 ### Emerging Audience: San Antonio Transplants
@@ -102,6 +107,35 @@ As she builds her brand under Sydney Spillman & Associates, the goal is to posit
 | **Vocabulary** | Accessible — avoids jargon, translates real estate complexity into plain language |
 | **Energy** | Enthusiastic about San Antonio, genuinely invested in clients' outcomes |
 | **Visual feel** | White/clean with warm blue accents — approachable, fresh, not corporate navy |
+
+---
+
+---
+
+## San Antonio Resources
+
+### Market Data & Reports
+- **SABOR (San Antonio Board of Realtors):** [sabor.com](https://sabor.com/) — [Market Statistics](https://sabor.com/market-research-and-statistics/market-statistics/)
+- **Zillow SA Market Overview:** [zillow.com/home-values/6915/san-antonio-tx](https://www.zillow.com/home-values/6915/san-antonio-tx/)
+- **Redfin SA Market Data:** [redfin.com/city/16657/TX/San-Antonio/housing-market](https://www.redfin.com/city/16657/TX/San-Antonio/housing-market)
+
+### Homebuyer Assistance Programs
+- **City of San Antonio — Housing Support:** [sa.gov/.../Housing-Support](https://www.sa.gov/Directory/Departments/NHSD/Housing-Support) — includes the Homeownership Incentive Program (HIP), offering up to $15,000 in mortgage assistance for income-eligible first-time buyers
+- **City of San Antonio — HIP Program:** [sa.gov/.../HIP](https://www.sa.gov/Directory/Departments/NHSD/Housing-Support/Homeowner-Support/HIP)
+- **TSAHC Down Payment Assistance (San Antonio area):** [tsahc.org/homebuyers-renters/san-antonio-area-down-payment-assistance](https://www.tsahc.org/homebuyers-renters/san-antonio-area-down-payment-assistance)
+- **SA Housing Resource Guide (PDF):** [sanantonio.gov — NALCAB Resource Guide](https://www.sanantonio.gov/Portals/0/Files/NHSD/Programs/SAHousingResourceGuide_FINAL.PDF)
+
+### Military Relocation (JBSA)
+- **JBSA On Demand — Military Relocation Guide:** [jbsaondemand.com](https://jbsaondemand.com/)
+- **JBSA Directory & Services:** [directory.jbsaondemand.com](https://directory.jbsaondemand.com/)
+- **PCS to JBSA Guide (FamilyMedia):** [The Ultimate PCS Guide to Joint Base San Antonio](https://familymedia.com/article/base-guides-joint-base-san-antonio)
+- **JBSA-Randolph PCS Guide 2026:** [pcspayitforward.com — JBSA Randolph](https://pcspayitforward.com/base/air-force-base/jbsa-randolph/)
+
+### Neighborhood Guides
+- **Stone Oak:** [Trulia Neighborhood Guide](https://www.trulia.com/n/tx/san-antonio/stone-oak/90492/) | [LRG Realty Guide](https://lrgrealty.com/lrg-blog/stone-oak-neighborhood-guide-in-san-antonio) | [Homes.com Schools](https://www.homes.com/school-search/san-antonio-tx/near/stone-oak-neighborhood/) (served by North East ISD — Hardy Oak Elementary, Lopez Middle, Reagan High)
+- **Alamo Ranch:** [Neighborhoods.com Guide](https://www.neighborhoods.com/alamo-ranch-san-antonio-tx) | [LRG Realty Guide](https://lrgrealty.com/lrg-blog/alamo-ranch-san-antonio) | [Military Town Advisor Review](https://www.militarytownadvisor.com/off-base-housing/neighborhood-subdivision-review/TX/1573/alamo-ranch-san-antonio/) (served by Northside ISD — 3,000+ acre master-planned community, 20,000+ residents)
+- **Helotes:** [San Antonio City Info — Suburbs Guide](https://www.sanantoniocityinfo.com/suburbs/) (tight-knit Hill Country community, strong schools, small-town feel)
+- **Cibolo:** [Best Neighborhoods in SA 2026 — Sharp Realty](https://www.sharprealtygrouptx.com/blog/best-san-antonio-neighborhood-in-2026) (explosive growth, affordable entry ~$200K, close to Randolph AFB)
 
 ---
 

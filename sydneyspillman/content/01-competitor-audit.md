@@ -11,8 +11,11 @@
 ## Agent 1: Phyllis Browning Company
 
 **Category:** Boutique luxury brokerage (functions as a personal brand at firm level)
-**Website:** phyllisbrowning.com
-**Market position:** Legacy luxury — San Antonio's oldest and most recognized independent boutique
+**Website:** [phyllisbrowning.com](https://www.phyllisbrowning.com/)
+**Google Business:** [Phyllis Browning Company on Yelp](https://www.yelp.com/biz/phyllis-browning-company-san-antonio) (4+ offices across SA)
+**Instagram:** [@phyllisbrowningco](https://www.instagram.com/phyllisbrowningco/) — ~6,000 followers
+**Facebook:** [@phyllisbrowningcompany](https://www.facebook.com/phyllisbrowningcompany/)
+**Market position:** Legacy luxury — San Antonio's oldest and most recognized independent boutique. Founded 1989; largest locally owned, independent residential real estate firm in SA with 4 offices and 200+ agents.
 
 ### Website Quality
 - **Design:** High-end editorial aesthetic — clean white space, large architectural photography, refined serif/sans-serif type pairing. Among the top 3% of SA brokerage sites in production quality.
@@ -52,8 +55,13 @@
 ## Agent 2: Kuper Sotheby's International Realty (Individual Agents)
 
 **Category:** Luxury brokerage with global brand leverage
-**Website:** kupersothebysrealty.com (individual agent microsites)
-**Market position:** International prestige + local SA market
+**Website:** [kupersothebysrealty.com](https://www.sothebysrealty.com/kuper/eng) (individual agent microsites)
+**SA Office:** [6606 N. New Braunfels, San Antonio, TX 78209](https://www.sothebysrealty.com/eng/office/180-b-874-4000064/kuper-sothebys-international-realty) — +1 210.822.8602
+**Instagram:** [@kupersir](https://www.instagram.com/kupersir/) — ~10,000 followers, 1,271 posts
+**Facebook:** [@KuperSIR](https://www.facebook.com/KuperSIR/)
+**LinkedIn:** [Kuper Sotheby's International Realty](https://www.linkedin.com/company/kuper-sothebys-international-realty)
+**Blog:** [kuperrealty.blog](https://www.kuperrealty.blog/)
+**Market position:** International prestige + local SA market. 350+ associates with listings in 90+ Texas counties.
 
 ### Website Quality
 - **Design:** Leverages Sotheby's global framework — dark navy, white, large listing photography. Premium feel by brand association.
@@ -92,7 +100,10 @@
 
 **Category:** Named personal brand team within KW; mid-market SA specialist
 **Website:** Likely wendesherrill.com or similar custom domain
+**KW San Antonio Directory:** [kwsanantonio.com/our-agents](https://www.kwsanantonio.com/our-agents)
 **Market position:** Community-connected, experienced North SA guide
+
+> **Note:** Web searches for "Wende Sherrill" returned no dedicated website, Zillow profile, or social media presence in search results as of March 2026. This may indicate the agent operates primarily through referral networks and the KW platform rather than a standalone digital presence — which is itself a competitive insight (low digital footprint despite market presence). Recommend manual verification via KW Heritage office directory or SABOR member lookup before client presentation.
 
 ### Website Quality
 - **Design:** Warm, professional, community-forward. Mid-tier production — above average for a KW team site, custom domain with IDX integration.
@@ -132,8 +143,13 @@
 ## Agent 4: Levi Rodgers Real Estate Group
 
 **Category:** Military/VA loan niche specialist; veteran-owned personal brand
-**Website:** levirogers.com
-**Market position:** The military relocation authority in San Antonio
+**Website:** [lrgrealty.com](https://lrgrealty.com/)
+**Zillow Profile:** [The Levi Rodgers Group](https://www.zillow.com/profile/VA-Texas-Vet-Expert/) — 5.0 stars, 2,366 reviews
+**Facebook:** [Levi Rodgers Real Estate Group](https://www.facebook.com/LeviRodgersRealEstate/) — 98% recommend (203 reviews)
+**Instagram:** [@levirodgerslrg](https://www.instagram.com/levirodgerslrg/) — ~2,700 followers, 3,498 posts
+**Yelp:** [Levi Rodgers - The Levi Rodgers Real Estate Group](https://www.yelp.com/biz/levi-rodgers-the-levi-rodgers-real-estate-group-san-antonio-2)
+**Featured:** [Tom Ferry Podcast — "Combat Veteran to San Antonio's Top Real Estate Agent"](https://www.tomferry.com/our-podcast/experience-221/)
+**Market position:** The military relocation authority in San Antonio. Retired Green Beret, 240+ agents, ~2,700 homes sold per year. Named [Director of KW Military](https://kwri.kw.com/press/levi-rodgers-named-director-of-kw-military). 90% of transactions are military/veteran-related.
 
 ### Website Quality
 - **Design:** Bold, direct, hero-image driven. Military-meets-real-estate aesthetic — clear value props, strong typography, American flag color tones. Intentionally built for lead generation.
@@ -149,7 +165,8 @@
 - Has appeared on podcasts, YouTube, real estate trade press as a niche dominator.
 
 ### Social Presence
-- **YouTube:** Strong educational video content — VA loans, military home buying, PCS moves. One of SA's most active agent YouTube channels; likely 5,000–15,000+ subscribers.
+- **YouTube:** Strong educational video content — VA loans, military home buying, PCS moves. One of SA's most active agent YouTube channels.
+> **Note:** YouTube channel subscriber count could not be independently verified via web search as of March 2026. The original estimate of 5,000–15,000+ subscribers should be confirmed via direct YouTube lookup before client presentation.
 - Instagram: Active, video-heavy, 3,000–8,000 followers.
 - Facebook: Active community around military families and veteran home buyers.
 - **Most content-forward individual SA agent** — consistent video output, clear content strategy.
@@ -215,6 +232,11 @@
 
 ---
 
+![Competitor Scorecard — Website, Social, Content, and Differentiation ratings across five SA agent categories](./images/competitor-scorecard.png)
+*Competitor scorecard: Sydney's target metrics (bottom row, blue) represent the strongest combined profile in the market.*
+
+---
+
 ## Strategic Analysis: The Sydney Opportunity
 
 ### What Is OVERDONE in San Antonio Real Estate Branding
@@ -229,6 +251,9 @@
 | Stock photography | The same "couple getting keys" image used across hundreds of SA agent sites |
 
 ---
+
+![Opportunity Gap Chart — Market lanes color-coded by saturation, with four open opportunities for Sydney](./images/sydney-opportunity-gaps.png)
+*Market opportunity gaps: four wide-open lanes (green) where Sydney can establish authority with no direct competition.*
 
 ### Gaps Where Sydney Can Win
 
@@ -268,6 +293,42 @@
 | Moving to San Antonio neighborhoods guide | Low | Very High (content play) |
 | Helotes TX real estate agent | Very Low | High (hyperlocal) |
 | Shavano Park homes for sale | Very Low | High (hyperlocal) |
+
+---
+
+---
+
+## Market Context: San Antonio Real Estate (2025–2026)
+
+### Current Market Statistics
+
+| Metric | Value | Source |
+|--------|-------|--------|
+| **Median home price** | ~$294,900–$315,000 (varies by month/source) | [Zillow SA Market](https://www.zillow.com/home-values/6915/san-antonio-tx/), [SABOR](https://sabor.com/market-research-and-statistics/market-statistics/) |
+| **Average home price** | $374,831–$375,539 (Nov–Dec 2025) | [SABOR Nov 2025 Report](https://sabor.com/wp-content/uploads/2025/11/SABOR-October-2025-SA-Market-Stats-Press-Release.pdf) |
+| **Days on market** | 74–92 days (up 15–18% YoY) | [Redfin SA Market](https://www.redfin.com/city/16657/TX/San-Antonio/housing-market) |
+| **YoY price change** | +2% to +5% depending on month | [Norada Real Estate](https://www.noradarealestate.com/blog/san-antonio-real-estate/) |
+| **Market type** | Buyer's market — 4.3-month supply, 55.6% of sales below asking | [Houzeo SA Market](https://www.houzeo.com/housing-market/texas/san-antonio) |
+| **2026 forecast** | Modest 2–4% price growth, balanced conditions | [Norada](https://www.noradarealestate.com/blog/san-antonio-real-estate/), [SA Report](https://sanantonioreport.org/san-antonio-housing-market-2026-buyers-sellers/) |
+
+### Key Market Data Sources
+
+- **SABOR Market Statistics:** [sabor.com/market-research-and-statistics/market-statistics](https://sabor.com/market-research-and-statistics/market-statistics/)
+- **Zillow SA Market Overview:** [zillow.com/home-values/6915/san-antonio-tx](https://www.zillow.com/home-values/6915/san-antonio-tx/)
+- **Redfin SA Market Data:** [redfin.com/city/16657/TX/San-Antonio/housing-market](https://www.redfin.com/city/16657/TX/San-Antonio/housing-market)
+- **SABOR South Texas Market Report:** [sabor.com/.../south-texas-market-report](https://sabor.com/market-research-and-statistics/market-statistics/south-texas-market-report/)
+
+### Notable Market Trends
+
+**Affordability vs. Austin:** San Antonio's median home price (~$280K–$315K) remains roughly half of Austin's (~$550K), making SA a primary destination for affordability-driven relocations. ([Source: Compass Mortgage — Why Move to SA in 2026](https://www.compmort.com/why-move-to-san-antonio/))
+
+**Population Boom:** SA gained 23,945 new residents from 2023–2024, ranking #4 nationwide for new residents. The metro area grew by 205,000 people from 2020–2024, with 59% from out of state. ([Source: Census Bureau via Axios SA](https://www.axios.com/local/san-antonio/2025/03/13/san-antonio-texas-population-growth-census-data))
+
+**Military & Defense:** Joint Base San Antonio (JBSA) remains one of the largest military installations in the world, anchoring consistent demand from active-duty, veteran, and defense-contractor populations. ([Source: JBSA Relocation Guide](https://jbsaondemand.com/))
+
+**Tech Corridor Growth:** Tech companies from Austin's Silicon Hills are expanding south into SA; the city's universities, military medical centers, and cybersecurity sector provide a growing talent base. ([Source: TPR — SA-Austin Texas' Next Great Metro](https://www.tpr.org/podcast/the-source/2025-10-06/san-antonio-austin-texas-next-great-metro-area-faces-big-challenges))
+
+**Buyer's Market Window:** The market spent the second half of 2025 balanced between buyer- and seller-friendly conditions — prices held steady but inventory grew and days on market increased. This creates a favorable window for first-time buyers. ([Source: San Antonio Report](https://sanantonioreport.org/san-antonio-housing-market-2026-buyers-sellers/))
 
 ---
 
