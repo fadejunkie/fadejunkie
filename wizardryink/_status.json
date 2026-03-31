@@ -1,0 +1,120 @@
+{
+  "slug": "wizardry-ink",
+  "name": "Wizardry Ink",
+  "type": "client-hub",
+  "health": "blocked",
+  "lastScanned": "2026-03-31T20:42:52.994Z",
+  "lastChanged": "2026-03-31T20:37:53.008Z",
+  "currentPhase": "phase-1",
+  "pendingTasks": [
+    {
+      "phase": "phase-1",
+      "file": "01-client-intake.md",
+      "title": "Wizardry Ink — Client Intake"
+    },
+    {
+      "phase": "phase-1",
+      "file": "02-system-architecture.md",
+      "title": "Wizardry Ink — System Architecture"
+    },
+    {
+      "phase": "phase-1",
+      "file": "03-tech-stack.md",
+      "title": "Wizardry Ink — Tech Stack Decisions"
+    },
+    {
+      "phase": "phase-2",
+      "file": "04-site-architecture.md",
+      "title": "Wizardry Ink — Site Architecture"
+    },
+    {
+      "phase": "phase-2",
+      "file": "05-homepage.md",
+      "title": "Wizardry Ink — Homepage Build"
+    },
+    {
+      "phase": "phase-2",
+      "file": "06-artist-pages.md",
+      "title": "Wizardry Ink — Artist Pages"
+    },
+    {
+      "phase": "phase-2",
+      "file": "07-core-pages.md",
+      "title": "Wizardry Ink — Core Pages"
+    },
+    {
+      "phase": "phase-2",
+      "file": "08-seo-foundation.md",
+      "title": "Wizardry Ink — SEO Foundation"
+    },
+    {
+      "phase": "phase-3",
+      "file": "09-ai-intake-engine.md",
+      "title": "Wizardry Ink — AI Intake Engine"
+    },
+    {
+      "phase": "phase-3",
+      "file": "10-calendar-scheduling.md",
+      "title": "Wizardry Ink — Calendar & Scheduling"
+    },
+    {
+      "phase": "phase-3",
+      "file": "11-notification-system.md",
+      "title": "Wizardry Ink — Notification System"
+    },
+    {
+      "phase": "phase-3",
+      "file": "12-owner-dashboard.md",
+      "title": "Wizardry Ink — Owner Dashboard"
+    },
+    {
+      "phase": "phase-4",
+      "file": "13-system-integration.md",
+      "title": "Wizardry Ink — System Integration"
+    },
+    {
+      "phase": "phase-4",
+      "file": "14-quality-assurance.md",
+      "title": "Wizardry Ink — Quality Assurance"
+    },
+    {
+      "phase": "phase-4",
+      "file": "15-go-live.md",
+      "title": "Wizardry Ink — Go Live"
+    },
+    {
+      "phase": "phase-4",
+      "file": "16-analytics-handoff.md",
+      "title": "Wizardry Ink — Analytics & Client Handoff"
+    }
+  ],
+  "completedTasks": [],
+  "clientBlockers": [
+    "Agreement not signed",
+    "No content delivered yet"
+  ],
+  "pmAlerts": [
+    "Task stalled: Wizardry Ink — Client Intake",
+    "Task stalled: Wizardry Ink — System Architecture",
+    "Task stalled: Wizardry Ink — Tech Stack Decisions",
+    "Task stalled: Wizardry Ink — Site Architecture",
+    "Task stalled: Wizardry Ink — Homepage Build",
+    "Task stalled: Wizardry Ink — Artist Pages",
+    "Task stalled: Wizardry Ink — Core Pages",
+    "Task stalled: Wizardry Ink — SEO Foundation",
+    "Task stalled: Wizardry Ink — AI Intake Engine",
+    "Task stalled: Wizardry Ink — Calendar & Scheduling",
+    "Task stalled: Wizardry Ink — Notification System",
+    "Task stalled: Wizardry Ink — Owner Dashboard",
+    "Task stalled: Wizardry Ink — System Integration",
+    "Task stalled: Wizardry Ink — Quality Assurance",
+    "Task stalled: Wizardry Ink — Go Live",
+    "Task stalled: Wizardry Ink — Analytics & Client Handoff",
+    "No deliverables produced yet",
+    "Agreement pending client signature"
+  ],
+  "agreementSigned": false,
+  "contentEmpty": true,
+  "contentFiles": [],
+  "engagementValue": "$3,800"
+}

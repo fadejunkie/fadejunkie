@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SEOJourneyTracker from "./SEOJourneyTracker";
 import SEOHealthTab from "./SEOHealthTab";
 import { BG, INK, ACCENT, MUTED, WHITE, LIGHT } from "./data";
@@ -47,6 +47,12 @@ function TabNav({ active, onSwitch }) {
 
 export default function App() {
   const [tab, setTab] = useState("journey");
+
+  useEffect(() => {
+    const handler = (e) => setTab(e.detail);
+    window.addEventListener("switch-tab", handler);
+    return () => window.removeEventListener("switch-tab", handler);
+  }, []);
 
   return (
     <>

@@ -1,0 +1,37 @@
+{
+  "slug": "arquero",
+  "name": "Arquero",
+  "type": "client-hub",
+  "health": "needs-attention",
+  "lastScanned": "2026-03-31T20:42:53.026Z",
+  "lastChanged": "2026-03-31T20:37:53.058Z",
+  "currentPhase": "phase-1",
+  "pendingTasks": [
+    {
+      "phase": "phase-1",
+      "file": "01-discovery-session.md",
+      "title": "Arquero Co. — Phase 1 · Discovery Session"
+    }
+  ],
+  "completedTasks": [],
+  "clientBlockers": [
+    "No content delivered yet",
+    "Discovery questionnaire not filled"
+  ],
+  "pmAlerts": [
+    "Task stalled: Arquero Co. — Phase 1 · Discovery Session",
+    "No deliverables produced yet"
+  ],
+  "agreementSigned": true,
+  "contentEmpty": true,
+  "contentFiles": [],
+  "engagementValue": "$2,500",
+  "signedDate": "2026-03-27",
+  "signedOffline": true,
+  "paymentStatus": "paid",
+  "paidDate": "2026-03-27",
+  "paidAmount": "$1,900",
+  "paymentType": "upfront",
+  "invoiceNumber": "CAPLYORH-0020",
+  "notes": "Agreement signed + $1,900 upfront paid March 27, 2026. All 4 phases funded. Ready to kick off Phase 1."
+}

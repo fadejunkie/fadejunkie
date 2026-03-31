@@ -30,4 +30,10 @@ export default defineSchema({
     addedAt: v.number(),
     markdownContent: v.optional(v.string()),
   }).index("by_project_milestone", ["projectId", "milestoneKey"]),
+
+  sydneyDirectionPick: defineTable({
+    projectId: v.string(),
+    pick: v.string(), // "A" | "B"
+    pickedAt: v.number(),
+  }).index("by_project", ["projectId"]),
 });

@@ -152,3 +152,32 @@ export const removeDeliverable = mutation({
     await ctx.db.delete(id);
   },
 });
+
+export const saveDirectionPick = mutation({
+  args: {
+    projectId: v.string(),
+    pick: v.string(),
+    pickedAt: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db
+      .query("sydneyDirectionPick")
+      .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
+      .first();
+    if (existing) {
+      await ctx.db.patch(existing._id, { pick: args.pick, pickedAt: args.pickedAt });
+    } else {
+      await ctx.db.insert("sydneyDirectionPick", args);
+    }
+  },
+});
+
+export const getDirectionPick = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db
+      .query("sydneyDirectionPick")
+      .withIndex("by_project", (q) => q.eq("projectId", projectId))
+      .first();
+  },
+});

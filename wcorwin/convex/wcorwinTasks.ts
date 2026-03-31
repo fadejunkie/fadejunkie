@@ -5,7 +5,7 @@ export const getTasks = query({
   args: { projectId: v.string() },
   handler: async (ctx, { projectId }) => {
     const rows = await ctx.db
-      .query("wizardryTasks")
+      .query("wcorwinTasks")
       .withIndex("by_project_key", (q) => q.eq("projectId", projectId))
       .collect();
     const result: Record<string, boolean> = {};
@@ -24,7 +24,7 @@ export const setTask = mutation({
   },
   handler: async (ctx, { projectId, key, value }) => {
     const existing = await ctx.db
-      .query("wizardryTasks")
+      .query("wcorwinTasks")
       .withIndex("by_project_key", (q) =>
         q.eq("projectId", projectId).eq("taskKey", key)
       )
@@ -32,55 +32,7 @@ export const setTask = mutation({
     if (existing) {
       await ctx.db.patch(existing._id, { completed: value });
     } else {
-      await ctx.db.insert("wizardryTasks", { projectId, taskKey: key, completed: value });
-    }
-  },
-});
-
-export const getAgreement = query({
-  args: { projectId: v.string() },
-  handler: async (ctx, { projectId }) => {
-    return await ctx.db
-      .query("wizardryAgreements")
-      .withIndex("by_project", (q) => q.eq("projectId", projectId))
-      .first();
-  },
-});
-
-export const saveAgreement = mutation({
-  args: {
-    projectId: v.string(),
-    sigData: v.string(),
-    signedDate: v.string(),
-    signedAt: v.number(),
-  },
-  handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("wizardryAgreements")
-      .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
-      .first();
-    const doc = {
-      sigData: args.sigData,
-      signedDate: args.signedDate,
-      signedAt: args.signedAt,
-    };
-    if (existing) {
-      await ctx.db.patch(existing._id, doc);
-    } else {
-      await ctx.db.insert("wizardryAgreements", { projectId: args.projectId, ...doc });
-    }
-  },
-});
-
-export const clearAgreement = mutation({
-  args: { projectId: v.string() },
-  handler: async (ctx, { projectId }) => {
-    const existing = await ctx.db
-      .query("wizardryAgreements")
-      .withIndex("by_project", (q) => q.eq("projectId", projectId))
-      .first();
-    if (existing) {
-      await ctx.db.delete(existing._id);
+      await ctx.db.insert("wcorwinTasks", { projectId, taskKey: key, completed: value });
     }
   },
 });
@@ -89,7 +41,7 @@ export const getDeliverables = query({
   args: { projectId: v.string() },
   handler: async (ctx, { projectId }) => {
     return await ctx.db
-      .query("wizardryDeliverables")
+      .query("wcorwinDeliverables")
       .withIndex("by_project_milestone", (q) => q.eq("projectId", projectId))
       .collect();
   },
@@ -106,12 +58,12 @@ export const addDeliverable = mutation({
     markdownContent: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    await ctx.db.insert("wizardryDeliverables", args);
+    await ctx.db.insert("wcorwinDeliverables", args);
   },
 });
 
 export const removeDeliverable = mutation({
-  args: { id: v.id("wizardryDeliverables") },
+  args: { id: v.id("wcorwinDeliverables") },
   handler: async (ctx, { id }) => {
     await ctx.db.delete(id);
   },

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useAction } from "convex/react";
+import { marked } from "marked";
 import { api } from "../convex/_generated/api";
 
 const O="#e8541a",O2="#ff6b2b",EMBER="#ff4500",GREEN="#22c55e";
@@ -610,10 +611,234 @@ function AgreementPage({colors}){
 }
 
 /* ═══════════════════════════════════════
+   MILESTONE DELIVERABLES
+   ═══════════════════════════════════════ */
+function DocViewer({d,c,onClose}){
+  const slides=d.markdownContent?(d.markdownContent.split(/\n---\n/).filter(s=>s.trim())):null;
+  const isSlides=slides&&slides.length>1;
+  const [slide,setSlide]=useState(0);
+  const [viewMode,setViewMode]=useState(isSlides?"slides":"doc");
+
+  const renderHtml=(md)=>{marked.setOptions({breaks:true,gfm:true});return marked.parse(md||"")};
+
+  const downloadMd=()=>{
+    const blob=new Blob([d.markdownContent],{type:"text/markdown"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download=d.label.replace(/[^a-z0-9]+/gi,"-").toLowerCase()+".md";a.click();URL.revokeObjectURL(a.href);
+  };
+
+  const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
+  const isContent=!!(d.markdownContent&&d.markdownContent.length>0);
+
+  const proseStyles=`
+    .doc-prose{font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.8;color:${c.INK};}
+    .doc-prose h1{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:${c.INK};margin:0 0 16px;letter-spacing:1px;border-bottom:2px solid ${c.BLUE}22;padding-bottom:10px;}
+    .doc-prose h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;color:${c.INK};margin:28px 0 10px;letter-spacing:0.5px;}
+    .doc-prose h3{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:2px;margin:20px 0 8px;}
+    .doc-prose p{margin:0 0 14px;}
+    .doc-prose strong{font-weight:700;color:${c.INK};}
+    .doc-prose em{font-style:italic;color:${c.STONE};}
+    .doc-prose ul,.doc-prose ol{margin:0 0 14px;padding-left:22px;}
+    .doc-prose li{margin-bottom:5px;}
+    .doc-prose a{color:${c.BLUE};text-decoration:underline;}
+    .doc-prose blockquote{border-left:3px solid ${c.BLUE};margin:0 0 14px;padding:10px 16px;background:${c.BLUE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;}
+    .doc-prose code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:${c.DEEP};padding:2px 6px;border-radius:3px;color:${c.NAVY};}
+    .doc-prose pre{background:${c.DEEP};border:1px solid ${c.EDGE};border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 14px;}
+    .doc-prose pre code{background:none;padding:0;}
+    .doc-prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:12px;}
+    .doc-prose th{background:${c.BLUE}10;color:${c.NAVY};font-weight:700;text-align:left;padding:8px 12px;border-bottom:2px solid ${c.BLUE}33;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+    .doc-prose td{padding:8px 12px;border-bottom:1px solid ${c.EDGE};vertical-align:top;}
+    .doc-prose tr:last-child td{border-bottom:none;}
+    .doc-prose img{max-width:100%;border-radius:8px;margin:8px 0;}
+    .doc-prose hr{border:none;border-top:1px solid ${c.EDGE};margin:24px 0;}
+    .slide-prose{display:flex;flex-direction:column;justify-content:center;min-height:340px;padding:32px 40px;}
+    .slide-prose h1{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:${c.INK};margin:0 0 20px;text-align:center;letter-spacing:1px;}
+    .slide-prose h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:${c.INK};margin:0 0 14px;}
+    .slide-prose h3{font-size:10px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
+    .slide-prose p{font-size:14px;line-height:1.7;margin:0 0 12px;color:${c.INK};}
+    .slide-prose ul,.slide-prose ol{padding-left:20px;margin:0 0 12px;}
+    .slide-prose li{font-size:13px;line-height:1.6;margin-bottom:6px;}
+    .slide-prose strong{font-weight:700;}
+    .slide-prose table{width:100%;border-collapse:collapse;font-size:12px;margin:0 0 12px;}
+    .slide-prose th{background:${c.BLUE}10;color:${c.NAVY};font-weight:700;padding:7px 10px;border-bottom:2px solid ${c.BLUE}33;font-size:10px;text-transform:uppercase;letter-spacing:1px;}
+    .slide-prose td{padding:7px 10px;border-bottom:1px solid ${c.EDGE};}
+    .slide-prose blockquote{border-left:3px solid ${c.BLUE};padding:10px 16px;background:${c.BLUE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
+  `;
+
+  return(
+    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.78)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+      <style>{proseStyles}</style>
+      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"100%",maxWidth:820,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
+        <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:12,flexShrink:0,background:c.CARD}}>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontWeight:900,fontSize:14,fontFamily:"'Barlow Condensed',sans-serif",color:c.INK,letterSpacing:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+            <div style={{fontSize:9,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginTop:1,letterSpacing:1}}>
+              {isContent?"DOCUMENT":isPdf(d.url)?"PDF":isImg(d.url)?"IMAGE":"LINK"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}
+            </div>
+          </div>
+          {isContent&&isSlides&&(
+            <div style={{display:"flex",background:c.DEEP,borderRadius:4,overflow:"hidden",border:`1px solid ${c.EDGE}`,flexShrink:0}}>
+              {[["doc","Document"],["slides","Slides"]].map(([v,l])=>(
+                <button key={v} onClick={()=>{setViewMode(v);setSlide(0)}} style={{padding:"4px 12px",fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",background:viewMode===v?c.BLUE:"transparent",color:viewMode===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l.toUpperCase()}</button>
+              ))}
+            </div>
+          )}
+          {isContent&&(
+            <button onClick={downloadMd} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"'IBM Plex Mono',monospace",padding:"5px 12px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
+          )}
+          <button onClick={onClose} style={{fontSize:18,color:c.SLATE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"0 4px",flexShrink:0}}>×</button>
+        </div>
+
+        {isContent&&viewMode==="doc"&&(
+          <div style={{overflowY:"auto",flex:1,padding:"28px 36px"}}>
+            <div className="doc-prose" dangerouslySetInnerHTML={{__html:renderHtml(d.markdownContent)}}/>
+          </div>
+        )}
+
+        {isContent&&viewMode==="slides"&&(
+          <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+            <div style={{flex:1,overflowY:"auto",background:c.BG}}>
+              <div className="doc-prose slide-prose" dangerouslySetInnerHTML={{__html:renderHtml(slides[slide])}}/>
+            </div>
+            <div style={{borderTop:`1px solid ${c.EDGE}`,padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",background:c.CARD,flexShrink:0}}>
+              <button onClick={()=>setSlide(s=>Math.max(0,s-1))} disabled={slide===0} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===0?c.EDGE:c.SLATE,cursor:slide===0?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>‹</button>
+              <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                {slides.map((_,i)=>(
+                  <button key={i} onClick={()=>setSlide(i)} style={{width:i===slide?20:7,height:7,borderRadius:4,background:i===slide?c.BLUE:c.EDGE,border:"none",cursor:"pointer",transition:"all 0.2s",padding:0}}/>
+                ))}
+              </div>
+              <button onClick={()=>setSlide(s=>Math.min(slides.length-1,s+1))} disabled={slide===slides.length-1} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===slides.length-1?c.EDGE:c.SLATE,cursor:slide===slides.length-1?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>›</button>
+            </div>
+          </div>
+        )}
+
+        {!isContent&&isImg(d.url)&&(
+          <div style={{flex:1,overflow:"auto",display:"flex",flexDirection:"column",alignItems:"center",padding:24,gap:16,background:c.DEEP}}>
+            <img src={d.url} alt={d.label} style={{maxWidth:"100%",maxHeight:"60vh",borderRadius:8,boxShadow:"0 8px 32px rgba(0,0,0,0.3)",objectFit:"contain"}}/>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 18px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
+          </div>
+        )}
+
+        {!isContent&&!isImg(d.url)&&(
+          <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,padding:40}}>
+            <div style={{fontSize:40}}>{isPdf(d.url)?"📄":"🔗"}</div>
+            <div style={{fontSize:14,fontWeight:600,color:c.INK,fontFamily:"'Barlow Condensed',sans-serif",textAlign:"center",letterSpacing:1}}>{d.label}</div>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"8px 24px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove}){
+  const [adding,setAdding]=useState(false);
+  const [addMode,setAddMode]=useState("url");
+  const [label,setLabel]=useState("");
+  const [url,setUrl]=useState("");
+  const [type,setType]=useState("screenshot");
+  const [mdContent,setMdContent]=useState("");
+  const [viewing,setViewing]=useState(null);
+
+  const items=(deliverables||[]).filter(d=>d.milestoneKey===milestoneKey);
+
+  const submit=()=>{
+    if(!label.trim())return;
+    if(addMode==="url"){
+      if(!url.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:url.trim(),type});
+    } else {
+      if(!mdContent.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:"",type:"md",markdownContent:mdContent.trim()});
+    }
+    setLabel("");setUrl("");setType("screenshot");setMdContent("");setAdding(false);
+  };
+
+  const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
+
+  const btnSm=(active)=>({fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",padding:"3px 8px",borderRadius:3,cursor:"pointer",border:`1px solid ${active?c.BLUE+"44":c.EDGE}`,background:active?c.BLUE+"0c":"transparent",color:active?c.BLUE:c.SLATE});
+
+  return(
+    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${c.EDGE}44`}}>
+      {viewing&&<DocViewer d={viewing} c={c} onClose={()=>setViewing(null)}/>}
+
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace"}}>DELIVERABLES</div>
+        {isOps&&!adding&&(
+          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.BLUE,background:c.BLUE+"0c",border:`1px solid ${c.BLUE}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace",letterSpacing:0.5}}>+ ADD</button>
+        )}
+      </div>
+
+      {items.length===0&&!adding&&(
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",fontStyle:"italic",padding:"4px 0"}}>No deliverables yet</div>
+      )}
+
+      {items.map(d=>{
+        const isContent=!!(d.markdownContent&&d.markdownContent.length>0);
+        const isImgUrl=!isContent&&isImg(d.url);
+        const isPdfUrl=!isContent&&isPdf(d.url);
+        const typeLabel=isContent?"DOC":isImgUrl?"IMG":isPdfUrl?"PDF":"URL";
+        const typeBg=isContent?c.NAVY+"14":isImgUrl?c.GREEN+"14":isPdfUrl?c.EMBER+"14":c.BLUE+"14";
+        const typeColor=isContent?c.NAVY:isImgUrl?c.GREEN:isPdfUrl?c.EMBER:c.BLUE;
+        return(
+          <div key={d._id} onClick={()=>setViewing(d)} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:c.CARD,borderRadius:8,marginBottom:6,border:`1px solid ${c.EDGE}`,cursor:"pointer",transition:"border-color 0.15s"}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor=c.BLUE+"44"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor=c.EDGE}>
+            <div style={{width:36,height:36,borderRadius:6,background:typeBg,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${typeColor}22`}}>
+              <span style={{fontSize:9,fontWeight:800,color:typeColor,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:0.5}}>{typeLabel}</span>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:13,fontWeight:600,color:c.INK,fontFamily:"'Barlow Condensed',sans-serif",letterSpacing:0.5,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+              <div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginTop:2}}>
+                {isContent?"Agent document · Click to read":isImgUrl?"Image · Click to view":isPdfUrl?"PDF Document · Click to open":"External link · Click to open"}
+                {" · "}{new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
+              </div>
+            </div>
+            <div style={{fontSize:14,color:c.SLATE,flexShrink:0}}>›</div>
+            {isOps&&(
+              <button onClick={e=>{e.stopPropagation();onRemove(d._id)}} style={{fontSize:14,color:c.SLATE,background:"none",border:"none",cursor:"pointer",padding:"2px 6px",borderRadius:3,lineHeight:1,flexShrink:0}} title="Remove">×</button>
+            )}
+          </div>
+        );
+      })}
+
+      {adding&&(
+        <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.BLUE}22`,marginTop:4}}>
+          <div style={{display:"flex",gap:6,marginBottom:10}}>
+            <button onClick={()=>setAddMode("url")} style={btnSm(addMode==="url")}>URL / File</button>
+            <button onClick={()=>setAddMode("content")} style={btnSm(addMode==="content")}>Paste Content</button>
+          </div>
+          {addMode==="url"&&(
+            <div style={{display:"flex",gap:6,marginBottom:8}}>
+              {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
+                <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.BLUE+"44":c.EDGE}`,background:type===o.v?c.BLUE+"0c":"transparent",color:type===o.v?c.BLUE:c.SLATE}}>{o.l}</button>
+              ))}
+            </div>
+          )}
+          <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (e.g. Brand Positioning Doc)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:6}}/>
+          {addMode==="url"?(
+            <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL (paste link to image, PDF, or page)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+          ):(
+            <textarea value={mdContent} onChange={e=>setMdContent(e.target.value)} placeholder="Paste markdown content here…" rows={8} style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:8,resize:"vertical",lineHeight:1.6}}/>
+          )}
+          <div style={{display:"flex",gap:6}}>
+            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 16px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
+            <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,colors}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any}){
+function WorkflowPage({view,tasks,onToggle,colors,deliverables,onAddDeliverable,onRemoveDeliverable}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any,deliverables?:any[],onAddDeliverable?:any,onRemoveDeliverable?:any}){
   const {O,O2,EMBER,DARK,STEEL,PLATE,WELD,RIVET,ASH,SMOKE,LIGHT,GREEN}=colors;
+  const c={BG:DARK,CARD:PLATE,DEEP:WELD,EDGE:RIVET,SLATE:ASH,STONE:SMOKE,INK:LIGHT,BLUE:O,NAVY:O2,GREEN,EMBER};
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -720,6 +945,7 @@ function WorkflowPage({view,tasks,onToggle,colors}:{view:string,tasks:Record<str
                           );
                         })}
                       </div>
+                      <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables??[]} onAdd={onAddDeliverable??((()=>{}))} onRemove={onRemoveDeliverable??((()=>{}))}/>
                     </div>
                   )}
                 </div>
@@ -1124,6 +1350,13 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
   const [view,setView]=useState<"internal"|"client">(defaultView);
   const tasks = useQuery(api.arqueroTasks.getTasks, { projectId: "arquero-co" }) ?? {};
   const setTaskMutation = useMutation(api.arqueroTasks.setTask);
+  const deliverables = useQuery(api.arqueroTasks.getDeliverables, { projectId: "arquero-co" }) ?? [];
+  const addDeliverableMutation = useMutation(api.arqueroTasks.addDeliverable);
+  const removeDeliverableMutation = useMutation(api.arqueroTasks.removeDeliverable);
+  const onAddDeliverable = ({milestoneKey,label,url,type,markdownContent}) => {
+    addDeliverableMutation({projectId:"arquero-co",milestoneKey,label,url:url||"",type,addedAt:Date.now(),...(markdownContent?{markdownContent}:{})});
+  };
+  const onRemoveDeliverable = (id) => { removeDeliverableMutation({id}); };
   const ov=overall(tasks);
 
   const [theme,setTheme]=useState<"dark"|"light">(() => {
@@ -1276,7 +1509,7 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
       </div>
 
       {/* ═══ PAGE CONTENT ═══ */}
-      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors}/>}
+      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
       {page==="scope"&&<ScopePage colors={colors}/>}
       {page==="agreement"&&<AgreementPage colors={colors}/>}
       {page==="website"&&<WebsitePage colors={colors}/>}

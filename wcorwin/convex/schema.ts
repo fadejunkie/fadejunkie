@@ -2,20 +2,13 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  wizardryTasks: defineTable({
+  wcorwinTasks: defineTable({
     projectId: v.string(),
     taskKey: v.string(),
     completed: v.boolean(),
   }).index("by_project_key", ["projectId", "taskKey"]),
 
-  wizardryAgreements: defineTable({
-    projectId: v.string(),
-    sigData: v.string(),
-    signedDate: v.string(),
-    signedAt: v.number(),
-  }).index("by_project", ["projectId"]),
-
-  wizardryDeliverables: defineTable({
+  wcorwinDeliverables: defineTable({
     projectId: v.string(),
     milestoneKey: v.string(),
     label: v.string(),

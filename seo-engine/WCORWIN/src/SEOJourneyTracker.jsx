@@ -183,6 +183,7 @@ export default function SEOJourneyTracker() {
 
   const phases = applyOverrides(PHASES, overrides);
   const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
+  const [showExtras, setShowExtras] = useState(false);
   const [hoveredTask, setHoveredTask] = useState(null);
   const [expandedDoc, setExpandedDoc] = useState(null);
   const phase = phases[activePhase];
@@ -344,10 +345,10 @@ export default function SEOJourneyTracker() {
           {phases.filter((p) => ["kickoff", "month1"].includes(p.id)).map((p) => {
             const i = phases.indexOf(p);
             const prog = getPhaseProgress(p.tasks);
-            const isActive = i === activePhase;
+            const isActive = !showExtras && i === activePhase;
             const isCurrent = i === getCurrentPhase(phases);
             return (
-              <button key={p.id} onClick={() => setActivePhase(i)} style={{
+              <button key={p.id} onClick={() => { setShowExtras(false); setActivePhase(i); }} style={{
                 border: isActive ? `2px solid ${p.color}` : `1px solid ${LIGHT}`,
                 background: isActive ? p.softColor : WHITE,
                 borderRadius: 10, padding: "12px 16px", cursor: "pointer",
@@ -386,11 +387,139 @@ export default function SEOJourneyTracker() {
               </button>
             );
           })}
+
+          {/* Extras tab */}
+          <button onClick={() => setShowExtras(true)} style={{
+            border: showExtras ? `2px solid ${ACCENT}` : `1px solid ${LIGHT}`,
+            background: showExtras ? ACCENT_SOFT : WHITE,
+            borderRadius: 10, padding: "12px 16px", cursor: "pointer",
+            minWidth: 130, textAlign: "left",
+            transition: "all 0.2s",
+          }}>
+            <div style={{ fontSize: 18, marginBottom: 4 }}>📎</div>
+            <div style={{
+              fontSize: 12, fontWeight: 700, color: showExtras ? ACCENT : INK,
+              fontFamily: "'DM Mono', monospace", letterSpacing: "0.02em",
+            }}>Extras</div>
+            <div style={{ fontSize: 10, color: MUTED, marginTop: 1 }}>Resources &amp; Pages</div>
+            <div style={{ marginTop: 8, height: 3, borderRadius: 2, background: "#eee" }} />
+            <div style={{
+              fontSize: 10, color: MUTED, marginTop: 4,
+              fontFamily: "'DM Mono', monospace",
+            }}>2 items</div>
+          </button>
         </div>
       </div>
 
+      {/* Extras Panel */}
+      {showExtras && (
+        <div style={{ padding: "16px 24px 32px" }}>
+          <div style={{
+            background: WHITE, borderRadius: 12,
+            border: `1px solid ${LIGHT}`, overflow: "hidden",
+          }}>
+            <div style={{
+              padding: "20px 24px 16px", borderBottom: `1px solid ${LIGHT}`,
+              display: "flex", alignItems: "center", gap: 10,
+            }}>
+              <span style={{ fontSize: 24 }}>📎</span>
+              <div>
+                <div style={{
+                  fontFamily: "'DM Mono', monospace", fontSize: 11,
+                  color: ACCENT, fontWeight: 600, letterSpacing: "0.05em",
+                  textTransform: "uppercase",
+                }}>
+                  Extras — Resources &amp; Pages
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 700, marginTop: 2 }}>
+                  Links &amp; Deliverables
+                </div>
+              </div>
+            </div>
+
+            <div style={{ padding: "12px 0" }}>
+              {/* SEO Health Tracker */}
+              <a
+                href="/"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Switch top-level tab to health — bubble up via custom event
+                  window.dispatchEvent(new CustomEvent("switch-tab", { detail: "health" }));
+                }}
+                style={{
+                  display: "flex", alignItems: "flex-start", gap: 14,
+                  padding: "14px 24px", textDecoration: "none",
+                  borderBottom: `1px solid #f0f0f0`,
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#fafafa"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+              >
+                <div style={{
+                  width: 36, height: 36, borderRadius: 8,
+                  background: ACCENT_SOFT, display: "flex",
+                  alignItems: "center", justifyContent: "center",
+                  flexShrink: 0, fontSize: 18,
+                }}>📊</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: INK }}>
+                    SEO Health Tracker
+                  </div>
+                  <div style={{ fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.4 }}>
+                    Live keyword rankings, audit scores, and monthly SEO performance — updated automatically.
+                  </div>
+                </div>
+                <div style={{
+                  fontSize: 10, padding: "3px 8px", borderRadius: 20,
+                  background: ACCENT_SOFT, color: ACCENT, fontWeight: 600,
+                  fontFamily: "'DM Mono', monospace", whiteSpace: "nowrap", alignSelf: "center",
+                }}>
+                  View →
+                </div>
+              </a>
+
+              {/* Why Choose Us page */}
+              <a
+                href="/Why-choose-us"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "flex", alignItems: "flex-start", gap: 14,
+                  padding: "14px 24px", textDecoration: "none",
+                  transition: "background 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = "#fafafa"}
+                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+              >
+                <div style={{
+                  width: 36, height: 36, borderRadius: 8,
+                  background: "rgba(22,163,74,0.08)", display: "flex",
+                  alignItems: "center", justifyContent: "center",
+                  flexShrink: 0, fontSize: 18,
+                }}>🏡</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: INK }}>
+                    Why Choose Our Brokerage
+                  </div>
+                  <div style={{ fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.4 }}>
+                    Flyer converted to a live webpage — showcasing the 8 reasons agents join Corwin &amp; Associates.
+                  </div>
+                </div>
+                <div style={{
+                  fontSize: 10, padding: "3px 8px", borderRadius: 20,
+                  background: "rgba(22,163,74,0.08)", color: GREEN, fontWeight: 600,
+                  fontFamily: "'DM Mono', monospace", whiteSpace: "nowrap", alignSelf: "center",
+                }}>
+                  Live ↗
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Active Phase Detail */}
-      <div style={{ padding: "16px 24px 32px" }}>
+      {!showExtras && <div style={{ padding: "16px 24px 32px" }}>
         <div style={{
           background: WHITE, borderRadius: 12,
           border: `1px solid ${LIGHT}`, overflow: "hidden",
@@ -579,7 +708,7 @@ export default function SEOJourneyTracker() {
             })}
           </div>
         </div>
-      </div>
+      </div>}
 
       {/* Footer */}
       <div style={{

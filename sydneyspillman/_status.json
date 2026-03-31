@@ -1,0 +1,105 @@
+{
+  "slug": "sydney-spillman",
+  "name": "Sydney Spillman",
+  "type": "client-hub",
+  "health": "needs-attention",
+  "lastScanned": "2026-03-31T20:42:52.913Z",
+  "lastChanged": "2026-03-31T20:42:00.016Z",
+  "currentPhase": "phase-1",
+  "pendingTasks": [
+    {
+      "phase": "phase-1",
+      "file": "01-discovery-session.md",
+      "title": "Discovery Session — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-1",
+      "file": "02-mood-direction.md",
+      "title": "Mood + Direction — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-1",
+      "file": "03-logo-design.md",
+      "title": "Logo Design — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-1",
+      "file": "04-brand-system.md",
+      "title": "Brand System — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-2",
+      "file": "05-domain-setup.md",
+      "title": "Domain Setup — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-2",
+      "file": "06-site-foundation.md",
+      "title": "Site Foundation — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-2",
+      "file": "07-core-pages.md",
+      "title": "Core Pages — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-2",
+      "file": "08-property-features.md",
+      "title": "Property Features — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-2",
+      "file": "09-seo-foundation.md",
+      "title": "SEO Foundation — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-3",
+      "file": "10-quality-assurance.md",
+      "title": "Quality Assurance — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-3",
+      "file": "11-go-live.md",
+      "title": "Go Live — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-3",
+      "file": "12-analytics-tracking.md",
+      "title": "Analytics + Tracking — Sydney Spillman & Associates"
+    },
+    {
+      "phase": "phase-3",
+      "file": "13-client-handoff.md",
+      "title": "Client Handoff — Sydney Spillman & Associates"
+    }
+  ],
+  "completedTasks": [],
+  "clientBlockers": [
+    "Discovery questionnaire not filled"
+  ],
+  "pmAlerts": [
+    "Task stalled: Discovery Session — Sydney Spillman & Associates",
+    "Task stalled: Mood + Direction — Sydney Spillman & Associates",
+    "Task stalled: Logo Design — Sydney Spillman & Associates",
+    "Task stalled: Brand System — Sydney Spillman & Associates",
+    "Task stalled: Domain Setup — Sydney Spillman & Associates",
+    "Task stalled: Site Foundation — Sydney Spillman & Associates",
+    "Task stalled: Core Pages — Sydney Spillman & Associates",
+    "Task stalled: Property Features — Sydney Spillman & Associates",
+    "Task stalled: SEO Foundation — Sydney Spillman & Associates",
+    "Task stalled: Quality Assurance — Sydney Spillman & Associates",
+    "Task stalled: Go Live — Sydney Spillman & Associates",
+    "Task stalled: Analytics + Tracking — Sydney Spillman & Associates",
+    "Task stalled: Client Handoff — Sydney Spillman & Associates"
+  ],
+  "agreementSigned": true,
+  "contentEmpty": false,
+  "contentFiles": [
+    "01-brand-positioning.md",
+    "01-client-intake.md",
+    "01-competitor-audit.md",
+    "02-direction-options.md",
+    "02-mood-board.md"
+  ],
+  "engagementValue": "pro bono"
+}
