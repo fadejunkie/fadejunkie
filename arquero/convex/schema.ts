@@ -18,6 +18,18 @@ export default defineSchema({
     markdownContent: v.optional(v.string()),
   }).index("by_project_milestone", ["projectId", "milestoneKey"]),
 
+  arqueroDiscovery: defineTable({
+    projectId: v.string(),
+    responses: v.string(),
+    submittedAt: v.number(),
+  }).index("by_project", ["projectId"]),
+
+  arqueroDirectionPick: defineTable({
+    projectId: v.string(),
+    pick: v.string(),
+    pickedAt: v.number(),
+  }).index("by_project", ["projectId"]),
+
   arqueroAgreements: defineTable({
     projectId: v.string(),
     agreementType: v.string(),

@@ -8,7 +8,7 @@ Client project hub for **Wizardry Ink Tattoo Studio**, a woman-owned tattoo stud
 
 This repo is a standalone Vite + React + Convex hub that serves as both the **client-facing project tracker** (scope, agreement, workflow progress) and an **ops dashboard** for our team.
 
-**Client:** Wizardry Ink Tattoo Studio | **Owner:** Daisy | **Engagement:** Tattoo Trade ($3,800 value) | **Domain:** `wizadry.anthonytatis.com`
+**Client:** Wizardry Ink Tattoo Studio | **Owner:** Daisy | **Engagement:** Tattoo Trade ($3,800 value) | **Domain:** `wizardry.anthonytatis.com`
 
 Fully isolated from the FadeJunkie Next.js app — own Convex deployment, own Vercel project, own package.json.
 
@@ -35,7 +35,7 @@ npx convex run wizardryTasks:clearAgreement '{"projectId":"wizardry-ink"}' --pro
 
 ### Hostname-Based Routing
 `App.tsx` detects hostname to choose mode:
-- `wizadry-ops.anthonytatis.com` or `localhost` → **ops mode** (internal view, all controls)
+- `wizardry-ops.anthonytatis.com` or `localhost` → **ops mode** (internal view, all controls)
 - Any other hostname → **client mode** (what Daisy sees)
 
 ### Monolithic Single-File Hub

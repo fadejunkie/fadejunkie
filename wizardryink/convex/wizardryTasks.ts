@@ -116,3 +116,19 @@ export const removeDeliverable = mutation({
     await ctx.db.delete(id);
   },
 });
+
+export const saveDiscovery = mutation({
+  args: { projectId: v.string(), responses: v.string(), submittedAt: v.number() },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("wizardryDiscovery").withIndex("by_project", (q) => q.eq("projectId", args.projectId)).first();
+    if (existing) { await ctx.db.patch(existing._id, { responses: args.responses, submittedAt: args.submittedAt }); }
+    else { await ctx.db.insert("wizardryDiscovery", args); }
+  },
+});
+
+export const getDiscovery = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db.query("wizardryDiscovery").withIndex("by_project", (q) => q.eq("projectId", projectId)).first();
+  },
+});

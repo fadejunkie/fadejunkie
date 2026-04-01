@@ -38,7 +38,7 @@ const phases=[
   {id:1,name:"DISCOVER",subtitle:"Discovery & System Design",week:"WEEK 1",short:"INTAKE · DESIGN",icon:"\u{1F50D}",fee:"$400",
     milestones:[
       {title:"CLIENT INTAKE",clientDesc:"Understand Wizardry Ink's workflow, brand, and booking pain points.",
-        tasks:[{label:"Kickoff call — business goals, brand audit, current workflow"},{label:"Map current DM → booking flow (pain points, manual steps)"},{label:"Document artist roster, specialties, and availability patterns"},{label:"Identify integration points (Instagram DM, website, phone)"}]},
+        tasks:[{label:"Complete the Studio Intake Questionnaire",blocker:true},{label:"Map current DM → booking flow (pain points, manual steps)"},{label:"Document artist roster, specialties, and availability patterns"},{label:"Identify integration points (Instagram DM, website, phone)"}]},
       {title:"SYSTEM ARCHITECTURE",clientDesc:"Design the AI booking pipeline and owner dashboard.",
         tasks:[{label:"Design AI booking pipeline: intake → quote → schedule → notify → confirm"},{label:"Define quote engine logic (size, style, placement, color → price range)"},{label:"Map artist workflow: notification → end time edit → overlap prevention"},{label:"Design owner dashboard: swipe-to-approve, pipeline view, calendar"}]},
       {title:"TECH STACK",clientDesc:"Lock in technology decisions and integration requirements.",
@@ -877,7 +877,7 @@ function UserFlowPage({c}){
 /* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable}){
+function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable,discoveryData,onSubmitDiscovery}){
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -935,16 +935,17 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
               const mDone=m.tasks.filter((_,ti)=>tasks[`${phase.id}-${m.title}-${ti}`]).length;
               const mPct=m.tasks.length?Math.round(mDone/m.tasks.length*100):0;
               const complete=mPct===100;
+              const hasBlocker=m.tasks.some((t,ti)=>t.blocker&&!tasks[`${phase.id}-${m.title}-${ti}`]);
               const exp=expanded[`${phase.id}-${m.title}`];
               return(
-                <div key={m.title} style={{background:c.CARD,borderRadius:8,overflow:"hidden",border:`1px solid ${complete?c.GREEN+"33":c.EDGE}`}}>
+                <div key={m.title} style={{background:c.CARD,borderRadius:8,overflow:"hidden",border:`1px solid ${complete?c.GREEN+"33":hasBlocker?c.EMBER+"33":c.EDGE}`}}>
                   <div onClick={()=>toggleM(`${phase.id}-${m.title}`)} style={{padding:"16px 20px",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",background:complete?c.GREEN+"06":"transparent"}}>
                     <div style={{display:"flex",alignItems:"center",gap:12,flex:1,minWidth:0}}>
                       <div style={{width:28,height:28,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",background:complete?c.GREEN+"14":c.DEEP,border:`1px solid ${complete?c.GREEN+"33":c.EDGE}`,fontSize:12,fontWeight:700,color:complete?c.GREEN:c.VIOLET,fontFamily:"Inter,sans-serif",flexShrink:0}}>
                         {complete?"\u2713":mDone}
                       </div>
                       <div style={{flex:1,minWidth:0}}>
-                        <div style={{fontSize:13,fontWeight:700,color:c.INK,letterSpacing:0.5}}>{m.title}</div>
+                        <div style={{fontSize:13,fontWeight:700,color:complete?c.GREEN:c.INK,letterSpacing:0.5}}>{m.title}{hasBlocker&&<span style={{fontSize:8,fontWeight:700,color:c.EMBER,background:c.EMBER+"14",padding:"2px 8px",borderRadius:3,marginLeft:8,letterSpacing:1.5,verticalAlign:"middle"}}>HAS BLOCKER</span>}</div>
                         <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:2}}>{m.clientDesc}</div>
                       </div>
                     </div>
@@ -966,7 +967,7 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                               <div style={{width:18,height:18,borderRadius:4,border:`1.5px solid ${done?c.GREEN:c.EDGE}`,background:done?c.GREEN:"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1,transition:"all 0.15s"}}>
                                 {done&&<span style={{color:"#fff",fontSize:11,fontWeight:700}}>{"\u2713"}</span>}
                               </div>
-                              <span style={{fontSize:12,color:done?c.SLATE:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.5,textDecoration:done?"line-through":"none",opacity:done?0.7:1}}>{t.label}</span>
+                              <span style={{fontSize:12,color:done?c.SLATE:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.5,textDecoration:done?"line-through":"none",opacity:done?0.7:1}}>{t.label}{t.blocker&&!done&&<span style={{fontSize:8,fontWeight:700,color:c.EMBER,background:c.EMBER+"14",padding:"1px 7px",borderRadius:3,marginLeft:8,letterSpacing:1.5}}>BLOCKER</span>}</span>
                             </div>
                           );
                         })}
@@ -979,6 +980,9 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                         onAdd={onAddDeliverable}
                         onRemove={onRemoveDeliverable}
                       />
+                      {phase.id===1&&m.title==="CLIENT INTAKE"&&(
+                        <WizardryIntakeForm c={c} opsMode={view==="internal"} discoveryData={discoveryData} onSubmit={onSubmitDiscovery}/>
+                      )}
                     </div>
                   )}
                 </div>
@@ -987,6 +991,78 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   WIZARDRY INTAKE FORM (inline)
+   ═══════════════════════════════════════ */
+const wizardryQuestions=[
+  {id:"studio_story",section:"YOUR STUDIO",label:"Tell us the Wizardry Ink story. How did the studio start?",type:"textarea",placeholder:"The origin — why tattoos, how it began, what makes this place yours..."},
+  {id:"style_specialties",section:"YOUR STUDIO",label:"What tattoo styles does Wizardry Ink specialize in?",type:"textarea",placeholder:"e.g. fine line, blackwork, color realism, neo-trad, surrealism..."},
+  {id:"artist_roster",section:"YOUR STUDIO",label:"Who are the artists currently at Wizardry Ink?",type:"text",placeholder:"List their names (e.g. Daisy, Lee, Al)"},
+  {id:"target_client",section:"YOUR CLIENTS",label:"Who's your ideal client? What kind of person walks in and leaves raving?",type:"textarea",placeholder:"Demographics, vibe, what they're looking for, why they choose Wizardry..."},
+  {id:"booking_volume",section:"YOUR CLIENTS",label:"How many appointments per week does the studio handle currently?",type:"text",placeholder:"e.g. 20–30 per week across all artists"},
+  {id:"brand_vibe",section:"BRAND FEEL",label:"3–5 words that describe the Wizardry Ink vibe.",type:"text",placeholder:"e.g. Mystical, intimate, precise, bold, inclusive..."},
+  {id:"style_direction",section:"BRAND FEEL",label:"Which aesthetic direction resonates most?",type:"select",options:["Mystical & Dark — gothic energy, occult aesthetic, dramatic","Clean & Fine — minimalist, fine line, upscale studio","Bold & Colorful — vibrant, expressive, festival energy","Gritty & Raw — traditional roots, ink-stained hands, authenticity"]},
+  {id:"inspiration",section:"BRAND FEEL",label:"Any tattoo studios, artists, or brands whose look inspires you?",type:"textarea",placeholder:"Share names, Instagram handles, or describe the feeling..."},
+  {id:"booking_pain",section:"CURRENT SITUATION",label:"What's the biggest pain with booking right now?",type:"textarea",placeholder:"What's manual, slow, or frustrating — what do you wish was just... handled?"},
+  {id:"existing_site",section:"CURRENT SITUATION",label:"What's your current web presence?",type:"select",options:["No website — just Instagram","Have a website but it needs a full redesign","Have a website I mostly like but want improvements","Starting completely fresh"]},
+];
+function WizardryIntakeForm({c,opsMode,discoveryData,onSubmit}){
+  const [form,setForm]=useState({});
+  const [saving,setSaving]=useState(false);
+  useEffect(()=>{if(discoveryData?.responses){try{setForm(JSON.parse(discoveryData.responses))}catch{}}},[discoveryData]);
+  const submitted=!!(discoveryData?.submittedAt&&discoveryData.submittedAt>0);
+  const update=(id,val)=>setForm(p=>({...p,[id]:val}));
+  const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const handleSubmit=async()=>{
+    const required=wizardryQuestions.filter(q=>q.type!=="select").slice(0,2);
+    if(required.some(q=>!form[q.id]?.trim()))return;
+    setSaving(true);try{await onSubmit(form);}finally{setSaving(false);}
+  };
+  const sections=[...new Set(wizardryQuestions.map(q=>q.section))];
+  if(submitted){
+    const summary=[{label:"Studio story",val:form.studio_story},{label:"Style specialties",val:form.style_specialties},{label:"Booking pain",val:form.booking_pain}].filter(s=>s.val);
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6,marginBottom:summary.length?12:0}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>Studio Intake Submitted</div>
+          {discoveryData?.submittedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginLeft:"auto"}}>{fmt(discoveryData.submittedAt)}</div>:null}
+          {opsMode&&<button onClick={async()=>{setSaving(true);try{await onSubmit(null)}finally{setSaving(false)}}} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"Inter,sans-serif",padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Reset"}</button>}
+        </div>
+        {summary.length>0&&<div style={{display:"flex",flexDirection:"column",gap:6}}>{summary.slice(0,3).map(s=>(<div key={s.label} style={{padding:"8px 12px",background:c.CARD,borderRadius:5,border:`1px solid ${c.EDGE}`}}><div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:2}}>{s.label.toUpperCase()}</div><div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>{s.val.length>120?s.val.slice(0,120)+"…":s.val}</div></div>))}</div>}
+      </div>
+    );
+  }
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Studio Intake</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Help us understand Wizardry Ink — your answers drive every design decision.</div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
+        {sections.map(section=>(
+          <div key={section}>
+            <div style={{fontSize:9,fontWeight:700,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {wizardryQuestions.filter(q=>q.section===section).map(q=>(
+                <div key={q.id}>
+                  <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4}}>{q.label}</label>
+                  {q.type==="textarea"?(<textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.VIOLET} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  ):q.type==="select"?(<div style={{display:"flex",flexDirection:"column",gap:4}}>{q.options.map(opt=>(<label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.VIOLET+"0c":c.BG,border:`1px solid ${form[q.id]===opt?c.VIOLET+"44":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}><div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.VIOLET:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.VIOLET}}/>}</div><span style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif"}}>{opt}</span></label>))}</div>
+                  ):(<input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.VIOLET} onBlur={e=>e.target.style.borderColor=c.EDGE}/>)}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.VIOLET,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SUBMITTING…":"SUBMIT INTAKE"}</button>
+      </div>
     </div>
   );
 }
@@ -1010,6 +1086,18 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
 
   const onToggle=(key)=>{
     setTaskMutation({projectId:"wizardry-ink",key,value:!tasks[key]});
+  };
+
+  const discoveryData=useQuery(api.wizardryTasks.getDiscovery,{projectId:"wizardry-ink"})??null;
+  const saveDiscoveryMutation=useMutation(api.wizardryTasks.saveDiscovery);
+  const onSubmitDiscovery=async(responses)=>{
+    if(responses===null){
+      await saveDiscoveryMutation({projectId:"wizardry-ink",responses:"{}",submittedAt:0});
+      setTaskMutation({projectId:"wizardry-ink",key:"1-CLIENT INTAKE-0",value:false});
+    }else{
+      await saveDiscoveryMutation({projectId:"wizardry-ink",responses:JSON.stringify(responses),submittedAt:Date.now()});
+      setTaskMutation({projectId:"wizardry-ink",key:"1-CLIENT INTAKE-0",value:true});
+    }
   };
   const onAddDeliverable=(d)=>{
     addDeliverableMutation({projectId:"wizardry-ink",...d,addedAt:Date.now()});
@@ -1060,7 +1148,7 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
 
         {/* Content */}
         <main style={{maxWidth:960,margin:"0 auto"}}>
-          {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
+          {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery}/>}
           {page==="userflow"&&<UserFlowPage c={c}/>}
           {page==="scope"&&<ScopePage c={c}/>}
           {page==="agreement"&&<AgreementPage c={c}/>}

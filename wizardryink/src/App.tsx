@@ -1,6 +1,6 @@
 import WizardryHub from "./WizardryHub";
 
-const OPS_HOSTNAME = "wizadry-ops.anthonytatis.com";
+const OPS_HOSTNAME = "wizardry-ops.anthonytatis.com";
 
 export default function App() {
   const hostname = window.location.hostname;

@@ -38,7 +38,7 @@ const phases=[
   {id:1,name:"BRAND",subtitle:"Brand Discovery + Visual System",week:"WEEKS 1–2",short:"BRAND · KIT",icon:"🎨",
     milestones:[
       {title:"DISCOVERY SESSION",clientDesc:"Define Sydney Spillman & Associates' brand positioning, audience, and visual direction.",
-        tasks:[{label:"Complete the Discovery Questionnaire",blocker:true,link:"/discovery"},{label:"Client intake — brand story, values, target audience profile"},{label:"Define brand positioning: where does Sydney Spillman sit in the San Antonio real estate market?"},{label:"Identify tone: professional warmth? modern luxury? community-focused?"},{label:"Competitor audit — 5 comparable San Antonio real estate agents/teams"}]},
+        tasks:[{label:"Complete the Discovery Questionnaire",blocker:true},{label:"Client intake — brand story, values, target audience profile"},{label:"Define brand positioning: where does Sydney Spillman sit in the San Antonio real estate market?"},{label:"Identify tone: professional warmth? modern luxury? community-focused?"},{label:"Competitor audit — 5 comparable San Antonio real estate agents/teams"}]},
       {title:"MOOD + DIRECTION",clientDesc:"Visual direction deck before any design work begins.",
         tasks:[{label:"Build mood board — photography style, color feel, typography direction"},{label:"Present 2 direction options (e.g. modern minimal vs. warm editorial)"},{label:"Get client approval on direction before moving to logo design",blocker:true}]},
       {title:"LOGO DESIGN",clientDesc:"Three concepts refined into a final mark — primary logo, icon, and wordmark.",
@@ -674,7 +674,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
 /* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable,directionPick,onPick}){
+function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRemoveDeliverable,directionPick,onPick,discoveryData,onSubmitDiscovery}){
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -781,6 +781,10 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                         })}
                       </div>
                       <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables} onAdd={onAddDeliverable} onRemove={onRemoveDeliverable}/>
+                      {/* Discovery form — DISCOVERY SESSION milestone only */}
+                      {phase.id===1&&m.title==="DISCOVERY SESSION"&&(
+                        <DiscoveryFormInline c={c} opsMode={view==="internal"} discoveryData={discoveryData} onSubmit={onSubmitDiscovery}/>
+                      )}
                       {/* Direction picker — MOOD + DIRECTION milestone only */}
                       {phase.id===1&&m.title==="MOOD + DIRECTION"&&(
                         <DirectionPickerInline c={c} opsMode={view==="internal"} directionPick={directionPick} onPick={onPick}/>
@@ -1204,6 +1208,9 @@ export function DiscoveryPage(){
 function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:boolean,directionPick:any,onPick:(pick:string)=>Promise<void>}){
   const [confirming,setConfirming]=useState<string|null>(null);
   const [saving,setSaving]=useState(false);
+  const [hovering,setHovering]=useState<string|null>(null);
+  const [focused,setFocused]=useState<string|null>(null);
+  const [lightbox,setLightbox]=useState<string|null>(null);
 
   const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
   const pickedAt=directionPick?.pickedAt;
@@ -1217,15 +1224,53 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
   const fmt=(ts:number)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
 
   const options=[
-    {id:"A",name:"Modern Minimal",chips:["Clean","Confident","Precision"],img:"/images/direction-option-a.png",recommended:false},
-    {id:"B",name:"Warm Editorial",chips:["Warm","Story-driven","Editorial"],img:"/images/direction-option-b.png",recommended:true},
+    {
+      id:"A",
+      name:"Modern Minimal",
+      chips:["Clean","Confident","Precision"],
+      img:"/images/direction-option-a.png",
+      recommended:false,
+      description:"Crisp white space, geometric structure, and clean sans-serif type. A brand built on clarity and quiet authority — it commands attention without shouting.",
+      feel:"For clients who value precision, trust, and a polished first impression.",
+    },
+    {
+      id:"B",
+      name:"Warm Editorial",
+      chips:["Warm","Story-driven","Editorial"],
+      img:"/images/direction-option-b.png",
+      recommended:true,
+      description:"Rich textures, serif typography, and human-first visuals. A brand that draws people in through warmth and story — it feels personal and approachable.",
+      feel:"For clients who want a brand that builds relationships and feels like home.",
+    },
   ];
+
+  /* ── LIGHTBOX ── */
+  const LightboxOverlay=lightbox?(
+    <div
+      onClick={()=>setLightbox(null)}
+      style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.88)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",cursor:"zoom-out"}}>
+      <div onClick={e=>e.stopPropagation()} style={{maxWidth:"90vw",maxHeight:"90vh",position:"relative"}}>
+        <img
+          src={lightbox}
+          alt="Direction preview"
+          style={{maxWidth:"100%",maxHeight:"80vh",objectFit:"contain",borderRadius:8,display:"block",boxShadow:"0 24px 80px rgba(0,0,0,0.5)"}}
+        />
+        <button
+          onClick={()=>setLightbox(null)}
+          style={{position:"absolute",top:-14,right:-14,width:30,height:30,borderRadius:"50%",background:"#fff",color:"#000",border:"none",cursor:"pointer",fontSize:16,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.4)",lineHeight:1}}>
+          ×
+        </button>
+        <div style={{textAlign:"center",marginTop:10,fontSize:11,color:"rgba(255,255,255,0.5)",fontFamily:"Inter,sans-serif"}}>Click anywhere to close</div>
+      </div>
+    </div>
+  ):null;
 
   /* ── LOCKED ── */
   if(activePick){
     const name=optionNames[activePick]||activePick;
     return(
       <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        {LightboxOverlay}
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
           <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
           <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>
@@ -1245,76 +1290,246 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
   /* ── PICKER ── */
   return(
     <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      {LightboxOverlay}
+
       {/* Section header */}
       <div style={{marginBottom:14}}>
         <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
-        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Pick the direction that feels most like you — this unlocks logo design.</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
+          Tap a card to explore — click the image to preview full size. When you're ready, choose the one that feels most like you.
+        </div>
       </div>
 
       {/* Option cards */}
       <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
-        {options.map(opt=>(
-          <div key={opt.id} style={{flex:"1 1 200px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:8,padding:14,cursor:"default",minWidth:200}}>
+        {options.map(opt=>{
+          const isFocused=focused===opt.id;
+          const isDimmed=focused!==null&&!isFocused;
+          const isHovered=hovering===opt.id&&!isFocused;
+          const borderColor=isFocused?c.BLUE:isHovered?c.BLUE+"66":c.EDGE;
+          const borderWidth=isFocused?"2px":"1px";
+          const cardOpacity=isDimmed?0.45:1;
+          const cardTransform=isFocused?"scale(1.015)":isHovered?"scale(1.007)":"scale(1)";
 
-            {/* Image */}
-            <div style={{position:"relative",marginBottom:10}}>
-              <img
-                src={opt.img}
-                alt={`Option ${opt.id}`}
-                style={{width:"100%",height:120,objectFit:"cover",borderRadius:4,display:"block",background:c.DEEP}}
-                onError={e=>{(e.target as HTMLImageElement).style.display="none"}}
-              />
-              {/* Fallback behind image */}
-              <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",borderRadius:4}}>
-                <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",opacity:0.4}}>Option {opt.id}</div>
+          return(
+            <div
+              key={opt.id}
+              onClick={()=>setFocused(isFocused?null:opt.id)}
+              onMouseEnter={()=>setHovering(opt.id)}
+              onMouseLeave={()=>setHovering(null)}
+              style={{
+                flex:"1 1 200px",
+                background:isFocused?c.BLUE+"05":c.BG,
+                border:`${borderWidth} solid ${borderColor}`,
+                borderRadius:8,
+                padding:14,
+                cursor:"pointer",
+                minWidth:200,
+                opacity:cardOpacity,
+                transform:cardTransform,
+                transition:"opacity 0.2s ease, transform 0.2s ease, border-color 0.15s ease, border-width 0.15s ease, background 0.15s ease",
+                boxShadow:isFocused?`0 4px 20px ${c.BLUE}18`:isHovered?"0 2px 10px rgba(0,0,0,0.06)":"none",
+              }}>
+
+              {/* Image */}
+              <div style={{position:"relative",marginBottom:10}}>
+                <div
+                  onClick={e=>{e.stopPropagation();setLightbox(opt.img);}}
+                  style={{position:"relative",cursor:"zoom-in",borderRadius:4,overflow:"hidden"}}>
+                  <img
+                    src={opt.img}
+                    alt={`Option ${opt.id}`}
+                    style={{width:"100%",height:isFocused?180:150,objectFit:"cover",borderRadius:4,display:"block",background:c.DEEP,transition:"height 0.25s ease"}}
+                    onError={e=>{(e.target as HTMLImageElement).style.display="none"}}
+                  />
+                  {/* Zoom hint overlay */}
+                  <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0)",display:"flex",alignItems:"center",justifyContent:"center",transition:"background 0.15s ease",borderRadius:4}}
+                    onMouseEnter={e=>{(e.currentTarget as HTMLDivElement).style.background="rgba(0,0,0,0.22)";}}
+                    onMouseLeave={e=>{(e.currentTarget as HTMLDivElement).style.background="rgba(0,0,0,0)";}}
+                  >
+                    <div style={{fontSize:9,fontWeight:700,color:"#fff",letterSpacing:1.5,fontFamily:"Inter,sans-serif",opacity:0,pointerEvents:"none",background:"rgba(0,0,0,0.5)",padding:"3px 10px",borderRadius:20,transition:"opacity 0.15s"}}>PREVIEW</div>
+                  </div>
+                  {/* Fallback label */}
+                  <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",pointerEvents:"none",zIndex:-1}}>
+                    <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",opacity:0.4}}>Option {opt.id}</div>
+                  </div>
+                </div>
+                {opt.recommended&&(
+                  <div style={{position:"absolute",top:6,right:6,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif",zIndex:2}}>RECOMMENDED</div>
+                )}
+                {isFocused&&(
+                  <div style={{position:"absolute",top:6,left:6,fontSize:8,fontWeight:800,color:c.BLUE,background:"#fff",padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif",border:`1px solid ${c.BLUE}33`,zIndex:2}}>PREVIEWING</div>
+                )}
               </div>
-              {opt.recommended&&(
-                <div style={{position:"absolute",top:6,right:6,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"Inter,sans-serif"}}>RECOMMENDED</div>
+
+              {/* Option letter */}
+              <div style={{fontSize:20,fontWeight:900,color:isFocused?c.BLUE:c.BLUE,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:3}}>{opt.id}</div>
+              {/* Direction name */}
+              <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
+              {/* Chips */}
+              <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:10}}>
+                {opt.chips.map(chip=>(
+                  <div key={chip} style={{fontSize:9,fontWeight:600,color:isFocused?c.BLUE:c.SLATE,background:isFocused?c.BLUE+"12":c.DEEP,borderRadius:20,padding:"2px 8px",fontFamily:"Inter,sans-serif",transition:"color 0.15s,background 0.15s"}}>{chip}</div>
+                ))}
+              </div>
+
+              {/* Expanded description (visible when focused) */}
+              <div style={{
+                overflow:"hidden",
+                maxHeight:isFocused?160:0,
+                opacity:isFocused?1:0,
+                transition:"max-height 0.3s ease, opacity 0.25s ease",
+                marginBottom:isFocused?12:0,
+              }}>
+                <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.6,marginBottom:8}}>{opt.description}</div>
+                <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5,fontStyle:"italic"}}>{opt.feel}</div>
+              </div>
+
+              {/* CTA / confirm */}
+              {confirming===opt.id?(
+                <div onClick={e=>e.stopPropagation()}>
+                  <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",marginBottom:8,lineHeight:1.4}}>
+                    Confirm Option {opt.id} — {optionNames[opt.id]}?
+                  </div>
+                  <div style={{display:"flex",gap:6}}>
+                    <button
+                      onClick={()=>handlePick(opt.id)}
+                      disabled={saving}
+                      style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
+                      {saving?"SAVING…":"YES, THIS ONE"}
+                    </button>
+                    <button
+                      onClick={()=>{setConfirming(null);}}
+                      style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>
+                      CANCEL
+                    </button>
+                  </div>
+                </div>
+              ):(
+                <button
+                  onClick={e=>{e.stopPropagation();setFocused(opt.id);setConfirming(opt.id);}}
+                  style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:isFocused?c.BLUE:"transparent",color:isFocused?"#fff":c.BLUE,border:`1.5px solid ${c.BLUE}`,borderRadius:5,cursor:"pointer",transition:"background 0.15s,color 0.15s"}}
+                  onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.opacity="0.85";}}
+                  onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.opacity="1";}}>
+                  CHOOSE OPTION {opt.id}
+                </button>
               )}
             </div>
+          );
+        })}
+      </div>
 
-            {/* Option letter */}
-            <div style={{fontSize:20,fontWeight:900,color:c.BLUE,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:3}}>{opt.id}</div>
-            {/* Direction name */}
-            <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
-            {/* Chips */}
-            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}}>
-              {opt.chips.map(chip=>(
-                <div key={chip} style={{fontSize:9,fontWeight:600,color:c.SLATE,background:c.DEEP,borderRadius:20,padding:"2px 8px",fontFamily:"Inter,sans-serif"}}>{chip}</div>
+      {/* Dismiss focus hint */}
+      {focused&&(
+        <div style={{textAlign:"center",marginTop:10,fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",opacity:0.6}}>
+          Click the card again to collapse · Click the image to preview full size
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   DISCOVERY FORM INLINE (milestone card)
+   ═══════════════════════════════════════ */
+function DiscoveryFormInline({c,opsMode,discoveryData,onSubmit}:{c:any,opsMode:boolean,discoveryData:any,onSubmit:(responses:Record<string,string>|null)=>Promise<void>}){
+  const [form,setForm]=useState<Record<string,string>>({});
+  const [saving,setSaving]=useState(false);
+
+  useEffect(()=>{
+    if(discoveryData?.responses){
+      try{setForm(JSON.parse(discoveryData.responses))}catch{}
+    }
+  },[discoveryData]);
+
+  const submitted=!!(discoveryData?.submittedAt&&discoveryData.submittedAt>0);
+  const update=(id:string,val:string)=>setForm(p=>({...p,[id]:val}));
+  const fmt=(ts:number)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+
+  const handleSubmit=async()=>{
+    const required=discoveryQuestions.filter(q=>q.type!=="select").slice(0,3);
+    if(required.some(q=>!form[q.id]?.trim()))return;
+    setSaving(true);
+    try{await onSubmit(form);}finally{setSaving(false);}
+  };
+
+  const sections=[...new Set(discoveryQuestions.map(q=>q.section))];
+
+  /* ── LOCKED ── */
+  if(submitted){
+    const summary=[
+      {label:"Why real estate?",val:form.brand_story},
+      {label:"What makes you different?",val:form.differentiator},
+      {label:"Ideal client",val:form.ideal_client},
+      {label:"Brand feeling",val:form.brand_feeling},
+    ].filter(s=>s.val);
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6,marginBottom:summary.length?12:0}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>Discovery Questionnaire Submitted</div>
+          {discoveryData?.submittedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginLeft:"auto"}}>{fmt(discoveryData.submittedAt)}</div>:null}
+          {opsMode&&(
+            <button onClick={async()=>{setSaving(true);try{await onSubmit(null)}finally{setSaving(false)}}} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"Inter,sans-serif",padding:0,marginLeft:4,opacity:saving?0.5:1}}>
+              {saving?"…":"Reset"}
+            </button>
+          )}
+        </div>
+        {summary.length>0&&(
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {summary.slice(0,3).map(s=>(
+              <div key={s.label} style={{padding:"8px 12px",background:c.CARD,borderRadius:5,border:`1px solid ${c.EDGE}`}}>
+                <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:2}}>{s.label.toUpperCase()}</div>
+                <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>{s.val.length>120?s.val.slice(0,120)+"…":s.val}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  /* ── FORM ── */
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Discovery Questionnaire</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Help us understand your vision — your answers shape every brand decision.</div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
+        {sections.map(section=>(
+          <div key={section}>
+            <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {discoveryQuestions.filter(q=>q.section===section).map(q=>(
+                <div key={q.id}>
+                  <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4}}>{q.label}</label>
+                  {q.type==="textarea"?(
+                    <textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  ):q.type==="select"?(
+                    <div style={{display:"flex",flexDirection:"column",gap:4}}>
+                      {q.options.map((opt:string)=>(
+                        <label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.BLUE+"0c":c.BG,border:`1px solid ${form[q.id]===opt?c.BLUE+"44":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}>
+                          <div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.BLUE:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"border-color 0.15s"}}>
+                            {form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.BLUE}}/>}
+                          </div>
+                          <span style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif"}}>{opt}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ):(
+                    <input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  )}
+                </div>
               ))}
             </div>
-
-            {/* CTA / confirm */}
-            {confirming===opt.id?(
-              <div>
-                <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",marginBottom:8,lineHeight:1.4}}>
-                  Confirm Option {opt.id} — {optionNames[opt.id]}?
-                </div>
-                <div style={{display:"flex",gap:6}}>
-                  <button
-                    onClick={()=>handlePick(opt.id)}
-                    disabled={saving}
-                    style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
-                    {saving?"SAVING…":"YES"}
-                  </button>
-                  <button
-                    onClick={()=>setConfirming(null)}
-                    style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>
-                    CANCEL
-                  </button>
-                </div>
-              </div>
-            ):(
-              <button
-                onClick={()=>setConfirming(opt.id)}
-                style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer"}}
-                onMouseEnter={e=>(e.currentTarget.style.opacity="0.85")}
-                onMouseLeave={e=>(e.currentTarget.style.opacity="1")}>
-                CHOOSE OPTION {opt.id}
-              </button>
-            )}
           </div>
         ))}
+      </div>
+      <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
+          {saving?"SUBMITTING…":"SUBMIT QUESTIONNAIRE"}
+        </button>
       </div>
     </div>
   );
@@ -1336,6 +1551,18 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
   const onToggle=(key)=>{
     const newVal=!tasks[key];
     setTaskMutation({projectId:"sydney-spillman",key,value:newVal});
+  };
+
+  const discoveryData=useQuery(api.sydneyTasks.getDiscovery,{projectId:"sydney-spillman"})??null;
+  const saveDiscoveryMutation=useMutation(api.sydneyTasks.saveDiscovery);
+  const onSubmitDiscovery=async(responses:Record<string,string>|null)=>{
+    if(responses===null){
+      await saveDiscoveryMutation({projectId:"sydney-spillman",responses:"{}",submittedAt:0});
+      setTaskMutation({projectId:"sydney-spillman",key:"1-DISCOVERY SESSION-0",value:false});
+    }else{
+      await saveDiscoveryMutation({projectId:"sydney-spillman",responses:JSON.stringify(responses),submittedAt:Date.now()});
+      setTaskMutation({projectId:"sydney-spillman",key:"1-DISCOVERY SESSION-0",value:true});
+    }
   };
 
   const directionPick=useQuery(api.sydneyTasks.getDirectionPick,{projectId:"sydney-spillman"})??null;
@@ -1399,7 +1626,7 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
 
       {/* Content */}
       <div style={{minHeight:"calc(100vh - 120px)"}}>
-        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} directionPick={directionPick} onPick={onPickDirection}/>}
+        {tab==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} directionPick={directionPick} onPick={onPickDirection} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery}/>}
         {tab==="scope"&&<ScopePage c={c}/>}
         {tab==="agreement"&&<AgreementPage c={c}/>}
         {tab==="website"&&<WebsitePage c={c}/>}

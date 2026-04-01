@@ -25,7 +25,7 @@ const phases=[
   {id:1,name:"BRAND",subtitle:"Brand Discovery + Visual System",week:"WEEKS 1–2",fee:"$550",short:"BRAND · KIT",icon:"🎨",
     milestones:[
       {title:"DISCOVERY SESSION",clientDesc:"Define what Arquero stands for — positioning, audience, and brand voice for the welding lifestyle market.",
-        tasks:[{label:"Client intake call — brand story, values, target customer profile"},{label:"Define brand positioning: where does Arquero sit in the welding lifestyle space?"},{label:"Identify tone: rugged craftsmanship? modern industrial? streetwear-meets-trade?"},{label:"Competitor audit — 5 comparable welding/trade lifestyle brands"}]},
+        tasks:[{label:"Complete the Brand Intake Questionnaire",blocker:true},{label:"Define brand positioning: where does Arquero sit in the welding lifestyle space?"},{label:"Identify tone: rugged craftsmanship? modern industrial? streetwear-meets-trade?"},{label:"Competitor audit — 5 comparable welding/trade lifestyle brands"}]},
       {title:"MOOD + DIRECTION",clientDesc:"Visual direction deck before any design work begins.",
         tasks:[{label:"Build mood board — textures, typography, color feel, photography style"},{label:"Present 2 direction options (e.g. raw industrial vs. refined craft)"},{label:"Get client approval on direction before moving to logo design",blocker:true}]},
       {title:"LOGO DESIGN",clientDesc:"Three concepts refined into a final mark — primary logo, icon, and wordmark.",
@@ -836,7 +836,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
 /* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,colors,deliverables,onAddDeliverable,onRemoveDeliverable}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any,deliverables?:any[],onAddDeliverable?:any,onRemoveDeliverable?:any}){
+function WorkflowPage({view,tasks,onToggle,colors,deliverables,onAddDeliverable,onRemoveDeliverable,discoveryData,onSubmitDiscovery,directionPick,onPick}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any,deliverables?:any[],onAddDeliverable?:any,onRemoveDeliverable?:any,discoveryData?:any,onSubmitDiscovery?:any,directionPick?:any,onPick?:any}){
   const {O,O2,EMBER,DARK,STEEL,PLATE,WELD,RIVET,ASH,SMOKE,LIGHT,GREEN}=colors;
   const c={BG:DARK,CARD:PLATE,DEEP:WELD,EDGE:RIVET,SLATE:ASH,STONE:SMOKE,INK:LIGHT,BLUE:O,NAVY:O2,GREEN,EMBER};
   const [activePhase,setActivePhase]=useState(1);
@@ -946,6 +946,12 @@ function WorkflowPage({view,tasks,onToggle,colors,deliverables,onAddDeliverable,
                         })}
                       </div>
                       <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables??[]} onAdd={onAddDeliverable??((()=>{}))} onRemove={onRemoveDeliverable??((()=>{}))}/>
+                      {phase.id===1&&m.title==="DISCOVERY SESSION"&&(
+                        <ArqueroDiscoveryForm c={c} opsMode={view==="internal"} discoveryData={discoveryData} onSubmit={onSubmitDiscovery}/>
+                      )}
+                      {phase.id===1&&m.title==="MOOD + DIRECTION"&&(
+                        <ArqueroDirectionPicker c={c} opsMode={view==="internal"} directionPick={directionPick} onPick={onPick}/>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1343,6 +1349,136 @@ function WebsitePage({colors}){
 }
 
 /* ═══════════════════════════════════════
+   ARQUERO DISCOVERY FORM (inline)
+   ═══════════════════════════════════════ */
+const arqueroQuestions=[
+  {id:"brand_story",section:"YOUR BRAND",label:"What's the story behind Arquero? What does the name mean to you?",type:"textarea",placeholder:"Tell us the origin — the vision, the name, why now..."},
+  {id:"differentiator",section:"YOUR BRAND",label:"What makes Arquero different from other workwear or welder lifestyle brands?",type:"textarea",placeholder:"What do you bring that Weld Culture, Pipeliners, or generic workwear doesn't?"},
+  {id:"tagline",section:"YOUR BRAND",label:"Do you have a tagline in mind?",type:"text",placeholder:"e.g. 'Aim True. Weld True.' — or leave blank if undecided"},
+  {id:"target_customer",section:"YOUR CUSTOMER",label:"Who is the core Arquero customer?",type:"textarea",placeholder:"e.g. pipe welders, fabricators, weekend builders, trade apprentices..."},
+  {id:"purchase_driver",section:"YOUR CUSTOMER",label:"Why does your customer choose Arquero over a generic brand or a competitor?",type:"textarea",placeholder:"What's the pull — identity, quality, craft pride, community?"},
+  {id:"brand_feeling",section:"BRAND FEEL",label:"Pick 3-5 words that describe how you want the brand to feel.",type:"text",placeholder:"e.g. Raw, precise, proud, gritty, earned..."},
+  {id:"style_direction",section:"BRAND FEEL",label:"Which visual direction resonates most?",type:"select",options:["Raw Industrial — rough textures, heavy metal, forge energy","Refined Craft — precision, quality, understated confidence","Streetwear Edge — lifestyle-first, culture-native, hype-adjacent","Heritage Trade — old-school mastery, pride in craft, legacy"]},
+  {id:"inspiration",section:"BRAND FEEL",label:"Any brands, logos, or aesthetics you admire?",type:"textarea",placeholder:"Any industry — share names, links, or describe the feeling..."},
+  {id:"hero_product",section:"PRODUCT LINE",label:"What's the first product you want to launch with?",type:"text",placeholder:"e.g. heavyweight tee, welding bandana, snapback..."},
+  {id:"existing_assets",section:"PRODUCT LINE",label:"What do you already have?",type:"select",options:["Nothing yet — starting completely fresh","Have product ideas but no photos or designs","Have some product photos or mockups","Have branding concepts or logo ideas","Have everything — just need the store"]},
+];
+function ArqueroDiscoveryForm({c,opsMode,discoveryData,onSubmit}){
+  const [form,setForm]=useState({});
+  const [saving,setSaving]=useState(false);
+  useEffect(()=>{if(discoveryData?.responses){try{setForm(JSON.parse(discoveryData.responses))}catch{}}},[discoveryData]);
+  const submitted=!!(discoveryData?.submittedAt&&discoveryData.submittedAt>0);
+  const update=(id,val)=>setForm(p=>({...p,[id]:val}));
+  const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const handleSubmit=async()=>{
+    const required=arqueroQuestions.filter(q=>q.type!=="select").slice(0,2);
+    if(required.some(q=>!form[q.id]?.trim()))return;
+    setSaving(true);try{await onSubmit(form);}finally{setSaving(false);}
+  };
+  const sections=[...new Set(arqueroQuestions.map(q=>q.section))];
+  if(submitted){
+    const summary=[{label:"Brand story",val:form.brand_story},{label:"Differentiator",val:form.differentiator},{label:"Target customer",val:form.target_customer}].filter(s=>s.val);
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6,marginBottom:summary.length?12:0}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"'IBM Plex Mono',monospace"}}>Brand Intake Submitted</div>
+          {discoveryData?.submittedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginLeft:"auto"}}>{fmt(discoveryData.submittedAt)}</div>:null}
+          {opsMode&&<button onClick={async()=>{setSaving(true);try{await onSubmit(null)}finally{setSaving(false)}}} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"'IBM Plex Mono',monospace",padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Reset"}</button>}
+        </div>
+        {summary.length>0&&<div style={{display:"flex",flexDirection:"column",gap:6}}>{summary.slice(0,3).map(s=>(<div key={s.label} style={{padding:"8px 12px",background:c.CARD,borderRadius:5,border:`1px solid ${c.EDGE}`}}><div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace",marginBottom:2}}>{s.label.toUpperCase()}</div><div style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>{s.val.length>120?s.val.slice(0,120)+"…":s.val}</div></div>))}</div>}
+      </div>
+    );
+  }
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",textTransform:"uppercase",marginBottom:4}}>Brand Intake</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>Tell us about Arquero — your answers shape every brand decision.</div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
+        {sections.map(section=>(
+          <div key={section}>
+            <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {arqueroQuestions.filter(q=>q.section===section).map(q=>(
+                <div key={q.id}>
+                  <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4,fontFamily:"'IBM Plex Mono',monospace"}}>{q.label}</label>
+                  {q.type==="textarea"?(<textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  ):q.type==="select"?(<div style={{display:"flex",flexDirection:"column",gap:4}}>{q.options.map(opt=>(<label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.BLUE+"18":c.BG,border:`1px solid ${form[q.id]===opt?c.BLUE+"66":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}><div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.BLUE:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.BLUE}}/>}</div><span style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace"}}>{opt}</span></label>))}</div>
+                  ):(<input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>)}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SUBMITTING…":"SUBMIT INTAKE"}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   ARQUERO DIRECTION PICKER (inline)
+   ═══════════════════════════════════════ */
+function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
+  const [confirming,setConfirming]=useState(null);
+  const [saving,setSaving]=useState(false);
+  const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
+  const pickedAt=directionPick?.pickedAt;
+  const optionNames={A:"Raw Industrial",B:"Refined Craft"};
+  const handlePick=async(pick)=>{setSaving(true);try{await onPick(pick);}finally{setSaving(false);setConfirming(null);}};
+  const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const options=[
+    {id:"A",name:"Raw Industrial",chips:["Gritty","Heavy","Forge energy"],recommended:false},
+    {id:"B",name:"Refined Craft",chips:["Precision","Quality","Earned"],recommended:true},
+  ];
+  if(activePick){
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"'IBM Plex Mono',monospace"}}>Option {activePick} — {optionNames[activePick]} selected</div>
+          {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
+          {opsMode&&<button onClick={()=>handlePick("")} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"'IBM Plex Mono',monospace",padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Change"}</button>}
+        </div>
+      </div>
+    );
+  }
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>Pick the direction that feels most like Arquero — this unlocks logo design.</div>
+      </div>
+      <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+        {options.map(opt=>(
+          <div key={opt.id} style={{flex:"1 1 180px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:8,padding:14,minWidth:180,position:"relative"}}>
+            {opt.recommended&&<div style={{position:"absolute",top:8,right:8,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace"}}>RECOMMENDED</div>}
+            <div style={{fontSize:20,fontWeight:900,color:c.BLUE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1,marginBottom:4}}>{opt.id}</div>
+            <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"'IBM Plex Mono',monospace"}}>{opt.name}</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}}>{opt.chips.map(chip=>(<div key={chip} style={{fontSize:9,fontWeight:600,color:c.SLATE,background:c.CARD,borderRadius:20,padding:"2px 8px",fontFamily:"'IBM Plex Mono',monospace"}}>{chip}</div>))}</div>
+            {confirming===opt.id?(
+              <div>
+                <div style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace",marginBottom:8,lineHeight:1.4}}>Confirm Option {opt.id}?</div>
+                <div style={{display:"flex",gap:6}}>
+                  <button onClick={()=>handlePick(opt.id)} disabled={saving} style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SAVING…":"YES"}</button>
+                  <button onClick={()=>setConfirming(null)} style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>CANCEL</button>
+                </div>
+              </div>
+            ):(
+              <button onClick={()=>setConfirming(opt.id)} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer"}}>CHOOSE OPTION {opt.id}</button>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    MAIN APP
    ═══════════════════════════════════════ */
 export default function ArqueroHub({ defaultView = "internal", opsMode = true }: { defaultView?: "internal" | "client"; opsMode?: boolean }){
@@ -1357,6 +1493,26 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
     addDeliverableMutation({projectId:"arquero-co",milestoneKey,label,url:url||"",type,addedAt:Date.now(),...(markdownContent?{markdownContent}:{})});
   };
   const onRemoveDeliverable = (id) => { removeDeliverableMutation({id}); };
+
+  const discoveryData = useQuery(api.arqueroTasks.getDiscovery, { projectId: "arquero-co" }) ?? null;
+  const saveDiscoveryMutation = useMutation(api.arqueroTasks.saveDiscovery);
+  const onSubmitDiscovery = async (responses) => {
+    if (responses === null) {
+      await saveDiscoveryMutation({ projectId: "arquero-co", responses: "{}", submittedAt: 0 });
+      setTaskMutation({ projectId: "arquero-co", key: "1-DISCOVERY SESSION-0", value: false });
+    } else {
+      await saveDiscoveryMutation({ projectId: "arquero-co", responses: JSON.stringify(responses), submittedAt: Date.now() });
+      setTaskMutation({ projectId: "arquero-co", key: "1-DISCOVERY SESSION-0", value: true });
+    }
+  };
+
+  const directionPick = useQuery(api.arqueroTasks.getDirectionPick, { projectId: "arquero-co" }) ?? null;
+  const saveDirectionPickMutation = useMutation(api.arqueroTasks.saveDirectionPick);
+  const onPickDirection = async (pick) => {
+    await saveDirectionPickMutation({ projectId: "arquero-co", pick, pickedAt: pick ? Date.now() : 0 });
+    setTaskMutation({ projectId: "arquero-co", key: "1-MOOD + DIRECTION-2", value: !!pick });
+  };
+
   const ov=overall(tasks);
 
   const [theme,setTheme]=useState<"dark"|"light">(() => {
@@ -1509,7 +1665,7 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
       </div>
 
       {/* ═══ PAGE CONTENT ═══ */}
-      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable}/>}
+      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery} directionPick={directionPick} onPick={onPickDirection}/>}
       {page==="scope"&&<ScopePage colors={colors}/>}
       {page==="agreement"&&<AgreementPage colors={colors}/>}
       {page==="website"&&<WebsitePage colors={colors}/>}
