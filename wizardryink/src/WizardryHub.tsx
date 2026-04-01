@@ -12,7 +12,7 @@ class ErrorBoundary extends Component{
       return <div style={{padding:40,fontFamily:"Inter,sans-serif",maxWidth:600,margin:"0 auto"}}>
         <div style={{fontSize:18,fontWeight:700,color:"#ef4444",marginBottom:12}}>Something went wrong</div>
         <pre style={{fontSize:11,color:"#94a3b8",whiteSpace:"pre-wrap",wordBreak:"break-all"}}>{String(this.state.error)}</pre>
-        <button onClick={()=>window.location.reload()} style={{marginTop:16,padding:"8px 20px",fontSize:12,background:"#8b5cf6",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>Reload</button>
+        <button onClick={()=>window.location.reload()} style={{marginTop:16,padding:"8px 20px",fontSize:12,background:"#f97316",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>Reload</button>
       </div>
     }
     return this.props.children;
@@ -20,17 +20,17 @@ class ErrorBoundary extends Component{
 }
 
 /* ── color system ── */
-const VIOLET="#8b5cf6",VIOLET2="#a78bfa",DEEP_V="#6d28d9",GREEN="#22c55e",EMBER="#ef4444";
+const ORANGE="#f97316",ORANGE2="#fb923c",DEEP_O="#ea580c",GREEN="#22c55e",EMBER="#ef4444";
 
 const darkColors={
-  VIOLET,VIOLET2,DEEP_V,GREEN,EMBER,
-  BG:"#0a0a0f",CARD:"#141420",DEEP:"#1e1e2e",INPUT:"#2a2a3e",
-  EDGE:"#333350",SLATE:"#8888aa",STONE:"#bbbbdd",INK:"#f0f0f8",
+  ORANGE,ORANGE2,DEEP_O,GREEN,EMBER,
+  BG:"#0f0a05",CARD:"#1a1005",DEEP:"#241808",INPUT:"#2e2010",
+  EDGE:"#3d2c15",SLATE:"#a08060",STONE:"#d4b896",INK:"#f5ede0",
 };
 const lightColors={
-  VIOLET,VIOLET2,DEEP_V,GREEN,EMBER,
-  BG:"#fafafa",CARD:"#ffffff",DEEP:"#f3f0ff",INPUT:"#e8e4f0",
-  EDGE:"#d4d0e0",SLATE:"#6b6880",STONE:"#444455",INK:"#111118",
+  ORANGE,ORANGE2,DEEP_O,GREEN,EMBER,
+  BG:"#fffbf5",CARD:"#ffffff",DEEP:"#fff3e0",INPUT:"#fde8cc",
+  EDGE:"#f5cfa0",SLATE:"#8c6a45",STONE:"#4a3020",INK:"#1a0f05",
 };
 
 /* ── phases data ── */
@@ -87,7 +87,7 @@ function overall(ts){let t=0,d=0;phases.forEach(p=>p.milestones.forEach(m=>m.tas
 
 const Bar=({pct,h=6,glow=false,c})=>(
   <div style={{background:c.EDGE+"44",borderRadius:3,height:h,width:"100%",overflow:"hidden"}}>
-    <div style={{width:`${pct}%`,height:"100%",borderRadius:3,transition:"width 0.5s cubic-bezier(.4,0,.2,1)",background:pct===100?c.GREEN:`linear-gradient(90deg,${c.VIOLET},${c.VIOLET2})`,boxShadow:glow&&pct>0&&pct<100?`0 0 12px ${c.VIOLET}44`:"none"}}/>
+    <div style={{width:`${pct}%`,height:"100%",borderRadius:3,transition:"width 0.5s cubic-bezier(.4,0,.2,1)",background:pct===100?c.GREEN:`linear-gradient(90deg,${c.ORANGE},${c.ORANGE2})`,boxShadow:glow&&pct>0&&pct<100?`0 0 12px ${c.ORANGE}44`:"none"}}/>
   </div>
 );
 
@@ -101,14 +101,14 @@ const Grain=()=>(
 function ScopePage({c}){
   const Section=({title,children})=>(
     <div style={{marginBottom:28}}>
-      <div style={{fontSize:13,fontWeight:700,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:14,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{title}</div>
+      <div style={{fontSize:13,fontWeight:700,color:c.ORANGE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:14,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{title}</div>
       {children}
     </div>
   );
   return(
     <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
       <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{fontSize:11,color:c.VIOLET,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
+        <div style={{fontSize:11,color:c.ORANGE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
         <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Scope of Work</div>
         <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>Wizardry Ink Tattoo Studio — Website Redesign + AI Booking System</div>
       </div>
@@ -128,7 +128,7 @@ function ScopePage({c}){
       </Section>
 
       <Section title="ENGAGEMENT TYPE">
-        <div style={{background:c.VIOLET+"0c",border:`1px solid ${c.VIOLET}22`,borderRadius:8,padding:"16px 20px"}}>
+        <div style={{background:c.ORANGE+"0c",border:`1px solid ${c.ORANGE}22`,borderRadius:8,padding:"16px 20px"}}>
           <div style={{fontSize:14,fontWeight:700,color:c.INK,marginBottom:4}}>Tattoo Trade</div>
           <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6}}>
             This project is a tattoo trade engagement valued at $3,800. Full website redesign + AI booking system deliverables provided in exchange for tattoo work.
@@ -143,12 +143,12 @@ function ScopePage({c}){
               <div style={{fontSize:13,fontWeight:700,color:c.INK,letterSpacing:0.5}}>Phase {p.id} — {p.name}</div>
               <div style={{fontSize:10,color:c.SLATE,marginTop:2,fontFamily:"Inter,sans-serif"}}>{p.subtitle}</div>
             </div>
-            <div style={{fontSize:14,fontWeight:800,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>{p.fee}</div>
+            <div style={{fontSize:14,fontWeight:800,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>{p.fee}</div>
           </div>
         ))}
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"12px 16px",background:c.VIOLET+"0c",borderRadius:6,border:`1px solid ${c.VIOLET}33`,marginTop:4}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"12px 16px",background:c.ORANGE+"0c",borderRadius:6,border:`1px solid ${c.ORANGE}33`,marginTop:4}}>
           <div style={{fontSize:14,fontWeight:800,color:c.INK,letterSpacing:1}}>TOTAL PROJECT VALUE</div>
-          <div style={{fontSize:18,fontWeight:900,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>$3,800</div>
+          <div style={{fontSize:18,fontWeight:900,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>$3,800</div>
         </div>
       </Section>
 
@@ -156,7 +156,7 @@ function ScopePage({c}){
         {phases.map(p=>(
           <div key={p.id} style={{marginBottom:16}}>
             <div style={{fontSize:12,fontWeight:800,color:c.INK,letterSpacing:1,marginBottom:8}}>
-              <span style={{color:c.VIOLET,marginRight:8}}>PHASE {p.id}</span>{p.name} — {p.subtitle}
+              <span style={{color:c.ORANGE,marginRight:8}}>PHASE {p.id}</span>{p.name} — {p.subtitle}
             </div>
             {p.milestones.map(m=>(
               <div key={m.title} style={{marginBottom:8,paddingLeft:16}}>
@@ -175,7 +175,7 @@ function ScopePage({c}){
       <Section title="ESTIMATED TIMELINE">
         {phases.map(p=>(
           <div key={p.id} style={{display:"flex",justifyContent:"space-between",padding:"8px 16px",borderBottom:`1px solid ${c.EDGE}`}}>
-            <div><span style={{fontSize:11,color:c.VIOLET,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:10}}>Phase {p.id}</span><span style={{fontSize:13,color:c.INK}}>{p.subtitle}</span></div>
+            <div><span style={{fontSize:11,color:c.ORANGE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:10}}>Phase {p.id}</span><span style={{fontSize:13,color:c.INK}}>{p.subtitle}</span></div>
             <span style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{p.week}</span>
           </div>
         ))}
@@ -190,7 +190,7 @@ function ScopePage({c}){
           {l:"Third-Party Costs",b:"Domain hosting and any third-party API costs (notifications, calendar integrations) are paid by client. Estimated: varies by integration choices."},
         ].map(t=>(
           <div key={t.l} style={{marginBottom:10}}>
-            <div style={{fontSize:11,fontWeight:700,color:c.VIOLET,letterSpacing:1,marginBottom:2}}>{t.l}</div>
+            <div style={{fontSize:11,fontWeight:700,color:c.ORANGE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
             <div style={{fontSize:11,color:c.INK,lineHeight:1.6,fontFamily:"Inter,sans-serif",paddingLeft:8}}>{t.b}</div>
           </div>
         ))}
@@ -290,7 +290,7 @@ function AgreementPage({c}){
           <div style={{fontSize:20,fontWeight:900,color:c.GREEN,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Agreement Signed</div>
           <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:6}}>Service agreement confirmed — {signedDate}</div>
           <div style={{marginTop:20}}>
-            <button onClick={downloadAgreementPdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.VIOLET,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>
+            <button onClick={downloadAgreementPdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.ORANGE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>
               {"\u2193"} DOWNLOAD AGREEMENT PDF
             </button>
           </div>
@@ -308,11 +308,11 @@ function AgreementPage({c}){
 
         <div id="agreement-printable" style={{opacity:signed?0.5:1,transition:"opacity 0.4s",pointerEvents:signed?"none":"auto"}}>
           <div style={{textAlign:"center",marginBottom:32}}>
-            <div style={{fontSize:11,color:c.VIOLET,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
+            <div style={{fontSize:11,color:c.ORANGE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
             <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Service Agreement</div>
             <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>
               Wizardry Ink Tattoo Studio — Website Redesign + AI Booking System
-              <span style={{marginLeft:8,fontSize:10,fontWeight:700,color:c.VIOLET,background:c.VIOLET+"12",padding:"2px 8px",borderRadius:3,letterSpacing:1.5,verticalAlign:"middle"}}>
+              <span style={{marginLeft:8,fontSize:10,fontWeight:700,color:c.ORANGE,background:c.ORANGE+"12",padding:"2px 8px",borderRadius:3,letterSpacing:1.5,verticalAlign:"middle"}}>
                 TATTOO TRADE
               </span>
             </div>
@@ -333,18 +333,18 @@ function AgreementPage({c}){
             {scopePhases.map(s=>(
               <div key={s.p} style={{padding:"10px 0",borderBottom:`1px solid ${c.EDGE}`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-                  <div><span style={{fontSize:10,color:c.VIOLET,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{s.p}</span><span style={{fontSize:12,fontWeight:700,color:c.INK}}>{s.n}</span></div>
+                  <div><span style={{fontSize:10,color:c.ORANGE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{s.p}</span><span style={{fontSize:12,fontWeight:700,color:c.INK}}>{s.n}</span></div>
                   <div style={{display:"flex",gap:12,alignItems:"baseline"}}>
-                    <span style={{fontSize:12,fontWeight:700,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>{s.fee}</span>
+                    <span style={{fontSize:12,fontWeight:700,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>{s.fee}</span>
                     <span style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{s.when}</span>
                   </div>
                 </div>
                 <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:4,paddingLeft:4}}>{s.desc}</div>
               </div>
             ))}
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"12px 0",borderBottom:`2px solid ${c.VIOLET}44`}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"12px 0",borderBottom:`2px solid ${c.ORANGE}44`}}>
               <span style={{fontSize:12,fontWeight:800,color:c.INK,letterSpacing:1}}>TOTAL PROJECT VALUE</span>
-              <span style={{fontSize:16,fontWeight:900,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>$3,800</span>
+              <span style={{fontSize:16,fontWeight:900,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>$3,800</span>
             </div>
           </div>
 
@@ -359,7 +359,7 @@ function AgreementPage({c}){
             <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>TIMELINE</div>
             {scopePhases.map(i=>(
               <div key={i.p} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${c.EDGE}`}}>
-                <div><span style={{fontSize:10,color:c.VIOLET,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{i.p}</span><span style={{fontSize:12,color:c.INK}}>{i.n}</span></div>
+                <div><span style={{fontSize:10,color:c.ORANGE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{i.p}</span><span style={{fontSize:12,color:c.INK}}>{i.n}</span></div>
                 <span style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{i.when}</span>
               </div>
             ))}
@@ -375,7 +375,7 @@ function AgreementPage({c}){
               {l:"Cancellation",b:"Either party may cancel with written notice. Completed work remains property of the client. Outstanding tattoo trade obligations are settled between parties."},
             ].map(t=>(
               <div key={t.l} style={{marginBottom:10}}>
-                <div style={{fontSize:11,fontWeight:700,color:c.VIOLET,letterSpacing:1,marginBottom:2}}>{t.l}</div>
+                <div style={{fontSize:11,fontWeight:700,color:c.ORANGE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
                 <div style={{fontSize:11,color:c.INK,lineHeight:1.6,fontFamily:"Inter,sans-serif",paddingLeft:8}}>{t.b}</div>
               </div>
             ))}
@@ -404,7 +404,7 @@ function AgreementPage({c}){
             </div>
             <div>
               <div style={{fontSize:10,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:8}}>CLIENT</div>
-              <div style={{background:c.CARD,border:`1px solid ${signed?c.GREEN+"33":c.VIOLET+"33"}`,borderRadius:8,padding:"16px 20px"}}>
+              <div style={{background:c.CARD,border:`1px solid ${signed?c.GREEN+"33":c.ORANGE+"33"}`,borderRadius:8,padding:"16px 20px"}}>
                 {signed?(
                   <>
                     {sigData&&sigData.startsWith("data:image")?(
@@ -430,7 +430,7 @@ function AgreementPage({c}){
                       style={{width:"100%",height:80,background:c.DEEP,borderRadius:4,border:`1px dashed ${c.EDGE}`,cursor:"crosshair",touchAction:"none"}}
                     />
                     <div style={{display:"flex",gap:8,marginTop:10}}>
-                      <button onClick={confirmSig} disabled={saving} style={{flex:1,padding:"8px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",background:c.VIOLET,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",opacity:saving?0.7:1}}>
+                      <button onClick={confirmSig} disabled={saving} style={{flex:1,padding:"8px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",background:c.ORANGE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",opacity:saving?0.7:1}}>
                         {saving?"SAVING\u2026":"CONFIRM SIGNATURE"}
                       </button>
                       <button onClick={clearSig} style={{padding:"8px 14px",fontSize:11,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer",letterSpacing:1}}>CLEAR</button>
@@ -476,21 +476,21 @@ function DocViewer({d,c,onClose}){
 
   const proseStyles=`
     .doc-prose{font-family:'Inter',sans-serif;font-size:14px;line-height:1.8;color:${c.INK};}
-    .doc-prose h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:${c.INK};margin:0 0 16px;letter-spacing:-0.3px;border-bottom:2px solid ${c.VIOLET}22;padding-bottom:10px;}
+    .doc-prose h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:${c.INK};margin:0 0 16px;letter-spacing:-0.3px;border-bottom:2px solid ${c.ORANGE}22;padding-bottom:10px;}
     .doc-prose h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:${c.INK};margin:28px 0 10px;letter-spacing:-0.2px;}
-    .doc-prose h3{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:${c.VIOLET};text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 8px;}
+    .doc-prose h3{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:${c.ORANGE};text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 8px;}
     .doc-prose p{margin:0 0 14px;}
     .doc-prose strong{font-weight:700;color:${c.INK};}
     .doc-prose em{font-style:italic;color:${c.STONE};}
     .doc-prose ul,.doc-prose ol{margin:0 0 14px;padding-left:22px;}
     .doc-prose li{margin-bottom:5px;}
-    .doc-prose a{color:${c.VIOLET};text-decoration:underline;}
-    .doc-prose blockquote{border-left:3px solid ${c.VIOLET};margin:0 0 14px;padding:10px 16px;background:${c.VIOLET}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;}
-    .doc-prose code{font-family:'Courier New',monospace;font-size:12px;background:${c.DEEP};padding:2px 6px;border-radius:3px;color:${c.DEEP_V};}
+    .doc-prose a{color:${c.ORANGE};text-decoration:underline;}
+    .doc-prose blockquote{border-left:3px solid ${c.ORANGE};margin:0 0 14px;padding:10px 16px;background:${c.ORANGE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;}
+    .doc-prose code{font-family:'Courier New',monospace;font-size:12px;background:${c.DEEP};padding:2px 6px;border-radius:3px;color:${c.DEEP_O};}
     .doc-prose pre{background:${c.DEEP};border:1px solid ${c.EDGE};border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 14px;}
     .doc-prose pre code{background:none;padding:0;}
     .doc-prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:13px;}
-    .doc-prose th{background:${c.VIOLET}10;color:${c.DEEP_V};font-weight:700;text-align:left;padding:8px 12px;border-bottom:2px solid ${c.VIOLET}33;font-size:11px;letter-spacing:0.5px;text-transform:uppercase;}
+    .doc-prose th{background:${c.ORANGE}10;color:${c.DEEP_O};font-weight:700;text-align:left;padding:8px 12px;border-bottom:2px solid ${c.ORANGE}33;font-size:11px;letter-spacing:0.5px;text-transform:uppercase;}
     .doc-prose td{padding:8px 12px;border-bottom:1px solid ${c.EDGE};vertical-align:top;}
     .doc-prose tr:last-child td{border-bottom:none;}
     .doc-prose img{max-width:100%;border-radius:8px;margin:8px 0;}
@@ -498,15 +498,15 @@ function DocViewer({d,c,onClose}){
     .slide-prose{display:flex;flex-direction:column;justify-content:center;min-height:340px;padding:32px 40px;}
     .slide-prose h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:${c.INK};margin:0 0 20px;text-align:center;}
     .slide-prose h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:${c.INK};margin:0 0 14px;}
-    .slide-prose h3{font-size:11px;font-weight:700;color:${c.VIOLET};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
+    .slide-prose h3{font-size:11px;font-weight:700;color:${c.ORANGE};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
     .slide-prose p{font-size:15px;line-height:1.7;margin:0 0 12px;color:${c.INK};}
     .slide-prose ul,.slide-prose ol{padding-left:20px;margin:0 0 12px;}
     .slide-prose li{font-size:14px;line-height:1.6;margin-bottom:6px;}
     .slide-prose strong{font-weight:700;}
     .slide-prose table{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 12px;}
-    .slide-prose th{background:${c.VIOLET}10;color:${c.DEEP_V};font-weight:700;padding:7px 10px;border-bottom:2px solid ${c.VIOLET}33;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
+    .slide-prose th{background:${c.ORANGE}10;color:${c.DEEP_O};font-weight:700;padding:7px 10px;border-bottom:2px solid ${c.ORANGE}33;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;}
     .slide-prose td{padding:7px 10px;border-bottom:1px solid ${c.EDGE};}
-    .slide-prose blockquote{border-left:3px solid ${c.VIOLET};padding:10px 16px;background:${c.VIOLET}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
+    .slide-prose blockquote{border-left:3px solid ${c.ORANGE};padding:10px 16px;background:${c.ORANGE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
   `;
 
   return(
@@ -523,12 +523,12 @@ function DocViewer({d,c,onClose}){
           {isContent&&isSlides&&(
             <div style={{display:"flex",background:c.DEEP,borderRadius:4,overflow:"hidden",border:`1px solid ${c.EDGE}`,flexShrink:0}}>
               {[["doc","Document"],["slides","Slides"]].map(([v,l])=>(
-                <button key={v} onClick={()=>{setViewMode(v);setSlide(0)}} style={{padding:"4px 12px",fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:viewMode===v?c.VIOLET:"transparent",color:viewMode===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l.toUpperCase()}</button>
+                <button key={v} onClick={()=>{setViewMode(v);setSlide(0)}} style={{padding:"4px 12px",fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:viewMode===v?c.ORANGE:"transparent",color:viewMode===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l.toUpperCase()}</button>
               ))}
             </div>
           )}
           {isContent&&(
-            <button onClick={downloadMd} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"Inter,sans-serif",padding:"5px 12px",background:c.VIOLET+"0c",color:c.VIOLET,border:`1px solid ${c.VIOLET}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
+            <button onClick={downloadMd} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"Inter,sans-serif",padding:"5px 12px",background:c.ORANGE+"0c",color:c.ORANGE,border:`1px solid ${c.ORANGE}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
           )}
           <button onClick={onClose} style={{fontSize:18,color:c.SLATE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"0 4px",flexShrink:0}}>×</button>
         </div>
@@ -548,7 +548,7 @@ function DocViewer({d,c,onClose}){
               <button onClick={()=>setSlide(s=>Math.max(0,s-1))} disabled={slide===0} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===0?c.EDGE:c.SLATE,cursor:slide===0?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>‹</button>
               <div style={{display:"flex",gap:6,alignItems:"center"}}>
                 {slides.map((_,i)=>(
-                  <button key={i} onClick={()=>setSlide(i)} style={{width:i===slide?20:7,height:7,borderRadius:4,background:i===slide?c.VIOLET:c.EDGE,border:"none",cursor:"pointer",transition:"all 0.2s",padding:0}}/>
+                  <button key={i} onClick={()=>setSlide(i)} style={{width:i===slide?20:7,height:7,borderRadius:4,background:i===slide?c.ORANGE:c.EDGE,border:"none",cursor:"pointer",transition:"all 0.2s",padding:0}}/>
                 ))}
               </div>
               <button onClick={()=>setSlide(s=>Math.min(slides.length-1,s+1))} disabled={slide===slides.length-1} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===slides.length-1?c.EDGE:c.SLATE,cursor:slide===slides.length-1?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>›</button>
@@ -559,7 +559,7 @@ function DocViewer({d,c,onClose}){
         {!isContent&&isImg(d.url)&&(
           <div style={{flex:1,overflow:"auto",display:"flex",flexDirection:"column",alignItems:"center",padding:24,gap:16,background:c.DEEP}}>
             <img src={d.url} alt={d.label} style={{maxWidth:"100%",maxHeight:"60vh",borderRadius:8,boxShadow:"0 8px 32px rgba(0,0,0,0.3)",objectFit:"contain"}}/>
-            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 18px",background:c.VIOLET,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 18px",background:c.ORANGE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
           </div>
         )}
 
@@ -567,7 +567,7 @@ function DocViewer({d,c,onClose}){
           <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,padding:40}}>
             <div style={{fontSize:40}}>{isPdf(d.url)?"📄":"🔗"}</div>
             <div style={{fontSize:14,fontWeight:600,color:c.INK,fontFamily:"Inter,sans-serif",textAlign:"center"}}>{d.label}</div>
-            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"8px 24px",background:c.VIOLET,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"8px 24px",background:c.ORANGE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
           </div>
         )}
       </div>
@@ -601,7 +601,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
   const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
   const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
 
-  const btnSm=(active)=>({fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"3px 8px",borderRadius:3,cursor:"pointer",border:`1px solid ${active?c.VIOLET+"44":c.EDGE}`,background:active?c.VIOLET+"0c":"transparent",color:active?c.VIOLET:c.SLATE});
+  const btnSm=(active)=>({fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"3px 8px",borderRadius:3,cursor:"pointer",border:`1px solid ${active?c.ORANGE+"44":c.EDGE}`,background:active?c.ORANGE+"0c":"transparent",color:active?c.ORANGE:c.SLATE});
 
   return(
     <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${c.EDGE}44`}}>
@@ -610,7 +610,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
         <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
         {isOps&&!adding&&(
-          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.VIOLET,background:c.VIOLET+"0c",border:`1px solid ${c.VIOLET}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>+ ADD</button>
+          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.ORANGE,background:c.ORANGE+"0c",border:`1px solid ${c.ORANGE}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>+ ADD</button>
         )}
       </div>
 
@@ -623,11 +623,11 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
         const isImgUrl=!isContent&&isImg(d.url);
         const isPdfUrl=!isContent&&isPdf(d.url);
         const typeLabel=isContent?"DOC":isImgUrl?"IMG":isPdfUrl?"PDF":"URL";
-        const typeBg=isContent?c.DEEP_V+"14":isImgUrl?c.GREEN+"14":isPdfUrl?c.EMBER+"14":c.VIOLET+"14";
-        const typeColor=isContent?c.DEEP_V:isImgUrl?c.GREEN:isPdfUrl?c.EMBER:c.VIOLET;
+        const typeBg=isContent?c.DEEP_O+"14":isImgUrl?c.GREEN+"14":isPdfUrl?c.EMBER+"14":c.ORANGE+"14";
+        const typeColor=isContent?c.DEEP_O:isImgUrl?c.GREEN:isPdfUrl?c.EMBER:c.ORANGE;
         return(
           <div key={d._id} onClick={()=>setViewing(d)} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:c.CARD,borderRadius:8,marginBottom:6,border:`1px solid ${c.EDGE}`,cursor:"pointer",transition:"border-color 0.15s"}}
-            onMouseEnter={e=>e.currentTarget.style.borderColor=c.VIOLET+"44"}
+            onMouseEnter={e=>e.currentTarget.style.borderColor=c.ORANGE+"44"}
             onMouseLeave={e=>e.currentTarget.style.borderColor=c.EDGE}>
             <div style={{width:36,height:36,borderRadius:6,background:typeBg,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${typeColor}22`}}>
               <span style={{fontSize:9,fontWeight:800,color:typeColor,fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{typeLabel}</span>
@@ -648,7 +648,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
       })}
 
       {adding&&(
-        <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.VIOLET}22`,marginTop:4}}>
+        <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.ORANGE}22`,marginTop:4}}>
           <div style={{display:"flex",gap:6,marginBottom:10}}>
             <button onClick={()=>setAddMode("url")} style={btnSm(addMode==="url")}>URL / File</button>
             <button onClick={()=>setAddMode("content")} style={btnSm(addMode==="content")}>Paste Content</button>
@@ -656,7 +656,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
           {addMode==="url"&&(
             <div style={{display:"flex",gap:6,marginBottom:8}}>
               {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
-                <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.VIOLET+"44":c.EDGE}`,background:type===o.v?c.VIOLET+"0c":"transparent",color:type===o.v?c.VIOLET:c.SLATE}}>{o.l}</button>
+                <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.ORANGE+"44":c.EDGE}`,background:type===o.v?c.ORANGE+"0c":"transparent",color:type===o.v?c.ORANGE:c.SLATE}}>{o.l}</button>
               ))}
             </div>
           )}
@@ -667,7 +667,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
             <textarea value={mdContent} onChange={e=>setMdContent(e.target.value)} placeholder="Paste markdown content here…" rows={8} style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:11,fontFamily:"'Courier New',monospace",outline:"none",boxSizing:"border-box",marginBottom:8,resize:"vertical",lineHeight:1.6}}/>
           )}
           <div style={{display:"flex",gap:6}}>
-            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 16px",background:c.VIOLET,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
+            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 16px",background:c.ORANGE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
             <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
           </div>
         </div>
@@ -681,12 +681,12 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
    ═══════════════════════════════════════ */
 const flowSteps=[
   {id:"inquiry",icon:"\u{1F4F1}",label:"Client Inquiry",desc:"Client sends a DM on Instagram or submits a booking form on the website with tattoo details.",actor:"CLIENT",color:"#3b82f6"},
-  {id:"ai-process",icon:"\u{1F916}",label:"AI Processes Inquiry",desc:"AI extracts tattoo details — size, style, placement, color, complexity — and structures the data.",actor:"SYSTEM",color:"#8b5cf6"},
-  {id:"quote",icon:"\u{1F4B0}",label:"Quote Generated",desc:"AI calculates a price range based on the tattoo parameters and suggests the best-matched artist.",actor:"SYSTEM",color:"#8b5cf6"},
+  {id:"ai-process",icon:"\u{1F916}",label:"AI Processes Inquiry",desc:"AI extracts tattoo details — size, style, placement, color, complexity — and structures the data.",actor:"SYSTEM",color:"#f97316"},
+  {id:"quote",icon:"\u{1F4B0}",label:"Quote Generated",desc:"AI calculates a price range based on the tattoo parameters and suggests the best-matched artist.",actor:"SYSTEM",color:"#f97316"},
   {id:"swipe",icon:"\u{1F4A5}",label:"Daisy Reviews",desc:"Quote card appears on Daisy's dashboard. Swipe right to approve and confirm artist, swipe left to edit or reassign.",actor:"DAISY",color:"#f59e0b"},
   {id:"artist-notify",icon:"\u{1F514}",label:"Artist Notified",desc:"Assigned artist receives a push notification with booking details — client, style, date, and time slot.",actor:"ARTIST",color:"#22c55e"},
   {id:"end-time",icon:"\u{23F1}",label:"Artist Sets End Time",desc:"Artist reviews the appointment and sets the end time based on the tattoo's complexity and their pace.",actor:"ARTIST",color:"#22c55e"},
-  {id:"overlap-check",icon:"\u{1F6E1}",label:"Overlap Prevention",desc:"System validates the booking against existing appointments. No conflicts? Proceed. Overlap detected? Flag it.",actor:"SYSTEM",color:"#8b5cf6"},
+  {id:"overlap-check",icon:"\u{1F6E1}",label:"Overlap Prevention",desc:"System validates the booking against existing appointments. No conflicts? Proceed. Overlap detected? Flag it.",actor:"SYSTEM",color:"#f97316"},
   {id:"client-confirm",icon:"\u2709\uFE0F",label:"Client Confirmation",desc:"Client receives a confirmation notification with their quote, assigned artist, date, and time.",actor:"CLIENT",color:"#3b82f6"},
   {id:"booked",icon:"\u2705",label:"Appointment Booked",desc:"Booking is locked in. Daisy's calendar is updated. No overlaps. Everyone's aligned.",actor:"SYSTEM",color:"#22c55e"},
 ];
@@ -720,13 +720,13 @@ function UserFlowPage({c}){
     setTimeout(play,100);
   };
 
-  const actorColors={CLIENT:"#3b82f6",SYSTEM:c.VIOLET,DAISY:"#f59e0b",ARTIST:"#22c55e"};
+  const actorColors={CLIENT:"#3b82f6",SYSTEM:c.ORANGE,DAISY:"#f59e0b",ARTIST:"#22c55e"};
   const actorLabels={CLIENT:"Client",SYSTEM:"System",DAISY:"Daisy (Owner)",ARTIST:"Artist"};
 
   return(
     <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
       <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{fontSize:11,color:c.VIOLET,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>AI BOOKING PIPELINE</div>
+        <div style={{fontSize:11,color:c.ORANGE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>AI BOOKING PIPELINE</div>
         <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>User Flow</div>
         <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>From first DM to confirmed appointment — fully automated</div>
       </div>
@@ -834,7 +834,7 @@ function UserFlowPage({c}){
       <div style={{textAlign:"center",marginTop:32}}>
         <button onClick={replay} disabled={playing} style={{
           padding:"12px 32px",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",
-          background:playing?"transparent":c.VIOLET,color:playing?c.SLATE:"#fff",
+          background:playing?"transparent":c.ORANGE,color:playing?c.SLATE:"#fff",
           border:playing?`1px solid ${c.EDGE}`:"none",borderRadius:6,cursor:playing?"default":"pointer",
           opacity:playing?0.5:1,transition:"all 0.3s",
         }}>
@@ -851,7 +851,7 @@ function UserFlowPage({c}){
             {label:"CLIENT EFFORT",value:"1",sub:"Submit inquiry — that's it"},
           ].map(s=>(
             <div key={s.label} style={{textAlign:"center",padding:"20px 12px",background:c.CARD,borderRadius:8,border:`1px solid ${c.EDGE}`}}>
-              <div style={{fontSize:28,fontWeight:900,color:c.VIOLET,fontFamily:"Inter,sans-serif"}}>{s.value}</div>
+              <div style={{fontSize:28,fontWeight:900,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>{s.value}</div>
               <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginTop:4}}>{s.label}</div>
               <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:2}}>{s.sub}</div>
             </div>
@@ -892,7 +892,7 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}>
           <span style={{fontSize:12,fontWeight:700,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif"}}>PROJECT COMPLETION</span>
           <span style={{fontFamily:"Inter,sans-serif"}}>
-            <span style={{fontSize:28,fontWeight:700,color:ov.pct===100?c.GREEN:c.VIOLET}}>{ov.pct}%</span>
+            <span style={{fontSize:28,fontWeight:700,color:ov.pct===100?c.GREEN:c.ORANGE}}>{ov.pct}%</span>
             <span style={{fontSize:11,color:c.SLATE,marginLeft:8}}>{ov.done}/{ov.total}</span>
           </span>
         </div>
@@ -905,12 +905,12 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
           return(
             <button key={p.id} onClick={()=>setActivePhase(p.id)} style={{
               padding:"14px 16px",textAlign:"left",cursor:"pointer",fontFamily:"Inter,sans-serif",
-              background:active?c.CARD:c.BG,borderRadius:8,border:`1.5px solid ${active?c.VIOLET:done?c.GREEN+"44":c.EDGE}`,position:"relative",overflow:"hidden",
+              background:active?c.CARD:c.BG,borderRadius:8,border:`1.5px solid ${active?c.ORANGE:done?c.GREEN+"44":c.EDGE}`,position:"relative",overflow:"hidden",
             }}>
-              {active&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:c.VIOLET}}/>}
+              {active&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:c.ORANGE}}/>}
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <span style={{fontSize:20}}>{p.icon}</span>
-                <span style={{fontSize:11,fontWeight:700,fontFamily:"Inter,sans-serif",color:done?c.GREEN:active?c.VIOLET:c.SLATE}}>{prog.pct}%</span>
+                <span style={{fontSize:11,fontWeight:700,fontFamily:"Inter,sans-serif",color:done?c.GREEN:active?c.ORANGE:c.SLATE}}>{prog.pct}%</span>
               </div>
               <div style={{fontSize:12,fontWeight:800,color:active?c.INK:c.SLATE,letterSpacing:1.5,marginTop:6}}>{p.name}</div>
               <div style={{fontSize:9,color:c.SLATE,marginTop:2,fontFamily:"Inter,sans-serif"}}>PHASE {p.id} {"\u2014"} {p.short}</div>
@@ -924,7 +924,7 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
         <div style={{padding:"0 24px 32px"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",flexWrap:"wrap",gap:8,paddingBottom:16,borderBottom:`1px solid ${c.EDGE}`,marginBottom:20}}>
             <div>
-              <span style={{fontSize:11,fontWeight:600,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif"}}>PHASE {phase.id}</span>
+              <span style={{fontSize:11,fontWeight:600,color:c.ORANGE,letterSpacing:3,fontFamily:"Inter,sans-serif"}}>PHASE {phase.id}</span>
               <span style={{fontSize:24,fontWeight:900,color:c.INK,letterSpacing:1,marginLeft:12,fontFamily:"'Playfair Display',serif"}}>{phase.name}</span>
               <div style={{fontSize:13,color:c.SLATE,marginTop:2,letterSpacing:0.5}}>{phase.subtitle}</div>
             </div>
@@ -941,7 +941,7 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                 <div key={m.title} style={{background:c.CARD,borderRadius:8,overflow:"hidden",border:`1px solid ${complete?c.GREEN+"33":hasBlocker?c.EMBER+"33":c.EDGE}`}}>
                   <div onClick={()=>toggleM(`${phase.id}-${m.title}`)} style={{padding:"16px 20px",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",background:complete?c.GREEN+"06":"transparent"}}>
                     <div style={{display:"flex",alignItems:"center",gap:12,flex:1,minWidth:0}}>
-                      <div style={{width:28,height:28,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",background:complete?c.GREEN+"14":c.DEEP,border:`1px solid ${complete?c.GREEN+"33":c.EDGE}`,fontSize:12,fontWeight:700,color:complete?c.GREEN:c.VIOLET,fontFamily:"Inter,sans-serif",flexShrink:0}}>
+                      <div style={{width:28,height:28,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",background:complete?c.GREEN+"14":c.DEEP,border:`1px solid ${complete?c.GREEN+"33":c.EDGE}`,fontSize:12,fontWeight:700,color:complete?c.GREEN:c.ORANGE,fontFamily:"Inter,sans-serif",flexShrink:0}}>
                         {complete?"\u2713":mDone}
                       </div>
                       <div style={{flex:1,minWidth:0}}>
@@ -950,7 +950,7 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"center",gap:12,flexShrink:0}}>
-                      <span style={{fontSize:11,fontWeight:700,color:complete?c.GREEN:c.VIOLET,fontFamily:"Inter,sans-serif"}}>{mPct}%</span>
+                      <span style={{fontSize:11,fontWeight:700,color:complete?c.GREEN:c.ORANGE,fontFamily:"Inter,sans-serif"}}>{mPct}%</span>
                       <span style={{fontSize:14,color:c.SLATE,transition:"transform 0.2s",transform:exp?"rotate(180deg)":"rotate(0deg)"}}>{"\u25BC"}</span>
                     </div>
                   </div>
@@ -1040,20 +1040,20 @@ function WizardryIntakeForm({c,opsMode,discoveryData,onSubmit}){
   return(
     <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
       <div style={{marginBottom:14}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Studio Intake</div>
+        <div style={{fontSize:9,fontWeight:700,color:c.ORANGE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Studio Intake</div>
         <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Help us understand Wizardry Ink — your answers drive every design decision.</div>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
         {sections.map(section=>(
           <div key={section}>
-            <div style={{fontSize:9,fontWeight:700,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{fontSize:9,fontWeight:700,color:c.ORANGE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
             <div style={{display:"flex",flexDirection:"column",gap:14}}>
               {wizardryQuestions.filter(q=>q.section===section).map(q=>(
                 <div key={q.id}>
                   <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4}}>{q.label}</label>
-                  {q.type==="textarea"?(<textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.VIOLET} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
-                  ):q.type==="select"?(<div style={{display:"flex",flexDirection:"column",gap:4}}>{q.options.map(opt=>(<label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.VIOLET+"0c":c.BG,border:`1px solid ${form[q.id]===opt?c.VIOLET+"44":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}><div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.VIOLET:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.VIOLET}}/>}</div><span style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif"}}>{opt}</span></label>))}</div>
-                  ):(<input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.VIOLET} onBlur={e=>e.target.style.borderColor=c.EDGE}/>)}
+                  {q.type==="textarea"?(<textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.ORANGE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  ):q.type==="select"?(<div style={{display:"flex",flexDirection:"column",gap:4}}>{q.options.map(opt=>(<label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.ORANGE+"0c":c.BG,border:`1px solid ${form[q.id]===opt?c.ORANGE+"44":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}><div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.ORANGE:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.ORANGE}}/>}</div><span style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif"}}>{opt}</span></label>))}</div>
+                  ):(<input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.ORANGE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>)}
                 </div>
               ))}
             </div>
@@ -1061,7 +1061,7 @@ function WizardryIntakeForm({c,opsMode,discoveryData,onSubmit}){
         ))}
       </div>
       <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
-        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.VIOLET,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SUBMITTING…":"SUBMIT INTAKE"}</button>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.ORANGE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SUBMITTING…":"SUBMIT INTAKE"}</button>
       </div>
     </div>
   );
@@ -1121,11 +1121,11 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
         <header style={{padding:"20px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",borderBottom:`1px solid ${c.EDGE}`,background:c.CARD}}>
           <div>
             <div style={{fontSize:20,fontWeight:900,letterSpacing:2,fontFamily:"'Playfair Display',serif",color:c.INK}}>WIZARDRY INK</div>
-            <div style={{fontSize:10,color:c.VIOLET,letterSpacing:3,fontFamily:"Inter,sans-serif",marginTop:2}}>PROJECT HUB</div>
+            <div style={{fontSize:10,color:c.ORANGE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginTop:2}}>PROJECT HUB</div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             {opsMode&&(
-              <button onClick={()=>setView(v=>v==="internal"?"client":"internal")} style={{fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",padding:"6px 14px",borderRadius:4,cursor:"pointer",border:`1px solid ${c.VIOLET}44`,background:view==="internal"?c.VIOLET+"14":"transparent",color:view==="internal"?c.VIOLET:c.SLATE}}>
+              <button onClick={()=>setView(v=>v==="internal"?"client":"internal")} style={{fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",padding:"6px 14px",borderRadius:4,cursor:"pointer",border:`1px solid ${c.ORANGE}44`,background:view==="internal"?c.ORANGE+"14":"transparent",color:view==="internal"?c.ORANGE:c.SLATE}}>
                 {view==="internal"?"OPS":"CLIENT"}
               </button>
             )}
@@ -1140,8 +1140,8 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
           {pages.map(p=>(
             <button key={p.key} onClick={()=>setPage(p.key)} style={{
               padding:"12px 24px",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",
-              background:"transparent",border:"none",borderBottom:page===p.key?`2px solid ${c.VIOLET}`:"2px solid transparent",
-              color:page===p.key?c.VIOLET:c.SLATE,cursor:"pointer",transition:"all 0.15s",
+              background:"transparent",border:"none",borderBottom:page===p.key?`2px solid ${c.ORANGE}`:"2px solid transparent",
+              color:page===p.key?c.ORANGE:c.SLATE,cursor:"pointer",transition:"all 0.15s",
             }}>{p.label.toUpperCase()}</button>
           ))}
         </nav>
