@@ -3,8 +3,8 @@
   "name": "Arquero",
   "type": "client-hub",
   "health": "needs-attention",
-  "lastScanned": "2026-04-01T04:54:55.183Z",
-  "lastChanged": "2026-04-01T04:54:25.099Z",
+  "lastScanned": "2026-04-02T04:53:03.038Z",
+  "lastChanged": "2026-04-02T04:52:52.767Z",
   "currentPhase": "phase-1",
   "pendingTasks": [
     {
@@ -15,13 +15,17 @@
   ],
   "completedTasks": [],
   "clientBlockers": [
-    "No content delivered yet",
     "Discovery questionnaire not filled"
   ],
   "pmAlerts": [],
   "agreementSigned": true,
-  "contentEmpty": true,
-  "contentFiles": [],
+  "contentEmpty": false,
+  "contentFiles": [
+    "01-brand-positioning.md",
+    "01-client-intake.md",
+    "01-competitor-audit.md",
+    "02-mood-direction.md"
+  ],
   "engagementValue": "$2,500",
   "signedDate": "2026-03-27",
   "signedOffline": true,

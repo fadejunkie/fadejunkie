@@ -177,104 +177,129 @@ function InlineTextarea({ value, onSave, style }) {
 }
 
 function DocViewer({ item, onClose }) {
+  const slides = item.markdownContent ? item.markdownContent.split(/\n---\n/).filter(s => s.trim()) : null;
+  const isSlides = slides && slides.length > 1;
   const [slide, setSlide] = useState(0);
-  const isDoc = item.type === "doc" || item.type === "slides";
-  const isImg = item.type === "image";
-  const content = item.markdownContent || "";
-  const slides = content.split(/\n---\n/);
-  const html = isDoc ? marked.parse(slides[slide] || "") : "";
+  const [viewMode, setViewMode] = useState(isSlides ? "slides" : "doc");
+
+  const renderHtml = (md) => { marked.setOptions({ breaks: true, gfm: true }); return marked.parse(md || ""); };
+
+  const downloadMd = () => {
+    const blob = new Blob([item.markdownContent], { type: "text/markdown" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = item.label.replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".md";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  const isPdf = (u) => u && u.toLowerCase().endsWith(".pdf");
+  const isImg = (u) => u && (/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u) || u.includes("screenshot") || u.includes("imgur") || u.includes("cloudinary"));
+  const isContent = !!(item.markdownContent && item.markdownContent.length > 0);
+
+  const proseStyles = `
+    .doc-prose{font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.8;color:${BODY};}
+    .doc-prose h1{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:800;color:${INK};margin:0 0 16px;letter-spacing:-0.3px;border-bottom:2px solid ${ACCENT}22;padding-bottom:10px;}
+    .doc-prose h2{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;color:${INK};margin:28px 0 10px;}
+    .doc-prose h3{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:${ACCENT};text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 8px;}
+    .doc-prose p{margin:0 0 14px;}
+    .doc-prose strong{font-weight:700;color:${INK};}
+    .doc-prose em{font-style:italic;color:${MUTED};}
+    .doc-prose ul,.doc-prose ol{margin:0 0 14px;padding-left:22px;}
+    .doc-prose li{margin-bottom:5px;}
+    .doc-prose a{color:${ACCENT};text-decoration:underline;}
+    .doc-prose blockquote{border-left:3px solid ${ACCENT};margin:0 0 14px;padding:10px 16px;background:${ACCENT_SOFT};color:${MUTED};font-style:italic;border-radius:0 6px 6px 0;}
+    .doc-prose code{font-family:'DM Mono',monospace;font-size:12px;background:#f5f5f4;padding:2px 6px;border-radius:3px;color:${INK};}
+    .doc-prose pre{background:#f5f5f4;border:1px solid ${LIGHT};border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 14px;}
+    .doc-prose pre code{background:none;padding:0;}
+    .doc-prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:13px;}
+    .doc-prose th{background:${ACCENT_SOFT};color:${INK};font-weight:700;text-align:left;padding:8px 12px;border-bottom:2px solid ${ACCENT}33;font-size:11px;letter-spacing:0.5px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+    .doc-prose td{padding:8px 12px;border-bottom:1px solid ${LIGHT};vertical-align:top;}
+    .doc-prose tr:last-child td{border-bottom:none;}
+    .doc-prose img{max-width:100%;border-radius:8px;margin:8px 0;}
+    .doc-prose hr{border:none;border-top:1px solid ${LIGHT};margin:24px 0;}
+    .slide-prose{display:flex;flex-direction:column;justify-content:center;min-height:340px;padding:32px 40px;}
+    .slide-prose h1{font-family:'DM Sans',sans-serif;font-size:30px;font-weight:800;color:${INK};margin:0 0 20px;text-align:center;}
+    .slide-prose h2{font-family:'DM Sans',sans-serif;font-size:21px;font-weight:700;color:${INK};margin:0 0 14px;}
+    .slide-prose h3{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:${ACCENT};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
+    .slide-prose p{font-size:15px;line-height:1.7;margin:0 0 12px;color:${BODY};}
+    .slide-prose ul,.slide-prose ol{padding-left:20px;margin:0 0 12px;}
+    .slide-prose li{font-size:14px;line-height:1.6;margin-bottom:6px;}
+    .slide-prose strong{font-weight:700;}
+    .slide-prose table{width:100%;border-collapse:collapse;font-size:13px;margin:0 0 12px;}
+    .slide-prose th{background:${ACCENT_SOFT};color:${INK};font-weight:700;padding:7px 10px;border-bottom:2px solid ${ACCENT}33;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-family:'DM Mono',monospace;}
+    .slide-prose td{padding:7px 10px;border-bottom:1px solid ${LIGHT};}
+    .slide-prose blockquote{border-left:3px solid ${ACCENT};padding:10px 16px;background:${ACCENT_SOFT};color:${MUTED};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
+  `;
 
   return (
-    <div
-      onClick={onClose}
-      style={{
-        position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)",
-        zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center",
-        padding: 24,
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "#fff", borderRadius: 12, width: "100%", maxWidth: 760,
-          maxHeight: "88vh", display: "flex", flexDirection: "column",
-          overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.3)",
-        }}
-      >
-        {/* Header */}
-        <div style={{
-          padding: "16px 20px", borderBottom: "1px solid #e5e7eb",
-          display: "flex", alignItems: "center", gap: 10,
-        }}>
-          <span style={{
-            fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700,
-            fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em",
-            background: item.type === "doc" ? "rgba(232,84,26,0.1)" : item.type === "slides" ? "rgba(232,84,26,0.15)" : item.type === "image" ? "#ecfdf5" : "#f3f4f6",
-            color: item.type === "doc" || item.type === "slides" ? ACCENT : item.type === "image" ? "#16a34a" : "#6b7280",
-          }}>
-            {item.type.toUpperCase()}
-          </span>
-          <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: "#111" }}>{item.label}</span>
-          {item.url && (
-            <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
-              fontSize: 11, color: ACCENT, textDecoration: "none", fontFamily: "'DM Mono', monospace",
-            }}>↗ open</a>
-          )}
-          <button onClick={onClose} style={{
-            background: "none", border: "none", cursor: "pointer",
-            fontSize: 18, color: "#9ca3af", padding: "0 4px",
-          }}>×</button>
-        </div>
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.72)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+      <style>{proseStyles}</style>
+      <div onClick={(e) => e.stopPropagation()} style={{ background: WHITE, borderRadius: 14, width: "100%", maxWidth: 820, maxHeight: "90vh", display: "flex", flexDirection: "column", overflow: "hidden", border: `1px solid ${LIGHT}`, boxShadow: "0 32px 80px rgba(0,0,0,0.4)" }}>
 
-        {/* Body */}
-        <div style={{ flex: 1, overflow: "auto", padding: 24 }}>
-          {isImg && item.url && (
-            <img src={item.url} alt={item.label} style={{ maxWidth: "100%", borderRadius: 8 }} />
-          )}
-          {isDoc && content && (
-            <div
-              dangerouslySetInnerHTML={{ __html: html }}
-              style={{
-                fontSize: 14, lineHeight: 1.7, color: "#374151",
-                fontFamily: "'DM Sans', sans-serif",
-              }}
-            />
-          )}
-          {!isImg && !content && item.url && (
-            <div style={{ textAlign: "center", padding: "40px 0" }}>
-              <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
-                color: ACCENT, fontSize: 14, fontFamily: "'DM Mono', monospace",
-              }}>
-                Open {item.label} ↗
-              </a>
+        {/* Header */}
+        <div style={{ padding: "14px 20px", borderBottom: `1px solid ${LIGHT}`, display: "flex", alignItems: "center", gap: 12, flexShrink: 0, background: BG }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 800, fontSize: 15, fontFamily: "'DM Sans', sans-serif", color: INK, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.label}</div>
+            <div style={{ fontSize: 9, color: MUTED, fontFamily: "'DM Mono', monospace", marginTop: 1, letterSpacing: 1 }}>
+              {isContent ? "DOCUMENT" : isPdf(item.url) ? "PDF" : isImg(item.url) ? "IMAGE" : "LINK"}{item.addedAt ? " · " + new Date(item.addedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : ""}
+            </div>
+          </div>
+          {isContent && isSlides && (
+            <div style={{ display: "flex", background: LIGHT, borderRadius: 4, overflow: "hidden", border: `1px solid ${LIGHT}`, flexShrink: 0 }}>
+              {[["doc", "Document"], ["slides", "Slides"]].map(([v, l]) => (
+                <button key={v} onClick={() => { setViewMode(v); setSlide(0); }} style={{ padding: "4px 12px", fontSize: 9, fontWeight: 700, letterSpacing: 1, fontFamily: "'DM Mono', monospace", background: viewMode === v ? ACCENT : "transparent", color: viewMode === v ? "#fff" : MUTED, border: "none", cursor: "pointer" }}>{l.toUpperCase()}</button>
+              ))}
             </div>
           )}
+          {isContent && (
+            <button onClick={downloadMd} style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.5, fontFamily: "'DM Mono', monospace", padding: "5px 12px", background: ACCENT_SOFT, color: ACCENT, border: `1px solid ${ACCENT}33`, borderRadius: 4, cursor: "pointer", flexShrink: 0 }}>↓ .md</button>
+          )}
+          <button onClick={onClose} style={{ fontSize: 18, color: MUTED, background: "none", border: "none", cursor: "pointer", lineHeight: 1, padding: "0 4px", flexShrink: 0 }}>×</button>
         </div>
 
-        {/* Slide nav */}
-        {item.type === "slides" && slides.length > 1 && (
-          <div style={{
-            padding: "12px 20px", borderTop: "1px solid #e5e7eb",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-          }}>
-            <button onClick={() => setSlide(s => Math.max(0, s - 1))} disabled={slide === 0} style={{
-              background: "none", border: `1px solid #e5e7eb`, borderRadius: 6,
-              padding: "4px 10px", cursor: slide === 0 ? "default" : "pointer",
-              color: slide === 0 ? "#d1d5db" : "#374151", fontSize: 12,
-            }}>←</button>
-            {slides.map((_, i) => (
-              <button key={i} onClick={() => setSlide(i)} style={{
-                width: 8, height: 8, borderRadius: "50%", border: "none", cursor: "pointer",
-                background: i === slide ? ACCENT : "#d1d5db", padding: 0,
-              }} />
-            ))}
-            <button onClick={() => setSlide(s => Math.min(slides.length - 1, s + 1))} disabled={slide === slides.length - 1} style={{
-              background: "none", border: `1px solid #e5e7eb`, borderRadius: 6,
-              padding: "4px 10px", cursor: slide === slides.length - 1 ? "default" : "pointer",
-              color: slide === slides.length - 1 ? "#d1d5db" : "#374151", fontSize: 12,
-            }}>→</button>
+        {/* Doc mode */}
+        {isContent && viewMode === "doc" && (
+          <div style={{ overflowY: "auto", flex: 1, padding: "28px 36px" }}>
+            <div className="doc-prose" dangerouslySetInnerHTML={{ __html: renderHtml(item.markdownContent) }} />
           </div>
         )}
+
+        {/* Slides mode */}
+        {isContent && viewMode === "slides" && (
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+            <div style={{ flex: 1, overflowY: "auto", background: WHITE }}>
+              <div className="doc-prose slide-prose" dangerouslySetInnerHTML={{ __html: renderHtml(slides[slide]) }} />
+            </div>
+            <div style={{ borderTop: `1px solid ${LIGHT}`, padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: BG, flexShrink: 0 }}>
+              <button onClick={() => setSlide(s => Math.max(0, s - 1))} disabled={slide === 0} style={{ fontSize: 18, background: "none", border: `1px solid ${LIGHT}`, borderRadius: 6, color: slide === 0 ? LIGHT : MUTED, cursor: slide === 0 ? "default" : "pointer", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>
+              <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                {slides.map((_, i) => (
+                  <button key={i} onClick={() => setSlide(i)} style={{ width: i === slide ? 20 : 7, height: 7, borderRadius: 4, background: i === slide ? ACCENT : LIGHT, border: "none", cursor: "pointer", transition: "all 0.2s", padding: 0 }} />
+                ))}
+              </div>
+              <button onClick={() => setSlide(s => Math.min(slides.length - 1, s + 1))} disabled={slide === slides.length - 1} style={{ fontSize: 18, background: "none", border: `1px solid ${LIGHT}`, borderRadius: 6, color: slide === slides.length - 1 ? LIGHT : MUTED, cursor: slide === slides.length - 1 ? "default" : "pointer", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>
+            </div>
+          </div>
+        )}
+
+        {/* Image viewer */}
+        {!isContent && isImg(item.url) && (
+          <div style={{ flex: 1, overflow: "auto", display: "flex", flexDirection: "column", alignItems: "center", padding: 24, gap: 16, background: BG }}>
+            <img src={item.url} alt={item.label} style={{ maxWidth: "100%", maxHeight: "60vh", borderRadius: 8, boxShadow: "0 8px 32px rgba(0,0,0,0.15)", objectFit: "contain" }} />
+            <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 10, fontWeight: 700, letterSpacing: 1, fontFamily: "'DM Mono', monospace", padding: "6px 18px", background: ACCENT, color: "#fff", border: "none", borderRadius: 4, cursor: "pointer", textDecoration: "none" }}>↗ OPEN FULL SIZE</a>
+          </div>
+        )}
+
+        {/* PDF / link fallback */}
+        {!isContent && !isImg(item.url) && (
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, padding: 40 }}>
+            <div style={{ fontSize: 40 }}>{isPdf(item.url) ? "📄" : "🔗"}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: INK, fontFamily: "'DM Sans', sans-serif", textAlign: "center" }}>{item.label}</div>
+            <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, fontFamily: "'DM Mono', monospace", padding: "8px 24px", background: ACCENT, color: "#fff", border: "none", borderRadius: 4, cursor: "pointer", textDecoration: "none" }}>↗ OPEN {isPdf(item.url) ? "PDF" : "LINK"}</a>
+          </div>
+        )}
+
       </div>
     </div>
   );

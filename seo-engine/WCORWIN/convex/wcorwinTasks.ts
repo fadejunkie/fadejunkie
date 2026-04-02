@@ -1,6 +1,37 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 
+export const getDeliverables = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db.query("wcorwinDeliverables")
+      .withIndex("by_project_milestone", (q) => q.eq("projectId", projectId))
+      .collect();
+  },
+});
+
+export const addDeliverable = mutation({
+  args: {
+    projectId: v.string(),
+    milestoneKey: v.string(),
+    label: v.string(),
+    url: v.optional(v.string()),
+    type: v.string(),
+    addedAt: v.number(),
+    markdownContent: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("wcorwinDeliverables", args);
+  },
+});
+
+export const removeDeliverable = mutation({
+  args: { id: v.id("wcorwinDeliverables") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.delete(id);
+  },
+});
+
 export const getOverrides = query({
   args: { projectId: v.string() },
   handler: async (ctx, { projectId }) => {

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import { useQuery, useMutation, useAction } from "convex/react";
 import { marked } from "marked";
 import { api } from "../convex/_generated/api";
@@ -1503,49 +1504,51 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
       </button>
 
       {/* ── MODAL ── */}
-      {modalOpen&&(
+      {modalOpen&&ReactDOM.createPortal(
         <div
           onClick={e=>{if(e.target===e.currentTarget)closeModal();}}
           style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:"16px"}}
         >
-          <div style={{width:"100%",maxWidth:1100,maxHeight:"92vh",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:14,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+          <div style={{width:"100%",maxWidth:1100,maxHeight:"92vh",background:"#111010",border:"1px solid rgba(255,255,255,0.08)",borderRadius:16,display:"flex",flexDirection:"column",overflow:"hidden"}}>
 
             {/* modal header */}
-            <div style={{padding:"20px 24px 16px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexShrink:0}}>
+            <div style={{padding:"20px 24px 16px",borderBottom:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexShrink:0,background:"#111010"}}>
               <div>
-                <div style={{fontSize:22,fontWeight:900,fontFamily:BARLOW,color:c.INK,letterSpacing:2,textTransform:"uppercase",lineHeight:1}}>Choose Your Direction</div>
-                <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,marginTop:6,lineHeight:1.5,maxWidth:560}}>Pick the direction that feels most like Arquero — this choice unlocks logo design.</div>
+                <div style={{fontSize:22,fontWeight:900,fontFamily:BARLOW,color:"#F5F0EA",letterSpacing:3,textTransform:"uppercase",lineHeight:1}}>THE VISUAL WORLD OF ARQUERO</div>
+                <div style={{fontSize:11,color:"#666",fontFamily:MONO,marginTop:6,lineHeight:1.5,maxWidth:560}}>Pick the direction that feels most like Arquero — this choice unlocks logo design.</div>
               </div>
-              <button onClick={closeModal} style={{fontSize:18,color:c.STONE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"2px 6px",marginTop:-2,flexShrink:0}}>×</button>
+              <button onClick={closeModal} style={{fontSize:20,color:"#666",background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"2px 6px",marginTop:-2,flexShrink:0,transition:"color 0.15s"}} onMouseEnter={e=>(e.target as HTMLButtonElement).style.color="#F5F0EA"} onMouseLeave={e=>(e.target as HTMLButtonElement).style.color="#666"}>×</button>
             </div>
 
             {/* modal body */}
-            <div style={{flex:1,overflowY:"auto",padding:"20px 24px 24px"}}>
+            <div style={{flex:1,overflowY:"auto",padding:"20px 24px 24px",background:"#111010"}}>
 
               {/* confirmation step */}
               {confirming&&selectedInModal?(
-                <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:280,textAlign:"center",padding:"20px 0"}}>
-                  <div style={{fontSize:10,fontWeight:700,color:c.STONE,fontFamily:MONO,letterSpacing:2,marginBottom:16,textTransform:"uppercase"}}>You chose:</div>
-                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:6}}>
-                    <img src={selectedInModal==="A"?"/moodboard-a.png":"/moodboard-b.png"} alt="" style={{width:80,height:50,objectFit:"cover",borderRadius:6,border:`1px solid ${c.EDGE}`,flexShrink:0}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
-                    <div style={{fontSize:28,fontWeight:900,fontFamily:BARLOW,color:selectedInModal==="B"?c.BLUE:A_ACCENT,letterSpacing:1,textTransform:"uppercase",textAlign:"left",lineHeight:1.1}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
-                  </div>
-                  <div style={{width:48,height:2,background:selectedInModal==="B"?c.BLUE:A_ACCENT,borderRadius:1,marginBottom:20}}/>
-                  <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.7,maxWidth:480,fontStyle:"italic",marginBottom:32}}>
-                    {optionDescriptions[selectedInModal]}{" "}This direction unlocks logo design for Arquero Co.
-                  </div>
-                  <div style={{display:"flex",gap:12,alignItems:"center"}}>
-                    <button
-                      onClick={()=>setConfirming(false)}
-                      style={{padding:"10px 20px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}
-                    >← BACK</button>
-                    <button
-                      onClick={()=>handlePick(selectedInModal)}
-                      onMouseEnter={()=>setHoverConfirm(true)}
-                      onMouseLeave={()=>setHoverConfirm(false)}
-                      disabled={saving}
-                      style={{padding:"10px 24px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverConfirm?c.NAVY:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"background 0.15s"}}
-                    >{saving?"SAVING…":"CONFIRM DIRECTION →"}</button>
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:320,textAlign:"center",padding:"32px 24px"}}>
+                  <div style={{background:"#1A1614",border:"1px solid rgba(255,255,255,0.08)",borderRadius:12,padding:"32px 40px",maxWidth:520,width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                    <div style={{fontSize:10,fontWeight:700,color:"#888",fontFamily:MONO,letterSpacing:2,marginBottom:20,textTransform:"uppercase",fontStyle:"italic"}}>You chose:</div>
+                    <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:12,width:"100%",justifyContent:"center"}}>
+                      <img src={selectedInModal==="A"?"/moodboard-a.png":"/moodboard-b.png"} alt="" style={{width:80,height:50,objectFit:"cover",borderRadius:6,border:"1px solid rgba(255,255,255,0.1)",flexShrink:0}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{fontSize:32,fontWeight:900,fontFamily:BARLOW,color:"#F5F0EA",letterSpacing:1,textTransform:"uppercase",textAlign:"left",lineHeight:1.05}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
+                    </div>
+                    <div style={{width:60,height:3,background:selectedInModal==="A"?"#2B2D2F":"#C2623A",borderRadius:2,marginBottom:20}}/>
+                    <div style={{fontSize:13,color:"#888",fontFamily:MONO,lineHeight:1.7,maxWidth:420,fontStyle:"italic",marginBottom:28}}>
+                      {optionDescriptions[selectedInModal]}{" "}This direction unlocks logo design for Arquero Co.
+                    </div>
+                    <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                      <button
+                        onClick={()=>setConfirming(false)}
+                        style={{padding:"10px 20px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:"transparent",color:"#888",border:"1px solid #333",borderRadius:5,cursor:"pointer"}}
+                      >← BACK</button>
+                      <button
+                        onClick={()=>handlePick(selectedInModal)}
+                        onMouseEnter={()=>setHoverConfirm(true)}
+                        onMouseLeave={()=>setHoverConfirm(false)}
+                        disabled={saving}
+                        style={{padding:"10px 24px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:selectedInModal==="A"?(hoverConfirm?"#2B2D2F":"#1C1917"):(hoverConfirm?"#A84F2E":"#C2623A"),color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"background 0.15s"}}
+                      >{saving?"SAVING…":"CONFIRM DIRECTION →"}</button>
+                    </div>
                   </div>
                 </div>
               ):(
@@ -1554,83 +1557,83 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))",gap:16}}>
 
                   {/* OPTION A */}
-                  <div style={{background:"linear-gradient(145deg,#1a1a1c 0%,#232329 60%,#1e1b18 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column"}}>
-                    <div style={{height:3,background:A_ACCENT,flexShrink:0}}/>
-                    <div style={{position:"relative",height:240,overflow:"hidden",flexShrink:0}}>
+                  <div style={{background:"#EDEAE5",border:"1px solid rgba(255,255,255,0.15)",borderRadius:14,overflow:"hidden",display:"flex",flexDirection:"column",boxShadow:"0 24px 64px rgba(0,0,0,0.5),0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.6)"}}>
+                    <div style={{height:3,background:"#2B2D2F",flexShrink:0}}/>
+                    <div style={{position:"relative",height:260,overflow:"hidden",flexShrink:0}}>
                       <img src="/moodboard-a.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
-                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1b18 100%)"}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#EDEAE5 100%)"}}/>
                     </div>
-                    <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
-                      <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:A_ACCENT,lineHeight:1,marginBottom:6}}>A</div>
-                      <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Raw Industrial</div>
-                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.A}</div>
-                      <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
+                    <div style={{padding:"20px 22px 18px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:72,fontWeight:900,fontFamily:BARLOW,color:"#2B2D2F",lineHeight:1,marginBottom:4}}>A</div>
+                      <div style={{fontSize:16,fontWeight:700,fontFamily:BARLOW,color:"#1C1917",letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>Raw Industrial</div>
+                      <div style={{fontSize:12,color:"#6B6361",fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.A}</div>
+                      <div style={{height:1,background:"rgba(43,45,47,0.15)",marginBottom:14}}/>
                       <div style={{marginBottom:14}}>
-                        <div style={{fontSize:8,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{fontSize:8,fontWeight:700,color:"#8B8785",letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
                         <div style={{display:"flex",gap:6}}>
                           {swatchesA.map(s=>(
-                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:`1.5px solid ${c.EDGE}`,flexShrink:0,cursor:"default"}}/>
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:"1.5px solid rgba(43,45,47,0.2)",flexShrink:0,cursor:"default"}}/>
                           ))}
                         </div>
                       </div>
                       <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
                         {optionChips.A.map(chip=>(
-                          <div key={chip} style={{fontSize:9,fontWeight:600,color:A_ACCENT,border:`1px solid ${A_ACCENT}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:"#2B2D2F",background:"rgba(43,45,47,0.08)",border:"1px solid rgba(43,45,47,0.2)",borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
                         ))}
                       </div>
-                      <div style={{fontSize:9,color:c.SLATE,fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.A}</div>
-                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.A}</div>
+                      <div style={{fontSize:9,color:"#8B8785",fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.A}</div>
+                      <div style={{fontSize:13,color:"#3D3835",fontFamily:MONO,lineHeight:1.6,flex:1,marginBottom:18}}>{optionDescriptions.A}</div>
                       <button
                         onClick={()=>{setSelectedInModal("A");setConfirming(true);}}
                         onMouseEnter={()=>setHoverA(true)}
                         onMouseLeave={()=>setHoverA(false)}
-                        style={{width:"100%",padding:"11px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverA?`${A_ACCENT}33`:`${A_ACCENT}22`,color:A_ACCENT,border:`1px solid ${A_ACCENT}44`,borderRadius:5,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
-                      >Select Raw Industrial</button>
+                        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:BARLOW,background:hoverA?"#2B2D2F":"#1C1917",color:"#F5F0EA",border:"none",borderRadius:6,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >SELECT RAW INDUSTRIAL</button>
                     </div>
                   </div>
 
                   {/* OPTION B */}
-                  <div style={{background:"linear-gradient(145deg,#1c1814 0%,#211d19 60%,#1e1a15 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative"}}>
-                    <div style={{height:3,background:c.BLUE,flexShrink:0}}/>
-                    <div style={{position:"relative",height:240,overflow:"hidden",flexShrink:0}}>
+                  <div style={{background:"#F5EFE6",border:"1px solid rgba(255,255,255,0.15)",borderRadius:14,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative",boxShadow:"0 24px 64px rgba(0,0,0,0.5),0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.6)"}}>
+                    <div style={{height:3,background:"#C2623A",flexShrink:0}}/>
+                    <div style={{position:"relative",height:260,overflow:"hidden",flexShrink:0}}>
                       <img src="/moodboard-b.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
-                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1a15 100%)"}}/>
-                      <div style={{position:"absolute",top:10,right:10,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 9px",borderRadius:3,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1}}>RECOMMENDED</div>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#F5EFE6 100%)"}}/>
+                      <div style={{position:"absolute",top:12,right:12,fontSize:9,fontWeight:800,color:"#fff",background:"#C2623A",padding:"4px 10px",borderRadius:4,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1,boxShadow:"0 2px 8px rgba(194,98,58,0.4)"}}>RECOMMENDED</div>
                     </div>
-                    <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
-                      <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:c.BLUE,lineHeight:1,marginBottom:6}}>B</div>
-                      <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Refined Craft</div>
-                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.B}</div>
-                      <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
+                    <div style={{padding:"20px 22px 18px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:72,fontWeight:900,fontFamily:BARLOW,color:"#C2623A",lineHeight:1,marginBottom:4}}>B</div>
+                      <div style={{fontSize:16,fontWeight:700,fontFamily:BARLOW,color:"#1C1917",letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>Refined Craft</div>
+                      <div style={{fontSize:12,color:"#6B5C52",fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.B}</div>
+                      <div style={{height:1,background:"rgba(194,98,58,0.2)",marginBottom:14}}/>
                       <div style={{marginBottom:14}}>
-                        <div style={{fontSize:8,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{fontSize:8,fontWeight:700,color:"#8B7B6E",letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
                         <div style={{display:"flex",gap:6}}>
                           {swatchesB.map(s=>(
-                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:`1.5px solid ${c.EDGE}`,flexShrink:0,cursor:"default"}}/>
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:"1.5px solid rgba(194,98,58,0.2)",flexShrink:0,cursor:"default"}}/>
                           ))}
                         </div>
                       </div>
                       <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
                         {optionChips.B.map(chip=>(
-                          <div key={chip} style={{fontSize:9,fontWeight:600,color:c.BLUE,border:`1px solid ${c.BLUE}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:"#8B3A1E",background:"rgba(194,98,58,0.08)",border:"1px solid rgba(194,98,58,0.2)",borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
                         ))}
                       </div>
-                      <div style={{fontSize:9,color:c.SLATE,fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.B}</div>
-                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.B}</div>
+                      <div style={{fontSize:9,color:"#8B7B6E",fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.B}</div>
+                      <div style={{fontSize:13,color:"#3D2E26",fontFamily:MONO,lineHeight:1.6,flex:1,marginBottom:18}}>{optionDescriptions.B}</div>
                       <button
                         onClick={()=>{setSelectedInModal("B");setConfirming(true);}}
                         onMouseEnter={()=>setHoverB(true)}
                         onMouseLeave={()=>setHoverB(false)}
-                        style={{width:"100%",padding:"11px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverB?c.NAVY:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
-                      >Select Refined Craft</button>
+                        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:BARLOW,background:hoverB?"#A84F2E":"#C2623A",color:"#fff",border:"none",borderRadius:6,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >SELECT REFINED CRAFT</button>
                     </div>
                   </div>
 
                 </div>
 
                 {/* ── MOODBOARD GALLERY ── */}
-                <div style={{borderTop:`1px solid ${c.EDGE}44`,paddingTop:20,marginTop:20}}>
-                  <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:14,textTransform:"uppercase"}}>The Visual World of Arquero</div>
+                <div style={{borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:20,marginTop:20,background:"#111010",margin:"20px -24px -24px",padding:"20px 24px 24px"}}>
+                  <div style={{fontSize:9,fontWeight:700,color:"#555",letterSpacing:2,fontFamily:MONO,marginBottom:14,textTransform:"uppercase"}}>Visual Moodboard</div>
                   <div style={{display:"flex",gap:10,overflowX:"auto",paddingBottom:8,scrollbarWidth:"thin",scrollbarColor:`${c.EDGE} transparent`}}>
                     {galleryImages.map((img,i)=>(
                       <div
@@ -1638,10 +1641,10 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                         onClick={()=>setLightboxIdx(i)}
                         onMouseEnter={()=>setHoveredGalleryIdx(i)}
                         onMouseLeave={()=>setHoveredGalleryIdx(null)}
-                        style={{width:220,flexShrink:0,borderRadius:8,overflow:"hidden",cursor:"pointer",border:`1px solid ${hoveredGalleryIdx===i?c.BLUE+"55":c.EDGE}`,transform:hoveredGalleryIdx===i?"scale(1.02)":"scale(1)",transition:"transform 0.2s ease, border-color 0.2s ease"}}
+                        style={{width:220,flexShrink:0,borderRadius:8,overflow:"hidden",cursor:"pointer",border:`1px solid ${hoveredGalleryIdx===i?"rgba(194,98,58,0.6)":"rgba(255,255,255,0.1)"}`,transform:hoveredGalleryIdx===i?"scale(1.03)":"scale(1)",transition:"transform 0.2s ease, border-color 0.2s ease",boxShadow:hoveredGalleryIdx===i?"0 8px 24px rgba(0,0,0,0.4)":"none"}}
                       >
                         <img src={img.src} alt={img.label} style={{width:"100%",height:140,objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
-                        <div style={{padding:"6px 8px",background:c.CARD,fontSize:9,fontWeight:700,color:c.STONE,letterSpacing:1.5,fontFamily:MONO}}>{img.label}</div>
+                        <div style={{padding:"6px 8px",background:"#1A1614",fontSize:9,fontWeight:700,color:"rgba(255,255,255,0.5)",letterSpacing:1.5,fontFamily:MONO}}>{img.label}</div>
                       </div>
                     ))}
                   </div>
@@ -1652,10 +1655,10 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
             </div>
           </div>
         </div>
-      )}
+      ,document.body)}
 
       {/* ── LIGHTBOX ── */}
-      {lightboxIdx!==null&&(
+      {lightboxIdx!==null&&ReactDOM.createPortal(
         <div
           onClick={()=>setLightboxIdx(null)}
           style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:3000,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}
@@ -1690,7 +1693,7 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
           {/* image counter */}
           <div style={{position:"absolute",bottom:20,left:"50%",transform:"translateX(-50%)",fontSize:9,fontFamily:MONO,color:"rgba(255,255,255,0.4)",letterSpacing:2}}>{lightboxIdx+1} / {galleryImages.length}</div>
         </div>
-      )}
+      ,document.body)}
     </div>
   );
 }

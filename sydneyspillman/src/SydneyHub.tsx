@@ -789,6 +789,10 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
                       {phase.id===1&&m.title==="MOOD + DIRECTION"&&(
                         <DirectionPickerInline c={c} opsMode={view==="internal"} directionPick={directionPick} onPick={onPick}/>
                       )}
+                      {/* M03 Ops Briefing — ops only */}
+                      {phase.id===1&&m.title==="LOGO DESIGN"&&view==="internal"&&(
+                        <M03OpsBriefing c={c}/>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1199,6 +1203,78 @@ export function DiscoveryPage(){
       </div>
     </div>
     </ErrorBoundary>
+  );
+}
+
+/* ═══════════════════════════════════════
+   M03 OPS BRIEFING (ops dashboard only)
+   ═══════════════════════════════════════ */
+function M03OpsBriefing({c}:{c:any}){
+  const taskKeys=[
+    {key:"1-LOGO DESIGN-0",label:"3 logo concepts"},
+    {key:"1-LOGO DESIGN-1",label:"Mockup presentations"},
+    {key:"1-LOGO DESIGN-2",label:"Revision round 1"},
+    {key:"1-LOGO DESIGN-3",label:"Revision round 2"},
+    {key:"1-LOGO DESIGN-4",label:"Export final files"},
+    {key:"1-LOGO DESIGN-5",label:"Icon + wordmark variants"},
+  ];
+  const [copied,setCopied]=useState<string|null>(null);
+  const copy=(text:string,id:string)=>{
+    navigator.clipboard.writeText(text).then(()=>{setCopied(id);setTimeout(()=>setCopied(null),1500);});
+  };
+
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      {/* Header */}
+      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:"#f59e0b",letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase"}}>Ops Briefing</div>
+        <div style={{flex:1,height:1,background:c.EDGE}}/>
+        <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>dispatch/escalations/sydney-logo-design.md</div>
+      </div>
+
+      {/* Direction confirmed */}
+      <div style={{padding:"10px 12px",background:"#f59e0b08",border:"1px solid #f59e0b22",borderRadius:6,marginBottom:12}}>
+        <div style={{fontSize:11,fontWeight:700,color:"#f59e0b",fontFamily:"Inter,sans-serif",marginBottom:3}}>Direction: Option B — Warm Editorial</div>
+        <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
+          Sydney picked March 31, 2026. All 3 logo concepts should lean into warmth, serif type, human-first story.
+          Explore: wordmark only · icon + wordmark · stacked lockup.
+        </div>
+      </div>
+
+      {/* Checklist */}
+      <div style={{marginBottom:12}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:8}}>Manual Checklist — click any row to copy its Convex command</div>
+        <div style={{display:"flex",flexDirection:"column",gap:4}}>
+          {taskKeys.map((t,i)=>{
+            const cmd=`npx convex run --prod sydneyTasks:setTask '{"projectId":"sydney-spillman","key":"${t.key}","value":true}'`;
+            return(
+              <div key={t.key} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",background:c.DEEP,borderRadius:5,cursor:"pointer"}}
+                onClick={()=>copy(cmd,t.key)}
+                title={cmd}>
+                <div style={{width:16,height:16,borderRadius:3,border:`1.5px solid ${c.EDGE}`,flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,color:c.SLATE,fontWeight:700}}>{i+1}</div>
+                <div style={{flex:1,fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif"}}>{t.label}</div>
+                <div style={{fontSize:9,color:copied===t.key?c.GREEN:c.SLATE,fontFamily:"'Geist Mono',monospace",transition:"color 0.2s"}}>
+                  {copied===t.key?"✓ copied":"copy cmd"}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Ink task note */}
+      <div style={{padding:"10px 12px",background:c.BLUE+"06",border:`1px solid ${c.BLUE}18`,borderRadius:6}}>
+        <div style={{fontSize:10,fontWeight:700,color:c.BLUE,fontFamily:"Inter,sans-serif",marginBottom:3}}>Ink task queued</div>
+        <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
+          <span style={{fontFamily:"'Geist Mono',monospace",fontSize:9}}>ink/inbox/sydney-logo-presentation-copy.md</span>
+          {" "}— presentation copy for the 3-concept reveal: direction note, per-concept blurbs, revision explainer. Run Ink before presenting to Sydney.
+        </div>
+      </div>
+
+      <div style={{marginTop:10,fontSize:9,color:c.SLATE,fontFamily:"'Geist Mono',monospace",opacity:0.6}}>
+        Logo files → sydneyspillman/content/brand/logo/
+      </div>
+    </div>
   );
 }
 
