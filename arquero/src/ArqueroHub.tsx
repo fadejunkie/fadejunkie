@@ -667,10 +667,10 @@ function DocViewer({d,c,onClose}){
     .slide-prose blockquote{border-left:3px solid ${c.BLUE};padding:10px 16px;background:${c.BLUE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
   `;
 
-  return(
-    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.78)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+  return ReactDOM.createPortal(
+    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.78)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
       <style>{proseStyles}</style>
-      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"100%",maxWidth:960,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"calc(100vw - 40px)",maxWidth:960,height:"calc(100vh - 60px)",maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
         <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:12,flexShrink:0,background:c.CARD}}>
           <div style={{flex:1,minWidth:0}}>
             <div style={{fontWeight:900,fontSize:14,fontFamily:"'Barlow Condensed',sans-serif",color:c.INK,letterSpacing:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
@@ -729,7 +729,8 @@ function DocViewer({d,c,onClose}){
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
