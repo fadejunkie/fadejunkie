@@ -1421,59 +1421,173 @@ function ArqueroDiscoveryForm({c,opsMode,discoveryData,onSubmit}){
 }
 
 /* ═══════════════════════════════════════
-   ARQUERO DIRECTION PICKER (inline)
+   ARQUERO DIRECTION PICKER (modal)
    ═══════════════════════════════════════ */
 function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
-  const [confirming,setConfirming]=useState(null);
+  const [modalOpen,setModalOpen]=useState(false);
+  const [selectedInModal,setSelectedInModal]=useState(null);
+  const [confirming,setConfirming]=useState(false);
   const [saving,setSaving]=useState(false);
+  const [hoverA,setHoverA]=useState(false);
+  const [hoverB,setHoverB]=useState(false);
+  const [hoverConfirm,setHoverConfirm]=useState(false);
+
   const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
   const pickedAt=directionPick?.pickedAt;
+  const MONO="'IBM Plex Mono',monospace";
+  const BARLOW="'Barlow Condensed','Arial Narrow',sans-serif";
   const optionNames={A:"Raw Industrial",B:"Refined Craft"};
-  const handlePick=async(pick)=>{setSaving(true);try{await onPick(pick);}finally{setSaving(false);setConfirming(null);}};
+  const optionDescriptors={A:"Forge energy. Grit. Heavy metal presence.",B:"Precision. Warmth. Earned identity."};
+  const optionDescriptions={
+    A:"Dark materials, aggressive contrast, oxidized metals. Logos that look stamped or forged. Typography with raw edge — industrial weight.",
+    B:"Earthy tones, terracotta and sand. Logos with intentional craft detail. Typography with personality — not generic industrial. The San Miguel heritage shows through.",
+  };
+  const optionChips={A:["Gritty","Heavy","Forge energy","Bold contrast"],B:["Precision","Quality","Earned","Heritage warmth"]};
+  const A_ACCENT="#8b7355";
+
+  const handlePick=async(pick)=>{
+    setSaving(true);
+    try{await onPick(pick);}
+    finally{setSaving(false);setConfirming(false);setSelectedInModal(null);setModalOpen(false);}
+  };
   const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  const options=[
-    {id:"A",name:"Raw Industrial",chips:["Gritty","Heavy","Forge energy"],recommended:false},
-    {id:"B",name:"Refined Craft",chips:["Precision","Quality","Earned"],recommended:true},
-  ];
+
+  const openModal=()=>{setSelectedInModal(null);setConfirming(false);setModalOpen(true);};
+  const closeModal=()=>{if(saving)return;setModalOpen(false);setSelectedInModal(null);setConfirming(false);};
+
+  /* ── post-pick success badge ── */
   if(activePick){
     return(
       <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
           <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
-          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"'IBM Plex Mono',monospace"}}>Option {activePick} — {optionNames[activePick]} selected</div>
-          {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
-          {opsMode&&<button onClick={()=>handlePick("")} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"'IBM Plex Mono',monospace",padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Change"}</button>}
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:MONO}}>Option {activePick} — {optionNames[activePick]} selected</div>
+          {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:MONO,marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
+          {opsMode&&<button onClick={()=>handlePick("")} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:MONO,padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Change"}</button>}
         </div>
       </div>
     );
   }
+
+  /* ── inline trigger ── */
   return(
     <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
-      <div style={{marginBottom:14}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
-        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>Pick the direction that feels most like Arquero — this unlocks logo design.</div>
+      <div style={{marginBottom:12}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:MONO,textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:MONO,lineHeight:1.5}}>Pick the visual direction for Arquero — this unlocks logo design.</div>
       </div>
-      <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
-        {options.map(opt=>(
-          <div key={opt.id} style={{flex:"1 1 180px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:8,padding:14,minWidth:180,position:"relative"}}>
-            {opt.recommended&&<div style={{position:"absolute",top:8,right:8,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"2px 8px",borderRadius:3,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace"}}>RECOMMENDED</div>}
-            <div style={{fontSize:20,fontWeight:900,color:c.BLUE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1,marginBottom:4}}>{opt.id}</div>
-            <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"'IBM Plex Mono',monospace"}}>{opt.name}</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:12}}>{opt.chips.map(chip=>(<div key={chip} style={{fontSize:9,fontWeight:600,color:c.SLATE,background:c.CARD,borderRadius:20,padding:"2px 8px",fontFamily:"'IBM Plex Mono',monospace"}}>{chip}</div>))}</div>
-            {confirming===opt.id?(
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+        <div style={{fontSize:11,color:c.STONE,fontFamily:MONO,opacity:0.7}}>A: Raw Industrial</div>
+        <div style={{flex:1,height:1,background:c.EDGE}}/>
+        <div style={{fontSize:11,color:c.STONE,fontFamily:MONO,opacity:0.7}}>B: Refined Craft</div>
+      </div>
+      <button
+        onClick={openModal}
+        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:MONO,background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}
+      >
+        <span style={{fontSize:12}}>▶</span> OPEN DIRECTION PICKER
+      </button>
+
+      {/* ── MODAL ── */}
+      {modalOpen&&(
+        <div
+          onClick={e=>{if(e.target===e.currentTarget)closeModal();}}
+          style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:"16px"}}
+        >
+          <div style={{width:"100%",maxWidth:900,maxHeight:"88vh",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:14,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+
+            {/* modal header */}
+            <div style={{padding:"20px 24px 16px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexShrink:0}}>
               <div>
-                <div style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace",marginBottom:8,lineHeight:1.4}}>Confirm Option {opt.id}?</div>
-                <div style={{display:"flex",gap:6}}>
-                  <button onClick={()=>handlePick(opt.id)} disabled={saving} style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SAVING…":"YES"}</button>
-                  <button onClick={()=>setConfirming(null)} style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>CANCEL</button>
-                </div>
+                <div style={{fontSize:22,fontWeight:900,fontFamily:BARLOW,color:c.INK,letterSpacing:2,textTransform:"uppercase",lineHeight:1}}>Choose Your Direction</div>
+                <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,marginTop:6,lineHeight:1.5,maxWidth:560}}>Pick the direction that feels most like Arquero — this choice unlocks logo design.</div>
               </div>
-            ):(
-              <button onClick={()=>setConfirming(opt.id)} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer"}}>CHOOSE OPTION {opt.id}</button>
-            )}
+              <button onClick={closeModal} style={{fontSize:18,color:c.STONE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"2px 6px",marginTop:-2,flexShrink:0}}>×</button>
+            </div>
+
+            {/* modal body */}
+            <div style={{flex:1,overflowY:"auto",padding:"20px 24px 24px"}}>
+
+              {/* confirmation step */}
+              {confirming&&selectedInModal?(
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:280,textAlign:"center",padding:"20px 0"}}>
+                  <div style={{fontSize:10,fontWeight:700,color:c.STONE,fontFamily:MONO,letterSpacing:2,marginBottom:16,textTransform:"uppercase"}}>You chose:</div>
+                  <div style={{fontSize:28,fontWeight:900,fontFamily:BARLOW,color:selectedInModal==="B"?c.BLUE:A_ACCENT,letterSpacing:1,textTransform:"uppercase",marginBottom:6}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
+                  <div style={{width:48,height:2,background:selectedInModal==="B"?c.BLUE:A_ACCENT,borderRadius:1,marginBottom:20}}/>
+                  <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.7,maxWidth:480,fontStyle:"italic",marginBottom:32}}>
+                    {optionDescriptions[selectedInModal]}{" "}This direction unlocks logo design for Arquero Co.
+                  </div>
+                  <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                    <button
+                      onClick={()=>setConfirming(false)}
+                      style={{padding:"10px 20px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}
+                    >← BACK</button>
+                    <button
+                      onClick={()=>handlePick(selectedInModal)}
+                      onMouseEnter={()=>setHoverConfirm(true)}
+                      onMouseLeave={()=>setHoverConfirm(false)}
+                      disabled={saving}
+                      style={{padding:"10px 24px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverConfirm?c.NAVY:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"background 0.15s"}}
+                    >{saving?"SAVING…":"CONFIRM DIRECTION →"}</button>
+                  </div>
+                </div>
+              ):(
+                /* two-column option cards */
+                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+
+                  {/* OPTION A */}
+                  <div style={{background:"linear-gradient(145deg,#1a1a1c 0%,#232329 60%,#1e1b18 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column"}}>
+                    <div style={{height:3,background:A_ACCENT,flexShrink:0}}/>
+                    <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:A_ACCENT,lineHeight:1,marginBottom:6}}>A</div>
+                      <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Raw Industrial</div>
+                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.A}</div>
+                      <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
+                        {optionChips.A.map(chip=>(
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:A_ACCENT,border:`1px solid ${A_ACCENT}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.A}</div>
+                      <button
+                        onClick={()=>{setSelectedInModal("A");setConfirming(true);}}
+                        onMouseEnter={()=>setHoverA(true)}
+                        onMouseLeave={()=>setHoverA(false)}
+                        style={{width:"100%",padding:"11px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverA?`${A_ACCENT}33`:`${A_ACCENT}22`,color:A_ACCENT,border:`1px solid ${A_ACCENT}44`,borderRadius:5,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >Select Raw Industrial</button>
+                    </div>
+                  </div>
+
+                  {/* OPTION B */}
+                  <div style={{background:"linear-gradient(145deg,#1c1814 0%,#211d19 60%,#1e1a15 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative"}}>
+                    <div style={{height:3,background:c.BLUE,flexShrink:0}}/>
+                    <div style={{position:"absolute",top:14,right:14,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 9px",borderRadius:3,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1}}>RECOMMENDED</div>
+                    <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:c.BLUE,lineHeight:1,marginBottom:6}}>B</div>
+                      <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Refined Craft</div>
+                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.B}</div>
+                      <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
+                        {optionChips.B.map(chip=>(
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:c.BLUE,border:`1px solid ${c.BLUE}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.B}</div>
+                      <button
+                        onClick={()=>{setSelectedInModal("B");setConfirming(true);}}
+                        onMouseEnter={()=>setHoverB(true)}
+                        onMouseLeave={()=>setHoverB(false)}
+                        style={{width:"100%",padding:"11px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:hoverB?c.NAVY:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >Select Refined Craft</button>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+            </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
