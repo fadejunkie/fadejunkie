@@ -29,7 +29,7 @@ const phases=[
       {title:"MOOD + DIRECTION",clientDesc:"Visual direction deck before any design work begins.",
         tasks:[{label:"Build mood board — textures, typography, color feel, photography style"},{label:"Present 2 direction options (e.g. raw industrial vs. refined craft)"},{label:"Get client approval on direction before moving to logo design",blocker:true}]},
       {title:"LOGO DESIGN",clientDesc:"Three concepts refined into a final mark — primary logo, icon, and wordmark.",
-        tasks:[{label:"Generate 3 distinct logo concepts (AI-assisted + manual vector refinement)"},{label:"Present concepts with mockups — apparel tags, embroidery, social, packaging"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"}]},
+        tasks:[{label:"Generate 3 distinct logo concepts (hand-crafted + vector refinement)"},{label:"Present concepts with mockups — apparel tags, embroidery, social, packaging"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"}]},
       {title:"BRAND SYSTEM",clientDesc:"Complete brand kit — colors, fonts, usage rules.",
         tasks:[{label:"Define primary palette — dark/steel tones + signature accent (welding orange/amber)"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (heavy/industrial) + body font (clean/readable)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — tags, labels, packaging mockups, social templates"},{label:"Deliver complete brand kit to client"}]},
     ]},
@@ -669,7 +669,7 @@ function DocViewer({d,c,onClose}){
   return(
     <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.78)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
       <style>{proseStyles}</style>
-      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"100%",maxWidth:820,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"100%",maxWidth:960,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
         <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:12,flexShrink:0,background:c.CARD}}>
           <div style={{flex:1,minWidth:0}}>
             <div style={{fontWeight:900,fontSize:14,fontFamily:"'Barlow Condensed',sans-serif",color:c.INK,letterSpacing:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
@@ -691,7 +691,7 @@ function DocViewer({d,c,onClose}){
         </div>
 
         {isContent&&viewMode==="doc"&&(
-          <div style={{overflowY:"auto",flex:1,padding:"28px 36px"}}>
+          <div style={{overflowY:"auto",flex:1,padding:"32px 48px"}}>
             <div className="doc-prose" dangerouslySetInnerHTML={{__html:renderHtml(d.markdownContent)}}/>
           </div>
         )}
@@ -792,7 +792,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
             <div style={{flex:1,minWidth:0}}>
               <div style={{fontSize:13,fontWeight:600,color:c.INK,fontFamily:"'Barlow Condensed',sans-serif",letterSpacing:0.5,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
               <div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginTop:2}}>
-                {isContent?"Agent document · Click to read":isImgUrl?"Image · Click to view":isPdfUrl?"PDF Document · Click to open":"External link · Click to open"}
+                {isContent?"Document · Click to read":isImgUrl?"Image · Click to view":isPdfUrl?"PDF Document · Click to open":"External link · Click to open"}
                 {" · "}{new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
               </div>
             </div>
@@ -1497,7 +1497,7 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
           onClick={e=>{if(e.target===e.currentTarget)closeModal();}}
           style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:"16px"}}
         >
-          <div style={{width:"100%",maxWidth:900,maxHeight:"88vh",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:14,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+          <div style={{width:"100%",maxWidth:1100,maxHeight:"92vh",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:14,display:"flex",flexDirection:"column",overflow:"hidden"}}>
 
             {/* modal header */}
             <div style={{padding:"20px 24px 16px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexShrink:0}}>
@@ -1539,12 +1539,12 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                 </div>
               ):(
                 /* two-column option cards */
-                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))",gap:16}}>
 
                   {/* OPTION A */}
                   <div style={{background:"linear-gradient(145deg,#1a1a1c 0%,#232329 60%,#1e1b18 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column"}}>
                     <div style={{height:3,background:A_ACCENT,flexShrink:0}}/>
-                    <div style={{position:"relative",height:200,overflow:"hidden",flexShrink:0}}>
+                    <div style={{position:"relative",height:240,overflow:"hidden",flexShrink:0}}>
                       <img src="/moodboard-a.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
                       <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1b18 100%)"}}/>
                     </div>
@@ -1580,7 +1580,7 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                   {/* OPTION B */}
                   <div style={{background:"linear-gradient(145deg,#1c1814 0%,#211d19 60%,#1e1a15 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative"}}>
                     <div style={{height:3,background:c.BLUE,flexShrink:0}}/>
-                    <div style={{position:"relative",height:200,overflow:"hidden",flexShrink:0}}>
+                    <div style={{position:"relative",height:240,overflow:"hidden",flexShrink:0}}>
                       <img src="/moodboard-b.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
                       <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1a15 100%)"}}/>
                       <div style={{position:"absolute",top:10,right:10,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 9px",borderRadius:3,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1}}>RECOMMENDED</div>
