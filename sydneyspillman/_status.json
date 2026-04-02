@@ -3,8 +3,8 @@
   "name": "Sydney Spillman",
   "type": "client-hub",
   "health": "needs-attention",
-  "lastScanned": "2026-04-02T04:51:51.283Z",
-  "lastChanged": "2026-04-02T04:46:51.277Z",
+  "lastScanned": "2026-04-02T04:53:07.113Z",
+  "lastChanged": "2026-04-02T04:51:51.279Z",
   "currentPhase": "phase-1",
   "pendingTasks": [
     {
@@ -77,21 +77,7 @@
   "clientBlockers": [
     "Discovery questionnaire not filled"
   ],
-  "pmAlerts": [
-    "Task stalled: Discovery Session — Sydney Spillman & Associates",
-    "Task stalled: Mood + Direction — Sydney Spillman & Associates",
-    "Task stalled: Logo Design — Sydney Spillman & Associates",
-    "Task stalled: Brand System — Sydney Spillman & Associates",
-    "Task stalled: Domain Setup — Sydney Spillman & Associates",
-    "Task stalled: Site Foundation — Sydney Spillman & Associates",
-    "Task stalled: Core Pages — Sydney Spillman & Associates",
-    "Task stalled: Property Features — Sydney Spillman & Associates",
-    "Task stalled: SEO Foundation — Sydney Spillman & Associates",
-    "Task stalled: Quality Assurance — Sydney Spillman & Associates",
-    "Task stalled: Go Live — Sydney Spillman & Associates",
-    "Task stalled: Analytics + Tracking — Sydney Spillman & Associates",
-    "Task stalled: Client Handoff — Sydney Spillman & Associates"
-  ],
+  "pmAlerts": [],
   "agreementSigned": true,
   "contentEmpty": false,
   "contentFiles": [
