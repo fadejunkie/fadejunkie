@@ -1431,6 +1431,8 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
   const [hoverA,setHoverA]=useState(false);
   const [hoverB,setHoverB]=useState(false);
   const [hoverConfirm,setHoverConfirm]=useState(false);
+  const [lightboxIdx,setLightboxIdx]=useState(null);
+  const [hoveredGalleryIdx,setHoveredGalleryIdx]=useState(null);
 
   const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
   const pickedAt=directionPick?.pickedAt;
@@ -1447,6 +1449,15 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
   const swatchesA=[{hex:"#2B2D2F",name:"Gunmetal"},{hex:"#8B4513",name:"Oxidized Bronze"},{hex:"#D4731A",name:"Forge Ember"},{hex:"#6B6E70",name:"Iron Grey"},{hex:"#111214",name:"Foundry Black"}];
   const swatchesB=[{hex:"#C2623A",name:"Terracotta"},{hex:"#7A8B6F",name:"Desert Sage"},{hex:"#F0E6D4",name:"Bone"},{hex:"#3B2415",name:"Espresso"},{hex:"#B8943E",name:"Brass"}];
   const optionTypography={A:"DISPLAY: BEBAS NEUE · BODY: IBM PLEX SANS",B:"DISPLAY: PLAYFAIR DISPLAY · BODY: SOURCE SERIF 4"};
+  const galleryImages=[
+    {src:"/moodboard-a.png",label:"THE FORGE"},
+    {src:"/moodboard-b.png",label:"THE CRAFT"},
+    {src:"/mb-vaquero.png",label:"VAQUERO"},
+    {src:"/mb-snakeskin.png",label:"SNAKESKIN"},
+    {src:"/mb-desert.png",label:"DESERT"},
+    {src:"/mb-pipeline.png",label:"PIPELINE"},
+    {src:"/mb-tradicion.png",label:"TRADICIÓN"},
+  ];
 
   const handlePick=async(pick)=>{
     setSaving(true);
@@ -1538,7 +1549,8 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                   </div>
                 </div>
               ):(
-                /* two-column option cards */
+                /* two-column option cards + gallery */
+                <>
                 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))",gap:16}}>
 
                   {/* OPTION A */}
@@ -1615,9 +1627,68 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                   </div>
 
                 </div>
+
+                {/* ── MOODBOARD GALLERY ── */}
+                <div style={{borderTop:`1px solid ${c.EDGE}44`,paddingTop:20,marginTop:20}}>
+                  <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:14,textTransform:"uppercase"}}>The Visual World of Arquero</div>
+                  <div style={{display:"flex",gap:10,overflowX:"auto",paddingBottom:8,scrollbarWidth:"thin",scrollbarColor:`${c.EDGE} transparent`}}>
+                    {galleryImages.map((img,i)=>(
+                      <div
+                        key={img.src}
+                        onClick={()=>setLightboxIdx(i)}
+                        onMouseEnter={()=>setHoveredGalleryIdx(i)}
+                        onMouseLeave={()=>setHoveredGalleryIdx(null)}
+                        style={{width:220,flexShrink:0,borderRadius:8,overflow:"hidden",cursor:"pointer",border:`1px solid ${hoveredGalleryIdx===i?c.BLUE+"55":c.EDGE}`,transform:hoveredGalleryIdx===i?"scale(1.02)":"scale(1)",transition:"transform 0.2s ease, border-color 0.2s ease"}}
+                      >
+                        <img src={img.src} alt={img.label} style={{width:"100%",height:140,objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                        <div style={{padding:"6px 8px",background:c.CARD,fontSize:9,fontWeight:700,color:c.STONE,letterSpacing:1.5,fontFamily:MONO}}>{img.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                </>
+
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ── LIGHTBOX ── */}
+      {lightboxIdx!==null&&(
+        <div
+          onClick={()=>setLightboxIdx(null)}
+          style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:3000,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}
+        >
+          {/* image + label */}
+          <div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",maxWidth:"90vw"}}>
+            <img
+              src={galleryImages[lightboxIdx]?.src}
+              alt={galleryImages[lightboxIdx]?.label}
+              style={{maxWidth:"90vw",maxHeight:"88vh",objectFit:"contain",borderRadius:8}}
+              onError={e=>{(e.target as HTMLImageElement).style.display="none";}}
+            />
+            <div style={{fontSize:13,fontFamily:BARLOW,color:"rgba(255,255,255,0.85)",letterSpacing:2,marginTop:12,textTransform:"uppercase",fontWeight:600}}>{galleryImages[lightboxIdx]?.label}</div>
+          </div>
+          {/* prev arrow */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(i=>Math.max(0,i-1));}}
+            disabled={lightboxIdx===0}
+            style={{position:"absolute",left:20,top:"50%",transform:"translateY(-50%)",fontSize:26,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.4)",border:"none",borderRadius:"50%",width:44,height:44,cursor:"pointer",opacity:lightboxIdx===0?0.2:1,display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}
+          >‹</button>
+          {/* next arrow */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(i=>Math.min(galleryImages.length-1,i+1));}}
+            disabled={lightboxIdx===galleryImages.length-1}
+            style={{position:"absolute",right:20,top:"50%",transform:"translateY(-50%)",fontSize:26,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.4)",border:"none",borderRadius:"50%",width:44,height:44,cursor:"pointer",opacity:lightboxIdx===galleryImages.length-1?0.2:1,display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}
+          >›</button>
+          {/* close button */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(null);}}
+            style={{position:"absolute",top:16,right:16,fontSize:16,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.45)",border:"none",borderRadius:"50%",width:36,height:36,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}
+          >×</button>
+          {/* image counter */}
+          <div style={{position:"absolute",bottom:20,left:"50%",transform:"translateX(-50%)",fontSize:9,fontFamily:MONO,color:"rgba(255,255,255,0.4)",letterSpacing:2}}>{lightboxIdx+1} / {galleryImages.length}</div>
         </div>
       )}
     </div>
