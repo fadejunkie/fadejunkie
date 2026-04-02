@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../convex/_generated/api";
+import { marked } from "marked";
 import {
   ACCENT, ACCENT_SOFT, INK, BODY, MUTED, LIGHT, BG, WHITE, GREEN,
   PROJECT, PHASES, STATUS_CONFIG,
@@ -175,11 +176,432 @@ function InlineTextarea({ value, onSave, style }) {
   );
 }
 
+function DocViewer({ item, onClose }) {
+  const [slide, setSlide] = useState(0);
+  const isDoc = item.type === "doc" || item.type === "slides";
+  const isImg = item.type === "image";
+  const content = item.markdownContent || "";
+  const slides = content.split(/\n---\n/);
+  const html = isDoc ? marked.parse(slides[slide] || "") : "";
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, background: "rgba(0,0,0,0.65)",
+        zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 24,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: "#fff", borderRadius: 12, width: "100%", maxWidth: 760,
+          maxHeight: "88vh", display: "flex", flexDirection: "column",
+          overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.3)",
+        }}
+      >
+        {/* Header */}
+        <div style={{
+          padding: "16px 20px", borderBottom: "1px solid #e5e7eb",
+          display: "flex", alignItems: "center", gap: 10,
+        }}>
+          <span style={{
+            fontSize: 10, padding: "2px 7px", borderRadius: 4, fontWeight: 700,
+            fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em",
+            background: item.type === "doc" ? "rgba(232,84,26,0.1)" : item.type === "slides" ? "rgba(232,84,26,0.15)" : item.type === "image" ? "#ecfdf5" : "#f3f4f6",
+            color: item.type === "doc" || item.type === "slides" ? ACCENT : item.type === "image" ? "#16a34a" : "#6b7280",
+          }}>
+            {item.type.toUpperCase()}
+          </span>
+          <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: "#111" }}>{item.label}</span>
+          {item.url && (
+            <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
+              fontSize: 11, color: ACCENT, textDecoration: "none", fontFamily: "'DM Mono', monospace",
+            }}>↗ open</a>
+          )}
+          <button onClick={onClose} style={{
+            background: "none", border: "none", cursor: "pointer",
+            fontSize: 18, color: "#9ca3af", padding: "0 4px",
+          }}>×</button>
+        </div>
+
+        {/* Body */}
+        <div style={{ flex: 1, overflow: "auto", padding: 24 }}>
+          {isImg && item.url && (
+            <img src={item.url} alt={item.label} style={{ maxWidth: "100%", borderRadius: 8 }} />
+          )}
+          {isDoc && content && (
+            <div
+              dangerouslySetInnerHTML={{ __html: html }}
+              style={{
+                fontSize: 14, lineHeight: 1.7, color: "#374151",
+                fontFamily: "'DM Sans', sans-serif",
+              }}
+            />
+          )}
+          {!isImg && !content && item.url && (
+            <div style={{ textAlign: "center", padding: "40px 0" }}>
+              <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
+                color: ACCENT, fontSize: 14, fontFamily: "'DM Mono', monospace",
+              }}>
+                Open {item.label} ↗
+              </a>
+            </div>
+          )}
+        </div>
+
+        {/* Slide nav */}
+        {item.type === "slides" && slides.length > 1 && (
+          <div style={{
+            padding: "12px 20px", borderTop: "1px solid #e5e7eb",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          }}>
+            <button onClick={() => setSlide(s => Math.max(0, s - 1))} disabled={slide === 0} style={{
+              background: "none", border: `1px solid #e5e7eb`, borderRadius: 6,
+              padding: "4px 10px", cursor: slide === 0 ? "default" : "pointer",
+              color: slide === 0 ? "#d1d5db" : "#374151", fontSize: 12,
+            }}>←</button>
+            {slides.map((_, i) => (
+              <button key={i} onClick={() => setSlide(i)} style={{
+                width: 8, height: 8, borderRadius: "50%", border: "none", cursor: "pointer",
+                background: i === slide ? ACCENT : "#d1d5db", padding: 0,
+              }} />
+            ))}
+            <button onClick={() => setSlide(s => Math.min(slides.length - 1, s + 1))} disabled={slide === slides.length - 1} style={{
+              background: "none", border: `1px solid #e5e7eb`, borderRadius: 6,
+              padding: "4px 10px", cursor: slide === slides.length - 1 ? "default" : "pointer",
+              color: slide === slides.length - 1 ? "#d1d5db" : "#374151", fontSize: 12,
+            }}>→</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MilestoneDeliverables({ phaseId, deliverables, isAdmin, onAdd, onRemove, compact = false }) {
+  const items = deliverables.filter(d => d.milestoneKey === phaseId);
+  const [open, setOpen] = useState(false);
+  const [viewing, setViewing] = useState(null);
+  const [mode, setMode] = useState("url");
+  const [form, setForm] = useState({ label: "", url: "", type: "doc", content: "" });
+
+  const TYPE_BADGE = {
+    doc: { bg: "rgba(232,84,26,0.1)", color: ACCENT },
+    slides: { bg: "rgba(232,84,26,0.15)", color: ACCENT },
+    image: { bg: "#ecfdf5", color: "#16a34a" },
+    link: { bg: "#f3f4f6", color: "#6b7280" },
+  };
+
+  const submit = () => {
+    if (!form.label.trim()) return;
+    const hasContent = mode === "paste" && form.content.trim();
+    const hasUrl = mode === "url" && form.url.trim();
+    if (!hasContent && !hasUrl) return;
+    onAdd({
+      milestoneKey: phaseId,
+      label: form.label.trim(),
+      url: hasUrl ? form.url.trim() : undefined,
+      type: form.type,
+      addedAt: Date.now(),
+      markdownContent: hasContent ? form.content.trim() : undefined,
+    });
+    setForm({ label: "", url: "", type: "doc", content: "" });
+    setOpen(false);
+  };
+
+  if (items.length === 0 && !isAdmin) return null;
+
+  // Compact mode: inline chips for per-task display, no header row
+  if (compact) {
+    return (
+      <div style={{ padding: "4px 24px 10px 64px" }}>
+        {viewing && <DocViewer item={viewing} onClose={() => setViewing(null)} />}
+
+        {items.length > 0 ? (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: open ? 10 : 0 }}>
+            {items.map(d => {
+              const badge = TYPE_BADGE[d.type] || TYPE_BADGE.link;
+              const clickable = d.markdownContent || d.url;
+              return (
+                <div key={d._id} style={{
+                  display: "flex", alignItems: "center", gap: 5,
+                  background: "#fafafa", border: "1px solid #e5e7eb",
+                  borderRadius: 6, padding: "3px 8px 3px 6px",
+                }}>
+                  <span style={{
+                    fontSize: 8, padding: "1px 4px", borderRadius: 3, fontWeight: 700,
+                    fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em",
+                    background: badge.bg, color: badge.color,
+                  }}>{d.type.toUpperCase()}</span>
+                  <span
+                    onClick={() => clickable && setViewing(d)}
+                    style={{
+                      fontSize: 11, color: clickable ? ACCENT : "#374151",
+                      cursor: clickable ? "pointer" : "default",
+                      textDecoration: clickable ? "underline" : "none",
+                    }}
+                  >{d.label}</span>
+                  {isAdmin && (
+                    <button onClick={() => onRemove(d._id)} style={{
+                      background: "none", border: "none", cursor: "pointer",
+                      color: "#d1d5db", fontSize: 12, padding: "0 2px", lineHeight: 1,
+                    }}>×</button>
+                  )}
+                </div>
+              );
+            })}
+            {isAdmin && (
+              <button onClick={() => setOpen(o => !o)} style={{
+                background: "none", border: "none", cursor: "pointer",
+                fontSize: 9, color: open ? ACCENT : MUTED, padding: "0 4px",
+                fontFamily: "'DM Mono', monospace", fontWeight: 600,
+                textDecoration: "underline", lineHeight: 1.4,
+              }}>
+                {open ? "cancel" : "+ attach"}
+              </button>
+            )}
+          </div>
+        ) : (
+          isAdmin && (
+            <button onClick={() => setOpen(o => !o)} style={{
+              background: "none", border: "none", cursor: "pointer",
+              fontSize: 9, color: open ? ACCENT : MUTED, padding: 0,
+              fontFamily: "'DM Mono', monospace", fontWeight: 600,
+              textDecoration: "underline", lineHeight: 1.4,
+            }}>
+              {open ? "cancel" : "+ attach"}
+            </button>
+          )
+        )}
+
+        {isAdmin && open && (
+          <div style={{
+            marginTop: 8, background: "#fafafa", border: "1px solid #e5e7eb",
+            borderRadius: 8, padding: 12,
+          }}>
+            <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
+              {["url", "paste"].map(m => (
+                <button key={m} onClick={() => setMode(m)} style={{
+                  fontSize: 9, padding: "2px 8px", borderRadius: 20, cursor: "pointer", fontWeight: 600,
+                  fontFamily: "'DM Mono', monospace",
+                  background: mode === m ? ACCENT : "transparent",
+                  color: mode === m ? "#fff" : MUTED,
+                  border: `1px solid ${mode === m ? ACCENT : "#e5e7eb"}`,
+                }}>
+                  {m === "url" ? "URL" : "PASTE"}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              <input
+                placeholder="Label"
+                value={form.label}
+                onChange={e => setForm(f => ({ ...f, label: e.target.value }))}
+                style={{
+                  flex: 2, minWidth: 100, padding: "5px 8px", border: "1px solid #e5e7eb",
+                  borderRadius: 6, fontSize: 11, fontFamily: "'DM Sans', sans-serif", outline: "none",
+                }}
+              />
+              <select
+                value={form.type}
+                onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+                style={{
+                  padding: "5px 8px", border: "1px solid #e5e7eb", borderRadius: 6,
+                  fontSize: 11, fontFamily: "'DM Mono', sans-serif", background: "#fff",
+                }}
+              >
+                <option value="doc">DOC</option>
+                <option value="slides">SLIDES</option>
+                <option value="image">IMAGE</option>
+                <option value="link">LINK</option>
+              </select>
+            </div>
+            {mode === "url" ? (
+              <input
+                placeholder="https://..."
+                value={form.url}
+                onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
+                style={{
+                  width: "100%", marginTop: 6, padding: "5px 8px", border: "1px solid #e5e7eb",
+                  borderRadius: 6, fontSize: 11, fontFamily: "'DM Mono', monospace",
+                  boxSizing: "border-box", outline: "none",
+                }}
+              />
+            ) : (
+              <textarea
+                placeholder="Paste markdown content..."
+                value={form.content}
+                onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
+                rows={4}
+                style={{
+                  width: "100%", marginTop: 6, padding: "5px 8px", border: "1px solid #e5e7eb",
+                  borderRadius: 6, fontSize: 11, fontFamily: "'DM Mono', monospace",
+                  boxSizing: "border-box", resize: "vertical", outline: "none",
+                }}
+              />
+            )}
+            <button onClick={submit} style={{
+              marginTop: 8, padding: "5px 14px", background: ACCENT, color: "#fff",
+              border: "none", borderRadius: 6, cursor: "pointer", fontSize: 11,
+              fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+            }}>
+              Add
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: "0 24px 16px", borderTop: `1px solid #f0f0f0`, marginTop: 8, paddingTop: 16 }}>
+      {viewing && <DocViewer item={viewing} onClose={() => setViewing(null)} />}
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, color: MUTED,
+          fontFamily: "'DM Mono', monospace", letterSpacing: "0.07em", textTransform: "uppercase",
+        }}>
+          Deliverables {items.length > 0 ? `(${items.length})` : ""}
+        </span>
+        {isAdmin && (
+          <button onClick={() => setOpen(o => !o)} style={{
+            fontSize: 10, padding: "3px 10px", borderRadius: 20,
+            border: `1px solid ${ACCENT}`, background: open ? ACCENT : "transparent",
+            color: open ? "#fff" : ACCENT, cursor: "pointer", fontWeight: 600,
+            fontFamily: "'DM Mono', monospace",
+          }}>
+            {open ? "Cancel" : "+ ADD"}
+          </button>
+        )}
+      </div>
+
+      {/* Deliverables list */}
+      {items.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: open ? 12 : 0 }}>
+          {items.map(d => {
+            const badge = TYPE_BADGE[d.type] || TYPE_BADGE.link;
+            const clickable = d.markdownContent || d.url;
+            return (
+              <div key={d._id} style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "#fafafa", border: "1px solid #e5e7eb",
+                borderRadius: 6, padding: "4px 10px 4px 8px",
+              }}>
+                <span style={{
+                  fontSize: 9, padding: "1px 5px", borderRadius: 3, fontWeight: 700,
+                  fontFamily: "'DM Mono', monospace", letterSpacing: "0.06em",
+                  background: badge.bg, color: badge.color,
+                }}>{d.type.toUpperCase()}</span>
+                <span
+                  onClick={() => clickable && setViewing(d)}
+                  style={{
+                    fontSize: 12, color: clickable ? ACCENT : "#374151",
+                    cursor: clickable ? "pointer" : "default",
+                    textDecoration: clickable ? "underline" : "none",
+                  }}
+                >{d.label}</span>
+                {isAdmin && (
+                  <button onClick={() => onRemove(d._id)} style={{
+                    background: "none", border: "none", cursor: "pointer",
+                    color: "#d1d5db", fontSize: 13, padding: "0 2px", lineHeight: 1,
+                  }}>×</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Add form */}
+      {isAdmin && open && (
+        <div style={{
+          background: "#fafafa", border: "1px solid #e5e7eb", borderRadius: 8, padding: 14,
+        }}>
+          <div style={{ display: "flex", gap: 6, marginBottom: 10 }}>
+            {["url", "paste"].map(m => (
+              <button key={m} onClick={() => setMode(m)} style={{
+                fontSize: 10, padding: "3px 10px", borderRadius: 20, cursor: "pointer", fontWeight: 600,
+                fontFamily: "'DM Mono', monospace",
+                background: mode === m ? ACCENT : "transparent",
+                color: mode === m ? "#fff" : MUTED,
+                border: `1px solid ${mode === m ? ACCENT : "#e5e7eb"}`,
+              }}>
+                {m === "url" ? "URL" : "PASTE CONTENT"}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <input
+              placeholder="Label"
+              value={form.label}
+              onChange={e => setForm(f => ({ ...f, label: e.target.value }))}
+              style={{
+                flex: 2, minWidth: 120, padding: "6px 10px", border: "1px solid #e5e7eb",
+                borderRadius: 6, fontSize: 12, fontFamily: "'DM Sans', sans-serif", outline: "none",
+              }}
+            />
+            <select
+              value={form.type}
+              onChange={e => setForm(f => ({ ...f, type: e.target.value }))}
+              style={{
+                padding: "6px 10px", border: "1px solid #e5e7eb", borderRadius: 6,
+                fontSize: 12, fontFamily: "'DM Mono', sans-serif", background: "#fff",
+              }}
+            >
+              <option value="doc">DOC</option>
+              <option value="slides">SLIDES</option>
+              <option value="image">IMAGE</option>
+              <option value="link">LINK</option>
+            </select>
+          </div>
+          {mode === "url" ? (
+            <input
+              placeholder="https://..."
+              value={form.url}
+              onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
+              style={{
+                width: "100%", marginTop: 8, padding: "6px 10px", border: "1px solid #e5e7eb",
+                borderRadius: 6, fontSize: 12, fontFamily: "'DM Mono', monospace",
+                boxSizing: "border-box", outline: "none",
+              }}
+            />
+          ) : (
+            <textarea
+              placeholder="Paste markdown content..."
+              value={form.content}
+              onChange={e => setForm(f => ({ ...f, content: e.target.value }))}
+              rows={5}
+              style={{
+                width: "100%", marginTop: 8, padding: "6px 10px", border: "1px solid #e5e7eb",
+                borderRadius: 6, fontSize: 12, fontFamily: "'DM Mono', monospace",
+                boxSizing: "border-box", resize: "vertical", outline: "none",
+              }}
+            />
+          )}
+          <button onClick={submit} style={{
+            marginTop: 10, padding: "6px 18px", background: ACCENT, color: "#fff",
+            border: "none", borderRadius: 6, cursor: "pointer", fontSize: 12,
+            fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+          }}>
+            Add Deliverable
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SEOJourneyTracker() {
   const overrides = useQuery(api.wcorwinTasks.getOverrides, { projectId: PROJECT_ID });
   const setStatus = useMutation(api.wcorwinTasks.setStatus);
   const setText = useMutation(api.wcorwinTasks.setText);
   const setDocMut = useMutation(api.wcorwinTasks.setDoc);
+  const deliverables = useQuery(api.wcorwinTasks.getDeliverables, { projectId: PROJECT_ID }) ?? [];
+  const addDeliverableMut = useMutation(api.wcorwinTasks.addDeliverable);
+  const removeDeliverableMut = useMutation(api.wcorwinTasks.removeDeliverable);
 
   const phases = applyOverrides(PHASES, overrides);
   const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
@@ -557,7 +979,7 @@ export default function SEOJourneyTracker() {
           </div>
 
           {/* Task list */}
-          <div style={{ padding: "8px 0" }}>
+          <div style={{ padding: "8px 0 0" }}>
             {phase.tasks.map((task, i) => {
               const cfg = STATUS_CONFIG[task.status];
               const isHovered = hoveredTask === `${activePhase}-${i}`;
@@ -703,10 +1125,27 @@ export default function SEOJourneyTracker() {
                       </div>
                     </div>
                   )}
+
+                  {/* Per-task deliverable chips */}
+                  <MilestoneDeliverables
+                    phaseId={taskKey}
+                    deliverables={deliverables}
+                    isAdmin={IS_ADMIN}
+                    onAdd={(args) => addDeliverableMut({ projectId: PROJECT_ID, ...args })}
+                    onRemove={(id) => removeDeliverableMut({ id })}
+                    compact={true}
+                  />
                 </div>
               );
             })}
           </div>
+          <MilestoneDeliverables
+            phaseId={phase.id}
+            deliverables={deliverables}
+            isAdmin={IS_ADMIN}
+            onAdd={(args) => addDeliverableMut({ projectId: PROJECT_ID, ...args })}
+            onRemove={(id) => removeDeliverableMut({ id })}
+          />
         </div>
       </div>}
 
