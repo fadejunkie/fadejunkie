@@ -3,8 +3,8 @@
   "name": "Arquero",
   "type": "client-hub",
   "health": "needs-attention",
-  "lastScanned": "2026-04-02T04:53:03.038Z",
-  "lastChanged": "2026-04-02T04:52:52.767Z",
+  "lastScanned": "2026-04-02T04:55:31.334Z",
+  "lastChanged": "2026-04-02T04:55:22.619Z",
   "currentPhase": "phase-1",
   "pendingTasks": [
     {
