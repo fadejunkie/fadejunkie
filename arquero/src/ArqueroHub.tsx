@@ -1439,11 +1439,14 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
   const optionNames={A:"Raw Industrial",B:"Refined Craft"};
   const optionDescriptors={A:"Forge energy. Grit. Heavy metal presence.",B:"Precision. Warmth. Earned identity."};
   const optionDescriptions={
-    A:"Dark materials, aggressive contrast, oxidized metals. Logos that look stamped or forged. Typography with raw edge — industrial weight.",
-    B:"Earthy tones, terracotta and sand. Logos with intentional craft detail. Typography with personality — not generic industrial. The San Miguel heritage shows through.",
+    A:"Hard contrast. Stamped into metal. The aesthetic of a brand that was forged, not designed — for welders who recognize the work.",
+    B:"Earth tones. Desert light. San Miguel heritage visible in the palette before a word is read. The direction that no competitor can copy.",
   };
   const optionChips={A:["Gritty","Heavy","Forge energy","Bold contrast"],B:["Precision","Quality","Earned","Heritage warmth"]};
   const A_ACCENT="#8b7355";
+  const swatchesA=[{hex:"#2B2D2F",name:"Gunmetal"},{hex:"#8B4513",name:"Oxidized Bronze"},{hex:"#D4731A",name:"Forge Ember"},{hex:"#6B6E70",name:"Iron Grey"},{hex:"#111214",name:"Foundry Black"}];
+  const swatchesB=[{hex:"#C2623A",name:"Terracotta"},{hex:"#7A8B6F",name:"Desert Sage"},{hex:"#F0E6D4",name:"Bone"},{hex:"#3B2415",name:"Espresso"},{hex:"#B8943E",name:"Brass"}];
+  const optionTypography={A:"DISPLAY: BEBAS NEUE · BODY: IBM PLEX SANS",B:"DISPLAY: PLAYFAIR DISPLAY · BODY: SOURCE SERIF 4"};
 
   const handlePick=async(pick)=>{
     setSaving(true);
@@ -1512,7 +1515,10 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
               {confirming&&selectedInModal?(
                 <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:280,textAlign:"center",padding:"20px 0"}}>
                   <div style={{fontSize:10,fontWeight:700,color:c.STONE,fontFamily:MONO,letterSpacing:2,marginBottom:16,textTransform:"uppercase"}}>You chose:</div>
-                  <div style={{fontSize:28,fontWeight:900,fontFamily:BARLOW,color:selectedInModal==="B"?c.BLUE:A_ACCENT,letterSpacing:1,textTransform:"uppercase",marginBottom:6}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
+                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:6}}>
+                    <img src={selectedInModal==="A"?"/moodboard-a.png":"/moodboard-b.png"} alt="" style={{width:80,height:50,objectFit:"cover",borderRadius:6,border:`1px solid ${c.EDGE}`,flexShrink:0}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                    <div style={{fontSize:28,fontWeight:900,fontFamily:BARLOW,color:selectedInModal==="B"?c.BLUE:A_ACCENT,letterSpacing:1,textTransform:"uppercase",textAlign:"left",lineHeight:1.1}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
+                  </div>
                   <div style={{width:48,height:2,background:selectedInModal==="B"?c.BLUE:A_ACCENT,borderRadius:1,marginBottom:20}}/>
                   <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.7,maxWidth:480,fontStyle:"italic",marginBottom:32}}>
                     {optionDescriptions[selectedInModal]}{" "}This direction unlocks logo design for Arquero Co.
@@ -1538,16 +1544,29 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                   {/* OPTION A */}
                   <div style={{background:"linear-gradient(145deg,#1a1a1c 0%,#232329 60%,#1e1b18 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column"}}>
                     <div style={{height:3,background:A_ACCENT,flexShrink:0}}/>
+                    <div style={{position:"relative",height:200,overflow:"hidden",flexShrink:0}}>
+                      <img src="/moodboard-a.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1b18 100%)"}}/>
+                    </div>
                     <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
                       <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:A_ACCENT,lineHeight:1,marginBottom:6}}>A</div>
                       <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Raw Industrial</div>
                       <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.A}</div>
                       <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
+                      <div style={{marginBottom:14}}>
+                        <div style={{fontSize:8,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{display:"flex",gap:6}}>
+                          {swatchesA.map(s=>(
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:`1.5px solid ${c.EDGE}`,flexShrink:0,cursor:"default"}}/>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
                         {optionChips.A.map(chip=>(
                           <div key={chip} style={{fontSize:9,fontWeight:600,color:A_ACCENT,border:`1px solid ${A_ACCENT}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
                         ))}
                       </div>
+                      <div style={{fontSize:9,color:c.SLATE,fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.A}</div>
                       <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.A}</div>
                       <button
                         onClick={()=>{setSelectedInModal("A");setConfirming(true);}}
@@ -1561,17 +1580,30 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
                   {/* OPTION B */}
                   <div style={{background:"linear-gradient(145deg,#1c1814 0%,#211d19 60%,#1e1a15 100%)",border:`1px solid ${c.EDGE}`,borderRadius:10,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative"}}>
                     <div style={{height:3,background:c.BLUE,flexShrink:0}}/>
-                    <div style={{position:"absolute",top:14,right:14,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 9px",borderRadius:3,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1}}>RECOMMENDED</div>
+                    <div style={{position:"relative",height:200,overflow:"hidden",flexShrink:0}}>
+                      <img src="/moodboard-b.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#1e1a15 100%)"}}/>
+                      <div style={{position:"absolute",top:10,right:10,fontSize:8,fontWeight:800,color:"#fff",background:c.BLUE,padding:"3px 9px",borderRadius:3,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1}}>RECOMMENDED</div>
+                    </div>
                     <div style={{padding:"20px 20px 16px",flex:1,display:"flex",flexDirection:"column"}}>
                       <div style={{fontSize:56,fontWeight:900,fontFamily:BARLOW,color:c.BLUE,lineHeight:1,marginBottom:6}}>B</div>
                       <div style={{fontSize:18,fontWeight:800,fontFamily:BARLOW,color:c.INK,letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>Refined Craft</div>
                       <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.B}</div>
                       <div style={{height:1,background:c.EDGE,marginBottom:14}}/>
-                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
+                      <div style={{marginBottom:14}}>
+                        <div style={{fontSize:8,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{display:"flex",gap:6}}>
+                          {swatchesB.map(s=>(
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:`1.5px solid ${c.EDGE}`,flexShrink:0,cursor:"default"}}/>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
                         {optionChips.B.map(chip=>(
                           <div key={chip} style={{fontSize:9,fontWeight:600,color:c.BLUE,border:`1px solid ${c.BLUE}44`,borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
                         ))}
                       </div>
+                      <div style={{fontSize:9,color:c.SLATE,fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.B}</div>
                       <div style={{fontSize:12,color:c.STONE,fontFamily:MONO,lineHeight:1.65,flex:1,marginBottom:18}}>{optionDescriptions.B}</div>
                       <button
                         onClick={()=>{setSelectedInModal("B");setConfirming(true);}}
