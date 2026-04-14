@@ -97,14 +97,14 @@ const Grain=()=>(
 function ScopePage({c}){
   const Section=({title,children})=>(
     <div style={{marginBottom:28}}>
-      <div style={{fontSize:13,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:14,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{title}</div>
+      <div style={{fontSize:13,fontWeight:400,color:c.BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:14,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{title}</div>
       {children}
     </div>
   );
   const Row=({label,value,sub})=>(
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"10px 16px",background:c.CARD,borderRadius:6,border:`1px solid ${c.EDGE}`,marginBottom:6}}>
-      <div><div style={{fontSize:13,fontWeight:700,color:c.INK,letterSpacing:0.5}}>{label}</div>{sub&&<div style={{fontSize:10,color:c.SLATE,marginTop:2,fontFamily:"Inter,sans-serif"}}>{sub}</div>}</div>
-      <div style={{fontSize:14,fontWeight:800,color:c.BLUE,fontFamily:"Inter,sans-serif"}}>{value}</div>
+      <div><div style={{fontSize:13,fontWeight:400,color:c.INK,letterSpacing:0.5}}>{label}</div>{sub&&<div style={{fontSize:10,color:c.SLATE,marginTop:2,fontFamily:"Inter,sans-serif"}}>{sub}</div>}</div>
+      <div style={{fontSize:14,fontWeight:500,color:c.BLUE,fontFamily:"Inter,sans-serif"}}>{value}</div>
     </div>
   );
   return(
@@ -123,7 +123,7 @@ function ScopePage({c}){
           {[{l:"CLIENT",v:"Sydney Spillman"},{l:"DOMAIN",v:"sydneyspillman.com"},{l:"TYPE",v:"Real Estate"},{l:"MARKET",v:"San Antonio, TX"}].map(i=>(
             <div key={i.l} style={{background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,padding:"8px 12px"}}>
               <div style={{fontSize:9,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>{i.l}</div>
-              <div style={{fontSize:12,color:c.INK,fontWeight:600,marginTop:2}}>{i.v}</div>
+              <div style={{fontSize:12,color:c.INK,fontWeight:500,marginTop:2}}>{i.v}</div>
             </div>
           ))}
         </div>
@@ -131,7 +131,7 @@ function ScopePage({c}){
 
       <Section title="ENGAGEMENT TYPE">
         <div style={{background:c.BLUE+"0c",border:`1px solid ${c.BLUE}22`,borderRadius:8,padding:"16px 20px"}}>
-          <div style={{fontSize:14,fontWeight:700,color:c.INK,marginBottom:4}}>Pro Bono / In-House</div>
+          <div style={{fontSize:14,fontWeight:400,color:c.INK,marginBottom:4}}>Pro Bono / In-House</div>
           <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6}}>
             This project is an in-house engagement — no client invoicing. Full brand + website deliverables provided at no cost.
           </div>
@@ -141,7 +141,7 @@ function ScopePage({c}){
       <Section title="PHASE DELIVERABLES">
         {phases.map(p=>(
           <div key={p.id} style={{marginBottom:16}}>
-            <div style={{fontSize:12,fontWeight:800,color:c.INK,letterSpacing:1,marginBottom:8}}>
+            <div style={{fontSize:12,fontWeight:400,color:c.INK,letterSpacing:1,marginBottom:8}}>
               <span style={{color:c.BLUE,marginRight:8}}>PHASE {p.id}</span>{p.name} — {p.subtitle}
             </div>
             {p.milestones.map(m=>(
@@ -161,7 +161,7 @@ function ScopePage({c}){
       <Section title="ESTIMATED TIMELINE">
         {[{p:"Phase 1",n:"Brand Discovery + Visual System",t:"Weeks 1–2"},{p:"Phase 2",n:"Website Development",t:"Weeks 2–3"},{p:"Phase 3",n:"QA, Go-Live + Handoff",t:"Week 3"}].map(i=>(
           <div key={i.p} style={{display:"flex",justifyContent:"space-between",padding:"8px 16px",borderBottom:`1px solid ${c.EDGE}`}}>
-            <div><span style={{fontSize:11,color:c.BLUE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:10}}>{i.p}</span><span style={{fontSize:13,color:c.INK}}>{i.n}</span></div>
+            <div><span style={{fontSize:11,color:c.BLUE,fontWeight:400,fontFamily:"Inter,sans-serif",marginRight:10}}>{i.p}</span><span style={{fontSize:13,color:c.INK}}>{i.n}</span></div>
             <span style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{i.t}</span>
           </div>
         ))}
@@ -176,7 +176,7 @@ function ScopePage({c}){
           {l:"Third-Party Costs",b:"Domain registration and hosting costs (if any) are paid by client. Estimated: $12–$20/yr for domain."},
         ].map(t=>(
           <div key={t.l} style={{marginBottom:10}}>
-            <div style={{fontSize:11,fontWeight:700,color:c.BLUE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.BLUE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
             <div style={{fontSize:11,color:c.INK,lineHeight:1.6,fontFamily:"Inter,sans-serif",paddingLeft:8}}>{t.b}</div>
           </div>
         ))}
@@ -308,7 +308,7 @@ function AgreementPage({c}){
           </div>
 
           <div style={{background:c.CARD,borderRadius:8,border:`1px solid ${c.EDGE}`,padding:"20px 24px",marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12}}>PARTIES</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:12}}>PARTIES</div>
             {[{l:"Service Provider",v:"Anthony Tatis (Anthony's Brand Builder)"},{l:"Client",v:"Sydney Spillman & Associates"},{l:"Date",v:today}].map(r=>(
               <div key={r.l} style={{display:"flex",gap:16,marginBottom:6}}>
                 <span style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",width:120,flexShrink:0}}>{r.l}</span>
@@ -318,11 +318,11 @@ function AgreementPage({c}){
           </div>
 
           <div style={{marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>SCOPE OF WORK</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>SCOPE OF WORK</div>
             {scopePhases.map(s=>(
               <div key={s.p} style={{padding:"10px 0",borderBottom:`1px solid ${c.EDGE}`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline"}}>
-                  <div><span style={{fontSize:10,color:c.BLUE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{s.p}</span><span style={{fontSize:12,fontWeight:700,color:c.INK}}>{s.n}</span></div>
+                  <div><span style={{fontSize:10,color:c.BLUE,fontWeight:400,fontFamily:"Inter,sans-serif",marginRight:8}}>{s.p}</span><span style={{fontSize:12,fontWeight:400,color:c.INK}}>{s.n}</span></div>
                   <span style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{s.when}</span>
                 </div>
                 <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:4,paddingLeft:4}}>{s.desc}</div>
@@ -331,24 +331,24 @@ function AgreementPage({c}){
           </div>
 
           <div style={{marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>ENGAGEMENT TYPE</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>ENGAGEMENT TYPE</div>
             <div style={{fontSize:11,color:c.INK,lineHeight:1.7,fontFamily:"Inter,sans-serif",paddingLeft:4}}>
               This is a pro bono / in-house engagement. No payment is required. All brand and website deliverables are provided at no cost. The client retains full ownership of all assets upon completion.
             </div>
           </div>
 
           <div style={{marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>TIMELINE</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>TIMELINE</div>
             {[{p:"Phase 1",n:"Brand Discovery + Visual System",t:"Weeks 1–2"},{p:"Phase 2",n:"Website Development",t:"Weeks 2–3"},{p:"Phase 3",n:"QA, Go-Live + Handoff",t:"Week 3"}].map(i=>(
               <div key={i.p} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:`1px solid ${c.EDGE}`}}>
-                <div><span style={{fontSize:10,color:c.BLUE,fontWeight:700,fontFamily:"Inter,sans-serif",marginRight:8}}>{i.p}</span><span style={{fontSize:12,color:c.INK}}>{i.n}</span></div>
+                <div><span style={{fontSize:10,color:c.BLUE,fontWeight:400,fontFamily:"Inter,sans-serif",marginRight:8}}>{i.p}</span><span style={{fontSize:12,color:c.INK}}>{i.n}</span></div>
                 <span style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{i.t}</span>
               </div>
             ))}
           </div>
 
           <div style={{marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:8,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>TERMS</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:8,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>TERMS</div>
             {[
               {l:"Engagement",b:"This is a pro bono / in-house project. No payment is required."},
               {l:"Revisions",b:"Revision rounds are included as noted per phase. Additional revisions accommodated within reason."},
@@ -357,14 +357,14 @@ function AgreementPage({c}){
               {l:"Cancellation",b:"Either party may cancel with written notice. No financial obligations."},
             ].map(t=>(
               <div key={t.l} style={{marginBottom:10}}>
-                <div style={{fontSize:11,fontWeight:700,color:c.BLUE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
+                <div style={{fontSize:11,fontWeight:400,color:c.BLUE,letterSpacing:1,marginBottom:2}}>{t.l}</div>
                 <div style={{fontSize:11,color:c.INK,lineHeight:1.6,fontFamily:"Inter,sans-serif",paddingLeft:8}}>{t.b}</div>
               </div>
             ))}
           </div>
 
           <div style={{marginBottom:24}}>
-            <div style={{fontSize:11,fontWeight:800,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>ACKNOWLEDGEMENT</div>
+            <div style={{fontSize:11,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:12,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>ACKNOWLEDGEMENT</div>
             <div style={{fontSize:11,color:c.SLATE,lineHeight:1.7,fontFamily:"Inter,sans-serif"}}>
               By signing below, both parties confirm they have read and agree to the terms outlined in this agreement. This document serves as a binding service agreement between Anthony Tatis and Sydney Spillman & Associates.
             </div>
@@ -377,7 +377,7 @@ function AgreementPage({c}){
               <div style={{background:"#f8fafc",border:"1px solid rgba(21,190,83,0.33)",borderRadius:6,padding:"16px 20px",boxShadow:SHADOW_AMBIENT}}>
                 <div style={{fontSize:18,fontFamily:"Inter,sans-serif",fontWeight:300,fontStyle:"italic",color:"#0f172a",marginBottom:8,letterSpacing:"-0.18px"}}>Anthony Tatis</div>
                 <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8}}>
-                  <div style={{fontSize:11,fontWeight:600,color:c.INK}}>Anthony Tatis</div>
+                  <div style={{fontSize:11,fontWeight:500,color:c.INK}}>Anthony Tatis</div>
                   <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>Anthony's Brand Builder</div>
                   <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{today}</div>
                 </div>
@@ -395,7 +395,7 @@ function AgreementPage({c}){
                       <div style={{fontSize:18,fontFamily:"Inter,sans-serif",fontWeight:300,fontStyle:"italic",color:"#0f172a",marginBottom:8,letterSpacing:"-0.18px"}}>Sydney Spillman</div>
                     )}
                     <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8}}>
-                      <div style={{fontSize:11,fontWeight:600,color:c.INK}}>Sydney Spillman</div>
+                      <div style={{fontSize:11,fontWeight:500,color:c.INK}}>Sydney Spillman</div>
                       <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{signedDate}</div>
                     </div>
                     <div style={{marginTop:8}}>
@@ -418,7 +418,7 @@ function AgreementPage({c}){
                       <button onClick={clearSig} style={{padding:"8px 16px",fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",background:"transparent",color:"#64748b",border:"1px solid #e2e8f5",borderRadius:4,cursor:"pointer",letterSpacing:"normal"}}>Clear</button>
                     </div>
                     <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8,marginTop:10}}>
-                      <div style={{fontSize:11,fontWeight:600,color:c.SLATE}}>Sydney Spillman</div>
+                      <div style={{fontSize:11,fontWeight:500,color:c.SLATE}}>Sydney Spillman</div>
                     </div>
                   </>
                 )}
@@ -520,7 +520,7 @@ function DocViewer({d,c,onClose}){
             </div>
           )}
           {isContent&&(
-            <button onClick={downloadMd} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"Inter,sans-serif",padding:"5px 12px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
+            <button onClick={downloadMd} style={{fontSize:10,fontWeight:400,letterSpacing:0.5,fontFamily:"Inter,sans-serif",padding:"5px 12px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
           )}
           <button onClick={onClose} style={{fontSize:18,color:c.SLATE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"0 4px",flexShrink:0}}>×</button>
         </div>
@@ -555,7 +555,7 @@ function DocViewer({d,c,onClose}){
         {!isContent&&isImg(d.url)&&(
           <div style={{flex:1,overflow:"auto",display:"flex",flexDirection:"column",alignItems:"center",padding:24,gap:16,background:c.DEEP}}>
             <img src={d.url} alt={d.label} style={{maxWidth:"100%",maxHeight:"60vh",borderRadius:8,boxShadow:"0 8px 32px rgba(0,0,0,0.2)",objectFit:"contain"}}/>
-            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 18px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:400,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 18px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
           </div>
         )}
 
@@ -563,8 +563,8 @@ function DocViewer({d,c,onClose}){
         {!isContent&&!isImg(d.url)&&(
           <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,padding:40}}>
             <div style={{fontSize:40}}>{isPdf(d.url)?"📄":"🔗"}</div>
-            <div style={{fontSize:14,fontWeight:600,color:c.INK,fontFamily:"Inter,sans-serif",textAlign:"center"}}>{d.label}</div>
-            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"8px 24px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
+            <div style={{fontSize:14,fontWeight:400,color:c.INK,fontFamily:"Inter,sans-serif",textAlign:"center"}}>{d.label}</div>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:400,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"8px 24px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
           </div>
         )}
 
@@ -607,7 +607,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
       {viewing&&<DocViewer d={viewing} c={c} onClose={()=>setViewing(null)}/>}
 
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
+        <div style={{fontSize:9,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
         {isOps&&!adding&&(
           <button onClick={()=>setAdding(true)} style={{fontSize:12,fontWeight:400,color:"#2563eb",background:"rgba(37,99,235,0.05)",border:"1px solid #b9b9f9",borderRadius:4,padding:"2px 8px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:"normal"}}
             onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="rgba(37,99,235,0.10)"}}
@@ -636,7 +636,7 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
             </div>
             {/* Info */}
             <div style={{flex:1,minWidth:0}}>
-              <div style={{fontSize:13,fontWeight:600,color:c.INK,fontFamily:"Inter,sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+              <div style={{fontSize:13,fontWeight:500,color:c.INK,fontFamily:"Inter,sans-serif",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
               <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:2}}>
                 {isContent?"Agent document · Click to read":isImgUrl?"Image · Click to view":isPdfUrl?"PDF Document · Click to open":"External link · Click to open"}
                 {" · "}{new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
@@ -860,11 +860,11 @@ function WebsitePage({c}){
         </div>
         <div style={{display:"flex",gap:18,alignItems:"center"}}>
           {[{l:"Home",p:"home"},{l:"About",p:"about"},{l:"Listings",p:"listings"},{l:"Testimonials",p:"testimonials"},{l:"Contact",p:"contact"}].map(n=>(
-            <span key={n.l} onClick={()=>nav(n.p)} style={{fontSize:11,fontWeight:600,color:sitePage===n.p?S.accent:S.muted,letterSpacing:1,cursor:"pointer",fontFamily:"Inter,sans-serif",transition:"color 0.15s"}}>{n.l.toUpperCase()}</span>
+            <span key={n.l} onClick={()=>nav(n.p)} style={{fontSize:11,fontWeight:400,color:sitePage===n.p?S.accent:S.muted,letterSpacing:1,cursor:"pointer",fontFamily:"Inter,sans-serif",transition:"color 0.15s"}}>{n.l.toUpperCase()}</span>
           ))}
         </div>
       </div>
-      <a href="tel:2103468614" style={{fontSize:11,fontWeight:600,color:S.accent,fontFamily:"Inter,sans-serif",textDecoration:"none",letterSpacing:0.5}}>210-346-8614</a>
+      <a href="tel:2103468614" style={{fontSize:11,fontWeight:400,color:S.accent,fontFamily:"Inter,sans-serif",textDecoration:"none",letterSpacing:0.5}}>210-346-8614</a>
     </div>
   );
 
@@ -881,7 +881,7 @@ function WebsitePage({c}){
             {t:"CONTACT",l:[{label:"210-346-8614",fn:()=>{}},{label:"sydneyspillmanre@gmail.com",fn:()=>{}},{label:"San Antonio, TX",fn:()=>{}}]},
           ].map(col=>(
             <div key={col.t}>
-              <div style={{fontSize:9,fontWeight:700,color:BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10}}>{col.t}</div>
+              <div style={{fontSize:9,fontWeight:400,color:BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:10}}>{col.t}</div>
               {col.l.map(l=><div key={l.label} onClick={l.fn} style={{fontSize:11,color:"#94a3b8",marginBottom:7,cursor:"pointer"}}>{l.label}</div>)}
             </div>
           ))}
@@ -901,13 +901,13 @@ function WebsitePage({c}){
         <div style={{position:"absolute",top:10,left:10,fontSize:9,fontWeight:700,color:"#fff",background:l.status==="Sold"?"#22c55e":l.status==="Coming Soon"?"#f59e0b":BLUE,padding:"3px 10px",borderRadius:4,letterSpacing:1,fontFamily:"Inter,sans-serif"}}>{l.status.toUpperCase()}</div>
       </div>
       <div style={{padding:"14px 16px"}}>
-        <div style={{fontSize:20,fontWeight:800,color:S.text,fontFamily:"Inter,sans-serif",marginBottom:2}}>${l.price.toLocaleString()}</div>
-        <div style={{fontSize:13,fontWeight:600,color:S.text,marginBottom:2}}>{l.addr}</div>
+        <div style={{fontSize:20,fontWeight:500,color:S.text,fontFamily:"Inter,sans-serif",marginBottom:2}}>${l.price.toLocaleString()}</div>
+        <div style={{fontSize:13,fontWeight:500,color:S.text,marginBottom:2}}>{l.addr}</div>
         <div style={{fontSize:11,color:S.muted,marginBottom:10}}>{l.city}</div>
         <div style={{display:"flex",gap:16}}>
           {[{v:l.beds,l:"Beds"},{v:l.baths,l:"Baths"},{v:l.sqft.toLocaleString(),l:"Sqft"}].map(s=>(
             <div key={s.l}>
-              <span style={{fontSize:13,fontWeight:700,color:S.text,fontFamily:"Inter,sans-serif"}}>{s.v}</span>
+              <span style={{fontSize:13,fontWeight:500,color:S.text,fontFamily:"Inter,sans-serif"}}>{s.v}</span>
               <span style={{fontSize:10,color:S.muted,marginLeft:3}}>{s.l}</span>
             </div>
           ))}
@@ -923,7 +923,7 @@ function WebsitePage({c}){
       <div style={{position:"relative",height:420,background:"linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#2563eb 100%)",display:"flex",alignItems:"center",overflow:"hidden"}}>
         <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at 70% 50%, rgba(37,99,235,0.15) 0%, transparent 60%)"}}/>
         <div style={{position:"relative",zIndex:1,padding:"0 40px",maxWidth:600}}>
-          <div style={{fontSize:10,fontWeight:700,color:BLUE2,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:14}}>SAN ANTONIO REAL ESTATE</div>
+          <div style={{fontSize:10,fontWeight:400,color:BLUE2,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:14}}>SAN ANTONIO REAL ESTATE</div>
           <div style={{fontSize:48,fontWeight:300,color:"#f1f5f9",lineHeight:1.15,letterSpacing:"-0.96px",fontFamily:"Inter,sans-serif",marginBottom:16}}>
             Find Your<br/><span style={{color:BLUE2}}>Perfect</span> Home.
           </div>
@@ -943,7 +943,7 @@ function WebsitePage({c}){
       <div style={{padding:"40px 24px"}}>
         <div style={{display:"flex",alignItems:"baseline",gap:14,marginBottom:24}}>
           <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10}}>Featured Listings</div>
-          <span onClick={()=>nav("listings")} style={{marginLeft:"auto",fontSize:11,color:S.accent,fontFamily:"Inter,sans-serif",cursor:"pointer",fontWeight:600}}>View All →</span>
+          <span onClick={()=>nav("listings")} style={{marginLeft:"auto",fontSize:11,color:S.accent,fontFamily:"Inter,sans-serif",cursor:"pointer",fontWeight:400}}>View All →</span>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
           {listings.filter(l=>l.status==="For Sale").slice(0,3).map(l=><ListingCard key={l.id} l={l}/>)}
@@ -953,12 +953,12 @@ function WebsitePage({c}){
       {/* Testimonials preview */}
       <div style={{background:"#f8fafc",borderTop:`1px solid ${S.border}`,borderBottom:`1px solid ${S.border}`,padding:"40px 24px"}}>
         <div style={{textAlign:"center",maxWidth:600,margin:"0 auto"}}>
-          <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:700}}>TESTIMONIALS</div>
+          <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:400}}>TESTIMONIALS</div>
           <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:20}}>What Clients Say</div>
           <div style={{fontSize:13,color:S.muted,fontFamily:"Inter,sans-serif",lineHeight:1.8,fontStyle:"italic",marginBottom:8}}>
             "{testimonials[0].text}"
           </div>
-          <div style={{fontSize:12,fontWeight:700,color:S.text}}>— {testimonials[0].name}</div>
+          <div style={{fontSize:12,fontWeight:500,color:S.text}}>— {testimonials[0].name}</div>
           <button onClick={()=>nav("testimonials")} style={{marginTop:20,padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"transparent",color:"#2563eb",border:"1px solid #b9b9f9",borderRadius:4,cursor:"pointer"}}
             onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="rgba(37,99,235,0.05)"}}
             onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="transparent"}}>Read More Reviews</button>
@@ -967,7 +967,7 @@ function WebsitePage({c}){
 
       {/* About snippet */}
       <div style={{padding:"40px 24px",maxWidth:600,margin:"0 auto",textAlign:"center"}}>
-        <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:700}}>ABOUT SYDNEY</div>
+        <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:400}}>ABOUT SYDNEY</div>
         <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:16}}>Your San Antonio Expert</div>
         <div style={{fontSize:13,color:S.muted,fontFamily:"Inter,sans-serif",lineHeight:1.8,marginBottom:20}}>
           With deep roots in San Antonio and a passion for helping families find their perfect home, Sydney Spillman brings expertise, dedication, and a personal touch to every transaction.
@@ -994,7 +994,7 @@ function WebsitePage({c}){
           {t:"MY MISSION",b:"To help every client find not just a house, but a home. A place where memories are made, families grow, and life happens. That's what drives me every single day."},
         ].map(s=>(
           <div key={s.t} style={{marginBottom:32}}>
-            <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:700}}>{s.t}</div>
+            <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:400}}>{s.t}</div>
             <div style={{fontSize:13,color:S.text,fontFamily:"Inter,sans-serif",lineHeight:1.9}}>{s.b}</div>
           </div>
         ))}
@@ -1009,7 +1009,7 @@ function WebsitePage({c}){
 
   const renderListings=()=>(
     <div style={{padding:"32px 24px 48px"}}>
-      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>BROWSE</div>
+      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>BROWSE</div>
       <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:24}}>Property Listings</div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {listings.map(l=><ListingCard key={l.id} l={l}/>)}
@@ -1019,13 +1019,13 @@ function WebsitePage({c}){
 
   const renderTestimonials=()=>(
     <div style={{padding:"32px 24px 48px",maxWidth:640,margin:"0 auto"}}>
-      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>REVIEWS</div>
+      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>REVIEWS</div>
       <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:28}}>Client Testimonials</div>
       {testimonials.map((t,i)=>(
         <div key={i} style={{background:"#ffffff",border:"1px solid #e2e8f5",borderRadius:6,padding:"24px",marginBottom:12,boxShadow:SHADOW_AMBIENT}}>
           <div style={{fontSize:24,color:BLUE,marginBottom:8,lineHeight:1}}>"</div>
           <div style={{fontSize:13,color:S.text,fontFamily:"Inter,sans-serif",lineHeight:1.8,fontStyle:"italic",marginBottom:12}}>{t.text}</div>
-          <div style={{fontSize:12,fontWeight:700,color:S.text}}>— {t.name}</div>
+          <div style={{fontSize:12,fontWeight:500,color:S.text}}>— {t.name}</div>
         </div>
       ))}
     </div>
@@ -1033,7 +1033,7 @@ function WebsitePage({c}){
 
   const renderContact=()=>(
     <div style={{padding:"40px 24px 48px",maxWidth:520,margin:"0 auto"}}>
-      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>GET IN TOUCH</div>
+      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>GET IN TOUCH</div>
       <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:6}}>Contact Sydney</div>
       <div style={{fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif",marginBottom:28}}>Ready to buy or sell? Have questions? Let's talk.</div>
       {contactSent?(
@@ -1047,12 +1047,12 @@ function WebsitePage({c}){
         <div style={{display:"flex",flexDirection:"column",gap:14}}>
           {[{l:"NAME",k:"name",t:"text",ph:"Your name"},{l:"EMAIL",k:"email",t:"email",ph:"your@email.com"},{l:"PHONE",k:"phone",t:"tel",ph:"(210) 555-0000"}].map(f=>(
             <div key={f.k}>
-              <div style={{fontSize:9,color:S.accent,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>{f.l}</div>
+              <div style={{fontSize:9,color:S.accent,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>{f.l}</div>
               <input type={f.t} placeholder={f.ph} value={contactForm[f.k]} onChange={e=>setContactForm(p=>({...p,[f.k]:e.target.value}))} style={{width:"100%",padding:"10px 14px",background:S.card,border:`1px solid ${S.border}`,borderRadius:6,color:S.text,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",boxSizing:"border-box"}}/>
             </div>
           ))}
           <div>
-            <div style={{fontSize:9,color:S.accent,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>MESSAGE</div>
+            <div style={{fontSize:9,color:S.accent,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>MESSAGE</div>
             <textarea placeholder="Tell me about what you're looking for..." value={contactForm.message} onChange={e=>setContactForm(p=>({...p,message:e.target.value}))} rows={5} style={{width:"100%",padding:"10px 14px",background:S.card,border:`1px solid ${S.border}`,borderRadius:6,color:S.text,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
           </div>
           <button onClick={()=>{if(contactForm.name&&contactForm.email&&contactForm.message)setContactSent(true)}} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
@@ -1063,7 +1063,7 @@ function WebsitePage({c}){
       <div style={{marginTop:40,paddingTop:28,borderTop:`1px solid ${S.border}`,display:"flex",gap:28,flexWrap:"wrap"}}>
         {[{l:"PHONE",v:"210-346-8614"},{l:"EMAIL",v:"sydneyspillmanre@gmail.com"},{l:"LOCATION",v:"San Antonio, TX"}].map(i=>(
           <div key={i.l}>
-            <div style={{fontSize:9,color:S.accent,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:3,fontWeight:700}}>{i.l}</div>
+            <div style={{fontSize:9,color:S.accent,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:3,fontWeight:400}}>{i.l}</div>
             <div style={{fontSize:12,color:S.text}}>{i.v}</div>
           </div>
         ))}
@@ -1187,11 +1187,11 @@ export function DiscoveryPage(){
 
             {sections.map(section=>(
               <div key={section} style={{marginBottom:32}}>
-                <div style={{fontSize:11,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:16,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+                <div style={{fontSize:11,fontWeight:400,color:c.BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:16,paddingBottom:8,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
                 <div style={{display:"flex",flexDirection:"column",gap:20}}>
                   {discoveryQuestions.filter(q=>q.section===section).map(q=>(
                     <div key={q.id}>
-                      <label style={{display:"block",fontSize:13,fontWeight:600,color:c.INK,marginBottom:6,lineHeight:1.5}}>{q.label}</label>
+                      <label style={{display:"block",fontSize:13,fontWeight:400,color:c.INK,marginBottom:6,lineHeight:1.5}}>{q.label}</label>
                       {q.type==="textarea"?(
                         <textarea value={form[q.id]} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={3} style={{width:"100%",padding:"10px 14px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:6,color:c.INK,fontSize:13,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.6,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
                       ):q.type==="select"?(
@@ -1254,14 +1254,14 @@ function M03OpsBriefing({c}:{c:any}){
     <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
       {/* Header */}
       <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
-        <div style={{fontSize:9,fontWeight:700,color:"#f59e0b",letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase"}}>Ops Briefing</div>
+        <div style={{fontSize:9,fontWeight:400,color:"#f59e0b",letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase"}}>Ops Briefing</div>
         <div style={{flex:1,height:1,background:c.EDGE}}/>
         <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>dispatch/escalations/sydney-logo-design.md</div>
       </div>
 
       {/* Direction confirmed */}
       <div style={{padding:"10px 12px",background:"#f59e0b08",border:"1px solid #f59e0b22",borderRadius:6,marginBottom:12}}>
-        <div style={{fontSize:11,fontWeight:700,color:"#f59e0b",fontFamily:"Inter,sans-serif",marginBottom:3}}>Direction: Option B — Warm Editorial</div>
+        <div style={{fontSize:11,fontWeight:400,color:"#f59e0b",fontFamily:"Inter,sans-serif",marginBottom:3}}>Direction: Option B — Warm Editorial</div>
         <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
           Sydney picked March 31, 2026. All 3 logo concepts should lean into warmth, serif type, human-first story.
           Explore: wordmark only · icon + wordmark · stacked lockup.
@@ -1270,7 +1270,7 @@ function M03OpsBriefing({c}:{c:any}){
 
       {/* Checklist */}
       <div style={{marginBottom:12}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:8}}>Manual Checklist — click any row to copy its Convex command</div>
+        <div style={{fontSize:9,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:8}}>Manual Checklist — click any row to copy its Convex command</div>
         <div style={{display:"flex",flexDirection:"column",gap:4}}>
           {taskKeys.map((t,i)=>{
             const cmd=`npx convex run --prod sydneyTasks:setTask '{"projectId":"sydney-spillman","key":"${t.key}","value":true}'`;
@@ -1291,7 +1291,7 @@ function M03OpsBriefing({c}:{c:any}){
 
       {/* Ink task note */}
       <div style={{padding:"10px 12px",background:c.BLUE+"06",border:`1px solid ${c.BLUE}18`,borderRadius:6}}>
-        <div style={{fontSize:10,fontWeight:700,color:c.BLUE,fontFamily:"Inter,sans-serif",marginBottom:3}}>Ink task queued</div>
+        <div style={{fontSize:10,fontWeight:400,color:c.BLUE,fontFamily:"Inter,sans-serif",marginBottom:3}}>Ink task queued</div>
         <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
           <span style={{fontFamily:"'Geist Mono',monospace",fontSize:9}}>ink/inbox/sydney-logo-presentation-copy.md</span>
           {" "}— presentation copy for the 3-concept reveal: direction note, per-concept blurbs, revision explainer. Run Ink before presenting to Sydney.
@@ -1376,7 +1376,7 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
         {LightboxOverlay}
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
           <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
-          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>
+          <div style={{fontSize:12,fontWeight:400,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>
             You chose Option {activePick} — {name}
           </div>
           {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
@@ -1397,7 +1397,7 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
 
       {/* Section header */}
       <div style={{marginBottom:14}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
+        <div style={{fontSize:9,fontWeight:400,color:c.BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
         <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>
           Tap a card to explore — click the image to preview full size. When you're ready, choose the one that feels most like you.
         </div>
@@ -1468,7 +1468,7 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
               {/* Option letter */}
               <div style={{fontSize:22,fontWeight:300,color:"#2563eb",fontFamily:"Inter,sans-serif",lineHeight:1,marginBottom:3,letterSpacing:"-0.22px"}}>{opt.id}</div>
               {/* Direction name */}
-              <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
+              <div style={{fontSize:13,fontWeight:500,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
               {/* Chips */}
               <div style={{display:"flex",flexWrap:"wrap",gap:4,marginBottom:10}}>
                 {opt.chips.map(chip=>(
@@ -1570,7 +1570,7 @@ function DiscoveryFormInline({c,opsMode,discoveryData,onSubmit}:{c:any,opsMode:b
       <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
         <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6,marginBottom:summary.length?12:0}}>
           <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
-          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>Discovery Questionnaire Submitted</div>
+          <div style={{fontSize:12,fontWeight:400,color:c.GREEN,fontFamily:"Inter,sans-serif"}}>Discovery Questionnaire Submitted</div>
           {discoveryData?.submittedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginLeft:"auto"}}>{fmt(discoveryData.submittedAt)}</div>:null}
           {opsMode&&(
             <button onClick={async()=>{setSaving(true);try{await onSubmit(null)}finally{setSaving(false)}}} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"Inter,sans-serif",padding:0,marginLeft:4,opacity:saving?0.5:1}}>
@@ -1582,7 +1582,7 @@ function DiscoveryFormInline({c,opsMode,discoveryData,onSubmit}:{c:any,opsMode:b
           <div style={{display:"flex",flexDirection:"column",gap:6}}>
             {summary.slice(0,3).map(s=>(
               <div key={s.label} style={{padding:"8px 12px",background:c.CARD,borderRadius:5,border:`1px solid ${c.EDGE}`}}>
-                <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:2}}>{s.label.toUpperCase()}</div>
+                <div style={{fontSize:9,fontWeight:400,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:2}}>{s.label.toUpperCase()}</div>
                 <div style={{fontSize:11,color:c.INK,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>{s.val.length>120?s.val.slice(0,120)+"…":s.val}</div>
               </div>
             ))}
@@ -1596,17 +1596,17 @@ function DiscoveryFormInline({c,opsMode,discoveryData,onSubmit}:{c:any,opsMode:b
   return(
     <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
       <div style={{marginBottom:14}}>
-        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Discovery Questionnaire</div>
+        <div style={{fontSize:9,fontWeight:400,color:c.BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",textTransform:"uppercase",marginBottom:4}}>Discovery Questionnaire</div>
         <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.5}}>Help us understand your vision — your answers shape every brand decision.</div>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
         {sections.map(section=>(
           <div key={section}>
-            <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{fontSize:9,fontWeight:400,color:c.BLUE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
             <div style={{display:"flex",flexDirection:"column",gap:14}}>
               {discoveryQuestions.filter(q=>q.section===section).map(q=>(
                 <div key={q.id}>
-                  <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4}}>{q.label}</label>
+                  <label style={{display:"block",fontSize:11,fontWeight:400,color:c.INK,marginBottom:5,lineHeight:1.4}}>{q.label}</label>
                   {q.type==="textarea"?(
                     <textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
                   ):q.type==="select"?(
@@ -1706,7 +1706,7 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
       <Grain/>
 
       {/* Header */}
-      <div style={{background:"rgba(255,255,255,0.92)",borderBottom:`1px solid ${c.EDGE}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:200,backdropFilter:"blur(12px)"}}>
+      <div style={{background:dark?"rgba(15,31,61,0.95)":"rgba(255,255,255,0.92)",borderBottom:`1px solid ${c.EDGE}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:200,backdropFilter:"blur(12px)"}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <div style={{fontSize:18,fontWeight:500,letterSpacing:"-0.18px",fontFamily:"Inter,sans-serif",color:"#0f172a"}}>
             Sydney Spillman<span style={{color:"#2563eb"}}>.</span>
