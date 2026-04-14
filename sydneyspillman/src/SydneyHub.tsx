@@ -833,14 +833,8 @@ function WebsitePage({c}){
 
   const S={bg:"#fafbfc",nav:"#ffffff",card:"#ffffff",border:"#e2e8f0",text:"#0f172a",muted:"#64748b",accent:BLUE};
 
-  const listings=[
-    {id:1,addr:"4821 Elm Creek Dr",city:"San Antonio, TX 78249",price:385000,beds:4,baths:3,sqft:2450,status:"For Sale",img:"https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop"},
-    {id:2,addr:"1203 Stone Oak Pkwy",city:"San Antonio, TX 78258",price:520000,beds:5,baths:4,sqft:3200,status:"For Sale",img:"https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=300&fit=crop"},
-    {id:3,addr:"7890 Alamo Ranch Blvd",city:"San Antonio, TX 78253",price:299000,beds:3,baths:2,sqft:1850,status:"Coming Soon",img:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop"},
-    {id:4,addr:"562 Riverwalk Ln",city:"San Antonio, TX 78205",price:675000,beds:4,baths:3,sqft:2800,status:"For Sale",img:"https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=400&h=300&fit=crop"},
-    {id:5,addr:"3344 Helotes Hill Rd",city:"San Antonio, TX 78023",price:445000,beds:4,baths:3,sqft:2650,status:"Sold",img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&h=300&fit=crop"},
-    {id:6,addr:"901 Pearl Brewery St",city:"San Antonio, TX 78215",price:350000,beds:2,baths:2,sqft:1600,status:"For Sale",img:"https://images.unsplash.com/photo-1600566753190-17f0baa2a6c0?w=400&h=300&fit=crop"},
-  ];
+  const listings = useQuery(api.sydneyListings.getListings);
+  const [listingFilter, setListingFilter] = useState<"All"|"Active"|"Pending">("All");
 
   const testimonials=[
     {name:"Maria & Carlos R.",text:"Sydney made our first home purchase feel effortless. She was patient, knowledgeable, and always had our best interests at heart. We couldn't have done it without her."},
@@ -896,22 +890,19 @@ function WebsitePage({c}){
 
   const ListingCard=({l})=>(
     <div style={{background:"#ffffff",border:"1px solid #e2e8f5",borderRadius:6,overflow:"hidden",boxShadow:SHADOW_AMBIENT}}>
-      <div style={{height:180,background:"#e2e8f0",position:"relative",overflow:"hidden"}}>
-        <img src={l.img} alt={l.addr} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
-        <div style={{position:"absolute",top:10,left:10,fontSize:9,fontWeight:700,color:"#fff",background:l.status==="Sold"?"#22c55e":l.status==="Coming Soon"?"#f59e0b":BLUE,padding:"3px 10px",borderRadius:4,letterSpacing:1,fontFamily:"Inter,sans-serif"}}>{l.status.toUpperCase()}</div>
+      <div style={{height:180,background:`linear-gradient(135deg,${NAVY} 0%,${BLUE} 100%)`,position:"relative",overflow:"hidden"}}>
+        {l.photoUrl&&<img src={l.photoUrl} alt={l.address} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>}
+        <div style={{position:"absolute",top:10,left:10,fontSize:9,fontWeight:700,color:"#fff",background:l.status==="Active"?"rgba(21,190,83,0.9)":l.status==="Pending"?"rgba(245,158,11,0.9)":"rgba(100,116,139,0.9)",padding:"3px 10px",borderRadius:4,letterSpacing:1,fontFamily:"Inter,sans-serif"}}>{l.status.toUpperCase()}</div>
       </div>
       <div style={{padding:"14px 16px"}}>
-        <div style={{fontSize:20,fontWeight:500,color:S.text,fontFamily:"Inter,sans-serif",marginBottom:2}}>${l.price.toLocaleString()}</div>
-        <div style={{fontSize:13,fontWeight:500,color:S.text,marginBottom:2}}>{l.addr}</div>
-        <div style={{fontSize:11,color:S.muted,marginBottom:10}}>{l.city}</div>
-        <div style={{display:"flex",gap:16}}>
-          {[{v:l.beds,l:"Beds"},{v:l.baths,l:"Baths"},{v:l.sqft.toLocaleString(),l:"Sqft"}].map(s=>(
-            <div key={s.l}>
-              <span style={{fontSize:13,fontWeight:500,color:S.text,fontFamily:"Inter,sans-serif"}}>{s.v}</span>
-              <span style={{fontSize:10,color:S.muted,marginLeft:3}}>{s.l}</span>
-            </div>
-          ))}
+        <div style={{fontSize:20,fontWeight:500,color:BLUE,fontFamily:"Inter,sans-serif",marginBottom:2,fontVariantNumeric:"tabular-nums"}}>${l.price.toLocaleString()}</div>
+        <div style={{fontSize:13,fontWeight:400,color:S.text,marginBottom:10,lineHeight:1.4}}>{l.address}</div>
+        <div style={{display:"flex",gap:16,marginBottom:12}}>
+          <span style={{fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif"}}>🛏 {l.beds} bd</span>
+          <span style={{fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif"}}>🚿 {l.baths} ba</span>
+          {l.sqft&&<span style={{fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif"}}>📐 {l.sqft.toLocaleString()} sqft</span>}
         </div>
+        {l.listingUrl&&<a href={l.listingUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"7px 14px",background:BLUE,color:"#fff",borderRadius:4,fontSize:13,fontWeight:400,fontFamily:"Inter,sans-serif",textDecoration:"none",transition:"background 0.15s"}} onMouseEnter={e=>{(e.target as HTMLAnchorElement).style.background="#1d4ed8";}} onMouseLeave={e=>{(e.target as HTMLAnchorElement).style.background=BLUE;}}>View Listing →</a>}
       </div>
     </div>
   );
@@ -946,7 +937,7 @@ function WebsitePage({c}){
           <span onClick={()=>nav("listings")} style={{marginLeft:"auto",fontSize:11,color:S.accent,fontFamily:"Inter,sans-serif",cursor:"pointer",fontWeight:400}}>View All →</span>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
-          {listings.filter(l=>l.status==="For Sale").slice(0,3).map(l=><ListingCard key={l.id} l={l}/>)}
+          {(listings??[]).filter(l=>l.status==="Active").slice(0,3).map((l,i)=><ListingCard key={i} l={l}/>)}
         </div>
       </div>
 
@@ -1007,15 +998,75 @@ function WebsitePage({c}){
     </div>
   );
 
-  const renderListings=()=>(
+  const renderListings=()=>{
+    const filtered = listingFilter === "All" ? (listings??[]) : (listings??[]).filter(l=>l.status===listingFilter);
+    return (
     <div style={{padding:"32px 24px 48px"}}>
-      <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:400}}>BROWSE</div>
-      <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:24}}>Property Listings</div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
-        {listings.map(l=><ListingCard key={l.id} l={l}/>)}
+      {/* Section heading */}
+      <h2 style={{fontSize:28,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.5px",marginBottom:8,marginTop:0}}>
+        San Antonio Listings
+      </h2>
+      <p style={{fontSize:15,color:S.muted,fontFamily:"Inter,sans-serif",marginBottom:24,marginTop:0}}>
+        Active properties in the greater San Antonio area · Updated daily via San Antonio Board of Realtors
+      </p>
+      {/* Filter bar */}
+      <div style={{display:"flex",gap:8,marginBottom:24}}>
+        {(["All","Active","Pending"] as const).map(f=>(
+          <button key={f} onClick={()=>setListingFilter(f)} style={{padding:"6px 16px",borderRadius:4,border:`1px solid ${listingFilter===f?BLUE:S.border}`,background:listingFilter===f?BLUE:"transparent",color:listingFilter===f?"#fff":S.muted,fontSize:13,fontWeight:400,cursor:"pointer",fontFamily:"Inter,sans-serif",transition:"all 0.15s"}}>{f}</button>
+        ))}
+        <span style={{marginLeft:"auto",fontSize:13,color:S.muted,alignSelf:"center",fontFamily:"Inter,sans-serif"}}>
+          {filtered.length} {filtered.length===1?"property":"properties"}
+        </span>
       </div>
+      {/* Grid */}
+      {listings===undefined?(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:20}}>
+          {[...Array(6)].map((_,i)=>(
+            <div key={i} style={{background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:6,overflow:"hidden",height:320,boxShadow:SHADOW_AMBIENT}}>
+              <div style={{height:180,background:c.DEEP}}/>
+              <div style={{padding:16}}>
+                <div style={{height:12,background:c.EDGE,borderRadius:4,marginBottom:8,width:"60%"}}/>
+                <div style={{height:10,background:c.EDGE,borderRadius:4,marginBottom:6,width:"80%"}}/>
+                <div style={{height:10,background:c.EDGE,borderRadius:4,width:"40%"}}/>
+              </div>
+            </div>
+          ))}
+        </div>
+      ):filtered.length===0?(
+        <div style={{padding:40,textAlign:"center",color:S.muted,fontSize:14,fontFamily:"Inter,sans-serif"}}>No listings match this filter.</div>
+      ):(
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:20}}>
+          {filtered.map((listing,i)=>(
+            <div key={i}
+              style={{background:S.card,border:`1px solid ${S.border}`,borderRadius:6,overflow:"hidden",boxShadow:"rgba(30,58,143,0.12) 0px 15px 30px -15px, rgba(0,0,0,0.08) 0px 8px 16px -8px",transition:"box-shadow 0.2s, transform 0.2s",cursor:"pointer"}}
+              onMouseEnter={e=>{(e.currentTarget as HTMLDivElement).style.boxShadow=SHADOW_ELEVATED;(e.currentTarget as HTMLDivElement).style.transform="translateY(-2px)";}}
+              onMouseLeave={e=>{(e.currentTarget as HTMLDivElement).style.boxShadow="rgba(30,58,143,0.12) 0px 15px 30px -15px, rgba(0,0,0,0.08) 0px 8px 16px -8px";(e.currentTarget as HTMLDivElement).style.transform="translateY(0)";}}
+            >
+              {/* Photo */}
+              <div style={{position:"relative",height:180,background:`linear-gradient(135deg,${NAVY} 0%,${BLUE} 100%)`}}>
+                {listing.photoUrl&&(
+                  <img src={listing.photoUrl} alt={listing.address} style={{width:"100%",height:"100%",objectFit:"cover"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                )}
+                <span style={{position:"absolute",top:10,left:10,padding:"3px 8px",borderRadius:4,fontSize:11,fontWeight:500,fontFamily:"Inter,sans-serif",background:listing.status==="Active"?"rgba(21,190,83,0.9)":listing.status==="Pending"?"rgba(245,158,11,0.9)":"rgba(100,116,139,0.9)",color:"#fff"}}>{listing.status}</span>
+              </div>
+              {/* Card body */}
+              <div style={{padding:16}}>
+                <div style={{fontSize:20,fontWeight:600,color:BLUE,fontFamily:"Inter,sans-serif",marginBottom:4,fontVariantNumeric:"tabular-nums"}}>${listing.price.toLocaleString()}</div>
+                <div style={{fontSize:13,color:S.text,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:400,lineHeight:1.4}}>{listing.address}</div>
+                <div style={{display:"flex",gap:12,fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif",marginBottom:12}}>
+                  <span>🛏 {listing.beds} bd</span>
+                  <span>🚿 {listing.baths} ba</span>
+                  {listing.sqft&&<span>📐 {listing.sqft.toLocaleString()} sqft</span>}
+                </div>
+                <a href={listing.listingUrl} target="_blank" rel="noopener noreferrer" style={{display:"inline-block",padding:"7px 14px",background:BLUE,color:"#fff",borderRadius:4,fontSize:13,fontWeight:400,fontFamily:"Inter,sans-serif",textDecoration:"none",transition:"background 0.15s"}} onMouseEnter={e=>{(e.target as HTMLAnchorElement).style.background="#1d4ed8";}} onMouseLeave={e=>{(e.target as HTMLAnchorElement).style.background=BLUE;}}>View Listing →</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  );
+  );};
+
 
   const renderTestimonials=()=>(
     <div style={{padding:"32px 24px 48px",maxWidth:640,margin:"0 auto"}}>
