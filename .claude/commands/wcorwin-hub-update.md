@@ -10,8 +10,8 @@ Update the WCORWIN SEO tracker: change task statuses, store docs, sync, and veri
 
 - **Client tracker:** wcorwin.anthonytatis.com (Cloudflare Pages, real-time Convex)
 - **Convex project:** `wcorwin-seo` | Prod: `kindred-scorpion-550` | Dev: `necessary-horse-18`
-- **Source:** `seo-engine/WCORWIN/`
-- **Client context:** `seo-engine/context/clients/wcorwin.md`
+- **Source:** `wcorwin/`
+- **Client context:** `wcorwin/context/clients/wcorwin.md`
 
 ## Critical: Always use `--prod`
 
@@ -23,7 +23,7 @@ npx convex run --prod wcorwinTasks:<function> '<args>'
 
 ## Available Convex Mutations
 
-All mutations run from `seo-engine/WCORWIN/`:
+All mutations run from `wcorwin/`:
 
 ```bash
 # Change task status (done | active | pending)
@@ -93,12 +93,12 @@ Read the user's input (`$ARGUMENTS`). Determine which tasks to update and what c
 
 ### 2. Query Current State
 ```bash
-cd seo-engine/WCORWIN && npx convex run --prod wcorwinTasks:getOverrides '{"projectId":"wcorwin"}'
+cd wcorwin && npx convex run --prod wcorwinTasks:getOverrides '{"projectId":"wcorwin"}'
 ```
 Show the user the current overrides before making changes.
 
 ### 3. Apply Mutations (PROD)
-Run all needed mutations against prod. Always run from `seo-engine/WCORWIN/`.
+Run all needed mutations against prod. Always run from `wcorwin/`.
 
 **Also mirror to dev** for local development parity:
 ```bash
@@ -107,16 +107,16 @@ npx convex run wcorwinTasks:<same-mutation> '<same-args>'
 
 ### 4. Verify Prod State
 ```bash
-cd seo-engine/WCORWIN && npx convex run --prod wcorwinTasks:getOverrides '{"projectId":"wcorwin"}'
+cd wcorwin && npx convex run --prod wcorwinTasks:getOverrides '{"projectId":"wcorwin"}'
 ```
 Confirm the mutations landed correctly.
 
 ### 5. Update Client Context (if relevant)
-If the update involves new baseline data, access changes, or milestone completions, update `seo-engine/context/clients/wcorwin.md` with the new information.
+If the update involves new baseline data, access changes, or milestone completions, update `wcorwin/context/clients/wcorwin.md` with the new information.
 
 ### 6. Sync Local State
 ```bash
-cd seo-engine/WCORWIN && npm run sync
+cd wcorwin && npm run sync
 ```
 Updates `.sync-state.json` for offline reference.
 
@@ -135,7 +135,7 @@ Read the screenshot and visually verify:
 
 **If the screenshot shows stale data**, hard-check the Convex URL in the deployed bundle matches prod (`kindred-scorpion-550`). If mismatched, rebuild and redeploy:
 ```bash
-cd seo-engine/WCORWIN && VITE_CONVEX_URL=https://kindred-scorpion-550.convex.cloud npm run build && \
+cd wcorwin && VITE_CONVEX_URL=https://kindred-scorpion-550.convex.cloud npm run build && \
 CLOUDFLARE_API_KEY=<cf_global_api from app/.env.local> CLOUDFLARE_EMAIL=Tatis.anthony@gmail.com \
 CLOUDFLARE_ACCOUNT_ID=06aa597b27f95eb93c1172407b75dcda \
 npx wrangler pages deploy dist/ --project-name wcorwin-seo-tracker --branch main --commit-dirty=true

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Choose Weichert Realtors — Corwin & Associates</title>
+  <meta name="description" content="Veteran-owned brokerage in New Braunfels, TX. Free leads, zero desk fees, 25+ years of experience. Join Corwin & Associates." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --yellow: #FFE017;
+      --yellow-dark: #e6c800;
+      --navy: #0d1b2a;
+      --navy-mid: #1a2f45;
+      --navy-light: #243d57;
+      --white: #ffffff;
+      --off-white: #f8f7f2;
+      --muted: #8a9bb0;
+      --red: #c0392b;
+      --green: #16a34a;
+      --font: 'DM Sans', -apple-system, sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(13,27,42,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,224,23,0.12);
+      transition: background 0.3s;
+    }
+    .nav-logo { height: 36px; filter: brightness(0) invert(1); object-fit: contain; }
+    .nav-cta {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      font-family: var(--mono); text-transform: uppercase;
+      padding: 8px 20px; border-radius: 6px;
+      background: var(--yellow); color: var(--navy);
+      text-decoration: none; transition: transform 0.15s, background 0.15s;
+    }
+    .nav-cta:hover { background: var(--yellow-dark); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,224,23,0.12) 0%, transparent 70%),
+                  var(--navy);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0, transparent 40px,
+        rgba(255,224,23,0.018) 40px, rgba(255,224,23,0.018) 41px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0, transparent 40px,
+        rgba(255,224,23,0.018) 40px, rgba(255,224,23,0.018) 41px
+      );
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,224,23,0.12);
+      border: 1px solid rgba(255,224,23,0.3);
+      color: var(--yellow);
+      font-size: 11px; font-weight: 600; font-family: var(--mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+    }
+    .hero-badge span { opacity: 0.7; }
+    .hero h1 {
+      font-size: clamp(36px, 7vw, 72px);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -0.03em; margin-bottom: 20px;
+      max-width: 820px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--yellow) 0%, #ffb347 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 18px; color: var(--muted); max-width: 500px;
+      line-height: 1.65; margin: 0 auto 44px; font-weight: 400;
+    }
+    .hero-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 64px;
+    }
+    .btn-primary {
+      font-size: 14px; font-weight: 700; font-family: var(--mono);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 14px 32px; border-radius: 8px;
+      background: var(--yellow); color: var(--navy); text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 0 0 0 rgba(255,224,23,0);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(255,224,23,0.3);
+    }
+    .btn-ghost {
+      font-size: 14px; font-weight: 600;
+      padding: 14px 32px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.8);
+      text-decoration: none; transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ── STAT STRIP ── */
+    .stats-strip {
+      display: flex; justify-content: center; gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      flex-wrap: wrap; width: 100%; max-width: 760px;
+      border-radius: 12px; overflow: hidden;
+    }
+    .stat-item {
+      flex: 1; min-width: 140px; padding: 24px 20px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 32px; font-weight: 800;
+      font-family: var(--mono); color: var(--yellow);
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    .stat-label {
+      font-size: 11px; font-weight: 600; font-family: var(--mono);
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-top: 6px;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 96px 24px; }
+    .section-label {
+      font-size: 11px; font-weight: 700; font-family: var(--mono);
+      color: var(--yellow); letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 42px); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 16px; color: var(--muted); line-height: 1.65; max-width: 520px;
+    }
+
+    /* ── BENEFITS GRID ── */
+    #benefits { background: var(--navy); }
+    .benefits-header { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px; max-width: 1000px; margin: 0 auto;
+    }
+    .benefit-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 28px 26px;
+      cursor: default; position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .benefit-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,224,23,0.06) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .benefit-card:hover { border-color: rgba(255,224,23,0.3); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .benefit-card:hover::before { opacity: 1; }
+    .benefit-icon-wrap {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(255,224,23,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .benefit-title {
+      font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--white);
+    }
+    .benefit-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .benefit-tag {
+      display: inline-block; margin-top: 14px;
+      font-size: 10px; font-weight: 700; font-family: var(--mono);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(255,224,23,0.1); color: var(--yellow);
+    }
+
+    /* ── PITCH SECTION ── */
+    #pitch {
+      background: var(--navy-mid);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .pitch-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .pitch-checklist { display: flex; flex-direction: column; gap: 14px; }
+    .pitch-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .pitch-item:hover {
+      border-color: rgba(255,224,23,0.25);
+      background: rgba(255,224,23,0.04);
+    }
+    .pitch-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--yellow); color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900; flex-shrink: 0; margin-top: 1px;
+    }
+    .pitch-text { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.55; }
+    .pitch-text strong { color: var(--white); font-weight: 700; }
+    .pitch-right { display: flex; flex-direction: column; gap: 20px; }
+    .pitch-number-card {
+      padding: 24px; border-radius: 12px;
+      background: rgba(255,224,23,0.06);
+      border: 1px solid rgba(255,224,23,0.15);
+      display: flex; align-items: center; gap: 20px;
+    }
+    .pitch-number {
+      font-size: 40px; font-weight: 900; font-family: var(--mono);
+      color: var(--yellow); letter-spacing: -0.04em; line-height: 1; flex-shrink: 0;
+    }
+    .pitch-number-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .pitch-number-desc strong { color: var(--white); font-size: 15px; display: block; margin-bottom: 4px; }
+
+    /* ── VETERAN SECTION ── */
+    #veteran {
+      background: linear-gradient(135deg, #0a1628 0%, #1a2f45 50%, #0a1628 100%);
+      text-align: center; padding: 80px 24px;
+    }
+    .veteran-inner { max-width: 700px; margin: 0 auto; }
+    .veteran-flag {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-bottom: 24px;
+    }
+    .flag-stripe {
+      height: 5px; border-radius: 2px;
+      width: 40px; background: var(--red);
+    }
+    .flag-star {
+      font-size: 28px; line-height: 1;
+    }
+    .veteran-title {
+      font-size: clamp(24px, 4vw, 38px); font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+    .veteran-desc { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .veteran-badges {
+      display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+    }
+    .vet-badge {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 18px; border-radius: 100px;
+      font-size: 12px; font-weight: 600; font-family: var(--mono);
+      letter-spacing: 0.05em;
+    }
+    .vet-badge-red { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.4); color: #e67e73; }
+    .vet-badge-blue { background: rgba(26,47,69,0.8); border: 1px solid rgba(100,149,200,0.3); color: #7aaddb; }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--yellow);
+      color: var(--navy);
+      text-align: center; padding: 96px 24px;
+    }
+    #cta .section-label { color: rgba(13,27,42,0.55); }
+    #cta .section-title { color: var(--navy); max-width: 600px; margin: 0 auto 16px; }
+    #cta .section-sub { color: rgba(13,27,42,0.65); margin: 0 auto 40px; }
+    .cta-cards {
+      display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 40px;
+    }
+    .cta-card {
+      background: rgba(13,27,42,0.08); border: 1px solid rgba(13,27,42,0.15);
+      border-radius: 12px; padding: 20px 24px; text-align: center; min-width: 160px;
+    }
+    .cta-card-val {
+      font-size: 22px; font-weight: 800; font-family: var(--mono);
+      color: var(--navy); letter-spacing: -0.02em;
+    }
+    .cta-card-lbl { font-size: 11px; color: rgba(13,27,42,0.55); margin-top: 4px; font-weight: 600; letter-spacing: 0.06em; font-family: var(--mono); text-transform: uppercase; }
+    .btn-dark {
+      display: inline-block;
+      font-size: 14px; font-weight: 700; font-family: var(--mono);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 16px 40px; border-radius: 8px;
+      background: var(--navy); color: var(--yellow); text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(13,27,42,0.4); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080f18;
+      padding: 24px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo { height: 28px; filter: brightness(0) invert(0.4); object-fit: contain; }
+    .footer-text { font-size: 11px; color: rgba(255,255,255,0.3); font-family: var(--mono); }
+    .footer-back {
+      font-size: 11px; color: var(--muted); font-family: var(--mono);
+      text-decoration: none; letter-spacing: 0.06em;
+      transition: color 0.15s;
+    }
+    .footer-back:hover { color: var(--yellow); }
+
+    @media (max-width: 700px) {
+      .pitch-inner { grid-template-columns: 1fr; gap: 40px; }
+      .stats-strip { flex-direction: column; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .stat-item:last-child { border-bottom: none; }
+      nav { padding: 12px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <img src="logo.png" alt="Weichert Realtors — Corwin & Associates" class="nav-logo" />
+    <a href="mailto:joe@joecorwin.com" class="nav-cta">Join the Team</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span>⭐</span> Veteran Owned &amp; Operated · New Braunfels, TX
+    </div>
+    <h1>Your career.<br /><em>Amplified.</em></h1>
+    <p class="hero-sub">
+      Weichert Realtors — Corwin &amp; Associates gives agents everything they need from day one. Free leads, no desk fees, real support.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:joe@joecorwin.com" class="btn-primary">Get in Touch</a>
+      <a href="#benefits" class="btn-ghost">See the Benefits ↓</a>
+    </div>
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-num" data-count="25" data-suffix="+">0+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="149" data-prefix="$" data-suffix="M">$0M</div>
+        <div class="stat-label">Sales — Last 5 Yrs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="500" data-suffix="+">0+</div>
+        <div class="stat-label">Weichert Offices</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count="0" data-suffix=" Fees">$0 Fees</div>
+        <div class="stat-label">Desk / Office / Print</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section id="benefits">
+    <div class="benefits-header reveal">
+      <div class="section-label">Why agents choose us</div>
+      <h2 class="section-title">Everything you need. Nothing you don't.</h2>
+      <p class="section-sub">Eight reasons top producers in New Braunfels grow their careers here.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal reveal-delay-1">
+        <div class="benefit-icon-wrap">🧠</div>
+        <div class="benefit-title">Knowledge &amp; Experience</div>
+        <div class="benefit-desc">Our broker brings over 25 years of real estate expertise — available 7 days a week to guide every deal.</div>
+        <span class="benefit-tag">25+ Years</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-2">
+        <div class="benefit-icon-wrap">📚</div>
+        <div class="benefit-title">Up-to-Date Training</div>
+        <div class="benefit-desc">Free training twice a week plus on-site sessions with new home builders. Stay ahead of the market, always.</div>
+        <span class="benefit-tag">2× Weekly</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-3">
+        <div class="benefit-icon-wrap">🤝</div>
+        <div class="benefit-title">Full-Time Assistance</div>
+        <div class="benefit-desc">A dedicated full-time office manager ready to handle your questions and keep your transactions on track.</div>
+        <span class="benefit-tag">Always Available</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-4">
+        <div class="benefit-icon-wrap">💰</div>
+        <div class="benefit-title">Low-Cost Brokerage</div>
+        <div class="benefit-desc">Free leads. Zero desk fees, printer fees, or office fees. Keep more of every commission from day one.</div>
+        <span class="benefit-tag">$0 Overhead</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-1">
+        <div class="benefit-icon-wrap">🎁</div>
+        <div class="benefit-title">Full Agent Support Pack</div>
+        <div class="benefit-desc">Free KVCore CRM, 1,000 business cards, name badge, car magnet, and real estate signs — all included.</div>
+        <span class="benefit-tag">~$2,000 Value</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-2">
+        <div class="benefit-icon-wrap">🌐</div>
+        <div class="benefit-title">Powerful Network</div>
+        <div class="benefit-desc">500+ Weichert offices across the US. A proven referral system that sends and receives leads nationwide.</div>
+        <span class="benefit-tag">500+ Offices</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-3">
+        <div class="benefit-icon-wrap">🏆</div>
+        <div class="benefit-title">Proven Track Record</div>
+        <div class="benefit-desc">$149 Million in real estate sold in just five years. Results that speak louder than any pitch deck.</div>
+        <span class="benefit-tag">$149M Sold</span>
+      </div>
+      <div class="benefit-card reveal reveal-delay-4">
+        <div class="benefit-icon-wrap">📍</div>
+        <div class="benefit-title">Prime Location</div>
+        <div class="benefit-desc">Best location in town with consistent walk-in traffic. Visibility that generates client connections on its own.</div>
+        <span class="benefit-tag">Walk-In Traffic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pitch -->
+  <section id="pitch">
+    <div class="pitch-inner">
+      <div>
+        <div class="section-label reveal">What you get from day one</div>
+        <h2 class="section-title reveal">Built for agents who want to grow.</h2>
+        <p class="section-sub reveal" style="margin-bottom: 36px;">Everything included — no hidden fees, no "you have to earn it." You walk in ready to produce.</p>
+        <div class="pitch-checklist">
+          <div class="pitch-item reveal">
+            <div class="pitch-check">✓</div>
+            <div class="pitch-text"><strong>Free lead program</strong> — real buyer and seller leads from day one, no purchase required</div>
+          </div>
+          <div class="pitch-item reveal reveal-delay-1">
+            <div class="pitch-check">✓</div>
+            <div class="pitch-text"><strong>KVCore CRM</strong> — enterprise-grade customer management, free for every agent on the team</div>
+          </div>
+          <div class="pitch-item reveal reveal-delay-2">
+            <div class="pitch-check">✓</div>
+            <div class="pitch-text"><strong>Full marketing kit</strong> — 1,000 business cards, name badge, car magnet, and sign inventory ready to go</div>
+          </div>
+          <div class="pitch-item reveal reveal-delay-3">
+            <div class="pitch-check">✓</div>
+            <div class="pitch-text"><strong>Weekly training</strong> — two live sessions per week plus on-site builder visits to keep your edge sharp</div>
+          </div>
+          <div class="pitch-item reveal reveal-delay-4">
+            <div class="pitch-check">✓</div>
+            <div class="pitch-text"><strong>Nationwide referral network</strong> — 500+ offices sending and receiving referrals across the US</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pitch-right reveal">
+        <div class="pitch-number-card">
+          <div class="pitch-num-counter" data-count="149" data-prefix="$" data-suffix="M">$0M</div>
+          <div class="pitch-number-desc">
+            <strong>Proven sales volume</strong>
+            Our team closed $149M in real estate over the last 5 years — sustained production, not a fluke.
+          </div>
+        </div>
+        <div class="pitch-number-card">
+          <div class="pitch-num-counter" data-count="25" data-prefix="" data-suffix=" yrs">0 yrs</div>
+          <div class="pitch-number-desc">
+            <strong>Broker experience</strong>
+            Joe Corwin has been operating in this market for over two decades — and he answers 7 days a week.
+          </div>
+        </div>
+        <div class="pitch-number-card">
+          <div class="pitch-num-counter" data-count="500" data-prefix="" data-suffix="+">0+</div>
+          <div class="pitch-number-desc">
+            <strong>Weichert offices</strong>
+            The national network you tap into automatically the moment you join our brokerage.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Veteran -->
+  <section id="veteran">
+    <div class="veteran-inner">
+      <div class="veteran-flag reveal">
+        <div class="flag-stripe"></div>
+        <div class="flag-star">⭐</div>
+        <div class="flag-stripe" style="background: #1a2f8a;"></div>
+      </div>
+      <h2 class="veteran-title reveal">Veteran Owned &amp; Operated</h2>
+      <p class="veteran-desc reveal">
+        Corwin &amp; Associates was built with the same discipline, integrity, and commitment that defines military service. We serve our agents and our clients with that same standard — no exceptions.
+      </p>
+      <div class="veteran-badges reveal">
+        <div class="vet-badge vet-badge-red">🇺🇸 Proud to be Veteran Owned</div>
+        <div class="vet-badge vet-badge-blue">📍 New Braunfels, TX</div>
+        <div class="vet-badge vet-badge-blue">🏠 Weichert Realtors Network</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="section-label">Ready to make a move?</div>
+    <h2 class="section-title">Join a team that invests in you.</h2>
+    <p class="section-sub">No desk fees. No catch. Just the tools, support, and network to build a real estate career you're proud of.</p>
+
+    <div class="cta-cards">
+      <div class="cta-card">
+        <div class="cta-card-val">$0</div>
+        <div class="cta-card-lbl">Desk Fees</div>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-val">Free</div>
+        <div class="cta-card-lbl">Leads</div>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-val">7 days</div>
+        <div class="cta-card-lbl">Broker Access</div>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-val">2×/wk</div>
+        <div class="cta-card-lbl">Training</div>
+      </div>
+    </div>
+
+    <a href="mailto:joe@joecorwin.com" class="btn-dark">Contact Us — joe@joecorwin.com</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <img src="logo.png" alt="Weichert Realtors — Corwin & Associates" class="footer-logo" />
+    <span class="footer-text">Weichert Realtors — Corwin &amp; Associates · wcorwin.com · New Braunfels, TX</span>
+    <a href="/" class="footer-back">← Back to Dashboard</a>
+  </footer>
+
+  <script>
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Counter animation ──
+    function animateCounter(el) {
+      const target = parseInt(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1600;
+      const start = performance.now();
+      const easeOut = t => 1 - Math.pow(1 - t, 3);
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const val = Math.round(easeOut(progress) * target);
+        el.textContent = prefix + val + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateCounter(e.target);
+          counterObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+    // ── Pitch number cards styling ──
+    document.querySelectorAll('.pitch-num-counter').forEach(el => {
+      el.style.cssText = 'font-size:40px;font-weight:900;font-family:var(--mono);color:var(--yellow);letter-spacing:-0.04em;line-height:1;flex-shrink:0;';
+    });
+
+    // ── Benefit card glow follow mouse ──
+    document.querySelectorAll('.benefit-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+      });
+    });
+
+    // ── Nav scroll effect ──
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.background =
+        window.scrollY > 60 ? 'rgba(13,27,42,0.97)' : 'rgba(13,27,42,0.85)';
+    });
+  </script>
+</body>
+</html>

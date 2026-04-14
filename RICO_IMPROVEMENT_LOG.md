@@ -4,6 +4,27 @@ A running record of lessons learned from each health check cycle. Each entry is 
 
 ---
 
+## 2026-04-13
+
+**Lesson:** V3 is fully dependent on BTC 5-minute markets on Polymarket. When those markets go offline, the entire bot goes dormant. Rico has been idle for 14 days. Single-market dependency is an existential risk to trading continuity.
+
+**Findings:**
+- Agent last ran: March 30, 2026 (14 days ago as of today)
+- BTC 5-minute "Up or Down" markets unavailable on Polymarket for 14+ days
+- V3 bankroll: $300.00 — fully preserved, $0 deployed
+- P&L: $0.00 — not a loss, but 14 days of zero signal generation
+- Previous lesson (2026-03-24) noted BTC 5-min micro-trades had 5 consecutive losses → moratorium was recommended. V3 strategy then pivoted to these same markets. Conflict unresolved.
+- `crypto oracle` was the only profitable signal at last check — now producing 0 signals because its primary market type is offline
+- Kalshi integration exists in stack but appears underutilized as a failover market source
+
+**Actions to consider:**
+1. **Market diversification** — Rico should scan Kalshi and other Polymarket categories (sports, politics, macro) when BTC 5-min is unavailable. Zero-trade days are worse than imperfect trades.
+2. **Dormancy alert** — If agent hasn't executed a cycle in > 6 hours, Rico should surface a warning in the UI and log to Convex (not just show "scanning every 5 min")
+3. **Crypto oracle on longer-duration markets** — The oracle signal works on BTC directional conviction. Apply it to 1h, 4h, or daily BTC markets when 5-min is down
+4. **Revisit the BTC micro-trade moratorium** — V3 was designed around 5-min markets. Either fully deprecate this trade type (consistent with 2026-03-24 finding) or build a circuit-breaker that pauses and seeks alternatives
+
+---
+
 ## 2026-03-24
 
 **Lesson:** `crypto oracle` is the only profitable signal (4W/0L, 2.04x edge realization). All 5 other signals are net-negative with 0% win rates. Disable or gate non-core signals until they accumulate at least 1 win.

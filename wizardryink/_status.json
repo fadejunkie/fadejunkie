@@ -3,8 +3,8 @@
   "name": "Wizardry Ink",
   "type": "client-hub",
   "health": "blocked",
-  "lastScanned": "2026-04-02T04:51:51.304Z",
-  "lastChanged": "2026-04-02T04:46:51.297Z",
+  "lastScanned": "2026-04-14T02:22:33.168Z",
+  "lastChanged": "2026-04-14T02:22:30.954Z",
   "currentPhase": "phase-1",
   "pendingTasks": [
     {
@@ -93,26 +93,7 @@
     "Agreement not signed",
     "No content delivered yet"
   ],
-  "pmAlerts": [
-    "Task stalled: Wizardry Ink — Client Intake",
-    "Task stalled: Wizardry Ink — System Architecture",
-    "Task stalled: Wizardry Ink — Tech Stack Decisions",
-    "Task stalled: Wizardry Ink — Site Architecture",
-    "Task stalled: Wizardry Ink — Homepage Build",
-    "Task stalled: Wizardry Ink — Artist Pages",
-    "Task stalled: Wizardry Ink — Core Pages",
-    "Task stalled: Wizardry Ink — SEO Foundation",
-    "Task stalled: Wizardry Ink — AI Intake Engine",
-    "Task stalled: Wizardry Ink — Calendar & Scheduling",
-    "Task stalled: Wizardry Ink — Notification System",
-    "Task stalled: Wizardry Ink — Owner Dashboard",
-    "Task stalled: Wizardry Ink — System Integration",
-    "Task stalled: Wizardry Ink — Quality Assurance",
-    "Task stalled: Wizardry Ink — Go Live",
-    "Task stalled: Wizardry Ink — Analytics & Client Handoff",
-    "No deliverables produced yet",
-    "Agreement pending client signature"
-  ],
+  "pmAlerts": [],
   "agreementSigned": false,
   "contentEmpty": true,
   "contentFiles": [],

@@ -20,18 +20,23 @@ class ErrorBoundary extends Component{
 }
 
 /* ── color system ── */
-const BLUE="#2563eb",BLUE2="#3b82f6",NAVY="#1e3a5f",GREEN="#22c55e",EMBER="#ef4444";
+const BLUE="#2563eb",BLUE2="#3b82f6",NAVY="#1e3a5f",GREEN="#15be53",EMBER="#ef4444";
 
 const lightColors={
   BLUE,BLUE2,NAVY,GREEN,EMBER,
-  BG:"#ffffff",CARD:"#f8fafc",DEEP:"#f1f5f9",INPUT:"#e2e8f0",
-  EDGE:"#cbd5e1",SLATE:"#64748b",STONE:"#475569",INK:"#0f172a",
+  BG:"#ffffff",CARD:"#ffffff",DEEP:"#f8fafc",INPUT:"#e2e8f5",
+  EDGE:"#e2e8f5",SLATE:"#64748b",STONE:"#475569",INK:"#0f172a",
 };
 const darkColors={
   BLUE,BLUE2,NAVY,GREEN,EMBER,
-  BG:"#0f172a",CARD:"#1e293b",DEEP:"#334155",INPUT:"#475569",
-  EDGE:"#475569",SLATE:"#94a3b8",STONE:"#cbd5e1",INK:"#f1f5f9",
+  BG:"#0f1f3d",CARD:"#112240",DEEP:"#1a2f5a",INPUT:"#1e3a5f",
+  EDGE:"#1e3a5f",SLATE:"#94a3b8",STONE:"#cbd5e1",INK:"#e2e8f5",
 };
+
+/* ── shadow system ── */
+const SHADOW_ELEVATED="rgba(30,58,143,0.20) 0px 30px 45px -30px, rgba(0,0,0,0.1) 0px 18px 36px -18px";
+const SHADOW_STANDARD="rgba(23,23,23,0.08) 0px 15px 35px 0px";
+const SHADOW_AMBIENT="rgba(23,23,23,0.06) 0px 3px 6px";
 
 /* ── phases data ── */
 const phases=[
@@ -76,9 +81,9 @@ const phases=[
 function phaseProgress(p,ts){let t=0,d=0;p.milestones.forEach(m=>m.tasks.forEach((_,ti)=>{t++;if(ts[`${p.id}-${m.title}-${ti}`])d++}));return{total:t,done:d,pct:t?Math.round(d/t*100):0}}
 function overall(ts){let t=0,d=0;phases.forEach(p=>p.milestones.forEach(m=>m.tasks.forEach((_,ti)=>{t++;if(ts[`${p.id}-${m.title}-${ti}`])d++})));return{total:t,done:d,pct:t?Math.round(d/t*100):0}}
 
-const Bar=({pct,h=6,glow=false,c})=>(
-  <div style={{background:c.EDGE+"44",borderRadius:3,height:h,width:"100%",overflow:"hidden"}}>
-    <div style={{width:`${pct}%`,height:"100%",borderRadius:3,transition:"width 0.5s cubic-bezier(.4,0,.2,1)",background:pct===100?c.GREEN:`linear-gradient(90deg,${c.BLUE},${c.BLUE2})`,boxShadow:glow&&pct>0&&pct<100?`0 0 12px ${c.BLUE}44`:"none"}}/>
+const Bar=({pct,h=4,glow=false,c})=>(
+  <div style={{background:c.EDGE,borderRadius:4,height:h,width:"100%",overflow:"hidden"}}>
+    <div style={{width:`${pct}%`,height:"100%",borderRadius:4,transition:"width 0.5s cubic-bezier(.4,0,.2,1)",background:pct===100?"#15be53":"#2563eb",boxShadow:"none"}}/>
   </div>
 );
 
@@ -105,9 +110,9 @@ function ScopePage({c}){
   return(
     <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
       <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{fontSize:11,color:c.BLUE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
-        <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Scope of Work</div>
-        <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>Sydney Spillman & Associates — Real Estate Brand + Website Launch</div>
+        <div style={{fontSize:12,fontWeight:400,color:"#2563eb",letterSpacing:"normal",fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
+        <div style={{fontSize:32,fontWeight:300,color:"#0f172a",letterSpacing:"-0.64px",fontFamily:"Inter,sans-serif",lineHeight:1.10}}>Scope of Work</div>
+        <div style={{fontSize:14,fontWeight:400,color:"#64748b",marginTop:6,lineHeight:1.40}}>Sydney Spillman & Associates — Real Estate Brand + Website Launch</div>
       </div>
 
       <Section title="PROJECT OVERVIEW">
@@ -266,13 +271,15 @@ function AgreementPage({c}){
 
       {/* ── SIGNED STATE: success banner + download ── */}
       {signed&&(
-        <div style={{background:c.GREEN+"0c",border:`1.5px solid ${c.GREEN}33`,borderRadius:10,padding:"28px 24px",textAlign:"center",marginBottom:24}}>
+        <div style={{background:"rgba(21,190,83,0.06)",border:"1px solid rgba(21,190,83,0.4)",borderRadius:6,padding:"28px 24px",textAlign:"center",marginBottom:24,boxShadow:SHADOW_AMBIENT}}>
           <div style={{fontSize:32,marginBottom:8}}>✓</div>
-          <div style={{fontSize:20,fontWeight:900,color:c.GREEN,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Agreement Signed</div>
-          <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:6}}>Service agreement confirmed — {signedDate}</div>
+          <div style={{fontSize:22,fontWeight:300,color:"#108c3d",letterSpacing:"-0.22px",fontFamily:"Inter,sans-serif",lineHeight:1.10}}>Agreement Signed</div>
+          <div style={{fontSize:12,fontWeight:400,color:"#64748b",fontFamily:"Inter,sans-serif",marginTop:6}}>Service agreement confirmed — {signedDate}</div>
           <div style={{marginTop:20}}>
-            <button onClick={downloadAgreementPdf} style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>
-              ↓ DOWNLOAD AGREEMENT PDF
+            <button onClick={downloadAgreementPdf} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+              onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+              onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>
+              ↓ Download Agreement PDF
             </button>
           </div>
         </div>
@@ -282,7 +289,7 @@ function AgreementPage({c}){
       <div style={{position:"relative",borderRadius:8,overflow:"hidden"}}>
         {signed&&(
           <div style={{position:"absolute",inset:0,background:c.BG+"88",zIndex:10,display:"flex",alignItems:"flex-start",justifyContent:"flex-end",padding:"16px",pointerEvents:"none"}}>
-            <div style={{fontSize:10,fontWeight:700,color:c.GREEN,background:c.GREEN+"14",border:`1px solid ${c.GREEN}33`,padding:"4px 12px",borderRadius:3,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>
+            <div style={{fontSize:10,fontWeight:400,color:"#108c3d",background:"rgba(21,190,83,0.2)",border:"1px solid rgba(21,190,83,0.4)",padding:"2px 8px",borderRadius:4,letterSpacing:"normal",fontFamily:"Inter,sans-serif"}}>
               SIGNED
             </div>
           </div>
@@ -290,11 +297,11 @@ function AgreementPage({c}){
 
         <div id="agreement-printable" style={{opacity:signed?0.5:1,transition:"opacity 0.4s",pointerEvents:signed?"none":"auto"}}>
           <div style={{textAlign:"center",marginBottom:32}}>
-            <div style={{fontSize:11,color:c.BLUE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
-            <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:2,fontFamily:"'Playfair Display',serif"}}>Service Agreement</div>
-            <div style={{fontSize:13,color:c.SLATE,marginTop:4}}>
+            <div style={{fontSize:12,fontWeight:400,color:"#2563eb",letterSpacing:"normal",fontFamily:"Inter,sans-serif",marginBottom:6}}>ANTHONY'S BRAND BUILDER</div>
+            <div style={{fontSize:32,fontWeight:300,color:"#0f172a",letterSpacing:"-0.64px",fontFamily:"Inter,sans-serif",lineHeight:1.10}}>Service Agreement</div>
+            <div style={{fontSize:14,fontWeight:400,color:"#64748b",marginTop:6,lineHeight:1.40}}>
               Sydney Spillman & Associates — Real Estate Brand + Website Launch
-              <span style={{marginLeft:8,fontSize:10,fontWeight:700,color:c.BLUE,background:c.BLUE+"12",padding:"2px 8px",borderRadius:3,letterSpacing:1.5,verticalAlign:"middle"}}>
+              <span style={{marginLeft:8,fontSize:10,fontWeight:400,color:"#1d4ed8",background:"rgba(37,99,235,0.12)",padding:"2px 8px",borderRadius:4,letterSpacing:"normal",verticalAlign:"middle"}}>
                 PRO BONO
               </span>
             </div>
@@ -367,32 +374,32 @@ function AgreementPage({c}){
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20}}>
             <div>
               <div style={{fontSize:10,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:8}}>SERVICE PROVIDER</div>
-              <div style={{background:c.CARD,border:`1px solid ${c.GREEN}33`,borderRadius:8,padding:"16px 20px"}}>
-                <div style={{fontSize:18,fontFamily:"'Playfair Display',serif",fontWeight:400,fontStyle:"italic",color:c.INK,marginBottom:8}}>Anthony Tatis</div>
+              <div style={{background:"#f8fafc",border:"1px solid rgba(21,190,83,0.33)",borderRadius:6,padding:"16px 20px",boxShadow:SHADOW_AMBIENT}}>
+                <div style={{fontSize:18,fontFamily:"Inter,sans-serif",fontWeight:300,fontStyle:"italic",color:"#0f172a",marginBottom:8,letterSpacing:"-0.18px"}}>Anthony Tatis</div>
                 <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8}}>
                   <div style={{fontSize:11,fontWeight:600,color:c.INK}}>Anthony Tatis</div>
                   <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>Anthony's Brand Builder</div>
                   <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{today}</div>
                 </div>
-                <div style={{display:"inline-block",marginTop:8,fontSize:9,fontWeight:700,color:c.GREEN,background:c.GREEN+"14",padding:"3px 10px",borderRadius:3,letterSpacing:1.5}}>SIGNED</div>
+                <div style={{display:"inline-block",marginTop:8,fontSize:10,fontWeight:400,color:"#108c3d",background:"rgba(21,190,83,0.2)",border:"1px solid rgba(21,190,83,0.4)",padding:"2px 8px",borderRadius:4,letterSpacing:"normal"}}>SIGNED</div>
               </div>
             </div>
             <div>
               <div style={{fontSize:10,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif",marginBottom:8}}>CLIENT</div>
-              <div style={{background:c.CARD,border:`1px solid ${signed?c.GREEN+"33":c.BLUE+"33"}`,borderRadius:8,padding:"16px 20px"}}>
+              <div style={{background:"#f8fafc",border:`1px solid ${signed?"rgba(21,190,83,0.33)":"rgba(37,99,235,0.33)"}`,borderRadius:6,padding:"16px 20px",boxShadow:SHADOW_AMBIENT}}>
                 {signed?(
                   <>
                     {sigData&&sigData.startsWith("data:image")?(
                       <img src={sigData} alt="signature" style={{height:50,marginBottom:8}}/>
                     ):(
-                      <div style={{fontSize:18,fontFamily:"'Playfair Display',serif",fontWeight:400,fontStyle:"italic",color:c.INK,marginBottom:8}}>Sydney Spillman</div>
+                      <div style={{fontSize:18,fontFamily:"Inter,sans-serif",fontWeight:300,fontStyle:"italic",color:"#0f172a",marginBottom:8,letterSpacing:"-0.18px"}}>Sydney Spillman</div>
                     )}
                     <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8}}>
                       <div style={{fontSize:11,fontWeight:600,color:c.INK}}>Sydney Spillman</div>
                       <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{signedDate}</div>
                     </div>
                     <div style={{marginTop:8}}>
-                      <div style={{fontSize:9,fontWeight:700,color:c.GREEN,background:c.GREEN+"14",padding:"3px 10px",borderRadius:3,letterSpacing:1.5,display:"inline-block"}}>SIGNED</div>
+                      <div style={{fontSize:10,fontWeight:400,color:"#108c3d",background:"rgba(21,190,83,0.2)",border:"1px solid rgba(21,190,83,0.4)",padding:"2px 8px",borderRadius:4,letterSpacing:"normal",display:"inline-block"}}>SIGNED</div>
                     </div>
                   </>
                 ):(
@@ -405,10 +412,10 @@ function AgreementPage({c}){
                       style={{width:"100%",height:80,background:c.DEEP,borderRadius:4,border:`1px dashed ${c.EDGE}`,cursor:"crosshair",touchAction:"none"}}
                     />
                     <div style={{display:"flex",gap:8,marginTop:10}}>
-                      <button onClick={confirmSig} disabled={saving} style={{flex:1,padding:"8px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",opacity:saving?0.7:1}}>
-                        {saving?"SAVING…":"CONFIRM SIGNATURE"}
+                      <button onClick={confirmSig} disabled={saving} style={{flex:1,padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer",opacity:saving?0.7:1}}>
+                        {saving?"Saving…":"Confirm Signature"}
                       </button>
-                      <button onClick={clearSig} style={{padding:"8px 14px",fontSize:11,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer",letterSpacing:1}}>CLEAR</button>
+                      <button onClick={clearSig} style={{padding:"8px 16px",fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",background:"transparent",color:"#64748b",border:"1px solid #e2e8f5",borderRadius:4,cursor:"pointer",letterSpacing:"normal"}}>Clear</button>
                     </div>
                     <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:8,marginTop:10}}>
                       <div style={{fontSize:11,fontWeight:600,color:c.SLATE}}>Sydney Spillman</div>
@@ -459,8 +466,8 @@ function DocViewer({d,c,onClose}){
   // Markdown prose styles injected via a style tag rendered inside the viewer
   const proseStyles=`
     .doc-prose{font-family:'Inter',sans-serif;font-size:14px;line-height:1.8;color:${c.INK};}
-    .doc-prose h1{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:${c.INK};margin:0 0 16px;letter-spacing:-0.3px;border-bottom:2px solid ${c.BLUE}22;padding-bottom:10px;}
-    .doc-prose h2{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:${c.INK};margin:28px 0 10px;letter-spacing:-0.2px;}
+    .doc-prose h1{font-family:'Inter',sans-serif;font-size:26px;font-weight:300;color:#0f172a;margin:0 0 16px;letter-spacing:-0.52px;line-height:1.10;border-bottom:2px solid ${c.BLUE}22;padding-bottom:10px;}
+    .doc-prose h2{font-family:'Inter',sans-serif;font-size:22px;font-weight:300;color:#0f172a;margin:28px 0 10px;letter-spacing:-0.22px;line-height:1.10;}
     .doc-prose h3{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:1.5px;margin:20px 0 8px;}
     .doc-prose p{margin:0 0 14px;}
     .doc-prose strong{font-weight:700;color:${c.INK};}
@@ -479,8 +486,8 @@ function DocViewer({d,c,onClose}){
     .doc-prose img{max-width:100%;border-radius:8px;margin:8px 0;}
     .doc-prose hr{border:none;border-top:1px solid ${c.EDGE};margin:24px 0;}
     .slide-prose{display:flex;flex-direction:column;justify-content:center;min-height:340px;padding:32px 40px;}
-    .slide-prose h1{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:${c.INK};margin:0 0 20px;text-align:center;}
-    .slide-prose h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:${c.INK};margin:0 0 14px;}
+    .slide-prose h1{font-family:'Inter',sans-serif;font-size:32px;font-weight:300;color:#0f172a;margin:0 0 20px;text-align:center;letter-spacing:-0.64px;line-height:1.10;}
+    .slide-prose h2{font-family:'Inter',sans-serif;font-size:22px;font-weight:300;color:#0f172a;margin:0 0 14px;letter-spacing:-0.22px;line-height:1.10;}
     .slide-prose h3{font-size:11px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
     .slide-prose p{font-size:15px;line-height:1.7;margin:0 0 12px;color:${c.INK};}
     .slide-prose ul,.slide-prose ol{padding-left:20px;margin:0 0 12px;}
@@ -495,12 +502,12 @@ function DocViewer({d,c,onClose}){
   return(
     <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.72)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
       <style>{proseStyles}</style>
-      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:14,width:"100%",maxWidth:820,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.4)"}}>
+      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:6,width:"100%",maxWidth:820,maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:SHADOW_ELEVATED}}>
 
         {/* Header */}
         <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:12,flexShrink:0,background:c.CARD}}>
           <div style={{flex:1,minWidth:0}}>
-            <div style={{fontWeight:800,fontSize:15,fontFamily:"'Playfair Display',serif",color:c.INK,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+            <div style={{fontWeight:400,fontSize:16,fontFamily:"Inter,sans-serif",color:"#0f172a",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",letterSpacing:"normal"}}>{d.label}</div>
             <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:1,letterSpacing:1}}>
               {isContent?"DOCUMENT":isPdf(d.url)?"PDF":isImg(d.url)?"IMAGE":"LINK"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}
             </div>
@@ -602,7 +609,9 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
         <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>DELIVERABLES</div>
         {isOps&&!adding&&(
-          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.BLUE,background:c.BLUE+"0c",border:`1px solid ${c.BLUE}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>+ ADD</button>
+          <button onClick={()=>setAdding(true)} style={{fontSize:12,fontWeight:400,color:"#2563eb",background:"rgba(37,99,235,0.05)",border:"1px solid #b9b9f9",borderRadius:4,padding:"2px 8px",cursor:"pointer",fontFamily:"Inter,sans-serif",letterSpacing:"normal"}}
+            onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="rgba(37,99,235,0.10)"}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="rgba(37,99,235,0.05)"}}>+ Add</button>
         )}
       </div>
 
@@ -662,8 +671,10 @@ function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove
             <textarea value={mdContent} onChange={e=>setMdContent(e.target.value)} placeholder="Paste markdown content here…" rows={8} style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:11,fontFamily:"'Courier New',monospace",outline:"none",boxSizing:"border-box",marginBottom:8,resize:"vertical",lineHeight:1.6}}/>
           )}
           <div style={{display:"flex",gap:6}}>
-            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",padding:"6px 16px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
-            <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
+            <button onClick={submit} style={{fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",padding:"8px 16px",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+              onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+              onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>Save</button>
+            <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",padding:"8px 16px",background:"transparent",color:"#64748b",border:"1px solid #e2e8f5",borderRadius:4,cursor:"pointer"}}>Cancel</button>
           </div>
         </div>
       )}
@@ -688,13 +699,13 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
       {/* Overall */}
       <div style={{padding:"28px 24px 0"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:8}}>
-          <span style={{fontSize:12,fontWeight:700,color:c.SLATE,letterSpacing:3,fontFamily:"Inter,sans-serif"}}>PROJECT COMPLETION</span>
+          <span style={{fontSize:12,fontWeight:400,color:"#64748b",letterSpacing:"normal",fontFamily:"Inter,sans-serif"}}>PROJECT COMPLETION</span>
           <span style={{fontFamily:"Inter,sans-serif"}}>
-            <span style={{fontSize:28,fontWeight:700,color:ov.pct===100?c.GREEN:c.BLUE}}>{ov.pct}%</span>
-            <span style={{fontSize:11,color:c.SLATE,marginLeft:8}}>{ov.done}/{ov.total}</span>
+            <span style={{fontSize:24,fontWeight:300,color:ov.pct===100?"#15be53":"#0f172a",letterSpacing:"-0.24px"}}>{ov.pct}%</span>
+            <span style={{fontSize:12,color:"#64748b",marginLeft:8}}>{ov.done}/{ov.total}</span>
           </span>
         </div>
-        <Bar pct={ov.pct} h={10} glow c={c}/>
+        <Bar pct={ov.pct} h={4} c={c}/>
       </div>
 
       {/* Phase tabs */}
@@ -703,17 +714,21 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
           const prog=phaseProgress(p,tasks);const active=activePhase===p.id;const done=prog.pct===100;
           return(
             <button key={p.id} onClick={()=>setActivePhase(p.id)} style={{
-              padding:"14px 16px",textAlign:"left",cursor:"pointer",fontFamily:"Inter,sans-serif",
-              background:active?c.CARD:c.BG,borderRadius:8,border:`1.5px solid ${active?c.BLUE:done?c.GREEN+"44":c.EDGE}`,position:"relative",overflow:"hidden",
-            }}>
-              {active&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:c.BLUE}}/>}
+              padding:"16px",textAlign:"left",cursor:"pointer",fontFamily:"Inter,sans-serif",
+              background:"#ffffff",borderRadius:8,border:`1px solid ${active?"#2563eb":done?"rgba(21,190,83,0.4)":"#e2e8f5"}`,position:"relative",overflow:"hidden",
+              boxShadow:active?SHADOW_ELEVATED:SHADOW_AMBIENT,
+              transition:"box-shadow 0.2s ease, border-color 0.15s ease",
+            }}
+            onMouseEnter={e=>{if(!active){(e.currentTarget as HTMLButtonElement).style.boxShadow=SHADOW_STANDARD;}}}
+            onMouseLeave={e=>{if(!active){(e.currentTarget as HTMLButtonElement).style.boxShadow=SHADOW_AMBIENT;}}}>
+              {active&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,background:"#2563eb"}}/>}
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <span style={{fontSize:20}}>{p.icon}</span>
-                <span style={{fontSize:11,fontWeight:700,fontFamily:"Inter,sans-serif",color:done?c.GREEN:active?c.BLUE:c.SLATE}}>{prog.pct}%</span>
+                <span style={{fontSize:13,fontWeight:400,fontFamily:"Inter,sans-serif",color:done?"#15be53":active?"#0f172a":"#0f172a",fontVariantNumeric:"tabular-nums"}}>{prog.pct}%</span>
               </div>
-              <div style={{fontSize:13,fontWeight:800,color:active?c.INK:c.SLATE,letterSpacing:1.5,marginTop:6}}>{p.name}</div>
-              <div style={{fontSize:10,color:c.SLATE,marginTop:2,fontFamily:"Inter,sans-serif"}}>PHASE {p.id} — {p.short}</div>
-              <div style={{marginTop:8}}><Bar pct={prog.pct} h={3} c={c}/></div>
+              <div style={{fontSize:22,fontWeight:300,color:active?"#0f172a":"#64748b",letterSpacing:"-0.22px",marginTop:6,lineHeight:1.10}}>{p.name}</div>
+              <div style={{fontSize:12,color:"#64748b",marginTop:2,fontFamily:"Inter,sans-serif"}}>Phase {p.id} — {p.short}</div>
+              <div style={{marginTop:8}}><Bar pct={prog.pct} h={4} c={c}/></div>
             </button>
           );
         })}
@@ -724,9 +739,9 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
         <div style={{padding:"0 24px 32px"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",flexWrap:"wrap",gap:8,paddingBottom:16,borderBottom:`1px solid ${c.EDGE}`,marginBottom:20}}>
             <div>
-              <span style={{fontSize:11,fontWeight:600,color:c.BLUE,letterSpacing:3,fontFamily:"Inter,sans-serif"}}>PHASE {phase.id}</span>
-              <span style={{fontSize:24,fontWeight:900,color:c.INK,letterSpacing:1,marginLeft:12,fontFamily:"'Playfair Display',serif"}}>{phase.name}</span>
-              <div style={{fontSize:13,color:c.SLATE,marginTop:2,letterSpacing:0.5}}>{phase.subtitle}</div>
+              <span style={{fontSize:12,fontWeight:400,color:"#2563eb",letterSpacing:"normal",fontFamily:"Inter,sans-serif"}}>Phase {phase.id}</span>
+              <span style={{fontSize:32,fontWeight:300,color:"#0f172a",letterSpacing:"-0.64px",marginLeft:12,fontFamily:"Inter,sans-serif",lineHeight:1.10}}>{phase.name}</span>
+              <div style={{fontSize:16,fontWeight:400,color:"#64748b",marginTop:4,letterSpacing:"normal",lineHeight:1.40}}>{phase.subtitle}</div>
             </div>
           </div>
 
@@ -738,43 +753,45 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
               const hasBlocker=m.tasks.some((t,ti)=>t.blocker&&!tasks[`${phase.id}-${m.title}-${ti}`]);
               const exp=expanded[`${phase.id}-${m.title}`];
               return(
-                <div key={m.title} style={{background:c.CARD,borderRadius:8,overflow:"hidden",border:`1px solid ${complete?c.GREEN+"33":hasBlocker?c.EMBER+"33":c.EDGE}`}}>
-                  <div onClick={()=>toggleM(`${phase.id}-${m.title}`)} style={{padding:"16px 20px",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",background:complete?c.GREEN+"06":"transparent"}}>
+                <div key={m.title} style={{background:"#ffffff",borderRadius:6,overflow:"hidden",border:complete?"1px solid #15be53":`1px solid ${hasBlocker?"rgba(239,68,68,0.3)":"#e2e8f5"}`,boxShadow:SHADOW_AMBIENT,borderLeft:complete?"3px solid #15be53":hasBlocker?"3px solid rgba(239,68,68,0.5)":"none"}}>
+                  <div onClick={()=>toggleM(`${phase.id}-${m.title}`)} style={{padding:"16px 20px",cursor:"pointer",display:"flex",justifyContent:"space-between",alignItems:"center",background:complete?"rgba(21,190,83,0.06)":"transparent"}}>
                     <div style={{display:"flex",alignItems:"center",gap:12,flex:1,minWidth:0}}>
-                      <div style={{width:28,height:28,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",background:complete?c.GREEN+"14":c.DEEP,border:`1px solid ${complete?c.GREEN+"33":c.EDGE}`,fontSize:12,fontWeight:700,color:complete?c.GREEN:c.BLUE,fontFamily:"Inter,sans-serif",flexShrink:0}}>
+                      <div style={{width:28,height:28,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",background:complete?"rgba(21,190,83,0.14)":"#f8fafc",border:`1px solid ${complete?"rgba(21,190,83,0.33)":"#e2e8f5"}`,fontSize:12,fontWeight:400,color:complete?"#15be53":"#2563eb",fontFamily:"Inter,sans-serif",flexShrink:0}}>
                         {complete?"✓":`${mi+1}`}
                       </div>
                       <div>
-                        <div style={{fontSize:15,fontWeight:800,color:complete?c.GREEN:c.INK,letterSpacing:1.5}}>
+                        <div style={{fontSize:18,fontWeight:400,color:complete?"#108c3d":"#0f172a",letterSpacing:"normal",lineHeight:1.10}}>
                           {m.title}
-                          {hasBlocker&&<span style={{fontSize:8,fontWeight:700,color:c.EMBER,background:c.EMBER+"14",padding:"2px 8px",borderRadius:3,marginLeft:10,letterSpacing:1.5,verticalAlign:"middle"}}>HAS BLOCKER</span>}
+                          {hasBlocker&&<span style={{fontSize:10,fontWeight:400,color:"#b91c1c",background:"rgba(239,68,68,0.15)",padding:"2px 8px",borderRadius:4,marginLeft:10,letterSpacing:"normal",verticalAlign:"middle"}}>HAS BLOCKER</span>}
                         </div>
                       </div>
                     </div>
                     <div style={{display:"flex",alignItems:"center",gap:12,flexShrink:0,marginLeft:12}}>
                       <div style={{textAlign:"right"}}>
-                        <div style={{fontSize:14,fontWeight:700,color:complete?c.GREEN:c.BLUE,fontFamily:"Inter,sans-serif"}}>{mPct}%</div>
-                        <div style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{mDone}/{m.tasks.length}</div>
+                        <div style={{fontSize:13,fontWeight:400,color:complete?"#108c3d":"#0f172a",fontFamily:"Inter,sans-serif",fontVariantNumeric:"tabular-nums"}}>{mPct}%</div>
+                        <div style={{fontSize:12,color:"#64748b",fontFamily:"Inter,sans-serif"}}>{mDone}/{m.tasks.length}</div>
                       </div>
-                      <div style={{fontSize:14,color:c.SLATE,transition:"transform 0.2s",transform:exp?"rotate(180deg)":"rotate(0deg)"}}>▾</div>
+                      <div style={{fontSize:14,color:"#64748b",transition:"transform 0.2s",transform:exp?"rotate(180deg)":"rotate(0deg)"}}>▾</div>
                     </div>
                   </div>
-                  <div style={{padding:"0 20px 2px"}}><Bar pct={mPct} h={3} c={c}/></div>
+                  <div style={{padding:"0 20px 2px"}}><Bar pct={mPct} h={4} c={c}/></div>
                   {exp&&(
                     <div style={{padding:"8px 20px 16px"}}>
                       <div style={{display:"flex",flexDirection:"column",gap:2}}>
                         {m.tasks.map((t,ti)=>{
                           const key=`${phase.id}-${m.title}-${ti}`;const checked=!!tasks[key];const isOps=view==="internal";
                           return(
-                            <div key={ti} onClick={()=>{if(isOps)toggle(key)}} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"7px 10px",borderRadius:4,cursor:isOps?"pointer":"default",background:checked?c.GREEN+"06":"transparent"}}>
-                              <div style={{width:16,height:16,borderRadius:3,flexShrink:0,marginTop:1,border:`1.5px solid ${checked?c.GREEN:c.EDGE}`,background:checked?c.GREEN:"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.15s"}}>
+                            <div key={ti} onClick={()=>{if(isOps)toggle(key)}} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"12px 16px",borderRadius:4,cursor:isOps?"pointer":"default",background:checked?"transparent":"transparent",transition:"background 0.12s ease"}}
+                              onMouseEnter={e=>{if(isOps)(e.currentTarget as HTMLDivElement).style.background="rgba(37,99,235,0.04)"}}
+                              onMouseLeave={e=>{(e.currentTarget as HTMLDivElement).style.background="transparent"}}>
+                              <div style={{width:16,height:16,borderRadius:4,flexShrink:0,marginTop:2,border:`1.5px solid ${checked?"#2563eb":"#e2e8f5"}`,background:checked?"#2563eb":"transparent",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.15s"}}>
                                 {checked&&<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8 3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                               </div>
-                              <span style={{fontSize:12,fontFamily:"Inter,sans-serif",fontWeight:400,color:checked?c.GREEN:c.INK,textDecoration:checked?"line-through":"none",opacity:checked?0.65:1,lineHeight:1.4}}>
+                              <span style={{fontSize:14,fontFamily:"Inter,sans-serif",fontWeight:400,color:checked?"#94a3b8":"#0f172a",textDecoration:checked?"line-through":"none",lineHeight:1.40}}>
                                 {t.link?(
-                                  <a href={t.link} style={{color:checked?c.GREEN:c.BLUE,textDecoration:"underline",fontWeight:500}} onClick={e=>e.stopPropagation()}>{t.label}</a>
+                                  <a href={t.link} style={{color:checked?"#94a3b8":"#2563eb",textDecoration:"underline",fontWeight:400}} onClick={e=>e.stopPropagation()}>{t.label}</a>
                                 ):t.label}
-                                {t.blocker&&!checked&&<span style={{fontSize:8,fontWeight:700,color:c.EMBER,background:c.EMBER+"12",padding:"1px 7px",borderRadius:3,marginLeft:8,letterSpacing:1.5}}>BLOCKER</span>}
+                                {t.blocker&&!checked&&<span style={{fontSize:10,fontWeight:400,color:"#b91c1c",background:"rgba(239,68,68,0.15)",padding:"2px 8px",borderRadius:4,marginLeft:8,letterSpacing:"normal"}}>BLOCKER</span>}
                               </span>
                             </div>
                           );
@@ -838,7 +855,7 @@ function WebsitePage({c}){
   const SiteNav=()=>(
     <div style={{background:S.nav,borderBottom:`1px solid ${S.border}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:100,boxShadow:"0 1px 3px rgba(0,0,0,0.04)"}}>
       <div style={{display:"flex",gap:20,alignItems:"center"}}>
-        <div onClick={()=>nav("home")} style={{fontSize:16,fontWeight:800,color:S.text,letterSpacing:1,cursor:"pointer",flexShrink:0,fontFamily:"'Playfair Display',serif"}}>
+        <div onClick={()=>nav("home")} style={{fontSize:16,fontWeight:500,color:S.text,letterSpacing:"-0.16px",cursor:"pointer",flexShrink:0,fontFamily:"Inter,sans-serif"}}>
           Sydney Spillman<span style={{color:S.accent}}>.</span>
         </div>
         <div style={{display:"flex",gap:18,alignItems:"center"}}>
@@ -855,7 +872,7 @@ function WebsitePage({c}){
     <div style={{background:"#0f172a",padding:"32px 24px",color:"#94a3b8"}}>
       <div style={{display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:24,marginBottom:24}}>
         <div>
-          <div style={{fontSize:16,fontWeight:800,color:"#f1f5f9",letterSpacing:1,marginBottom:5,fontFamily:"'Playfair Display',serif"}}>Sydney Spillman<span style={{color:BLUE}}>.</span></div>
+          <div style={{fontSize:16,fontWeight:500,color:"#f1f5f9",letterSpacing:"-0.16px",marginBottom:5,fontFamily:"Inter,sans-serif"}}>Sydney Spillman<span style={{color:BLUE}}>.</span></div>
           <div style={{fontSize:9,letterSpacing:2,fontFamily:"Inter,sans-serif"}}>REAL ESTATE · SAN ANTONIO</div>
         </div>
         <div style={{display:"flex",gap:32}}>
@@ -878,7 +895,7 @@ function WebsitePage({c}){
   );
 
   const ListingCard=({l})=>(
-    <div style={{background:S.card,border:`1px solid ${S.border}`,borderRadius:8,overflow:"hidden",boxShadow:"0 1px 3px rgba(0,0,0,0.04)"}}>
+    <div style={{background:"#ffffff",border:"1px solid #e2e8f5",borderRadius:6,overflow:"hidden",boxShadow:SHADOW_AMBIENT}}>
       <div style={{height:180,background:"#e2e8f0",position:"relative",overflow:"hidden"}}>
         <img src={l.img} alt={l.addr} style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}}/>
         <div style={{position:"absolute",top:10,left:10,fontSize:9,fontWeight:700,color:"#fff",background:l.status==="Sold"?"#22c55e":l.status==="Coming Soon"?"#f59e0b":BLUE,padding:"3px 10px",borderRadius:4,letterSpacing:1,fontFamily:"Inter,sans-serif"}}>{l.status.toUpperCase()}</div>
@@ -907,15 +924,17 @@ function WebsitePage({c}){
         <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at 70% 50%, rgba(37,99,235,0.15) 0%, transparent 60%)"}}/>
         <div style={{position:"relative",zIndex:1,padding:"0 40px",maxWidth:600}}>
           <div style={{fontSize:10,fontWeight:700,color:BLUE2,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:14}}>SAN ANTONIO REAL ESTATE</div>
-          <div style={{fontSize:44,fontWeight:900,color:"#f1f5f9",lineHeight:1.05,letterSpacing:-0.5,fontFamily:"'Playfair Display',serif",marginBottom:16}}>
+          <div style={{fontSize:48,fontWeight:300,color:"#f1f5f9",lineHeight:1.15,letterSpacing:"-0.96px",fontFamily:"Inter,sans-serif",marginBottom:16}}>
             Find Your<br/><span style={{color:BLUE2}}>Perfect</span> Home.
           </div>
           <div style={{fontSize:13,color:"#94a3b8",fontFamily:"Inter,sans-serif",lineHeight:1.7,marginBottom:24,maxWidth:440}}>
             Dedicated to helping families find their dream home in San Antonio. Expert guidance, local knowledge, and a personal touch every step of the way.
           </div>
           <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-            <button onClick={()=>nav("listings")} style={{padding:"12px 28px",fontSize:12,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer"}}>VIEW LISTINGS</button>
-            <button onClick={()=>nav("contact")} style={{padding:"12px 28px",fontSize:12,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:"transparent",color:"#f1f5f9",border:"1px solid #475569",borderRadius:6,cursor:"pointer"}}>GET IN TOUCH</button>
+            <button onClick={()=>nav("listings")} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+              onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+              onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>View Listings</button>
+            <button onClick={()=>nav("contact")} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"transparent",color:"#f1f5f9",border:"1px solid #475569",borderRadius:4,cursor:"pointer"}}>Get in Touch</button>
           </div>
         </div>
       </div>
@@ -923,7 +942,7 @@ function WebsitePage({c}){
       {/* Featured listings */}
       <div style={{padding:"40px 24px"}}>
         <div style={{display:"flex",alignItems:"baseline",gap:14,marginBottom:24}}>
-          <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif"}}>Featured Listings</div>
+          <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10}}>Featured Listings</div>
           <span onClick={()=>nav("listings")} style={{marginLeft:"auto",fontSize:11,color:S.accent,fontFamily:"Inter,sans-serif",cursor:"pointer",fontWeight:600}}>View All →</span>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
@@ -935,23 +954,27 @@ function WebsitePage({c}){
       <div style={{background:"#f8fafc",borderTop:`1px solid ${S.border}`,borderBottom:`1px solid ${S.border}`,padding:"40px 24px"}}>
         <div style={{textAlign:"center",maxWidth:600,margin:"0 auto"}}>
           <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:700}}>TESTIMONIALS</div>
-          <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif",marginBottom:20}}>What Clients Say</div>
+          <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:20}}>What Clients Say</div>
           <div style={{fontSize:13,color:S.muted,fontFamily:"Inter,sans-serif",lineHeight:1.8,fontStyle:"italic",marginBottom:8}}>
             "{testimonials[0].text}"
           </div>
           <div style={{fontSize:12,fontWeight:700,color:S.text}}>— {testimonials[0].name}</div>
-          <button onClick={()=>nav("testimonials")} style={{marginTop:20,padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:"transparent",color:S.accent,border:`1px solid ${S.accent}33`,borderRadius:6,cursor:"pointer"}}>READ MORE REVIEWS</button>
+          <button onClick={()=>nav("testimonials")} style={{marginTop:20,padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"transparent",color:"#2563eb",border:"1px solid #b9b9f9",borderRadius:4,cursor:"pointer"}}
+            onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="rgba(37,99,235,0.05)"}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="transparent"}}>Read More Reviews</button>
         </div>
       </div>
 
       {/* About snippet */}
       <div style={{padding:"40px 24px",maxWidth:600,margin:"0 auto",textAlign:"center"}}>
         <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:8,fontWeight:700}}>ABOUT SYDNEY</div>
-        <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif",marginBottom:16}}>Your San Antonio Expert</div>
+        <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:16}}>Your San Antonio Expert</div>
         <div style={{fontSize:13,color:S.muted,fontFamily:"Inter,sans-serif",lineHeight:1.8,marginBottom:20}}>
           With deep roots in San Antonio and a passion for helping families find their perfect home, Sydney Spillman brings expertise, dedication, and a personal touch to every transaction.
         </div>
-        <button onClick={()=>nav("about")} style={{padding:"10px 28px",fontSize:12,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer"}}>LEARN MORE</button>
+        <button onClick={()=>nav("about")} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+          onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+          onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>Learn More</button>
       </div>
     </>
   );
@@ -960,7 +983,7 @@ function WebsitePage({c}){
     <div>
       <div style={{background:"linear-gradient(135deg,#0f172a,#1e3a5f)",padding:"52px 24px",textAlign:"center"}}>
         <div style={{fontSize:10,color:BLUE2,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:10}}>ABOUT</div>
-        <div style={{fontSize:38,fontWeight:900,color:"#f1f5f9",lineHeight:1.05,fontFamily:"'Playfair Display',serif",maxWidth:520,margin:"0 auto 18px"}}>Sydney Spillman</div>
+        <div style={{fontSize:48,fontWeight:300,color:"#f1f5f9",lineHeight:1.15,fontFamily:"Inter,sans-serif",letterSpacing:"-0.96px",maxWidth:520,margin:"0 auto 18px"}}>Sydney Spillman</div>
         <div style={{fontSize:12,color:"#94a3b8",fontFamily:"Inter,sans-serif",lineHeight:1.9,maxWidth:500,margin:"0 auto"}}>Real Estate Agent · San Antonio, TX</div>
       </div>
       <div style={{padding:"40px 24px",maxWidth:600,margin:"0 auto"}}>
@@ -976,7 +999,9 @@ function WebsitePage({c}){
           </div>
         ))}
         <div style={{textAlign:"center",marginTop:16}}>
-          <button onClick={()=>nav("contact")} style={{padding:"12px 36px",fontSize:12,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer"}}>GET IN TOUCH</button>
+          <button onClick={()=>nav("contact")} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+            onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>Get in Touch</button>
         </div>
       </div>
     </div>
@@ -985,7 +1010,7 @@ function WebsitePage({c}){
   const renderListings=()=>(
     <div style={{padding:"32px 24px 48px"}}>
       <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>BROWSE</div>
-      <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif",marginBottom:24}}>Property Listings</div>
+      <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:24}}>Property Listings</div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:16}}>
         {listings.map(l=><ListingCard key={l.id} l={l}/>)}
       </div>
@@ -995,9 +1020,9 @@ function WebsitePage({c}){
   const renderTestimonials=()=>(
     <div style={{padding:"32px 24px 48px",maxWidth:640,margin:"0 auto"}}>
       <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>REVIEWS</div>
-      <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif",marginBottom:28}}>Client Testimonials</div>
+      <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:28}}>Client Testimonials</div>
       {testimonials.map((t,i)=>(
-        <div key={i} style={{background:S.card,border:`1px solid ${S.border}`,borderRadius:8,padding:"24px",marginBottom:12,boxShadow:"0 1px 3px rgba(0,0,0,0.04)"}}>
+        <div key={i} style={{background:"#ffffff",border:"1px solid #e2e8f5",borderRadius:6,padding:"24px",marginBottom:12,boxShadow:SHADOW_AMBIENT}}>
           <div style={{fontSize:24,color:BLUE,marginBottom:8,lineHeight:1}}>"</div>
           <div style={{fontSize:13,color:S.text,fontFamily:"Inter,sans-serif",lineHeight:1.8,fontStyle:"italic",marginBottom:12}}>{t.text}</div>
           <div style={{fontSize:12,fontWeight:700,color:S.text}}>— {t.name}</div>
@@ -1009,14 +1034,14 @@ function WebsitePage({c}){
   const renderContact=()=>(
     <div style={{padding:"40px 24px 48px",maxWidth:520,margin:"0 auto"}}>
       <div style={{fontSize:10,color:S.accent,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>GET IN TOUCH</div>
-      <div style={{fontSize:28,fontWeight:900,color:S.text,fontFamily:"'Playfair Display',serif",marginBottom:6}}>Contact Sydney</div>
+      <div style={{fontSize:32,fontWeight:300,color:S.text,fontFamily:"Inter,sans-serif",letterSpacing:"-0.64px",lineHeight:1.10,marginBottom:6}}>Contact Sydney</div>
       <div style={{fontSize:12,color:S.muted,fontFamily:"Inter,sans-serif",marginBottom:28}}>Ready to buy or sell? Have questions? Let's talk.</div>
       {contactSent?(
         <div style={{background:GREEN+"0c",border:`1px solid ${GREEN}33`,borderRadius:8,padding:"32px",textAlign:"center"}}>
           <div style={{fontSize:28,marginBottom:8}}>✓</div>
-          <div style={{fontSize:16,fontWeight:900,color:GREEN,letterSpacing:1,marginBottom:6,fontFamily:"'Playfair Display',serif"}}>Message Sent</div>
+          <div style={{fontSize:22,fontWeight:300,color:"#108c3d",letterSpacing:"-0.22px",marginBottom:6,fontFamily:"Inter,sans-serif",lineHeight:1.10}}>Message Sent</div>
           <div style={{fontSize:11,color:S.muted,fontFamily:"Inter,sans-serif"}}>Sydney will get back to you within 24 hours.</div>
-          <button onClick={()=>setContactSent(false)} style={{marginTop:18,padding:"9px 22px",fontSize:11,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:S.muted,border:`1px solid ${S.border}`,borderRadius:4,cursor:"pointer"}}>SEND ANOTHER</button>
+          <button onClick={()=>setContactSent(false)} style={{marginTop:18,padding:"8px 16px",fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",background:"transparent",color:"#64748b",border:"1px solid #e2e8f5",borderRadius:4,cursor:"pointer"}}>Send Another</button>
         </div>
       ):(
         <div style={{display:"flex",flexDirection:"column",gap:14}}>
@@ -1030,7 +1055,9 @@ function WebsitePage({c}){
             <div style={{fontSize:9,color:S.accent,letterSpacing:3,fontFamily:"Inter,sans-serif",marginBottom:5,fontWeight:700}}>MESSAGE</div>
             <textarea placeholder="Tell me about what you're looking for..." value={contactForm.message} onChange={e=>setContactForm(p=>({...p,message:e.target.value}))} rows={5} style={{width:"100%",padding:"10px 14px",background:S.card,border:`1px solid ${S.border}`,borderRadius:6,color:S.text,fontSize:12,fontFamily:"Inter,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
           </div>
-          <button onClick={()=>{if(contactForm.name&&contactForm.email&&contactForm.message)setContactSent(true)}} style={{padding:"12px",fontSize:12,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer"}}>SEND MESSAGE</button>
+          <button onClick={()=>{if(contactForm.name&&contactForm.email&&contactForm.message)setContactSent(true)}} style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}
+            onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.background="#1d4ed8"}}
+            onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.background="#2563eb"}}>Send Message</button>
         </div>
       )}
       <div style={{marginTop:40,paddingTop:28,borderTop:`1px solid ${S.border}`,display:"flex",gap:28,flexWrap:"wrap"}}>
@@ -1125,8 +1152,8 @@ export function DiscoveryPage(){
       <Grain/>
       {/* Header */}
       <div style={{background:c.BG,borderBottom:`1px solid ${c.EDGE}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:200,backdropFilter:"blur(12px)"}}>
-        <a href="/" style={{fontSize:18,fontWeight:900,letterSpacing:1,fontFamily:"'Playfair Display',serif",color:c.INK,textDecoration:"none"}}>
-          Sydney Spillman<span style={{color:c.BLUE}}>.</span>
+        <a href="/" style={{fontSize:18,fontWeight:500,letterSpacing:"-0.18px",fontFamily:"Inter,sans-serif",color:"#0f172a",textDecoration:"none"}}>
+          Sydney Spillman<span style={{color:"#2563eb"}}>.</span>
         </a>
         <button onClick={toggleTheme} style={{background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,padding:"6px 10px",cursor:"pointer",fontSize:13,color:c.SLATE}}>
           {dark?"☀️":"🌙"}
@@ -1137,7 +1164,7 @@ export function DiscoveryPage(){
         {submitted?(
           <div style={{textAlign:"center",padding:"60px 20px"}}>
             <div style={{width:64,height:64,borderRadius:"50%",background:c.GREEN+"14",border:`2px solid ${c.GREEN}33`,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 20px",fontSize:28}}>✓</div>
-            <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:1,fontFamily:"'Playfair Display',serif",marginBottom:8}}>Thank You, Sydney!</div>
+            <div style={{fontSize:32,fontWeight:300,color:"#0f172a",letterSpacing:"-0.64px",fontFamily:"Inter,sans-serif",marginBottom:8,lineHeight:1.10}}>Thank You, Sydney!</div>
             <div style={{fontSize:14,color:c.SLATE,lineHeight:1.8,maxWidth:440,margin:"0 auto 8px"}}>
               Your discovery questionnaire has been submitted successfully. We have everything we need to start building your brand.
             </div>
@@ -1145,14 +1172,14 @@ export function DiscoveryPage(){
               Next up: we'll put together mood boards and visual direction options for your review.
             </div>
             <div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}>
-              <a href="/" style={{padding:"10px 24px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer",textDecoration:"none"}}>BACK TO PROJECT HUB</a>
+              <a href="/" style={{padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>Back to Project Hub</a>
             </div>
           </div>
         ):(
           <>
             <div style={{textAlign:"center",marginBottom:36}}>
               <div style={{fontSize:11,color:c.BLUE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:8}}>PHASE 1 · BRAND DISCOVERY</div>
-              <div style={{fontSize:28,fontWeight:900,color:c.INK,letterSpacing:1,fontFamily:"'Playfair Display',serif",marginBottom:8}}>Discovery Questionnaire</div>
+              <div style={{fontSize:32,fontWeight:300,color:"#0f172a",letterSpacing:"-0.64px",fontFamily:"Inter,sans-serif",marginBottom:8,lineHeight:1.10}}>Discovery Questionnaire</div>
               <div style={{fontSize:13,color:c.SLATE,lineHeight:1.7,maxWidth:480,margin:"0 auto"}}>
                 Help us understand your vision, style, and goals. Your answers will shape every brand decision — from logo to website. Take your time.
               </div>
@@ -1188,7 +1215,7 @@ export function DiscoveryPage(){
             ))}
 
             <div style={{borderTop:`1px solid ${c.EDGE}`,paddingTop:24,marginTop:8}}>
-              <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"14px",fontSize:13,fontWeight:700,letterSpacing:2,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"opacity 0.15s"}}>
+              <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"opacity 0.15s"}}>
                 {saving?"SUBMITTING...":"SUBMIT QUESTIONNAIRE"}
               </button>
               <div style={{fontSize:10,color:c.SLATE,textAlign:"center",marginTop:10}}>Your answers are saved securely and only visible to your project team.</div>
@@ -1439,7 +1466,7 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
               </div>
 
               {/* Option letter */}
-              <div style={{fontSize:20,fontWeight:900,color:isFocused?c.BLUE:c.BLUE,fontFamily:"'Playfair Display',serif",lineHeight:1,marginBottom:3}}>{opt.id}</div>
+              <div style={{fontSize:22,fontWeight:300,color:"#2563eb",fontFamily:"Inter,sans-serif",lineHeight:1,marginBottom:3,letterSpacing:"-0.22px"}}>{opt.id}</div>
               {/* Direction name */}
               <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:8,fontFamily:"Inter,sans-serif"}}>{opt.name}</div>
               {/* Chips */}
@@ -1471,20 +1498,20 @@ function DirectionPickerInline({c,opsMode,directionPick,onPick}:{c:any,opsMode:b
                     <button
                       onClick={()=>handlePick(opt.id)}
                       disabled={saving}
-                      style={{flex:1,padding:"8px 0",fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
-                      {saving?"SAVING…":"YES, THIS ONE"}
+                      style={{flex:1,padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
+                      {saving?"Saving…":"Yes, this one"}
                     </button>
                     <button
                       onClick={()=>{setConfirming(null);}}
-                      style={{padding:"8px 12px",fontSize:10,fontWeight:600,fontFamily:"Inter,sans-serif",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:5,cursor:"pointer"}}>
-                      CANCEL
+                      style={{padding:"8px 16px",fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",background:"transparent",color:"#64748b",border:"1px solid #e2e8f5",borderRadius:4,cursor:"pointer"}}>
+                      Cancel
                     </button>
                   </div>
                 </div>
               ):(
                 <button
                   onClick={e=>{e.stopPropagation();setFocused(opt.id);setConfirming(opt.id);}}
-                  style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:isFocused?c.BLUE:"transparent",color:isFocused?"#fff":c.BLUE,border:`1.5px solid ${c.BLUE}`,borderRadius:5,cursor:"pointer",transition:"background 0.15s,color 0.15s"}}
+                  style={{width:"100%",padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:isFocused?"#2563eb":"transparent",color:isFocused?"#fff":"#2563eb",border:"1px solid #b9b9f9",borderRadius:4,cursor:"pointer",transition:"background 0.15s,color 0.15s"}}
                   onMouseEnter={e=>{(e.currentTarget as HTMLButtonElement).style.opacity="0.85";}}
                   onMouseLeave={e=>{(e.currentTarget as HTMLButtonElement).style.opacity="1";}}>
                   CHOOSE OPTION {opt.id}
@@ -1603,7 +1630,7 @@ function DiscoveryFormInline({c,opsMode,discoveryData,onSubmit}:{c:any,opsMode:b
         ))}
       </div>
       <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
-        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"8px 16px",fontSize:14,fontWeight:400,letterSpacing:"normal",fontFamily:"Inter,sans-serif",background:"#2563eb",color:"#fff",border:"none",borderRadius:4,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>
           {saving?"SUBMITTING…":"SUBMIT QUESTIONNAIRE"}
         </button>
       </div>
@@ -1619,6 +1646,16 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
   const [tab,setTab]=useState("workflow");
   const [dark,setDark]=useState(()=>{try{return localStorage.getItem("sydney-theme")==="dark"}catch{return false}});
   const c=dark?darkColors:lightColors;
+
+  // Inject Inter from Google Fonts
+  useEffect(()=>{
+    const id="inter-font-link";
+    if(document.getElementById(id))return;
+    const link=document.createElement("link");
+    link.id=id;link.rel="stylesheet";
+    link.href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap";
+    document.head.appendChild(link);
+  },[]);
 
   const toggleTheme=()=>{const next=!dark;setDark(next);try{localStorage.setItem("sydney-theme",next?"dark":"light")}catch{}};
 
@@ -1665,24 +1702,24 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
   ];
 
   return(
-    <div style={{minHeight:"100vh",background:c.BG,color:c.INK,fontFamily:"Inter,sans-serif",transition:"background 0.3s,color 0.3s"}}>
+    <div style={{minHeight:"100vh",background:c.BG,color:c.INK,fontFamily:"Inter,sans-serif",fontFeatureSettings:'"cv05","cv11"',transition:"background 0.3s,color 0.3s"}}>
       <Grain/>
 
       {/* Header */}
-      <div style={{background:c.BG,borderBottom:`1px solid ${c.EDGE}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:200,backdropFilter:"blur(12px)"}}>
+      <div style={{background:"rgba(255,255,255,0.92)",borderBottom:`1px solid ${c.EDGE}`,padding:"0 24px",display:"flex",alignItems:"center",justifyContent:"space-between",height:56,position:"sticky",top:0,zIndex:200,backdropFilter:"blur(12px)"}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <div style={{fontSize:18,fontWeight:900,letterSpacing:1,fontFamily:"'Playfair Display',serif",color:c.INK}}>
-            Sydney Spillman<span style={{color:c.BLUE}}>.</span>
+          <div style={{fontSize:18,fontWeight:500,letterSpacing:"-0.18px",fontFamily:"Inter,sans-serif",color:"#0f172a"}}>
+            Sydney Spillman<span style={{color:"#2563eb"}}>.</span>
           </div>
           {opsMode&&(
             <div style={{display:"flex",background:c.DEEP,borderRadius:4,overflow:"hidden",border:`1px solid ${c.EDGE}`}}>
               {[["internal","OPS"],["client","CLIENT"]].map(([v,l])=>(
-                <button key={v} onClick={()=>setView(v)} style={{padding:"4px 12px",fontSize:9,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:view===v?c.BLUE:"transparent",color:view===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l}</button>
+                <button key={v} onClick={()=>setView(v)} style={{padding:"4px 12px",fontSize:9,fontWeight:400,letterSpacing:1.5,fontFamily:"Inter,sans-serif",background:view===v?"#2563eb":"transparent",color:view===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l}</button>
               ))}
             </div>
           )}
         </div>
-        <button onClick={toggleTheme} style={{background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,padding:"6px 10px",cursor:"pointer",fontSize:13,color:c.SLATE}}>
+        <button onClick={toggleTheme} style={{background:"none",border:`1px solid ${c.EDGE}`,borderRadius:4,padding:"6px 10px",cursor:"pointer",fontSize:13,color:c.SLATE}}>
           {dark?"☀️":"🌙"}
         </button>
       </div>
@@ -1691,12 +1728,12 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
       <div style={{display:"flex",gap:0,borderBottom:`1px solid ${c.EDGE}`,background:c.BG,position:"sticky",top:56,zIndex:190,padding:"0 24px"}}>
         {tabs.map(t=>(
           <button key={t.id} onClick={()=>setTab(t.id)} style={{
-            padding:"12px 20px",fontSize:11,fontWeight:700,letterSpacing:1.5,fontFamily:"Inter,sans-serif",
+            padding:"12px 20px",fontSize:14,fontWeight:400,fontFamily:"Inter,sans-serif",letterSpacing:"normal",
             background:"transparent",border:"none",cursor:"pointer",
-            color:tab===t.id?c.BLUE:c.SLATE,
-            borderBottom:tab===t.id?`2px solid ${c.BLUE}`:"2px solid transparent",
+            color:tab===t.id?"#0f172a":"#64748b",
+            borderBottom:tab===t.id?"2px solid #2563eb":"2px solid transparent",
             transition:"all 0.15s",
-          }}>{t.label.toUpperCase()}</button>
+          }}>{t.label}</button>
         ))}
       </div>
 
@@ -1710,8 +1747,8 @@ export default function SydneyHub({defaultView,opsMode}:{defaultView:string,opsM
 
       {/* Footer */}
       <div style={{borderTop:`1px solid ${c.EDGE}`,padding:"16px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:8}}>
-        <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>© 2026 Sydney Spillman & Associates · Project Hub</div>
-        <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>Built by Anthony's Brand Builder</div>
+        <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>© 2026 Sydney Spillman & Associates · Project Hub</div>
+        <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>Built by Anthony's Brand Builder</div>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ Read the image. Match it to a live project by recognizing:
 
 | Project | Domain | Cloudflare Pages Name | Source Dir | Data File |
 |---------|--------|-----------------------|------------|-----------|
-| WCORWIN | wcorwin.anthonytatis.com | wcorwin-seo-tracker | seo-engine/WCORWIN | src/data.js |
+| WCORWIN | wcorwin.anthonytatis.com | wcorwin-seo-tracker | wcorwin | src/data.js |
 
 _(Add new rows as projects are onboarded)_
 
@@ -33,7 +33,7 @@ Based on the image content, figure out what needs to happen:
 
 #### a. Update Project Source
 For each project, edit the appropriate data/source files:
-- **WCORWIN:** Edit `seo-engine/WCORWIN/src/data.js` — PHASES array, task statuses (`"done"`, `"active"`, `"pending"`), names, details
+- **WCORWIN:** Edit `wcorwin/src/data.js` — PHASES array, task statuses (`"done"`, `"active"`, `"pending"`), names, details
 
 #### b. Sync CRM & Metrics
 - **cc-crm.json** — Update the matching prospect/client entry:
@@ -47,7 +47,7 @@ For each project, edit the appropriate data/source files:
   - `prospects.count`, `outreach.count` — as relevant
 
 #### c. Store Artifacts
-- Save receipt PDFs in the project's directory (e.g., `seo-engine/WCORWIN/`)
+- Save receipt PDFs in the project's directory (e.g., `wcorwin/`)
 - Reference the file path in the CRM `payments[].receipt` field
 
 ### 4. Build & Deploy
@@ -55,8 +55,8 @@ Build and deploy the matched project:
 
 **WCORWIN:**
 ```bash
-cd C:/Users/twani/fadejunkie/seo-engine/WCORWIN && npm run build
-cd C:/Users/twani/fadejunkie/seo-engine/WCORWIN && CLOUDFLARE_API_TOKEN=pKF0oB6OkvZhnkugKD2VT098LDJxWHnQXoLpa7pP npx wrangler pages deploy dist --project-name=wcorwin-seo-tracker --branch=main --commit-dirty=true
+cd C:/Users/twani/fadejunkie/wcorwin && npm run build
+cd C:/Users/twani/fadejunkie/wcorwin && CLOUDFLARE_API_TOKEN=pKF0oB6OkvZhnkugKD2VT098LDJxWHnQXoLpa7pP npx wrangler pages deploy dist --project-name=wcorwin-seo-tracker --branch=main --commit-dirty=true
 ```
 
 **IMPORTANT:** Always deploy with `--branch=main` — the custom domain is bound to the Production environment (main branch). Deploying without it goes to Preview only and won't update the live site.
@@ -77,7 +77,7 @@ _(Add deploy commands for new projects as they're onboarded)_
 - **Site:** wcorwin.anthonytatis.com
 - **Retainer:** $950/mo
 - **Login:** joe@joecorwin.com / (see browser-agent/.env)
-- **Receipts stored:** seo-engine/WCORWIN/
+- **Receipts stored:** wcorwin/
 
 ## Key Files (Global)
 | File | Purpose |
@@ -92,6 +92,6 @@ _(Add deploy commands for new projects as they're onboarded)_
 - **Cloudflare token:** Read from `app/.env.local` → `twanii_cloudfare` key (the `cf_token` key is expired)
 - **Production branch:** `main` — custom domains are bound to Production, always use `--branch=main`
 - **Preview branch:** `master` — preview-only deploys, not visible on custom domains
-- **WCORWIN source of truth:** `seo-engine/WCORWIN/src/data.js` (NOT the root `wcorwin-seo-journey.jsx` which is a legacy copy)
+- **WCORWIN source of truth:** `wcorwin/src/data.js` (NOT the root `wcorwin-seo-journey.jsx` which is a legacy copy)
 
 $ARGUMENTS

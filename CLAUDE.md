@@ -147,4 +147,4 @@ Usability-first. Fix issues as they surface. Don't overthink compliance — focu
 
 | Client | Domain | Source | Retainer |
 |--------|--------|--------|----------|
-| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `seo-engine/WCORWIN/` | $950/mo |
+| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `wcorwin/` | $950/mo |
