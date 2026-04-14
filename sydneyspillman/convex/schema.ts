@@ -36,4 +36,17 @@ export default defineSchema({
     pick: v.string(), // "A" | "B"
     pickedAt: v.number(),
   }).index("by_project", ["projectId"]),
+
+  sydneyListings: defineTable({
+    address: v.string(),
+    price: v.number(),
+    beds: v.number(),
+    baths: v.number(),
+    sqft: v.optional(v.number()),
+    status: v.string(),
+    listingUrl: v.string(),
+    photoUrl: v.optional(v.string()),
+    description: v.optional(v.string()),
+  }).index("by_price", ["price"])
+    .index("by_status", ["status"]),
 });

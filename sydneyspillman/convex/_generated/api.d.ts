@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as sydneyListings from "../sydneyListings.js";
 import type * as sydneyTasks from "../sydneyTasks.js";
 
 import type {
@@ -17,6 +18,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  sydneyListings: typeof sydneyListings;
   sydneyTasks: typeof sydneyTasks;
 }>;
 
