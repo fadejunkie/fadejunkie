@@ -3,6 +3,7 @@ import SEOJourneyTracker from "./SEOJourneyTracker";
 import SEOHealthTab from "./SEOHealthTab";
 import ContentTab from "./ContentTab";
 import InvoiceTab from "./InvoiceTab";
+import TemplatesTab from "./TemplatesTab";
 import { INK, ACCENT, MUTED, WHITE, LIGHT, BG } from "./data";
 
 const font = "'DM Sans', 'Satoshi', -apple-system, sans-serif";
@@ -12,6 +13,7 @@ const TABS = [
   { id: "journey", label: "Journey" },
   { id: "health",  label: "SEO Health" },
   { id: "content", label: "Content" },
+  { id: "templates", label: "Templates" },
   { id: "invoice", label: "Invoice · $950" },
 ];
 
@@ -135,6 +137,7 @@ export default function App() {
       {tab === "journey" && <SEOJourneyTracker />}
       {tab === "health" && <SEOHealthTab />}
       {tab === "content" && <ContentTab />}
+      {tab === "templates" && <TemplatesTab />}
       {tab === "invoice" && <InvoiceTab />}
     </>
   );
