@@ -50,7 +50,7 @@
       backdrop-filter: blur(4px);
       border-bottom: 0.8px solid rgba(0,0,0,0.1);
       padding: 0 24px;
-      height: 80px;
+      height: 90px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -132,10 +132,10 @@
       display: flex;
       align-items: flex-end;
       padding-bottom: 64px;
-      margin-top: 80px;
+      margin-top: 90px;
       background-image:
         linear-gradient(15deg, rgba(0,0,0,0.65), rgba(0,0,0,0) 40%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.25) 100%),
-        url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Canyon_Lake_TX_wide.JPG/1600px-Canyon_Lake_TX_wide.JPG');
+        url('/canyon-lake/hero.webp');
       background-size: cover;
       background-position: center;
     }
@@ -376,7 +376,7 @@
     .stats-section {
       background-image:
         linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.85) 70%),
-        url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Canyon_Lake_TX_wide.JPG/1600px-Canyon_Lake_TX_wide.JPG');
+        url('/canyon-lake/hero.webp');
       background-size: cover;
       background-position: center;
       padding: 80px 0;
@@ -475,7 +475,7 @@
     .cta-banner {
       background-image:
         linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
-        url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Canyon_Lake_TX_wide.JPG/1600px-Canyon_Lake_TX_wide.JPG');
+        url('/canyon-lake/hero.webp');
       background-size: cover;
       background-position: center;
       padding: 80px 24px;
@@ -617,18 +617,114 @@
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; }
     }
+
+    /* ── VETERAN SECTION ─────────────────────────────────── */
+    .vet-section { background: #f4f6fa; border-top: 1px solid #e0e4ef; border-bottom: 1px solid #e0e4ef; }
+    .vet-inner { display: grid; grid-template-columns: 1fr 380px; gap: 64px; align-items: start; }
+    .vet-eyebrow { font-family: 'Open Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--crimson); margin-bottom: 12px; }
+    .vet-eyebrow i { margin-right: 6px; }
+    .vet-heading { font-size: 1.5rem; color: var(--navy); margin-bottom: 16px; line-height: 1.3; }
+    .vet-body { font-size: 0.95rem; color: var(--dark-gray); line-height: 1.8; margin-bottom: 14px; }
+    .vet-body strong { color: var(--navy); }
+    .vet-link { color: var(--crimson); text-decoration: none; border-bottom: 1px solid rgba(136,26,3,.3); }
+    .vet-link:hover { border-bottom-color: var(--crimson); }
+    .vfw-card { background: var(--navy); color: white; border-radius: 6px; overflow: hidden; }
+    .vfw-card-header { font-family: 'Open Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: 14px 20px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.65); }
+    .vfw-post { padding: 18px 20px; }
+    .vfw-post-name { font-family: 'Open Sans', sans-serif; font-weight: 700; font-size: 0.95rem; color: white; margin-bottom: 5px; }
+    .vfw-post-detail { font-family: 'Open Sans', sans-serif; font-size: 0.82rem; color: rgba(255,255,255,.6); }
+    .vfw-post-detail i { margin-right: 6px; font-size: 10px; }
+    .vfw-divider { height: 1px; background: rgba(255,255,255,.1); margin: 0 20px; }
+    .vet-cta-btn { display: block; margin: 0; padding: 14px 20px; background: var(--crimson); color: white; font-family: 'Open Sans', sans-serif; font-size: 0.85rem; font-weight: 600; text-decoration: none; text-align: center; transition: background .15s; }
+    .vet-cta-btn:hover { background: #6e1502; }
+    @media (max-width: 768px) { .vet-inner { grid-template-columns: 1fr; gap: 32px; } }
+
   </style>
+
+  <!-- FAQPage Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Canyon Lake a good place to live year-round?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. While the area draws visitors in the summer, Canyon Lake is a year-round residential community with schools, churches, medical facilities, and a full-time population of approximately 25,000 in the surrounding area."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far is Canyon Lake from San Antonio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Roughly 45 minutes to downtown San Antonio via US-281 or I-35 through New Braunfels. JBSA Randolph is approximately 40 minutes south."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there waterfront homes available under $500,000?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lake-view and lake-access homes can be found under $500,000. True lakefront properties with dock or direct shoreline access typically start in the $500,000 to $600,000 range, though occasional opportunities appear below that threshold."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What school district serves Canyon Lake?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comal ISD. Students attend schools including Smithson Valley High School, Spring Branch Middle School, and several well-rated elementary campuses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Weichert Corwin serve the Canyon Lake area?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Canyon Lake is one of our primary service areas. Our agents know the neighborhoods, the HOAs, the well and septic considerations, and the lake-specific factors that matter when buying here. Our buyer rebate program applies to all Canyon Lake purchases."
+      }
+    }
+  ]
+}
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.wcorwin.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Neighborhoods",
+      "item": "https://wcorwin.anthonytatis.com/canyon-lake/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Canyon Lake TX",
+      "item": "https://wcorwin.anthonytatis.com/canyon-lake/"
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
   <!-- NAV -->
   <nav class="nav">
     <a href="https://www.wcorwin.com/" class="nav-logo">
-      <div class="nav-logo-mark">W</div>
-      <div class="nav-logo-text">
-        <span>Weichert Corwin</span>
-        New Braunfels, TX
-      </div>
+      <img src="/assets/logo.png" alt="Weichert Corwin" style="height:72px;width:auto;display:block;">
     </a>
     <ul class="nav-links">
       <li><a href="https://www.wcorwin.com/homes-for-sale-in-canyon-lake-tx">Search Homes</a></li>
@@ -735,6 +831,35 @@
     </div>
   </section>
 
+  <!-- VETERAN COMMUNITY -->
+  <section class="section vet-section">
+    <div class="container">
+      <div class="vet-inner">
+        <div class="vet-left">
+          <p class="vet-eyebrow"><i class="fas fa-star"></i> Veteran Community</p>
+          <h2 class="vet-heading">Canyon Lake has a strong military presence</h2>
+          <p class="vet-body">According to U.S. Census Bureau data, approximately <strong>3,381 veterans</strong> call Canyon Lake home — one of the higher concentrations in Comal County. Many served during the Gulf War era, with notable Vietnam-era representation as well. The community actively supports its veteran population through two local VFW posts.</p>
+          <p class="vet-body">If you're a veteran or active-duty service member, a <a href="../va-home-loans/" class="vet-link">VA home loan</a> may let you buy here with no down payment. Our team is veteran-owned and works with VA buyers regularly.</p>
+        </div>
+        <div class="vet-right">
+          <div class="vfw-card">
+            <div class="vfw-card-header">Local VFW Posts</div>
+            <div class="vfw-post">
+              <div class="vfw-post-name">VFW Post 8573</div>
+              <div class="vfw-post-detail"><i class="fas fa-map-marker-alt"></i> 16425 River Road, Canyon Lake</div>
+            </div>
+            <div class="vfw-divider"></div>
+            <div class="vfw-post">
+              <div class="vfw-post-name">VFW Post 8800 — Startz Memorial</div>
+              <div class="vfw-post-detail"><i class="fas fa-map-marker-alt"></i> 7755 FM 2673, Startzville</div>
+            </div>
+            <a href="https://www.wcorwin.com/contact-us" class="vet-cta-btn">Ask about VA loans →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- STATS -->
   <section class="stats-section">
     <div class="container">
@@ -833,7 +958,7 @@
             <i class="fas fa-chevron-down"></i>
           </div>
           <div class="faq-answer">
-            <p>Yes. Canyon Lake is one of our primary service areas. Our agents know the neighborhoods, the HOAs, the well and septic considerations, and the lake-specific factors that matter when buying here. Our buyer rebate program applies to all Canyon Lake purchases.</p>
+            <p>Yes. Canyon Lake is one of our primary service areas. Our agents know the neighborhoods, the HOAs, the well and septic considerations, and the lake-specific factors that matter when buying here. Our <a href="../buyer-rebate/">buyer rebate program</a> applies to all Canyon Lake purchases.</p>
           </div>
         </div>
       </div>
@@ -862,23 +987,22 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>Communities</h4>
+        <h4>Neighborhoods</h4>
         <ul>
+          <li><a href="../gruene/">Gruene</a></li>
+          <li><a href="../spring-branch/">Spring Branch</a></li>
+          <li><a href="../seguin/">Seguin</a></li>
           <li><a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx">New Braunfels</a></li>
-          <li><a href="https://www.wcorwin.com/homes-for-sale-in-canyon-lake-tx">Canyon Lake</a></li>
-          <li><a href="https://www.wcorwin.com/homes-for-sale-in-seguin-tx">Seguin</a></li>
-          <li><a href="https://www.wcorwin.com/homes-for-sale-in-spring-branch-tx">Spring Branch</a></li>
-          <li><a href="https://www.wcorwin.com/homes-for-sale-in-san-marcos-tx">San Marcos</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Quick Links</h4>
+        <h4>Contact</h4>
         <ul>
-          <li><a href="https://www.wcorwin.com/about-us">About Our Team</a></li>
-          <li><a href="https://www.wcorwin.com/our-agents">Our Agents</a></li>
-          <li><a href="https://www.wcorwin.com/free-market-analysis">Free Market Analysis</a></li>
-          <li><a href="https://www.wcorwin.com/contact-us">Contact Us</a></li>
-          <li><a href="https://www.wcorwin.com/testimonials">Testimonials</a></li>
+          <li><a href="tel:8306325725">(830) 632-5725</a></li>
+          <li><a href="https://www.wcorwin.com/about-us">About Us</a></li>
+          <li><a href="https://www.wcorwin.com">wcorwin.com</a></li>
+          <li><a href="../va-home-loans/">VA Home Loans</a></li>
+          <li><a href="../buyer-rebate/">Buyer Rebate Program</a></li>
         </ul>
       </div>
     </div>

@@ -1068,11 +1068,281 @@ function WizardryIntakeForm({c,opsMode,discoveryData,onSubmit}){
 }
 
 /* ═══════════════════════════════════════
+   DASHBOARD SHOWCASE PAGE
+   ═══════════════════════════════════════ */
+function DashboardShowcasePage({c}){
+  const Section=({title,children,accent=false})=>(
+    <div style={{marginBottom:48}}>
+      <div style={{fontSize:11,fontWeight:700,color:c.ORANGE,letterSpacing:4,fontFamily:"Inter,sans-serif",marginBottom:16,paddingBottom:10,borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:10}}>
+        {accent&&<div style={{width:3,height:14,background:c.ORANGE,borderRadius:2}}/>}
+        {title}
+      </div>
+      {children}
+    </div>
+  );
+
+  const buildJourneySteps=[
+    {
+      emoji:"📥",
+      phase:"Phase 1",
+      title:"JotForm Integration",
+      date:"Jan 2025",
+      what:"Wired the studio's JotForm inquiry form (form 251192250225144) directly into a live Convex database. Every submission lands in the dashboard in real time via webhook.",
+      why:"Before this, inquiries were scattered — DMs, texts, forms all over the place. Now every client request from the last year-plus is in one searchable place.",
+      stat:"1,402 inquiries synced",
+      statColor:c.ORANGE,
+    },
+    {
+      emoji:"🖼️",
+      phase:"Phase 2",
+      title:"Image Proxy",
+      date:"Feb 2025",
+      what:"Built a Convex HTTP action that proxies all JotForm reference photo URLs. Instead of linking directly to JotForm's CDN (which expires), the dashboard serves images through our own endpoint.",
+      why:"Reference photos are the most important part of a tattoo inquiry. Artists need to see them. This makes sure those images never 404 or go missing.",
+      stat:"All photos secured",
+      statColor:c.GREEN,
+    },
+    {
+      emoji:"💰",
+      phase:"Phase 3",
+      title:"Deposit Matching System",
+      date:"Feb 2025",
+      what:"Built a deposits table that tracks which clients have paid their deposit. Inquiries get matched to deposit records so you can see at a glance who's confirmed vs. just inquiring.",
+      why:"Daisy needed a way to separate 'paid and locked in' from 'still shopping.' Now it's one column away.",
+      stat:"746 deposits tracked, 0 unmatched",
+      statColor:c.ORANGE,
+    },
+    {
+      emoji:"⏱️",
+      phase:"Phase 4",
+      title:"15-Minute Cron Sync",
+      date:"Mar 2025",
+      what:"Added a background cron job that polls JotForm every 15 minutes as a fallback. If a webhook ever fails or gets delayed, the cron catches it and backfills the missing inquiry.",
+      why:"Webhooks are fast but not 100% reliable. This safety net means nothing ever falls through the cracks, even if JotForm has a hiccup.",
+      stat:"Runs automatically, 24/7",
+      statColor:c.SLATE,
+    },
+    {
+      emoji:"🔐",
+      phase:"Phase 5",
+      title:"Per-User Auth + Role System",
+      date:"Mar 2025",
+      what:"Built a full role-based auth system with 6 users. Daisy (owner) sees everything. Anthony (manager) has full access. Lee, AL, Annemarie, and Dahlia each log in and see only their own client queue.",
+      why:"Artists shouldn't see each other's clients. And Daisy needs to keep a birds-eye view without exposing her full books to everyone.",
+      stat:"6 users, 2 roles",
+      statColor:c.ORANGE,
+    },
+    {
+      emoji:"📊",
+      phase:"Phase 6",
+      title:"Analytics Homepage",
+      date:"Apr 2025",
+      what:"Rebuilt the dashboard homepage with two analytics tabs: Artist Performance (leaderboard, conversion rates, who's booking the most) and Inquiry Insights (repeat client loyalty feed, top referral patterns).",
+      why:"The raw list of inquiries is useful. But the story in the data is where the real value is — who's your most loyal client, which artist is converting best, where's the momentum.",
+      stat:"2 analytics tabs, live data",
+      statColor:c.GREEN,
+    },
+  ];
+
+  const howItWorksSteps=[
+    {
+      num:"01",
+      actor:"CLIENT",
+      color:"#3b82f6",
+      title:"Client fills out the JotForm",
+      desc:"Someone wants a tattoo — they find your JotForm link (on Instagram, your site, wherever you share it) and fill out the inquiry with style, size, placement, reference photos, and their contact info.",
+    },
+    {
+      num:"02",
+      actor:"SYSTEM",
+      color:c.ORANGE,
+      title:"It lands in the dashboard automatically",
+      desc:"Within seconds, that inquiry shows up in admin.wizardryink.com. The webhook fires, Convex stores it, and the reference photos are proxied through so they load clean every time. No copy-paste, no manual entry.",
+    },
+    {
+      num:"03",
+      actor:"DAISY",
+      color:"#f59e0b",
+      title:"You review and route it",
+      desc:"You log in, see the new inquiry with all the details, check if the deposit's been paid, and decide which artist it goes to. Artists log in and see only their queue — no cross-pollination.",
+    },
+    {
+      num:"04",
+      actor:"INSIGHTS",
+      color:c.GREEN,
+      title:"The data builds over time",
+      desc:"Every inquiry adds to the leaderboard, the loyalty feed, the conversion stats. The longer it runs, the smarter the picture gets. You'll know who your regulars are, who's booking what style, and how the studio is trending.",
+    },
+  ];
+
+  return(
+    <div style={{maxWidth:720,margin:"0 auto",padding:"32px 24px"}}>
+
+      {/* Hero section */}
+      <div style={{textAlign:"center",marginBottom:48}}>
+        <div style={{fontSize:11,color:c.ORANGE,letterSpacing:5,fontFamily:"Inter,sans-serif",marginBottom:8}}>BUILT FOR WIZARDRY INK</div>
+        <div style={{fontSize:32,fontWeight:900,color:c.INK,letterSpacing:1,fontFamily:"'Playfair Display',serif",lineHeight:1.2,marginBottom:12}}>The Inquiry Dashboard</div>
+        <div style={{fontSize:14,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.7,maxWidth:520,margin:"0 auto"}}>
+          While the brand work is in progress, we built something real: a full inquiry management system for the studio. Here's what went into it — and where we're headed next.
+        </div>
+      </div>
+
+      {/* THE DASHBOARD — featured section */}
+      <Section title="THE DASHBOARD">
+        <a
+          href="https://admin.wizardryink.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{display:"block",textDecoration:"none"}}
+        >
+          <div
+            style={{
+              background:c.CARD,borderRadius:12,border:`1.5px solid ${c.ORANGE}44`,padding:"28px 32px",
+              cursor:"pointer",transition:"border-color 0.2s,transform 0.2s",position:"relative",overflow:"hidden",
+            }}
+            onMouseEnter={e=>{e.currentTarget.style.borderColor=c.ORANGE;e.currentTarget.style.transform="translateY(-1px)"}}
+            onMouseLeave={e=>{e.currentTarget.style.borderColor=c.ORANGE+"44";e.currentTarget.style.transform="translateY(0)"}}
+          >
+            {/* Glow top edge */}
+            <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,${c.ORANGE},${c.ORANGE2})`}}/>
+
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:16}}>
+              <div>
+                <div style={{fontSize:22,fontWeight:900,color:c.INK,fontFamily:"'Playfair Display',serif",marginBottom:4}}>admin.wizardryink.com</div>
+                <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,maxWidth:380}}>
+                  Your live inquiry dashboard — all 1,400+ client requests, reference photos, deposit status, and artist queues in one place. Log in to see the full picture.
+                </div>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+                <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:c.ORANGE,background:c.ORANGE+"12",border:`1px solid ${c.ORANGE}33`,padding:"6px 14px",borderRadius:20}}>LIVE</div>
+                <div style={{fontSize:18,color:c.ORANGE}}>↗</div>
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(120px,1fr))",gap:12,marginTop:24}}>
+              {[
+                {num:"1,402+",label:"Inquiries synced"},
+                {num:"746",label:"Deposits tracked"},
+                {num:"6",label:"Users & roles"},
+                {num:"4",label:"Artist queues"},
+              ].map(s=>(
+                <div key={s.label} style={{textAlign:"center",padding:"16px 8px",background:c.DEEP,borderRadius:8,border:`1px solid ${c.EDGE}`}}>
+                  <div style={{fontSize:22,fontWeight:900,color:c.ORANGE,fontFamily:"Inter,sans-serif"}}>{s.num}</div>
+                  <div style={{fontSize:10,color:c.SLATE,fontFamily:"Inter,sans-serif",marginTop:3,letterSpacing:0.5}}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </a>
+      </Section>
+
+      {/* BUILD JOURNEY — timeline */}
+      <Section title="BUILD JOURNEY">
+        <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,marginBottom:24}}>
+          The dashboard was built in phases over a few months — each one adding a layer of functionality on top of the last. Here's how it came together.
+        </div>
+        <div style={{position:"relative"}}>
+          {/* Vertical line */}
+          <div style={{position:"absolute",left:19,top:24,bottom:0,width:2,background:`linear-gradient(180deg,${c.ORANGE}44,${c.EDGE}22)`,borderRadius:2}}/>
+
+          <div style={{display:"flex",flexDirection:"column",gap:4}}>
+            {buildJourneySteps.map((step,i)=>(
+              <div key={step.title} style={{display:"flex",gap:20,paddingBottom:28,position:"relative"}}>
+                {/* Node */}
+                <div style={{
+                  width:40,height:40,borderRadius:10,background:c.CARD,border:`1.5px solid ${c.ORANGE}44`,
+                  display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0,zIndex:1,
+                }}>
+                  {step.emoji}
+                </div>
+
+                {/* Content */}
+                <div style={{flex:1,paddingTop:4}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:4}}>
+                    <span style={{fontSize:9,fontWeight:700,letterSpacing:2,color:c.ORANGE,background:c.ORANGE+"0c",border:`1px solid ${c.ORANGE}22`,padding:"2px 8px",borderRadius:3,fontFamily:"Inter,sans-serif"}}>{step.phase}</span>
+                    <span style={{fontSize:9,color:c.SLATE,fontFamily:"Inter,sans-serif"}}>{step.date}</span>
+                  </div>
+                  <div style={{fontSize:15,fontWeight:800,color:c.INK,letterSpacing:0.3,marginBottom:6}}>{step.title}</div>
+                  <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.65,marginBottom:8}}>{step.what}</div>
+                  <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,fontStyle:"italic",paddingLeft:12,borderLeft:`2px solid ${c.ORANGE}33`,marginBottom:8}}>{step.why}</div>
+                  <div style={{display:"inline-flex",alignItems:"center",gap:6}}>
+                    <div style={{width:6,height:6,borderRadius:"50%",background:step.statColor,flexShrink:0}}/>
+                    <span style={{fontSize:10,fontWeight:700,color:step.statColor,fontFamily:"Inter,sans-serif",letterSpacing:0.5}}>{step.stat}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* HOW IT WORKS */}
+      <Section title="HOW IT WORKS">
+        <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,marginBottom:24}}>
+          The full loop from client submission to artist queue — no manual steps in between.
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:12}}>
+          {howItWorksSteps.map((step,i)=>(
+            <div key={step.num} style={{display:"flex",gap:16,alignItems:"flex-start",padding:"20px 20px",background:c.CARD,borderRadius:10,border:`1px solid ${c.EDGE}`}}>
+              {/* Number badge */}
+              <div style={{
+                width:40,height:40,borderRadius:10,background:step.color+"14",border:`1.5px solid ${step.color}44`,
+                display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,
+              }}>
+                <span style={{fontSize:13,fontWeight:900,color:step.color,fontFamily:"Inter,sans-serif"}}>{step.num}</span>
+              </div>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                  <span style={{fontSize:8,fontWeight:700,letterSpacing:2,color:step.color,background:step.color+"14",padding:"2px 8px",borderRadius:3,fontFamily:"Inter,sans-serif"}}>{step.actor}</span>
+                </div>
+                <div style={{fontSize:14,fontWeight:800,color:c.INK,letterSpacing:0.3,marginBottom:5}}>{step.title}</div>
+                <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.65}}>{step.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* WHAT'S NEXT */}
+      <Section title="WHAT'S NEXT">
+        <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6,marginBottom:24}}>
+          The dashboard is the foundation. Next up is the brand and the website — the part Wizardry Ink will actually look like.
+        </div>
+        <div style={{display:"grid",gap:12}}>
+          {[
+            {emoji:"🎨",title:"Brand Identity",desc:"Logo, color system, typography, and visual language that actually feels like Wizardry Ink. Not generic. Not template-y. Something with the studio's personality baked in.",tag:"COMING NEXT"},
+            {emoji:"🌐",title:"Website Redesign",desc:"Full site built on the brand foundation — homepage, artist pages, gallery, about, FAQ, booking. Mobile-first. Fast. SEO-ready. Migrating off Squarespace.",tag:"PHASE 2"},
+            {emoji:"🤖",title:"AI Booking System",desc:"The thing that ties it all together — AI-processed inquiry intake, automated quoting, calendar scheduling, and a swipe-to-approve dashboard for Daisy.",tag:"PHASE 3"},
+          ].map(item=>(
+            <div key={item.title} style={{display:"flex",gap:16,padding:"20px 20px",background:c.CARD,borderRadius:10,border:`1px solid ${c.EDGE}`,alignItems:"flex-start"}}>
+              <div style={{fontSize:24,flexShrink:0,marginTop:2}}>{item.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:5,flexWrap:"wrap"}}>
+                  <span style={{fontSize:14,fontWeight:800,color:c.INK}}>{item.title}</span>
+                  <span style={{fontSize:9,fontWeight:700,letterSpacing:1.5,color:c.ORANGE,background:c.ORANGE+"0c",border:`1px solid ${c.ORANGE}22`,padding:"2px 9px",borderRadius:3,fontFamily:"Inter,sans-serif"}}>{item.tag}</span>
+                </div>
+                <div style={{fontSize:12,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.65}}>{item.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{marginTop:24,padding:"20px 24px",background:c.ORANGE+"0a",border:`1px solid ${c.ORANGE}22`,borderRadius:10,textAlign:"center"}}>
+          <div style={{fontSize:13,fontWeight:700,color:c.INK,marginBottom:4}}>The dashboard is live and running</div>
+          <div style={{fontSize:11,color:c.SLATE,fontFamily:"Inter,sans-serif",lineHeight:1.6}}>Over 1,400 inquiries managed, the artist team is onboarded, and the data is building. The brand chapter is next — this is the agreement tab when you're ready to lock it in.</div>
+        </div>
+      </Section>
+
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    MAIN HUB
    ═══════════════════════════════════════ */
 export default function WizardryHub({defaultView="client",opsMode=false}){
   const [view,setView]=useState(defaultView);
-  const [page,setPage]=useState("workflow");
+  const [page,setPage]=useState("showcase");
   const [dark,setDark]=useState(()=>{const s=localStorage.getItem("wizardry-dark");return s?s==="true":true;});
   const c=dark?darkColors:lightColors;
 
@@ -1107,6 +1377,7 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
   };
 
   const pages=[
+    {key:"showcase",label:"The Build"},
     {key:"workflow",label:"Workflow"},
     {key:"userflow",label:"User Flow"},
     {key:"scope",label:"Scope"},
@@ -1148,6 +1419,7 @@ export default function WizardryHub({defaultView="client",opsMode=false}){
 
         {/* Content */}
         <main style={{maxWidth:960,margin:"0 auto"}}>
+          {page==="showcase"&&<DashboardShowcasePage c={c}/>}
           {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={onToggle} c={c} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery}/>}
           {page==="userflow"&&<UserFlowPage c={c}/>}
           {page==="scope"&&<ScopePage c={c}/>}

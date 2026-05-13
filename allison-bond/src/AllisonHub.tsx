@@ -450,9 +450,9 @@ function useWindowWidth() {
   return w;
 }
 
-function WebsitePage() {
+export function WebsitePage() {
   const [section, setSection] = useState("home");
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "", coverage: "", message: "" });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "", birthday: "", phone: "", hasSpouse: "", hobbies: "", isHomeowner: "", mortgage: "", coverage: "" });
   const [formSent, setFormSent] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -496,7 +496,7 @@ function WebsitePage() {
     { name: "Jerome F.", text: "The IUL she recommended has already grown in value. I didn't know life insurance could work like this. She explained everything clearly — no jargon." },
   ];
 
-  const go = (s) => { setSection(s); setMobileMenuOpen(false); if (scrollRef.current) scrollRef.current.scrollTop = 0; };
+  const go = (s) => { setSection(s); setMobileMenuOpen(false); if (scrollRef.current) scrollRef.current.scrollTop = 0; window.scrollTo({ top: 0, behavior: "instant" }); };
   const px = isMobile ? "16px" : "28px";
   const heroSize = isMobile ? 34 : 52;
   const sectionSize = isMobile ? 26 : 40;
@@ -569,13 +569,13 @@ function WebsitePage() {
       {/* Hero — white canvas, Miro style */}
       <div style={{ padding: isMobile ? "52px 16px 44px" : "80px 48px 72px", maxWidth: 860, margin: "0 auto" }}>
         <div style={{ display: "inline-block", padding: "5px 14px", background: S.tealLight, borderRadius: 20, fontSize: 12, fontWeight: 600, color: S.tealDark, fontFamily: S.body, marginBottom: 24 }}>
-          Licensed SFG Agent · Free Consultations
+          Licensed SFG Agent · Serving All of Texas
         </div>
-        <div style={{ fontSize: heroSize, fontWeight: 700, color: S.text, fontFamily: S.display, lineHeight: 1.12, letterSpacing: -1.5, marginBottom: 20, maxWidth: 680 }}>
-          Your family deserves to feel <span style={{ color: S.blue }}>protected.</span>
+        <div style={{ fontSize: heroSize, fontWeight: 700, color: S.text, fontFamily: S.display, lineHeight: 1.12, letterSpacing: isMobile ? -0.5 : -1.5, marginBottom: 20, maxWidth: 680 }}>
+          Your family deserves someone who will <span style={{ color: S.blue }}>fight for them.</span>
         </div>
         <div style={{ fontSize: isMobile ? 16 : 18, color: S.muted, fontFamily: S.body, lineHeight: 1.65, marginBottom: 36, maxWidth: 520 }}>
-          Whole life, term, IUL, mortgage protection, and more — I help families find the right coverage without the pressure or jargon.
+          I don't just sell policies — I stay in your corner. From finding the right coverage to making sure your family actually gets paid out, I'm with you every step of the way.
         </div>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <BtnPrimary label="Get a Free Quote" onClick={() => go("contact")} />
@@ -585,7 +585,7 @@ function WebsitePage() {
 
       {/* Trust pills */}
       <div style={{ background: S.tealLight, padding: "16px 24px", display: "flex", justifyContent: "center", gap: isMobile ? 14 : 32, flexWrap: "wrap" }}>
-        {["6 Types of Coverage", "No Pressure. Ever.", "Free Consultations", "Families First"].map(t => (
+        {["Serving All of Texas", "E&O Licensed Agent", "No Pressure. Ever.", "I Fight For Your Payout"].map(t => (
           <div key={t} style={{ fontSize: 13, fontWeight: 600, color: S.tealDark, fontFamily: S.body }}>✓ {t}</div>
         ))}
       </div>
@@ -623,7 +623,7 @@ function WebsitePage() {
         <div style={{ fontSize: isMobile ? 28 : 40, fontWeight: 700, color: S.text, fontFamily: S.display, letterSpacing: -1, marginBottom: 14, maxWidth: 560, margin: "0 auto 14px" }}>
           Ready to protect what matters most?
         </div>
-        <div style={{ fontSize: 16, color: S.muted, fontFamily: S.body, marginBottom: 28 }}>A free consultation costs nothing — and could mean everything.</div>
+        <div style={{ fontSize: 16, color: S.muted, fontFamily: S.body, marginBottom: 28 }}>A free consultation is just a form away — no commitment, no pressure.</div>
         <BtnPrimary label="Get Started Today" onClick={() => go("contact")} />
       </div>
     </>
@@ -633,7 +633,7 @@ function WebsitePage() {
     <div>
       <div style={{ padding: isMobile ? "48px 16px 36px" : "72px 48px 56px", maxWidth: 900, margin: "0 auto" }}>
         <div style={{ fontSize: sectionSize, fontWeight: 700, color: S.text, fontFamily: S.display, letterSpacing: -1, marginBottom: 10 }}>What we cover</div>
-        <div style={{ fontSize: 16, color: S.muted, fontFamily: S.body, marginBottom: 44, maxWidth: 480 }}>Every family's situation is different. I'll help you find the right coverage — not the most expensive one.</div>
+        <div style={{ fontSize: 16, color: S.muted, fontFamily: S.body, marginBottom: 44, maxWidth: 480 }}>Every family across Texas has a different story. I'll find the right coverage for yours — and through carriers most agents can't access, often at half the price.</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
           {services.map((s, i) => (
             <div key={s.name} style={{ display: "flex", gap: 20, padding: "24px 0", borderBottom: `1px solid ${S.border}`, alignItems: "flex-start", flexWrap: isMobile ? "wrap" : "nowrap" }}>
@@ -666,9 +666,9 @@ function WebsitePage() {
       {/* Story sections */}
       <div style={{ padding: isMobile ? "40px 16px 48px" : "64px 48px", maxWidth: 720, margin: "0 auto" }}>
         {[
-          { t: "My mission", b: "I started Bond Agency because I believe every family deserves to feel secure — regardless of income level or life stage. Too many people put off life insurance because it feels complicated or expensive. My job is to cut through the noise, explain your options clearly, and help you find coverage that actually fits your life." },
-          { t: "How I work", b: "I start by listening. Every client gets a real conversation — not a canned pitch. I ask about your family, your goals, and your budget. Then I find the policy that serves you best. I work with multiple carriers through Symmetry Financial Group, which means I'm not locked into one company's products." },
-          { t: "Why Bond Agency", b: "No pressure, ever. I'd rather you leave our conversation with clarity than leave with a policy that doesn't fit. My reputation is built on clients who trust me — and clients who send me their siblings, parents, and coworkers." },
+          { t: "My mission", b: "I started Bond Agency because I believe every family deserves to feel secure. Life insurance shouldn't be confusing or out of reach — I make it simple, clear, and affordable for anyone over 18 across Texas. My job is to find you the right coverage and make sure it's there when your family needs it most." },
+          { t: "How I work", b: "I start by listening — your family, your goals, your budget. Then I go to work. I carry E&O insurance, which means I can work with carriers that most agents can't access. That translates to the same quality coverage, often at half the price. When something happens, I don't just file a claim and disappear — I stay in contact with the carriers and push hard to make sure your family gets paid out, quickly." },
+          { t: "Why Bond Agency", b: "I'm always available. Always. Whether you have a question at 9am or a concern on a Saturday, I pick up. No pressure, ever — I'd rather you leave our conversation with clarity than leave with a policy that doesn't fit. My clients send me their siblings, parents, and neighbors because they trust me to take care of their families the same way I take care of my own." },
         ].map(s => (
           <div key={s.t} style={{ marginBottom: 36, paddingBottom: 36, borderBottom: `1px solid ${S.border}` }}>
             <div style={{ fontSize: 20, fontWeight: 700, color: S.text, fontFamily: S.display, letterSpacing: -0.4, marginBottom: 12 }}>{s.t}</div>
@@ -676,7 +676,7 @@ function WebsitePage() {
           </div>
         ))}
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 36 }}>
-          {["Licensed Insurance Agent", "Symmetry Financial Group", "Whole Life Specialist", "IUL Certified", "Free Consultations"].map(tag => (
+          {["Licensed Insurance Agent", "E&O Insured", "Serving All of Texas", "Symmetry Financial Group", "Free Consultations"].map(tag => (
             <div key={tag} style={{ padding: "6px 14px", background: S.tealLight, borderRadius: 20, fontSize: 12, fontWeight: 600, color: S.tealDark, fontFamily: S.body }}>{tag}</div>
           ))}
         </div>
@@ -709,36 +709,71 @@ function WebsitePage() {
       {formSent ? (
         <div style={{ background: `${S.success}12`, border: `1px solid ${S.success}33`, borderRadius: 20, padding: "48px 28px", textAlign: "center" }}>
           <div style={{ fontSize: 44, marginBottom: 12 }}>✓</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: S.success, fontFamily: S.display, letterSpacing: -0.5, marginBottom: 10 }}>Message received</div>
-          <div style={{ fontSize: 14, color: S.muted, fontFamily: S.body, lineHeight: 1.7 }}>Allison will reach out within 24 hours to schedule your free consultation.</div>
-          <button onClick={() => setFormSent(false)} style={{ marginTop: 24, padding: "10px 24px", fontSize: 13, fontWeight: 600, fontFamily: S.body, background: "transparent", color: S.muted, border: `1px solid ${S.border}`, borderRadius: 8, cursor: "pointer" }}>Send another</button>
+          <div style={{ fontSize: 22, fontWeight: 700, color: S.success, fontFamily: S.display, letterSpacing: -0.5, marginBottom: 10 }}>You're in good hands</div>
+          <div style={{ fontSize: 14, color: S.muted, fontFamily: S.body, lineHeight: 1.7 }}>Allison will reach out within 24 hours to go over your options.</div>
+          <button onClick={() => setFormSent(false)} style={{ marginTop: 24, padding: "10px 24px", fontSize: 13, fontWeight: 600, fontFamily: S.body, background: "transparent", color: S.muted, border: `1px solid ${S.border}`, borderRadius: 8, cursor: "pointer" }}>Start over</button>
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {[{ l: "Full Name", k: "name", t: "text", ph: "Your name" }, { l: "Phone", k: "phone", t: "tel", ph: "(555) 000-0000" }, { l: "Email", k: "email", t: "email", ph: "your@email.com" }].map(f => (
-            <div key={f.k}>
-              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>{f.l}</div>
-              <input type={f.t} placeholder={f.ph} value={formData[f.k]} onChange={e => setFormData(p => ({ ...p, [f.k]: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>First Name</div>
+              <input type="text" placeholder="First" value={formData.firstName} onChange={e => setFormData(p => ({ ...p, firstName: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
             </div>
-          ))}
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Last Name</div>
+              <input type="text" placeholder="Last" value={formData.lastName} onChange={e => setFormData(p => ({ ...p, lastName: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 14 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Date of Birth</div>
+              <input type="date" value={formData.birthday} onChange={e => setFormData(p => ({ ...p, birthday: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: formData.birthday ? S.text : S.placeholder, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Phone Number</div>
+              <input type="tel" placeholder="(555) 000-0000" value={formData.phone} onChange={e => setFormData(p => ({ ...p, phone: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
+            </div>
+          </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Type of Coverage</div>
-            <select value={formData.coverage} onChange={e => setFormData(p => ({ ...p, coverage: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: formData.coverage ? S.text : S.placeholder, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }}>
-              <option value="">Select coverage type…</option>
-              {services.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
-              <option value="Not sure">Not sure — help me figure it out</option>
+            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Do you have a spouse?</div>
+            <select value={formData.hasSpouse} onChange={e => setFormData(p => ({ ...p, hasSpouse: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: formData.hasSpouse ? S.text : S.placeholder, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }}>
+              <option value="">Select…</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
             </select>
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Message (optional)</div>
-            <textarea placeholder="Tell me a bit about your situation or any questions you have…" value={formData.message} onChange={e => setFormData(p => ({ ...p, message: e.target.value }))} rows={4} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", resize: "vertical", boxSizing: "border-box" }} />
+            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Hobbies or Activities</div>
+            <input type="text" placeholder="e.g. hiking, sports, motorcycles…" value={formData.hobbies} onChange={e => setFormData(p => ({ ...p, hobbies: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
           </div>
-          <button onClick={() => { if (formData.name && formData.email) setFormSent(true); }} style={{ padding: "14px", fontSize: 16, fontWeight: 700, fontFamily: S.display, background: S.blue, color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", minHeight: 48 }}>Send Request</button>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Do you own a home?</div>
+            <select value={formData.isHomeowner} onChange={e => setFormData(p => ({ ...p, isHomeowner: e.target.value, mortgage: e.target.value === "no" ? "" : formData.mortgage }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: formData.isHomeowner ? S.text : S.placeholder, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }}>
+              <option value="">Select…</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          {formData.isHomeowner === "yes" && (
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Mortgage Amount (approx.)</div>
+              <input type="text" placeholder="e.g. $250,000" value={formData.mortgage} onChange={e => setFormData(p => ({ ...p, mortgage: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: S.text, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }} />
+            </div>
+          )}
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: S.text, fontFamily: S.body, marginBottom: 6 }}>Type of Coverage (optional)</div>
+            <select value={formData.coverage} onChange={e => setFormData(p => ({ ...p, coverage: e.target.value }))} style={{ width: "100%", padding: "12px 16px", background: S.bg, border: `1px solid #e9eaef`, borderRadius: 8, color: formData.coverage ? S.text : S.placeholder, fontSize: 15, fontFamily: S.body, outline: "none", boxSizing: "border-box", minHeight: 44 }}>
+              <option value="">Not sure yet</option>
+              {services.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+            </select>
+          </div>
+          <button onClick={() => { if (formData.firstName && formData.phone) setFormSent(true); }} style={{ padding: "14px", fontSize: 16, fontWeight: 700, fontFamily: S.display, background: S.blue, color: "#fff", border: "none", borderRadius: 8, cursor: "pointer", minHeight: 48 }}>Request My Free Quote</button>
         </div>
       )}
 
       <div style={{ marginTop: 44, paddingTop: 28, borderTop: `1px solid ${S.border}`, display: "flex", gap: 28, flexWrap: "wrap" }}>
-        {[{ l: "Email", v: "allisonbond.sfg@gmail.com" }, { l: "Agency", v: "Bond Agency" }, { l: "Network", v: "Symmetry Financial Group" }].map(i => (
+        {[{ l: "Email", v: "allisonbond.sfg@gmail.com" }, { l: "Agency", v: "Bond Agency" }, { l: "Service Area", v: "All of Texas" }].map(i => (
           <div key={i.l}>
             <div style={{ fontSize: 11, fontWeight: 700, color: S.muted, fontFamily: S.body, letterSpacing: 1, marginBottom: 3, textTransform: "uppercase" }}>{i.l}</div>
             <div style={{ fontSize: 13, color: S.text, fontFamily: S.body }}>{i.v}</div>
@@ -800,9 +835,12 @@ export function DiscoveryPage() {
         <div style={{ maxWidth: 520, textAlign: "center" }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
           <div style={{ fontSize: 24, fontWeight: 800, color: c.INK, fontFamily: "'Playfair Display',serif", marginBottom: 8 }}>Discovery Submitted</div>
-          <div style={{ fontSize: 14, color: c.SLATE, lineHeight: 1.7 }}>
+          <div style={{ fontSize: 14, color: c.SLATE, lineHeight: 1.7, marginBottom: 24 }}>
             Thank you, Allison! We'll review your answers and be in touch within 1–2 days to walk through next steps.
           </div>
+          <button onClick={() => setSubmitted(false)} style={{ padding: "9px 22px", fontSize: 12, fontWeight: 700, background: "transparent", color: c.SLATE, border: `1px solid ${c.EDGE}`, borderRadius: 6, cursor: "pointer", letterSpacing: 1 }}>
+            Edit answers
+          </button>
         </div>
       </div>
     );
@@ -834,7 +872,7 @@ export function DiscoveryPage() {
           </div>
         ))}
         <button onClick={handleSubmit} disabled={saving} style={{ width: "100%", padding: "14px", fontSize: 14, fontWeight: 700, background: c.NAVY, color: "#fff", border: "none", borderRadius: 6, cursor: "pointer", letterSpacing: 1 }}>
-          {saving ? "Submitting…" : "Submit Discovery →"}
+          {saving ? "Saving…" : "Save answers →"}
         </button>
       </div>
     </div>

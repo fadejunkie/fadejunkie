@@ -182,6 +182,16 @@ function DocViewer({ item, onClose }) {
   const [slide, setSlide] = useState(0);
   const [viewMode, setViewMode] = useState(isSlides ? "slides" : "doc");
 
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "ArrowRight") setSlide(s => Math.min((slides?.length ?? 1) - 1, s + 1));
+      if (e.key === "ArrowLeft") setSlide(s => Math.max(0, s - 1));
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [slides, onClose]);
+
   const renderHtml = (md) => { marked.setOptions({ breaks: true, gfm: true }); return marked.parse(md || ""); };
 
   const downloadMd = () => {
@@ -633,7 +643,7 @@ export default function SEOJourneyTracker() {
 
   const phases = applyOverrides(PHASES, overrides);
   const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
-  const [showExtras, setShowExtras] = useState(false);
+
   const [hoveredTask, setHoveredTask] = useState(null);
   const [expandedDoc, setExpandedDoc] = useState(null);
   const [notesDraft, setNotesDraft] = useState("");
@@ -709,65 +719,6 @@ export default function SEOJourneyTracker() {
       background: BG, minHeight: "100vh", color: INK,
     }}>
       <style>{`@keyframes livePulse { 0%,100% { opacity:1 } 50% { opacity:0.5 } }`}</style>
-      {/* Top Bar */}
-      <div style={{
-        background: INK, padding: "14px 24px", display: "flex",
-        alignItems: "center", justifyContent: "space-between", gap: 16,
-        borderBottom: `3px solid ${ACCENT}`,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{
-            width: 8, height: 8, borderRadius: "50%",
-            background: ACCENT, boxShadow: `0 0 8px ${ACCENT}`,
-          }} />
-          <span style={{
-            color: WHITE, fontFamily: "'DM Mono', monospace",
-            fontSize: 13, fontWeight: 500, letterSpacing: "0.06em",
-            textTransform: "uppercase",
-          }}>
-            {PROJECT.name}
-          </span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          {IS_ADMIN && (
-            <span style={{
-              color: ACCENT, fontSize: 10, fontWeight: 700,
-              fontFamily: "'DM Mono', monospace",
-              background: "rgba(232,84,26,0.15)", padding: "3px 8px",
-              borderRadius: 4, letterSpacing: "0.08em",
-            }}>
-              OPS
-            </span>
-          )}
-          <span style={{
-            color: "rgba(255,255,255,0.4)", fontSize: 11,
-            fontFamily: "'DM Mono', monospace",
-          }}>
-            Anthony's SEO Engine
-          </span>
-        </div>
-      </div>
-
-      {/* Client Info Bar */}
-      <div style={{
-        background: WHITE, borderBottom: `1px solid ${LIGHT}`,
-        padding: "16px 24px", display: "flex", flexWrap: "wrap",
-        gap: "12px 32px", alignItems: "center",
-      }}>
-        {[
-          ["Client", PROJECT.client],
-          ["Market", PROJECT.location],
-          ["Contacts", PROJECT.contact],
-          ["Platform", PROJECT.platform],
-          ["Retainer", PROJECT.retainer],
-          ["Started", PROJECT.startDate],
-        ].map(([label, val]) => (
-          <div key={label} style={{ display: "flex", gap: 6, alignItems: "baseline" }}>
-            <span style={{ fontSize: 10, color: MUTED, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{label}</span>
-            <span style={{ fontSize: 13, color: BODY, fontWeight: 500 }}>{val}</span>
-          </div>
-        ))}
-      </div>
 
       {/* Overall Progress */}
       <div style={{ padding: "24px 24px 0" }}>
@@ -819,13 +770,13 @@ export default function SEOJourneyTracker() {
       {/* Phase Navigation */}
       <div style={{ padding: "16px 24px 0", overflowX: "auto" }}>
         <div style={{ display: "flex", gap: 6, minWidth: "max-content" }}>
-          {phases.filter((p) => ["kickoff", "month1", "month2"].includes(p.id)).map((p) => {
+          {phases.filter((p) => ["kickoff", "month1", "month2", "month3"].includes(p.id)).map((p) => {
             const i = phases.indexOf(p);
             const prog = getPhaseProgress(p.tasks);
-            const isActive = !showExtras && i === activePhase;
+            const isActive = i === activePhase;
             const isCurrent = i === getCurrentPhase(phases);
             return (
-              <button key={p.id} onClick={() => { setShowExtras(false); setActivePhase(i); }} style={{
+              <button key={p.id} onClick={() => setActivePhase(i)} style={{
                 border: isActive ? `2px solid ${p.color}` : `1px solid ${LIGHT}`,
                 background: isActive ? p.softColor : WHITE,
                 borderRadius: 10, padding: "12px 16px", cursor: "pointer",
@@ -865,138 +816,11 @@ export default function SEOJourneyTracker() {
             );
           })}
 
-          {/* Extras tab */}
-          <button onClick={() => setShowExtras(true)} style={{
-            border: showExtras ? `2px solid ${ACCENT}` : `1px solid ${LIGHT}`,
-            background: showExtras ? ACCENT_SOFT : WHITE,
-            borderRadius: 10, padding: "12px 16px", cursor: "pointer",
-            minWidth: 130, textAlign: "left",
-            transition: "all 0.2s",
-          }}>
-            <div style={{ fontSize: 18, marginBottom: 4 }}>📎</div>
-            <div style={{
-              fontSize: 12, fontWeight: 700, color: showExtras ? ACCENT : INK,
-              fontFamily: "'DM Mono', monospace", letterSpacing: "0.02em",
-            }}>Extras</div>
-            <div style={{ fontSize: 10, color: MUTED, marginTop: 1 }}>Resources &amp; Pages</div>
-            <div style={{ marginTop: 8, height: 3, borderRadius: 2, background: "#eee" }} />
-            <div style={{
-              fontSize: 10, color: MUTED, marginTop: 4,
-              fontFamily: "'DM Mono', monospace",
-            }}>2 items</div>
-          </button>
         </div>
       </div>
 
-      {/* Extras Panel */}
-      {showExtras && (
-        <div style={{ padding: "16px 24px 32px" }}>
-          <div style={{
-            background: WHITE, borderRadius: 12,
-            border: `1px solid ${LIGHT}`, overflow: "hidden",
-          }}>
-            <div style={{
-              padding: "20px 24px 16px", borderBottom: `1px solid ${LIGHT}`,
-              display: "flex", alignItems: "center", gap: 10,
-            }}>
-              <span style={{ fontSize: 24 }}>📎</span>
-              <div>
-                <div style={{
-                  fontFamily: "'DM Mono', monospace", fontSize: 11,
-                  color: ACCENT, fontWeight: 600, letterSpacing: "0.05em",
-                  textTransform: "uppercase",
-                }}>
-                  Extras — Resources &amp; Pages
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 700, marginTop: 2 }}>
-                  Links &amp; Deliverables
-                </div>
-              </div>
-            </div>
-
-            <div style={{ padding: "12px 0" }}>
-              {/* SEO Health Tracker */}
-              <a
-                href="/"
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Switch top-level tab to health — bubble up via custom event
-                  window.dispatchEvent(new CustomEvent("switch-tab", { detail: "health" }));
-                }}
-                style={{
-                  display: "flex", alignItems: "flex-start", gap: 14,
-                  padding: "14px 24px", textDecoration: "none",
-                  borderBottom: `1px solid #f0f0f0`,
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "#fafafa"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-              >
-                <div style={{
-                  width: 36, height: 36, borderRadius: 8,
-                  background: ACCENT_SOFT, display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, fontSize: 18,
-                }}>📊</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: INK }}>
-                    SEO Health Tracker
-                  </div>
-                  <div style={{ fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.4 }}>
-                    Live keyword rankings, audit scores, and monthly SEO performance — updated automatically.
-                  </div>
-                </div>
-                <div style={{
-                  fontSize: 10, padding: "3px 8px", borderRadius: 20,
-                  background: ACCENT_SOFT, color: ACCENT, fontWeight: 600,
-                  fontFamily: "'DM Mono', monospace", whiteSpace: "nowrap", alignSelf: "center",
-                }}>
-                  View →
-                </div>
-              </a>
-
-              {/* Why Choose Us page */}
-              <a
-                href="/Why-choose-us"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "flex", alignItems: "flex-start", gap: 14,
-                  padding: "14px 24px", textDecoration: "none",
-                  transition: "background 0.15s",
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.background = "#fafafa"}
-                onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
-              >
-                <div style={{
-                  width: 36, height: 36, borderRadius: 8,
-                  background: "rgba(22,163,74,0.08)", display: "flex",
-                  alignItems: "center", justifyContent: "center",
-                  flexShrink: 0, fontSize: 18,
-                }}>🏡</div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: INK }}>
-                    Why Choose Our Brokerage
-                  </div>
-                  <div style={{ fontSize: 12, color: MUTED, marginTop: 3, lineHeight: 1.4 }}>
-                    Flyer converted to a live webpage — showcasing the 8 reasons agents join Corwin &amp; Associates.
-                  </div>
-                </div>
-                <div style={{
-                  fontSize: 10, padding: "3px 8px", borderRadius: 20,
-                  background: "rgba(22,163,74,0.08)", color: GREEN, fontWeight: 600,
-                  fontFamily: "'DM Mono', monospace", whiteSpace: "nowrap", alignSelf: "center",
-                }}>
-                  Live ↗
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Active Phase Detail */}
-      {!showExtras && <div style={{ padding: "16px 24px 32px" }}>
+      <div style={{ padding: "16px 24px 32px" }}>
         <div style={{
           background: WHITE, borderRadius: 12,
           border: `1px solid ${LIGHT}`, overflow: "hidden",
@@ -1284,7 +1108,7 @@ export default function SEOJourneyTracker() {
             onRemove={(id) => removeDeliverableMut({ id })}
           />
         </div>
-      </div>}
+      </div>
 
       {/* Footer */}
       <div style={{

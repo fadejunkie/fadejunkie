@@ -24,7 +24,7 @@
     }
     html { scroll-behavior: smooth; }
     body { font-family: 'Merriweather', serif; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--charcoal); background: var(--white); }
-    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(4px); border-bottom: 0.8px solid rgba(0,0,0,0.1); padding: 0 24px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(4px); border-bottom: 0.8px solid rgba(0,0,0,0.1); padding: 0 24px; height: 90px; display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
     .nav-logo-mark { width: 44px; height: 44px; background: var(--navy); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Open Sans', Arial, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.5px; flex-shrink: 0; }
     .nav-logo-text { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 400; color: var(--charcoal); line-height: 1.3; }
@@ -34,7 +34,7 @@
     .nav-links a:hover { color: var(--navy); }
     .nav-cta { background: var(--navy) !important; color: var(--white) !important; border-radius: 4px; border: 0.8px solid var(--navy); box-shadow: rgba(255,255,255,0.15) 0px 1px 0px 0px inset, rgba(0,0,0,0.075) 0px 1px 1px 0px; }
     .nav-cta:hover { background: #13142a !important; }
-    .hero { position: relative; min-height: 600px; display: flex; align-items: flex-end; padding-bottom: 64px; margin-top: 80px; background-image: linear-gradient(15deg, rgba(0,0,0,0.65), rgba(0,0,0,0) 40%, rgba(0,0,0,0) 80%, rgba(0,0,0,0.25) 100%), url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG/1600px-Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG'); background-size: cover; background-position: center; }
+    .hero { position: relative; min-height: 600px; display: flex; align-items: flex-end; padding-bottom: 64px; margin-top: 90px; background-image: linear-gradient(15deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.35) 100%), url('/seguin/hero.webp'); background-size: cover; background-position: center; }
     .hero-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; width: 100%; }
     .hero-eyebrow { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
     .hero h1 { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 300; color: var(--white); line-height: 1.2; max-width: 700px; margin-bottom: 16px; }
@@ -69,7 +69,7 @@
     .neighborhood-card h3 { font-family: 'Open Sans', Arial, sans-serif; font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
     .neighborhood-card .price-range { font-family: 'Merriweather', serif; font-size: 13px; color: var(--crimson); font-weight: 700; margin-bottom: 12px; display: block; }
     .neighborhood-card p { font-size: 14px; color: var(--dark-gray); line-height: 1.6; }
-    .stats-section { padding: 72px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.75), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG/1600px-Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG'); background-size: cover; background-position: center; }
+    .stats-section { padding: 72px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.75), rgba(0,0,0,0.5)), url('/seguin/hero.webp'); background-size: cover; background-position: center; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
     .stat-item { text-align: center; }
     .stat-number { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 8px; }
@@ -84,7 +84,7 @@
     .faq-answer { display: none; padding: 0 0 20px; color: var(--dark-gray); line-height: 1.7; }
     .faq-answer.open { display: block; }
     .faq-icon { font-size: 14px; color: var(--navy); flex-shrink: 0; }
-    .cta-banner { padding: 80px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG/1600px-Guadalupe_County%2C_TX%2C_Courthouse_in_Seguin_IMG_8159.JPG'); background-size: cover; background-position: center; text-align: center; }
+    .cta-banner { padding: 80px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('/seguin/hero.webp'); background-size: cover; background-position: center; text-align: center; }
     .cta-banner h2 { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(24px, 3vw, 36px); font-weight: 300; color: white; margin-bottom: 16px; }
     .cta-banner p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; }
     .cta-banner .btn-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -111,13 +111,90 @@
       .footer-grid { grid-template-columns: 1fr; }
     }
   </style>
+
+  <!-- FAQPage Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Seguin a good place to live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Seguin has river access, affordable housing, good schools, and a growing local economy. It has been recognized nationally as one of the best-value places to live in Texas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far is Seguin from San Antonio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 35 minutes to downtown San Antonio via I-10. JBSA Randolph is roughly 25 minutes west, which makes Seguin popular with military families stationed at Randolph."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Seguin TX growing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is. Population has exceeded 33,000 and continues to rise. Residential and commercial development are both active, particularly along the I-10 corridor and north toward New Braunfels."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are property taxes like in Seguin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Guadalupe County averages 2.0 to 2.2%. Because home prices are lower than in Comal County or Bexar County, your actual tax bill may be comparable or lower than what you'd pay in a pricier market."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Weichert Corwin sell homes in Seguin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Seguin is part of our service territory. We have helped buyers find homes across the city, from Nob Hill to the Lake Placid area to acreage properties in Guadalupe County. Our <a href="../buyer-rebate/" style="color:inherit">buyer rebate program</a> applies to all Seguin purchases."
+      }
+    }
+  ]
+}
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.wcorwin.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Neighborhoods",
+      "item": "https://wcorwin.anthonytatis.com/seguin/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Seguin TX",
+      "item": "https://wcorwin.anthonytatis.com/seguin/"
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 
 <nav class="nav">
   <a href="https://www.wcorwin.com" class="nav-logo">
-    <div class="nav-logo-mark">WC</div>
-    <div class="nav-logo-text">Weichert Realtors<span>Corwin &amp; Associates</span></div>
+    <img src="/assets/logo.png" alt="Weichert Corwin" style="height:72px;width:auto;display:block;">
   </a>
   <ul class="nav-links">
     <li><a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx">Search Homes</a></li>
@@ -322,6 +399,7 @@
           <li><a href="https://www.wcorwin.com/about-us">About Us</a></li>
           <li><a href="https://www.wcorwin.com">wcorwin.com</a></li>
           <li><a href="../va-home-loans/">VA Home Loans</a></li>
+          <li><a href="../buyer-rebate/">Buyer Rebate Program</a></li>
         </ul>
       </div>
     </div>

@@ -825,7 +825,8 @@ function WorkflowPage({view,tasks,onToggle,c,deliverables,onAddDeliverable,onRem
 /* ═══════════════════════════════════════
    WEBSITE MOCKUP PAGE (REAL ESTATE)
    ═══════════════════════════════════════ */
-function WebsitePage({c}){
+export function WebsitePage({c}:{c?:any}){
+  if(!c)c=lightColors;
   const [sitePage,setSitePage]=useState("home");
   const [contactForm,setContactForm]=useState({name:"",email:"",phone:"",message:""});
   const [contactSent,setContactSent]=useState(false);
