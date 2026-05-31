@@ -5,7 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { formatPrice, getCartSessionId } from "@/lib/cart";
 import Image from "next/image";
-import { useState, use } from "react";
+import { useState, use, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -18,6 +18,22 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
   const [activeImage, setActiveImage] = useState(0);
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  function openLightbox(i: number) { setLightboxIndex(i); setLightboxOpen(true); }
+  function closeLightbox() { setLightboxOpen(false); }
+  function lightboxPrev() { setLightboxIndex((i) => (i - 1 + (product?.images.length ?? 1)) % (product?.images.length ?? 1)); }
+  function lightboxNext() { setLightboxIndex((i) => (i + 1) % (product?.images.length ?? 1)); }
+
+  function handleTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX; }
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 40) delta < 0 ? lightboxNext() : lightboxPrev();
+    touchStartX.current = null;
+  }
 
   const skeletonStyle: React.CSSProperties = {
     background: "var(--surface-card)",
@@ -102,44 +118,58 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
           >
             {/* Images */}
             <div>
-              {/* Main image */}
-              <div
-                style={{
-                  aspectRatio: "1 / 1",
-                  overflow: "hidden",
-                  borderRadius: 0,
-                  background: "var(--surface-card)",
-                  marginBottom: "12px",
-                }}
-              >
-                {product.images[activeImage] ? (
-                  <Image
-                    src={product.images[activeImage]}
-                    alt={product.name}
-                    width={600}
-                    height={600}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 0, display: "block" }}
-                  />
-                ) : (
+              {/* Main image / video */}
+              {(() => {
+                const isVideoSlide = product.video && activeImage === product.images.length;
+                return (
                   <div
+                    onClick={() => !isVideoSlide && product.images[activeImage] && openLightbox(activeImage)}
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "var(--hairline)",
+                      aspectRatio: "1 / 1",
+                      overflow: "hidden",
+                      borderRadius: 0,
+                      background: "var(--surface-card)",
+                      marginBottom: "12px",
+                      cursor: isVideoSlide ? "default" : product.images[activeImage] ? "zoom-in" : "default",
                     }}
                   >
-                    <svg width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                    {isVideoSlide ? (
+                      <video
+                        src={product.video}
+                        controls
+                        playsInline
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                      />
+                    ) : product.images[activeImage] ? (
+                      <Image
+                        src={product.images[activeImage]}
+                        alt={product.name}
+                        width={600}
+                        height={600}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 0, display: "block" }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "var(--hairline)",
+                        }}
+                      >
+                        <svg width="60" height="60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                );
+              })()}
 
               {/* Thumbnail strip */}
-              {product.images.length > 1 && (
+              {(product.images.length > 1 || product.video) && (
                 <div style={{ display: "flex", gap: "8px" }}>
                   {product.images.map((img, i) => (
                     <button
@@ -166,6 +196,30 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                       />
                     </button>
                   ))}
+                  {product.video && (
+                    <button
+                      onClick={() => setActiveImage(product.images.length)}
+                      style={{
+                        width: "64px",
+                        height: "64px",
+                        borderRadius: 0,
+                        overflow: "hidden",
+                        border: `2px solid ${activeImage === product.images.length ? "var(--on-dark)" : "var(--hairline)"}`,
+                        background: "var(--surface-card)",
+                        cursor: "pointer",
+                        padding: 0,
+                        transition: "border-color 0.15s",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: activeImage === product.images.length ? "var(--on-dark)" : "var(--muted)",
+                      }}
+                    >
+                      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -179,7 +233,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   fontSize: "clamp(28px, 4vw, 40px)",
                   textTransform: "uppercase",
                   letterSpacing: "-0.5px",
-                  color: "var(--on-dark)",
+                  color: "var(--body-strong)",
                   marginBottom: "12px",
                 }}
               >
@@ -236,9 +290,9 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                           style={{
                             padding: "8px 16px",
                             borderRadius: 0,
-                            border: `1px solid ${isSelected ? "var(--on-dark)" : "var(--hairline)"}`,
-                            background: isSelected ? "var(--on-dark)" : "transparent",
-                            color: isSelected ? "var(--canvas)" : "var(--body)",
+                            border: `1px solid ${isSelected ? "var(--primary)" : "var(--hairline)"}`,
+                            background: isSelected ? "var(--primary)" : "transparent",
+                            color: isSelected ? "var(--primary-fg)" : "var(--body)",
                             fontFamily: "var(--font-display)",
                             fontSize: "13px",
                             fontWeight: 700,
@@ -264,9 +318,9 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                     flex: 1,
                     height: "48px",
                     borderRadius: 0,
-                    border: `1px solid ${!allVariantsSelected || !product.inStock ? "var(--hairline)" : "var(--on-dark)"}`,
+                    border: `1px solid ${!allVariantsSelected || !product.inStock ? "var(--hairline)" : "var(--primary)"}`,
                     background: "transparent",
-                    color: !allVariantsSelected || !product.inStock ? "var(--muted)" : "var(--on-dark)",
+                    color: !allVariantsSelected || !product.inStock ? "var(--muted)" : "var(--primary)",
                     fontFamily: "var(--font-display)",
                     fontWeight: 700,
                     fontSize: "14px",
@@ -308,6 +362,132 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
         </div>
       </main>
       <Footer />
+
+      {/* Lightbox */}
+      {lightboxOpen && product.images.length > 0 && (
+        <div
+          onClick={closeLightbox}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1000,
+            background: "rgba(0,0,0,0.95)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* Close */}
+          <button
+            onClick={closeLightbox}
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "24px",
+              background: "none",
+              border: "none",
+              color: "#fff",
+              fontSize: "28px",
+              cursor: "pointer",
+              lineHeight: 1,
+              padding: "4px 8px",
+              opacity: 0.7,
+            }}
+          >
+            ×
+          </button>
+
+          {/* Prev */}
+          {product.images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); lightboxPrev(); }}
+              style={{
+                position: "absolute",
+                left: "16px",
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: "36px",
+                cursor: "pointer",
+                padding: "8px 16px",
+                opacity: 0.7,
+              }}
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Image */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{ maxWidth: "90vw", maxHeight: "90vh", position: "relative" }}
+          >
+            <Image
+              src={product.images[lightboxIndex]}
+              alt={product.name}
+              width={1200}
+              height={1200}
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                width: "auto",
+                height: "auto",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
+          </div>
+
+          {/* Next */}
+          {product.images.length > 1 && (
+            <button
+              onClick={(e) => { e.stopPropagation(); lightboxNext(); }}
+              style={{
+                position: "absolute",
+                right: "16px",
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: "36px",
+                cursor: "pointer",
+                padding: "8px 16px",
+                opacity: 0.7,
+              }}
+            >
+              ›
+            </button>
+          )}
+
+          {/* Dot indicators */}
+          {product.images.length > 1 && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: "24px",
+                display: "flex",
+                gap: "8px",
+              }}
+            >
+              {product.images.map((_, i) => (
+                <div
+                  key={i}
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i); }}
+                  style={{
+                    width: "6px",
+                    height: "6px",
+                    borderRadius: "50%",
+                    background: i === lightboxIndex ? "#fff" : "rgba(255,255,255,0.3)",
+                    cursor: "pointer",
+                    transition: "background 0.2s",
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }
