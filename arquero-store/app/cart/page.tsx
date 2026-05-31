@@ -70,7 +70,7 @@ export default function CartPage() {
               fontSize: "clamp(24px, 4vw, 40px)",
               textTransform: "uppercase",
               letterSpacing: "-0.5px",
-              color: "var(--on-dark)",
+              color: "var(--body-strong)",
               marginBottom: "40px",
               paddingBottom: "24px",
               borderBottom: "1px solid var(--hairline)",
@@ -93,7 +93,7 @@ export default function CartPage() {
               <a
                 href="/shop"
                 style={{
-                  color: "var(--on-dark)",
+                  color: "var(--primary)",
                   fontFamily: "var(--font-display)",
                   fontSize: "14px",
                   fontWeight: 700,
@@ -149,7 +149,7 @@ export default function CartPage() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <p
                         style={{
-                          color: "var(--on-dark)",
+                          color: "var(--body-strong)",
                           fontWeight: 700,
                           fontSize: "13px",
                           letterSpacing: "0.5px",
@@ -193,7 +193,7 @@ export default function CartPage() {
                       >
                         −
                       </button>
-                      <span style={{ width: "24px", textAlign: "center", color: "var(--on-dark)", fontSize: "14px" }}>
+                      <span style={{ width: "24px", textAlign: "center", color: "var(--body-strong)", fontSize: "14px" }}>
                         {item.quantity}
                       </span>
                       <button
@@ -286,8 +286,8 @@ export default function CartPage() {
                     marginBottom: "20px",
                   }}
                 >
-                  <span style={{ color: "var(--on-dark)", fontWeight: 700, fontSize: "14px" }}>Total</span>
-                  <span style={{ color: "var(--on-dark)", fontWeight: 700, fontSize: "14px" }}>{formatPrice(total)}</span>
+                  <span style={{ color: "var(--body-strong)", fontWeight: 700, fontSize: "14px" }}>Total</span>
+                  <span style={{ color: "var(--body-strong)", fontWeight: 700, fontSize: "14px" }}>{formatPrice(total)}</span>
                 </div>
 
                 <button
@@ -297,9 +297,9 @@ export default function CartPage() {
                     width: "100%",
                     height: "48px",
                     borderRadius: 0,
-                    border: "1px solid var(--on-dark)",
+                    border: "1px solid var(--primary)",
                     background: "transparent",
-                    color: "var(--on-dark)",
+                    color: "var(--primary)",
                     fontFamily: "var(--font-display)",
                     fontWeight: 700,
                     fontSize: "14px",

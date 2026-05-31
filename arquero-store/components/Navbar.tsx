@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getCartSessionId } from "@/lib/cart";
@@ -54,7 +53,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
       style={{
         background: "var(--canvas)",
         borderBottom: "1px solid var(--hairline)",
-        height: "64px",
+        height: "clamp(56px, 8vw, 72px)",
         position: scrollReveal ? "fixed" : "sticky",
         top: 0,
         left: 0,
@@ -81,12 +80,11 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
       >
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-          <Image
-            src="/brand/logo-text.svg"
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-master.svg"
             alt={brand.logo.alt}
-            width={140}
-            height={36}
-            style={{ objectFit: "contain" }}
+            style={{ height: "clamp(28px, 5vw, 39px)", width: "auto", display: "block" }}
           />
         </Link>
 
@@ -95,7 +93,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
           <Link
             href="/shop"
             style={navLinkStyle}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--on-dark)")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--body-strong)")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
           >
             Shop
@@ -103,7 +101,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
           <Link
             href="/shop?collection=apparel"
             style={navLinkStyle}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--on-dark)")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--body-strong)")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
           >
             Apparel
@@ -111,7 +109,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
           <Link
             href="/shop?collection=accessories"
             style={navLinkStyle}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--on-dark)")}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--body-strong)")}
             onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
           >
             Accessories
@@ -123,7 +121,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
           {/* Cart */}
           <Link
             href="/cart"
-            style={{ position: "relative", display: "flex", alignItems: "center", color: "var(--on-dark)", textDecoration: "none" }}
+            style={{ position: "relative", display: "flex", alignItems: "center", color: "var(--body-strong)", textDecoration: "none" }}
           >
             <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
@@ -157,7 +155,7 @@ export function Navbar({ scrollReveal = false }: NavbarProps) {
             className="md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--on-dark)", padding: 0 }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--body-strong)", padding: 0 }}
           >
             <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               {menuOpen ? (
