@@ -203,8 +203,8 @@ function ScoreCard({ label, score }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function SEOHealthTab() {
-  const latest  = useQuery(api.seoAudits.getLatestAudit, { projectId: "wcorwin" });
-  const history = useQuery(api.seoAudits.listAudits,     { projectId: "wcorwin", limit: 7 });
+  const latest  = useQuery(api.seoAudits.getLatestAudit, { clientSlug: "wcorwin", projectId: "wcorwin" });
+  const history = useQuery(api.seoAudits.listAudits,     { clientSlug: "wcorwin", projectId: "wcorwin" });
 
   const [pdfUrl, setPdfUrl] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);

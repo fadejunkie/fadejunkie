@@ -1,102 +1,66 @@
-# Project State
+# FadeJunkie — Project State
 
 ## Project Reference
 
-See: .paul/PROJECT.md (updated 2026-03-28)
+See: .paul/PROJECT.md (updated 2026-06-03)
 
-**Core value:** Barbers can build their digital brand and pass their state board exam without needing separate apps for each.
-**Current focus:** Phase 5 — Integration & Polish (Lobe executing final UI tasks)
+**Core value:** Cultural home for barbers — free education to enter the craft, tools to grow once in
+**Current focus:** v1.0 Edu Hub Complete — free/paid separation, bulletproof Stripe, auth hardening
 
 ## Current Position
 
-Milestone: v0.1 Status Ecosystem
-Phase: 5 of 5 (Integration & Polish)
-Plan: 05-02 Tasks 1-2 COMPLETE, Task 3 (human gate) waiting
-Status: Build/lint/tsc clean. Lobe polish brief queued. Awaiting Lobe execution + Anthony visual review.
-Last activity: 2026-03-29
+Milestone: v1.0 Edu Hub Complete
+Phase: Not started — 0 of 4
+Plan: None yet
+Status: Ready to plan Phase 01 (free-paid-separation)
+Last activity: 2026-06-03 — Strategy reset. Edu Hub first. Barber profile hidden from prod.
 
 Progress:
-- Milestone: [██████████] 97% (14/14 plans done, human gate remaining)
-- Phase 5: [████████░░] 80% (05-01 done, 05-02 auto tasks done, human review pending)
+- v1.0 Milestone: [░░░░░░░░░░] 0%
+- Phase 01: [░░░░░░░░░░] 0%
 
 ## Loop Position
 
 ```
-Phase 1: ✓ ✓ ✓  (3/3 plans — schema, mutations, cron)
-Phase 2: ✓ ✓ ✓  (3/3 plans — data model, path UI, multi-path)
-Phase 3: ✓ ✓ ✓  (3/3 plans — toggle UI, badges, history)
-Phase 4: ✓ ✓ ✓  (3/3 plans — discovery, matching, connections)
-Phase 5: ✓ ✓      (2/2 — auto tasks done, human gate pending)
+PLAN ──▶ APPLY ──▶ UNIFY
+  ○        ○        ○     [Ready for first PLAN]
 ```
 
-## What Was Built (Full Inventory)
+## Accumulated Context
 
-### Backend (Convex)
-- `statuses` table — 4 indexes, expiration engine with hourly cron
-- `userPaths` table — 3 indexes, multi-path with auto-promote
-- `statusConnections` table — 3 indexes, connection flow
-- `statusConfig.ts` — 7 paths, 30 toggles, 15 complementary pairs
-- `statuses.ts` — 3 mutations, 8 queries, 3 connection ops, 1 internal mutation
-- `userPaths.ts` — 3 mutations, 2 queries
-- `crons.ts` — hourly expiration
+### Decisions
 
-### Frontend (Lobe-built)
-- `/status` page — toggles, history, connections inbox
-- `/discover` page — browse feed, matches tab, discovery cards
-- `/profile` — path selector, active status badges
-- PathSelector, StatusToggleCard, StatusPanel, StatusHistory
-- DiscoveryFeed, DiscoveryCard, DiscoverTabs, MatchesFeed
-- ActiveStatusBadges, ConnectionsInbox, ConnectSheet
-- PublicStatusBadges (pending Lobe), PostStatusIndicator (pending Lobe)
+| Decision | Rationale | Date |
+|----------|-----------|------|
+| Edu Hub is the only live feature | Barber profile is WIP — hidden from production until v2 planning is done | 2026-06-03 |
+| Dual-role user model required | Student may become a barber — one account, two roles; DB must be designed for this now | 2026-06-03 |
+| Free resources stay high quality | Free is the hook. Never water it down to push paid — credibility is the product | 2026-06-03 |
+| Barber tiers need brainstorm before build | Pricing unresolved — no coding until tier strategy is defined | 2026-06-03 |
+| Status Toggle System deprioritized | Backend complete (v0.1), UI deferred — will integrate into v2.0 Barbers community | 2026-03-28 |
+| Multi-path via separate records (not array) | Enables by_path index on Convex | 2026-03-28 |
 
-### Nav
-- "Status" and "Discover" added to AppSidebar + MobileNav
-
-## Performance Metrics
-
-**Velocity:**
-- Total plans completed: 13
-- Backend plans executed directly: 8 (avg ~5min each)
-- UI plans via Lobe task briefs: 5 (avg ~7min each)
-- Total wall-clock time: ~2 hours
-
-**By Phase:**
-
-| Phase | Plans | Method |
-|-------|-------|--------|
-| 01-status-schema-backend | 3/3 | Direct execution |
-| 02-user-path-system | 3/3 | 1 direct + 2 Lobe |
-| 03-status-toggle-ui | 3/3 | All Lobe |
-| 04-status-discovery | 3/3 | Backend direct + 3 Lobe |
-| 05-integration-polish | 1/2 | Backend direct + Lobe pending |
-
-## Accumulated Decisions
-
-| Decision | Phase | Impact |
-|----------|-------|--------|
-| Stack locked | Init | No framework changes |
-| Multi-path via separate records (not array) | 02-01 | Enables by_path index |
-| Auto-promote oldest path on primary removal | 02-01 | Users always have primary |
-| Enrich queries with config | 01-02 | UI gets defaultDays/maxDays |
-| Hourly cron for expiration | 01-03 | Balances freshness vs resources |
-| 15 complementary pairs (bidirectional) | 04-02 | Ecosystem matching |
-| Connections = signal not messaging | 04-03 | Lightweight pending/seen model |
-| `node --import tsx` for Lobe execution | Session | Fixes tsx PATH issue on Windows |
-
-## Deferred Issues
+### Deferred Issues
 
 | Issue | Origin | Effort | Revisit |
 |-------|--------|--------|---------|
-| CI/CD pipeline missing | Init probe | M | After core features ship |
-| Convex deploy key empty | Init probe | S | Before production push |
-| Google OAuth not surfaced in UI | Init | S | During auth UX pass |
+| Status Toggle UI polish (05-02) | v0.1 Phase 5 | M | v2.0 Barbers community layer |
+| Loading transitions between exam sections | Edu Hub earlier work | S | Phase 04 polish |
+| TDLR exam section order verification | Content accuracy | S | Phase 04 polish |
+| CI/CD pipeline missing | Infrastructure | M | After core features ship |
+| Google OAuth not surfaced in UI | Auth UX | S | Phase 03 auth hardening |
+
+### Blockers
+
+| Blocker | Impact | Resolution Path |
+|---------|--------|-----------------|
+| Barber profile routes reachable from production | Unfinished feature visible to real users | Block routes in Next.js middleware before next production deploy |
 
 ## Session Continuity
 
-Last session: 2026-03-29
-Current: 05-02 auto tasks complete. Lobe polish brief at lobe/inbox/status-polish-pass.md
-Next action: Run Lobe to execute polish brief → Anthony visual review → mark milestone complete
-Resume: .paul/phases/05-integration-polish/05-02-SUMMARY.md
+Last session: 2026-06-03
+Stopped at: Strategy reset — PAUL files updated to reflect Edu Hub focus
+Next action: `/paul:plan` for Phase 01 (free-paid-separation)
+Resume file: `.paul/ROADMAP.md`
 
 ---
 *STATE.md — Updated after every significant action*

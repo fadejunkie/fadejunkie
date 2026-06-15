@@ -20,6 +20,14 @@ export function Footer() {
     marginBottom: "16px",
   };
 
+  const legalLinkStyle: React.CSSProperties = {
+    color: "var(--muted)",
+    textDecoration: "none",
+    fontSize: "12px",
+    fontWeight: 300,
+    transition: "color 0.15s",
+  };
+
   return (
     <footer
       style={{
@@ -62,18 +70,19 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Account column */}
+          {/* Info column */}
           <div>
-            <p style={headingStyle}>Account</p>
+            <p style={headingStyle}>Info</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <Link href="/cart" style={linkStyle}>Cart</Link>
-              <Link href="/order-confirmation" style={linkStyle}>Orders</Link>
+              <Link href="/about" style={linkStyle}>About Us</Link>
+              <Link href="/shipping" style={linkStyle}>Shipping & Returns</Link>
+              <Link href="/contact" style={linkStyle}>Contact</Link>
             </div>
           </div>
 
-          {/* Company column */}
+          {/* Follow column */}
           <div>
-            <p style={headingStyle}>Company</p>
+            <p style={headingStyle}>Follow</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {brand.instagram && (
                 <a
@@ -95,9 +104,6 @@ export function Footer() {
                   TikTok
                 </a>
               )}
-              <a href={`https://${brand.domain}`} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                {brand.domain}
-              </a>
             </div>
           </div>
         </div>
@@ -107,12 +113,26 @@ export function Footer() {
           style={{
             borderTop: "1px solid var(--hairline)",
             paddingTop: "24px",
-            color: "var(--muted)",
-            fontSize: "12px",
-            fontWeight: 300,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
           }}
         >
-          © {new Date().getFullYear()} {brand.name}. All rights reserved.
+          <span
+            style={{
+              color: "var(--muted)",
+              fontSize: "12px",
+              fontWeight: 300,
+            }}
+          >
+            © {new Date().getFullYear()} {brand.name}. All rights reserved.
+          </span>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <Link href="/privacy" style={legalLinkStyle}>Privacy Policy</Link>
+            <Link href="/terms" style={legalLinkStyle}>Terms of Service</Link>
+          </div>
         </div>
       </div>
     </footer>

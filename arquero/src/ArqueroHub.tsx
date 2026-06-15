@@ -5,7 +5,7 @@ import { useQuery, useMutation, useAction } from "convex/react";
 import { marked } from "marked";
 import { api } from "../convex/_generated/api";
 
-const O="#e8541a",O2="#ff6b2b",EMBER="#ff4500",GREEN="#22c55e";
+const O="#004AAD",O2="#6189BE",EMBER="#DAAC58",GREEN="#22c55e";
 
 /* ── spark canvas ── */
 function SparkCanvas(){
@@ -228,10 +228,11 @@ function AgreementPage({colors}){
   const [lastChecked,setLastChecked]=useState<Date|null>(null);
   const [showInvoice,setShowInvoice]=useState(true);
 
-  const saveAgreementMutation=useMutation(api.arqueroTasks.saveAgreement);
-  const updatePaymentMutation=useMutation(api.arqueroTasks.updateAgreementPayment);
-  const checkStatusAction=useAction(api.arqueroTasks.checkInvoiceStatus);
-  const existingAgreement=useQuery(api.arqueroTasks.getAgreement,{projectId:"arquero-co"});
+  const saveAgreementMutation=useMutation(api.agreements.saveAgreement);
+  const updatePaymentMutation=useMutation(api.agreements.updatePayment);
+  // Payment confirmed — no Stripe polling needed (hub-master has no checkInvoiceStatus action)
+  const checkStatusAction=async()=>({});
+  const existingAgreement=useQuery(api.agreements.getAgreement,{clientSlug:"arquero",projectId:"arquero-co"});
 
 
   // Restore from Convex on load (skip in dev mode)
@@ -280,7 +281,7 @@ function AgreementPage({colors}){
       setSaving(true);
       try{
         const inv=INVOICE_MAP[payType];
-        await saveAgreementMutation({projectId:"arquero-co",agreementType:payType,sigData:data,signedDate:date,signedAt:Date.now(),invoiceNumber:inv.number});
+        await saveAgreementMutation({clientSlug:"arquero",projectId:"arquero-co",agreementType:payType,sigData:data,signedDate:date,invoiceNumber:inv.number});
       }finally{setSaving(false);}
     }
   };
@@ -296,7 +297,7 @@ function AgreementPage({colors}){
       if(result.status==="paid"){
         setPayStatus("paid");
         setReceiptUrl(result.receiptUrl??null);
-        await updatePaymentMutation({projectId:"arquero-co",paymentStatus:"paid",receiptUrl:result.receiptUrl??undefined,paidAt:result.paidAt??undefined});
+        await updatePaymentMutation({clientSlug:"arquero",projectId:"arquero-co",paymentStatus:"paid",receiptUrl:result.receiptUrl??undefined,paidAt:result.paidAt??undefined});
       }else{
         setPayStatus("idle");
       }
@@ -1705,33 +1706,35 @@ function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
 export default function ArqueroHub({ defaultView = "internal", opsMode = true }: { defaultView?: "internal" | "client"; opsMode?: boolean }){
   const [page,setPage]=useState("workflow");
   const [view,setView]=useState<"internal"|"client">(defaultView);
-  const tasks = useQuery(api.arqueroTasks.getTasks, { projectId: "arquero-co" }) ?? {};
-  const setTaskMutation = useMutation(api.arqueroTasks.setTask);
-  const deliverables = useQuery(api.arqueroTasks.getDeliverables, { projectId: "arquero-co" }) ?? [];
-  const addDeliverableMutation = useMutation(api.arqueroTasks.addDeliverable);
-  const removeDeliverableMutation = useMutation(api.arqueroTasks.removeDeliverable);
+  const tasks = useQuery(api.tasks.getTasks, { clientSlug: "arquero", projectId: "arquero-co" }) ?? {};
+  const setTaskMutation = useMutation(api.tasks.setTask);
+  const deliverables = useQuery(api.deliverables.getDeliverables, { clientSlug: "arquero", projectId: "arquero-co" }) ?? [];
+  const addDeliverableMutation = useMutation(api.deliverables.addDeliverable);
+  const removeDeliverableMutation = useMutation(api.deliverables.removeDeliverable);
   const onAddDeliverable = ({milestoneKey,label,url,type,markdownContent}) => {
-    addDeliverableMutation({projectId:"arquero-co",milestoneKey,label,url:url||"",type,addedAt:Date.now(),...(markdownContent?{markdownContent}:{})});
+    addDeliverableMutation({clientSlug:"arquero",projectId:"arquero-co",milestoneKey,label,url:url||"",type,...(markdownContent?{markdownContent}:{})});
   };
   const onRemoveDeliverable = (id) => { removeDeliverableMutation({id}); };
 
-  const discoveryData = useQuery(api.arqueroTasks.getDiscovery, { projectId: "arquero-co" }) ?? null;
-  const saveDiscoveryMutation = useMutation(api.arqueroTasks.saveDiscovery);
+  const discoveryData = useQuery(api.discovery.getDiscovery, { clientSlug: "arquero", projectId: "arquero-co" }) ?? null;
+  const saveDiscoveryMutation = useMutation(api.discovery.saveDiscovery);
   const onSubmitDiscovery = async (responses) => {
     if (responses === null) {
-      await saveDiscoveryMutation({ projectId: "arquero-co", responses: "{}", submittedAt: 0 });
-      setTaskMutation({ projectId: "arquero-co", key: "1-DISCOVERY SESSION-0", value: false });
+      await saveDiscoveryMutation({ clientSlug: "arquero", projectId: "arquero-co", responses: "{}" });
+      setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-DISCOVERY SESSION-0", completed: false });
     } else {
-      await saveDiscoveryMutation({ projectId: "arquero-co", responses: JSON.stringify(responses), submittedAt: Date.now() });
-      setTaskMutation({ projectId: "arquero-co", key: "1-DISCOVERY SESSION-0", value: true });
+      await saveDiscoveryMutation({ clientSlug: "arquero", projectId: "arquero-co", responses: JSON.stringify(responses) });
+      setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-DISCOVERY SESSION-0", completed: true });
     }
   };
 
-  const directionPick = useQuery(api.arqueroTasks.getDirectionPick, { projectId: "arquero-co" }) ?? null;
-  const saveDirectionPickMutation = useMutation(api.arqueroTasks.saveDirectionPick);
+  const directionPick = useQuery(api.directionPicks.getDirectionPick, { clientSlug: "arquero", projectId: "arquero-co" }) ?? null;
+  const saveDirectionPickMutation = useMutation(api.directionPicks.saveDirectionPick);
   const onPickDirection = async (pick) => {
-    await saveDirectionPickMutation({ projectId: "arquero-co", pick, pickedAt: pick ? Date.now() : 0 });
-    setTaskMutation({ projectId: "arquero-co", key: "1-MOOD + DIRECTION-2", value: !!pick });
+    if (pick) {
+      await saveDirectionPickMutation({ clientSlug: "arquero", projectId: "arquero-co", pick });
+    }
+    setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-MOOD + DIRECTION-2", completed: !!pick });
   };
 
   const ov=overall(tasks);
@@ -1886,7 +1889,7 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
       </div>
 
       {/* ═══ PAGE CONTENT ═══ */}
-      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery} directionPick={directionPick} onPick={onPickDirection}/>}
+      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({clientSlug:"arquero",projectId:"arquero-co",taskKey:key,completed:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery} directionPick={directionPick} onPick={onPickDirection}/>}
       {page==="scope"&&<ScopePage colors={colors}/>}
       {page==="agreement"&&<AgreementPage colors={colors}/>}
       {page==="website"&&<WebsitePage colors={colors}/>}

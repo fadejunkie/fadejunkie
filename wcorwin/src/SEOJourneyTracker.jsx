@@ -630,16 +630,16 @@ function MilestoneDeliverables({ phaseId, deliverables, isAdmin, onAdd, onRemove
 }
 
 export default function SEOJourneyTracker() {
-  const overrides = useQuery(api.wcorwinTasks.getOverrides, { projectId: PROJECT_ID });
-  const setStatus = useMutation(api.wcorwinTasks.setStatus);
-  const setText = useMutation(api.wcorwinTasks.setText);
-  const setDocMut = useMutation(api.wcorwinTasks.setDoc);
-  const deliverables = useQuery(api.wcorwinTasks.getDeliverables, { projectId: PROJECT_ID }) ?? [];
-  const addDeliverableMut = useMutation(api.wcorwinTasks.addDeliverable);
-  const removeDeliverableMut = useMutation(api.wcorwinTasks.removeDeliverable);
-  const signoff = useQuery(api.wcorwinTasks.getSignoff, { projectId: PROJECT_ID });
-  const submitSignoffNotesMut = useMutation(api.wcorwinTasks.submitSignoffNotes);
-  const submitSignoffSignatureMut = useMutation(api.wcorwinTasks.submitSignoffSignature);
+  const overrides = useQuery(api.tasks.getTasksFull, { clientSlug: "wcorwin", projectId: PROJECT_ID });
+  const setStatus = useMutation(api.tasks.setTaskStatus);
+  const setText = useMutation(api.tasks.setTaskText);
+  const setDocMut = useMutation(api.tasks.setTaskDoc);
+  const deliverables = useQuery(api.deliverables.getDeliverables, { clientSlug: "wcorwin", projectId: PROJECT_ID }) ?? [];
+  const addDeliverableMut = useMutation(api.deliverables.addDeliverable);
+  const removeDeliverableMut = useMutation(api.deliverables.removeDeliverable);
+  const signoff = useQuery(api.signoffs.getSignoff, { clientSlug: "wcorwin", projectId: PROJECT_ID });
+  const submitSignoffNotesMut = useMutation(api.signoffs.submitNotes);
+  const submitSignoffSignatureMut = useMutation(api.signoffs.submitSignature);
 
   const phases = applyOverrides(PHASES, overrides);
   const [activePhase, setActivePhase] = useState(() => getCurrentPhase(phases));
@@ -658,7 +658,7 @@ export default function SEOJourneyTracker() {
     const currentPhase = applyOverrides(PHASES, overrides).find(p => p.id === phaseId);
     const currentStatus = currentPhase.tasks[taskIdx].status;
     const nextIdx = (STATUS_CYCLE.indexOf(currentStatus) + 1) % STATUS_CYCLE.length;
-    setStatus({ projectId: PROJECT_ID, taskKey: key, status: STATUS_CYCLE[nextIdx] });
+    setStatus({ clientSlug: "wcorwin", projectId: PROJECT_ID, taskKey: key, status: STATUS_CYCLE[nextIdx] });
   }, [overrides, setStatus]);
 
   const totalTasks = phases.reduce((a, p) => a + p.tasks.length, 0);
@@ -667,7 +667,7 @@ export default function SEOJourneyTracker() {
   const overallPct = Math.round(((totalDone + totalActive * 0.5) / totalTasks) * 100);
 
   function handleNotesSubmit() {
-    submitSignoffNotesMut({ projectId: PROJECT_ID, notes: notesDraft });
+    submitSignoffNotesMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, notes: notesDraft });
     setNotesDraft("");
   }
 
@@ -675,18 +675,19 @@ export default function SEOJourneyTracker() {
     if (notesDraft.trim() && !signoff?.notes) {
       setShowSendBothConfirm(true);
     } else {
-      submitSignoffSignatureMut({ projectId: PROJECT_ID, signature: signatureDraft });
+      submitSignoffSignatureMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, signature: signatureDraft, completionTaskKey: "month1:6" });
     }
   }
 
   function handleSendBoth() {
-    submitSignoffSignatureMut({ projectId: PROJECT_ID, signature: signatureDraft, notes: notesDraft });
+    submitSignoffNotesMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, notes: notesDraft });
+    submitSignoffSignatureMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, signature: signatureDraft, completionTaskKey: "month1:6" });
     setNotesDraft("");
     setShowSendBothConfirm(false);
   }
 
   function handleSignatureOnly() {
-    submitSignoffSignatureMut({ projectId: PROJECT_ID, signature: signatureDraft });
+    submitSignoffSignatureMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, signature: signatureDraft, completionTaskKey: "month1:6" });
     setShowSendBothConfirm(false);
   }
 
@@ -902,7 +903,7 @@ export default function SEOJourneyTracker() {
                       {IS_ADMIN ? (
                         <InlineEdit
                           value={task.name}
-                          onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, name: val })}
+                          onSave={(val) => setText({ clientSlug: "wcorwin", projectId: PROJECT_ID, taskKey, name: val })}
                           style={{
                             fontSize: 14, fontWeight: 500,
                             color: task.status === "done" ? GREEN : INK,
@@ -924,7 +925,7 @@ export default function SEOJourneyTracker() {
                       {IS_ADMIN ? (
                         <InlineEdit
                           value={task.detail}
-                          onSave={(val) => setText({ projectId: PROJECT_ID, taskKey, detail: val })}
+                          onSave={(val) => setText({ clientSlug: "wcorwin", projectId: PROJECT_ID, taskKey, detail: val })}
                           style={{
                             fontSize: 12, color: MUTED, marginTop: 3,
                             lineHeight: 1.4, display: "block",
@@ -988,7 +989,7 @@ export default function SEOJourneyTracker() {
                         {IS_ADMIN ? (
                           <InlineTextarea
                             value={task.doc}
-                            onSave={(val) => setDocMut({ projectId: PROJECT_ID, taskKey, doc: val })}
+                            onSave={(val) => setDocMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, taskKey, doc: val })}
                             style={{
                               fontSize: 12, color: BODY, lineHeight: 1.6,
                             }}
@@ -1010,7 +1011,7 @@ export default function SEOJourneyTracker() {
                     phaseId={taskKey}
                     deliverables={deliverables}
                     isAdmin={IS_ADMIN}
-                    onAdd={(args) => addDeliverableMut({ projectId: PROJECT_ID, ...args })}
+                    onAdd={(args) => addDeliverableMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, ...args })}
                     onRemove={(id) => removeDeliverableMut({ id })}
                     compact={true}
                   />
@@ -1104,7 +1105,7 @@ export default function SEOJourneyTracker() {
             phaseId={phase.id}
             deliverables={deliverables}
             isAdmin={IS_ADMIN}
-            onAdd={(args) => addDeliverableMut({ projectId: PROJECT_ID, ...args })}
+            onAdd={(args) => addDeliverableMut({ clientSlug: "wcorwin", projectId: PROJECT_ID, ...args })}
             onRemove={(id) => removeDeliverableMut({ id })}
           />
         </div>

@@ -1,8 +1,14 @@
 # FadeJunkie — Memory
 
 ## What It Is
-Multi-tenant SaaS for barbers. Brand: direct, punk, culture-native. Stack: Next.js + Convex, deployed on Vercel.
+Barber culture SaaS platform. **Live feature: Edu Hub only** — free + paid study resources for cosmetology/barber students. Barber profile feature is experimental WIP — must NOT be accessible from production. Brand: direct, punk, culture-native. Stack: Next.js + Convex, deployed on Vercel.
 App lives at `~/fadejunkie/app/` — has its own CLAUDE.md, read it before touching app code.
+
+## Strategy (as of 2026-06-03)
+- **Focus 1 (current):** Finish the Edu Hub — free/paid separation, bulletproof Stripe subscription, auth + DB hardening
+- **Focus 2 (next):** Finish Barber Profile feature — profiles, Partners community, website generator SaaS (tiers TBD)
+- **Dream:** Affiliates section for industry brands — after both focuses complete
+- See `.paul/ROADMAP.md` for full milestone breakdown
 
 ## Active Clients
 | Slug | Folder | Status | Value |

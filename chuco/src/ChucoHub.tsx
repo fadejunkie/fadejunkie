@@ -29,20 +29,22 @@ const GREEN   = "#22c55e";
    ═══════════════════════════════════════ */
 const DARK_THEME = {
   BLACK, OFF_BLK, COAL, IRON, STEEL, ZINC, GREY, SILVER, ASH, SMOKE, WHITE, RED, RED2, RED_DIM, GREEN,
+  GREEN_BG: "#0d1a0d", GREEN_BORDER: "#1a3d1a",
 };
 const LIGHT_THEME = {
-  BLACK:   "#f5f5f5",
-  OFF_BLK: "#f0f0f0",
-  COAL:    "#ffffff",
-  IRON:    "#f8f8f8",
-  STEEL:   "#eeeeee",
-  ZINC:    "#e0e0e0",
-  GREY:    "#999999",
-  SILVER:  "#777777",
-  ASH:     "#444444",
-  SMOKE:   "#222222",
-  WHITE:   "#111111",
+  BLACK:   "#e4e4e4",  // header/nav strips — slightly darker than page bg
+  OFF_BLK: "#ededed",  // page background
+  COAL:    "#f7f7f7",  // card surfaces — barely off-white, subtle lift not harsh pop
+  IRON:    "#f1f1f1",  // sig pad / recessed surfaces
+  STEEL:   "#e8e8e8",
+  ZINC:    "#d6d6d6",  // borders — softer so blocks don't look outlined
+  GREY:    "#868686",  // muted labels — darker than #999 so they don't drown
+  SILVER:  "#636363",  // mid text
+  ASH:     "#505050",  // secondary text
+  SMOKE:   "#2d2d2d",  // body text
+  WHITE:   "#141414",  // primary / heading text
   RED, RED2, RED_DIM, GREEN,
+  GREEN_BG: "#edf8ed", GREEN_BORDER: "#aed6ae",
 };
 const ThemeCtx = createContext(DARK_THEME);
 
@@ -183,8 +185,8 @@ function SectionHeader({ label }: { label: string }) {
 /* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({ tasks, setTask }: any) {
-  const { BLACK, COAL, ZINC, GREY, SILVER, ASH, SMOKE, WHITE, RED, GREEN } = useContext(ThemeCtx);
+function WorkflowPage({ tasks, setTask, isOps }: any) {
+  const { BLACK, COAL, ZINC, GREY, SILVER, ASH, SMOKE, WHITE, RED, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
   const total = PHASES.flatMap(p => p.tasks).length;
   const done = Object.values(tasks).filter(Boolean).length;
   const pct = Math.round((done / total) * 100);
@@ -229,12 +231,12 @@ function WorkflowPage({ tasks, setTask }: any) {
             {phase.tasks.map(task => (
               <div
                 key={task.key}
-                onClick={() => setTask({ projectId: PROJECT_ID, key: task.key, value: !tasks[task.key] })}
+                onClick={() => isOps && setTask({ clientSlug: "chuco", projectId: PROJECT_ID, taskKey: task.key, completed: !tasks[task.key] })}
                 style={{
                   display: "flex", alignItems: "center", gap: 12, padding: "10px 14px",
-                  marginBottom: 6, borderRadius: 4, cursor: "pointer",
-                  background: tasks[task.key] ? "#0d1a0d" : COAL,
-                  border: `1px solid ${tasks[task.key] ? "#1a3d1a" : ZINC}`,
+                  marginBottom: 6, borderRadius: 4, cursor: isOps ? "pointer" : "default",
+                  background: tasks[task.key] ? GREEN_BG : COAL,
+                  border: `1px solid ${tasks[task.key] ? GREEN_BORDER : ZINC}`,
                   transition: "all 0.15s"
                 }}
               >
@@ -274,9 +276,9 @@ function ScopePage() {
       }}>
         <div className="scope-deal-grid" style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
           {[
-            { label: "UPFRONT", value: "$750", accent: true },
+            { label: "TOTAL", value: "$750", accent: false },
+            { label: "PAYMENTS", value: "3 × $250", accent: true },
             { label: "MONTHLY", value: "$45/mo", accent: false },
-            { label: "TERMS", value: "Net 10", accent: false },
             { label: "TURNAROUND", value: "72 Hours", accent: false },
           ].map(item => (
             <div key={item.label}>
@@ -295,8 +297,11 @@ function ScopePage() {
       <SectionHeader label="WHAT'S INCLUDED" />
       {[
         {
-          phase: "UPFRONT — $750",
+          phase: "BUILD — 3 × $250",
           items: [
+            "Payment 1 ($250) — due to kick off. Build starts immediately.",
+            "Payment 2 ($250) — due at design approval.",
+            "Payment 3 ($250) — due at launch.",
             "Custom branded Shopify site wrapper (homepage, collection pages, product pages, about, contact)",
             "Brand system applied — colors, typography, mascot/logo integration",
             "Mobile-first responsive design",
@@ -361,9 +366,9 @@ function ScopePage() {
       <SectionHeader label="PAYMENT TERMS" />
       <div style={{ background: COAL, border: `1px solid ${ZINC}`, borderRadius: 6, padding: "16px 20px" }}>
         <div style={{ fontSize: 13, color: ASH, lineHeight: 1.8 }}>
-          Payment is <strong style={{ color: WHITE }}>Net 10</strong> — invoice is due 10 days after it's sent.
-          Maintenance billing starts the month after site launch. You can cancel maintenance anytime with 30 days notice.
-          First invoice is sent on agreement signature. Build begins immediately after payment clears.
+          Total build cost is <strong style={{ color: WHITE }}>$750 split into 3 payments of $250</strong>.
+          Payment 1 is due on signing to kick off the project. Payment 2 is due at design approval. Payment 3 is due at launch.
+          Maintenance billing at <strong style={{ color: WHITE }}>$45/mo</strong> starts the month after launch. Cancel anytime with 30 days notice.
         </div>
       </div>
     </div>
@@ -374,9 +379,9 @@ function ScopePage() {
    DISCOVERY PAGE
    ═══════════════════════════════════════ */
 function DiscoveryPage({ isOps }: { isOps: boolean }) {
-  const { COAL, ZINC, SILVER, ASH, SMOKE, WHITE, RED, RED_DIM, GREEN } = useContext(ThemeCtx);
-  const existing = useQuery(api.chucoTasks.getDiscovery, { projectId: PROJECT_ID });
-  const saveDiscovery = useMutation(api.chucoTasks.saveDiscovery);
+  const { COAL, ZINC, SILVER, ASH, SMOKE, WHITE, RED, RED_DIM, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
+  const existing = useQuery(api.discovery.getDiscovery, { clientSlug: "chuco", projectId: PROJECT_ID });
+  const saveDiscovery = useMutation(api.discovery.saveDiscovery);
   const [form, setForm] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -393,7 +398,7 @@ function DiscoveryPage({ isOps }: { isOps: boolean }) {
 
   const handleSubmit = async () => {
     setSaving(true);
-    await saveDiscovery({ projectId: PROJECT_ID, responses: JSON.stringify(form) });
+    await saveDiscovery({ clientSlug: "chuco", projectId: PROJECT_ID, responses: JSON.stringify(form) });
     setSaving(false);
     setSubmitted(true);
   };
@@ -404,7 +409,7 @@ function DiscoveryPage({ isOps }: { isOps: boolean }) {
     return (
       <div className="hub-page-content" style={{ padding: "24px 32px 48px" }}>
         <SectionHeader label="DISCOVERY" />
-        <div style={{ background: "#0d1a0d", border: "1px solid #1a3d1a", borderRadius: 6, padding: "24px 28px", textAlign: "center" }}>
+        <div style={{ background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`, borderRadius: 6, padding: "24px 28px", textAlign: "center" }}>
           <div style={{ fontSize: 28, marginBottom: 12 }}>✓</div>
           <div style={{ fontSize: 16, fontWeight: 700, color: GREEN, marginBottom: 8 }}>Discovery Submitted</div>
           <div style={{ fontSize: 13, color: ASH }}>We've got everything we need. Anthony will be in touch to confirm next steps.</div>
@@ -586,20 +591,75 @@ function SitePreviewPage() {
 }
 
 /* ═══════════════════════════════════════
+   DESIGN PREVIEW PAGE
+   ═══════════════════════════════════════ */
+function DesignPreviewPage() {
+  const { RED, RED_DIM, GREY } = useContext(ThemeCtx);
+  return (
+    <div className="hub-page-content" style={{ padding: "24px 32px 48px" }}>
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { opacity: 1; box-shadow: 0 0 6px 2px #cc0000aa, 0 0 12px 4px #cc000044; }
+          50%       { opacity: 0.6; box-shadow: 0 0 3px 1px #cc000066, 0 0 6px 2px #cc000022; }
+        }
+        @keyframes pulse-ring {
+          0%   { transform: scale(1);   opacity: 0.7; }
+          100% { transform: scale(2.2); opacity: 0; }
+        }
+      `}</style>
+
+      {/* ── IN SESSION indicator ── */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
+        <div style={{ position: "relative", width: 10, height: 10, flexShrink: 0 }}>
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: RED, animation: "pulse-glow 1.8s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px solid ${RED}`, animation: "pulse-ring 1.8s ease-out infinite" }} />
+        </div>
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, fontFamily: "'IBM Plex Mono',monospace", color: RED, textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44` }}>
+          IN SESSION
+        </div>
+        <div style={{ height: 1, width: 40, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
+        <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
+          DESIGN SYSTEM · COLORS · TYPOGRAPHY · COMPONENTS
+        </div>
+        <div style={{ height: 1, width: 40, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+      </div>
+
+      {/* ── Design preview iframe ── */}
+      <div style={{ borderRadius: 10, overflow: "hidden", border: `1px solid #2a2a2a`, boxShadow: `0 24px 60px #000000cc, 0 0 0 1px #1a0000` }}>
+        <iframe
+          src="/chuco-design-preview.html"
+          title="Chuco Apparel — Design System Preview"
+          style={{ width: "100%", height: 680, border: "none", display: "block", background: "#000" }}
+        />
+      </div>
+
+      <div style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+        <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
+        <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
+          COLORS · FONTS · SHAPES · LOGO SYSTEM · COMPONENTS
+        </div>
+        <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    AGREEMENT PAGE
    ═══════════════════════════════════════ */
 const CHUCO_INVOICE = {
-  number: "CH-2026-001",
-  amount: "$750.00",
-  due: "May 21, 2026",
-  url: "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VUk5RdVZMaVR3YTZjb2tPVVZ6aFM4bHk5M0pwa0ZaLDE2ODIzNTAwOA02008cq5AIwk?s=ap",
-  pdf: "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VUk5RdVZMaVR3YTZjb2tPVVZ6aFM4bHk5M0pwa0ZaLDE2ODIzNTAwOA02008cq5AIwk/pdf?s=ap",
+  number: "CH-2026-003",
+  amount: "$250.00",
+  due: "June 4, 2026",
+  label: "Payment 1 of 3",
+  url: "https://invoice.stripe.com/i/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VZTA5M0pJMzRIbm94OWNjUEJ4eGMyU0NiVXVhODFwLDE3MTE0Njc1Ng0200iKSJ7zP9?s=ap",
+  pdf: "https://pay.stripe.com/invoice/acct_1T4NzfPhBvpkIVx0/live_YWNjdF8xVDROemZQaEJ2cGtJVngwLF9VZTA5M0pJMzRIbm94OWNjUEJ4eGMyU0NiVXVhODFwLDE3MTE0Njc1Ng0200iKSJ7zP9/pdf?s=ap",
 };
 
 function AgreementPage() {
-  const { COAL, IRON, ZINC, GREY, ASH, SMOKE, WHITE, RED, GREEN } = useContext(ThemeCtx);
-  const existing = useQuery(api.chucoTasks.getAgreement, { projectId: PROJECT_ID });
-  const saveAgreement = useMutation(api.chucoTasks.saveAgreement);
+  const { COAL, IRON, ZINC, GREY, ASH, SMOKE, WHITE, RED, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
+  const existing = useQuery(api.agreements.getAgreement, { clientSlug: "chuco", projectId: PROJECT_ID });
+  const saveAgreement = useMutation(api.agreements.saveAgreement);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [drawing, setDrawing] = useState(false);
   const [hasSig, setHasSig] = useState(false);
@@ -659,6 +719,7 @@ function AgreementPage() {
     const sigData = canvasRef.current!.toDataURL();
     const now = new Date();
     await saveAgreement({
+      clientSlug: "chuco",
       projectId: PROJECT_ID,
       sigData,
       signedDate: now.toLocaleDateString(),
@@ -675,7 +736,7 @@ function AgreementPage() {
         <SectionHeader label="AGREEMENT" />
 
         {/* Signed confirmation */}
-        <div style={{ background: "#0d1a0d", border: "1px solid #1a3d1a", borderRadius: 6, padding: "20px 24px", marginBottom: 24, display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`, borderRadius: 6, padding: "20px 24px", marginBottom: 24, display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ fontSize: 22, flexShrink: 0 }}>✓</div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 700, color: GREEN, marginBottom: 4 }}>Agreement Signed</div>
@@ -684,57 +745,53 @@ function AgreementPage() {
         </div>
 
         {/* Invoice panel */}
-        <SectionHeader label="INVOICE" />
-        <div style={{ background: COAL, border: `1px solid ${ZINC}`, borderRadius: 6, padding: "20px 24px", marginBottom: 16 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>
+        <SectionHeader label="PAYMENT PLAN" />
+
+        {/* Payment 1 — PAID */}
+        <div style={{ background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`, borderRadius: 6, padding: "16px 20px", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ fontSize: 16, color: GREEN }}>✓</div>
             <div>
-              <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 4 }}>INVOICE NUMBER</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: WHITE }}>{CHUCO_INVOICE.number}</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 4 }}>AMOUNT DUE</div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: RED }}>{CHUCO_INVOICE.amount}</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 4 }}>DUE DATE</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: WHITE }}>{CHUCO_INVOICE.due}</div>
+              <div style={{ fontSize: 9, color: GREEN, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 2 }}>PAYMENT 1 OF 3 — PAID</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: GREEN }}>$250.00</div>
             </div>
           </div>
-          <div style={{ fontSize: 11, color: ASH, marginBottom: 16, fontFamily: "'IBM Plex Mono',monospace" }}>
-            Net 10 · Shopify Ecom Wrapper — Upfront Build Fee
-          </div>
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-            <a
-              href={CHUCO_INVOICE.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-block", padding: "12px 24px",
-                background: RED, color: WHITE, textDecoration: "none",
-                fontSize: 11, fontWeight: 700, letterSpacing: 2,
-                fontFamily: "'IBM Plex Mono',monospace", borderRadius: 4
-              }}
-            >
-              PAY INVOICE →
-            </a>
-            <a
-              href={CHUCO_INVOICE.pdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-block", padding: "12px 24px",
-                background: "transparent", color: GREY,
-                border: `1px solid ${ZINC}`, textDecoration: "none",
-                fontSize: 11, fontWeight: 700, letterSpacing: 2,
-                fontFamily: "'IBM Plex Mono',monospace", borderRadius: 4
-              }}
-            >
-              ↓ PDF
-            </a>
-          </div>
+          <div style={{ fontSize: 10, color: GREEN, fontFamily: "'IBM Plex Mono',monospace", opacity: 0.75 }}>Received June 4, 2026</div>
         </div>
-        <div style={{ fontSize: 11, color: GREY, fontFamily: "'IBM Plex Mono',monospace" }}>
-          No rush — come back here anytime to pay. Invoice expires {CHUCO_INVOICE.due}.
+
+        {/* Payment 2 — pending */}
+        <div style={{ background: COAL, border: `1px solid ${ZINC}`, borderRadius: 6, padding: "16px 20px", marginBottom: 10, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, opacity: 0.6 }}>
+          <div>
+            <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 2 }}>PAYMENT 2 OF 3 — DUE AT DESIGN APPROVAL</div>
+            <div style={{ fontSize: 16, fontWeight: 900, color: WHITE }}>$250.00</div>
+          </div>
+          <div style={{ fontSize: 10, color: GREY, fontFamily: "'IBM Plex Mono',monospace" }}>PENDING</div>
+        </div>
+
+        {/* Payment 3 — pending */}
+        <div style={{ background: COAL, border: `1px solid ${ZINC}`, borderRadius: 6, padding: "16px 20px", marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, opacity: 0.6 }}>
+          <div>
+            <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace", marginBottom: 2 }}>PAYMENT 3 OF 3 — DUE AT LAUNCH</div>
+            <div style={{ fontSize: 16, fontWeight: 900, color: WHITE }}>$250.00</div>
+          </div>
+          <div style={{ fontSize: 10, color: GREY, fontFamily: "'IBM Plex Mono',monospace" }}>PENDING</div>
+        </div>
+
+        <div style={{ display: "flex", gap: 10 }}>
+          <a
+            href={CHUCO_INVOICE.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-block", padding: "10px 20px",
+              background: "transparent", color: GREY,
+              border: `1px solid ${ZINC}`, textDecoration: "none",
+              fontSize: 11, fontWeight: 700, letterSpacing: 2,
+              fontFamily: "'IBM Plex Mono',monospace", borderRadius: 4
+            }}
+          >
+            ↓ RECEIPT (PAYMENT 1)
+          </a>
         </div>
       </div>
     );
@@ -751,7 +808,8 @@ function AgreementPage() {
         <ul style={{ marginTop: 12, paddingLeft: 20 }}>
           <li>Branded Shopify ecom wrapper — homepage, product pages, about, contact</li>
           <li>72-hour turnaround from design approval</li>
-          <li><strong style={{ color: WHITE }}>$750 upfront</strong> — due upon agreement signature (Net 10)</li>
+          <li><strong style={{ color: WHITE }}>$750 total — paid in 3 installments of $250</strong></li>
+          <li>Payment 1: $250 to kick off · Payment 2: $250 at design approval · Payment 3: $250 at launch</li>
           <li><strong style={{ color: WHITE }}>$45/month</strong> maintenance retainer — begins month after launch</li>
           <li>Cancellation: 30 days written notice required for maintenance</li>
         </ul>
@@ -762,7 +820,7 @@ function AgreementPage() {
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ width: 3, height: 32, background: RED, borderRadius: 2, flexShrink: 0 }} />
           <div>
-            <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace" }}>INVOICE UPON SIGNING</div>
+            <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace" }}>INVOICE UPON SIGNING — {CHUCO_INVOICE.label}</div>
             <div style={{ fontSize: 18, fontWeight: 900, color: WHITE, marginTop: 2 }}>{CHUCO_INVOICE.amount} <span style={{ fontSize: 11, color: GREY, fontWeight: 400 }}>due {CHUCO_INVOICE.due}</span></div>
           </div>
         </div>
@@ -827,12 +885,12 @@ export default function ChucoHub() {
     localStorage.setItem("chuco-theme", next ? "dark" : "light");
   };
 
-  const tasks = useQuery(api.chucoTasks.getTasks, { projectId: PROJECT_ID }) ?? {};
-  const setTask = useMutation(api.chucoTasks.setTask);
+  const tasks = useQuery(api.tasks.getTasks, { clientSlug: "chuco", projectId: PROJECT_ID }) ?? {};
+  const setTask = useMutation(api.tasks.setTask);
 
   // Lifted for badge detection
-  const discoveryData = useQuery(api.chucoTasks.getDiscovery, { projectId: PROJECT_ID });
-  const agreementData = useQuery(api.chucoTasks.getAgreement, { projectId: PROJECT_ID });
+  const discoveryData = useQuery(api.discovery.getDiscovery, { clientSlug: "chuco", projectId: PROJECT_ID });
+  const agreementData = useQuery(api.agreements.getAgreement, { clientSlug: "chuco", projectId: PROJECT_ID });
   const discoveryBadge = discoveryData !== undefined && !discoveryData;
   const agreementBadge = agreementData !== undefined && !agreementData;
 
@@ -844,18 +902,20 @@ export default function ChucoHub() {
 
   const NAV = isOps
     ? [
-        { id: "workflow",  label: "TRACKER",      badge: false },
-        { id: "discovery", label: "DISCOVERY",    badge: discoveryBadge },
-        { id: "website",   label: "SITE PREVIEW", badge: false },
-        { id: "scope",     label: "SCOPE",        badge: false },
-        { id: "agreement", label: "AGREEMENT",    badge: agreementBadge },
+        { id: "workflow",  label: "TRACKER",        badge: false },
+        { id: "discovery", label: "DISCOVERY",      badge: discoveryBadge },
+        { id: "design",    label: "DESIGN PREVIEW", badge: false },
+        { id: "website",   label: "WIREFRAME",      badge: false },
+        { id: "scope",     label: "SCOPE",          badge: false },
+        { id: "agreement", label: "AGREEMENT",      badge: agreementBadge },
       ]
     : [
-        { id: "workflow",  label: "PROGRESS",     badge: false },
-        { id: "discovery", label: "DISCOVERY",    badge: discoveryBadge },
-        { id: "website",   label: "SITE PREVIEW", badge: false },
-        { id: "scope",     label: "SCOPE",        badge: false },
-        { id: "agreement", label: "AGREEMENT",    badge: agreementBadge },
+        { id: "workflow",  label: "PROGRESS",       badge: false },
+        { id: "discovery", label: "DISCOVERY",      badge: discoveryBadge },
+        { id: "design",    label: "DESIGN PREVIEW", badge: false },
+        { id: "website",   label: "WIREFRAME",      badge: false },
+        { id: "scope",     label: "SCOPE",          badge: false },
+        { id: "agreement", label: "AGREEMENT",      badge: agreementBadge },
       ];
 
   return (
@@ -927,9 +987,9 @@ export default function ChucoHub() {
             <div style={{ fontSize: 13, fontWeight: 700, color: WHITE }}>Chuco Apparel</div>
           </div>
           {[
-            { label: "UPFRONT", value: "$750" },
+            { label: "TOTAL", value: "$750" },
+            { label: "PAYMENTS", value: "3 × $250" },
             { label: "MONTHLY", value: "$45/mo" },
-            { label: "TERMS", value: "Net 10" },
             { label: "TURNAROUND", value: "72 hrs" },
           ].map(item => (
             <div key={item.label} style={{ flexShrink: 0 }}>
@@ -967,8 +1027,9 @@ export default function ChucoHub() {
 
         {/* Page content */}
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          {page === "workflow" && <WorkflowPage tasks={tasks} setTask={setTask} />}
+          {page === "workflow" && <WorkflowPage tasks={tasks} setTask={setTask} isOps={isOps} />}
           {page === "discovery" && <DiscoveryPage isOps={isOps} />}
+          {page === "design" && <DesignPreviewPage />}
           {page === "website" && <SitePreviewPage />}
           {page === "scope" && <ScopePage />}
           {page === "agreement" && <AgreementPage />}

@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/* Space Cowboy — self-hosted display font (master brand kit)
+   Drop space-cowboy.woff2 into public/fonts/ and this picks it up automatically.
+   Rye (Google Fonts, loaded via next/font as --font-rye) serves as fallback. */
+@font-face {
+  font-family: 'Space Cowboy';
+  src: url('/fonts/space-cowboy.woff2') format('woff2'),
+       url('/fonts/space-cowboy.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Arquero Co. design system tokens */
+  --canvas: #FFEECE;           /* warm cream page floor */
+  --surface-soft: #F5E8D0;     /* deeper cream panels */
+  --surface-card: #FFFFFF;     /* product cards */
+  --surface-elevated: #FFF5E0; /* modals, dropdowns */
+  --hairline: #DAAC58;         /* golden tan dividers */
+  --primary: #004AAD;          /* brand navy blue */
+  --primary-fg: #FFEECE;       /* cream text on blue */
+  --on-dark: #FFEECE;          /* cream text on dark/blue surfaces */
+  --body: #474444;             /* body text — dark charcoal */
+  --body-strong: #313131;      /* lead text */
+  --muted: #6189BE;            /* steel blue — captions, footer */
+  --accent: #DAAC58;           /* golden tan accent */
+  --accent-fg: #313131;        /* dark text on golden */
+
+  /* Legacy aliases — keep so remaining references don't break */
+  --bg: var(--canvas);
+  --surface: var(--surface-card);
+  --border: var(--hairline);
+  --text: var(--body);
+  --text-muted: var(--muted);
+
+  /* --font-display: Space Cowboy first, falls back to Rye (loaded by next/font as --font-rye) */
+  --font-display: 'Space Cowboy', var(--font-rye), serif;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-card: var(--surface-card);
+  --color-hairline: var(--hairline);
+  --color-on-dark: var(--on-dark);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  /* legacy */
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+}
+
+html {
+  background: var(--canvas);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}

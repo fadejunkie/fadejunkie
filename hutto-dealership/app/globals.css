@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import "tailwindcss";
+
+:root {
+  /* Hutto Dealership — Light design system */
+  --canvas: #ffffff;
+  --surface-soft: #f8f9fa;
+  --surface-card: #f1f3f5;
+  --surface-elevated: #ffffff;
+  --hairline: #dee2e6;
+  --on-dark: #0d1b2a;       /* primary text (dark navy) */
+  --body: #495057;           /* body paragraphs */
+  --body-strong: #212529;    /* lead text */
+  --muted: #868e96;          /* captions, secondary */
+  --accent: #1B3A6B;         /* navy blue */
+  --accent-fg: #ffffff;
+  --accent-light: #e8eef7;   /* light navy tint for hover states */
+
+  /* Legacy aliases */
+  --primary: #0d1b2a;
+  --primary-fg: #ffffff;
+  --bg: #ffffff;
+  --surface: #f1f3f5;
+  --border: #dee2e6;
+  --text: #0d1b2a;
+  --text-muted: #868e96;
+
+  /* Font vars */
+  --font-display: "Inter", Arial, sans-serif;
+  --font-body: "Inter", Arial, sans-serif;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-card: var(--surface-card);
+  --color-hairline: var(--hairline);
+  --color-on-dark: var(--on-dark);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-primary: var(--primary);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+}
+
+html {
+  background: var(--canvas);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}

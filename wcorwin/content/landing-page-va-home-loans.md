@@ -17,7 +17,7 @@
 
 Buying a home with a VA loan is one of the best benefits you earn through military service. But the process works best when your real estate team actually understands the program, not from a training module, but from having lived it.
 
-Weichert Realtors — Corwin & Associates is a veteran-owned and veteran-operated brokerage in New Braunfels, Texas. Our founder, Joe Corwin, served over 20 years in the U.S. Air Force before planting roots in the Hill Country. He built a real estate practice around the same values that guided his service: do right by people, keep your word, and finish the job.
+Weichert Realtors — Corwin & Associates is a veteran-owned and veteran-operated brokerage in New Braunfels, Texas. Our founder, Joe Corwin, retired from the U.S. Air Force before planting roots in the Hill Country. He built a real estate practice around the same values that guided his service: do right by people, keep your word, and finish the job.
 
 If you're an active-duty service member, veteran, or military spouse looking to buy in the New Braunfels area, we take that personally. We've been where you are.
 
@@ -31,9 +31,9 @@ New Braunfels sits between San Antonio and Austin with easy access to multiple i
 - Camp Bullis: north San Antonio training site, about 35 minutes south
 - Austin-area installations: accessible via the I-35 corridor
 
-Beyond the commute, New Braunfels offers what most military families want after years of PCS moves: a community that feels permanent. The Comal and New Braunfels school districts carry Gold Performance ratings. The cost of living sits below San Antonio and well below Austin. The Guadalupe and Comal rivers, Gruene Historic District, and over 1,400 acres of city parkland give families room to breathe.
+Beyond the commute, New Braunfels offers what most military families want after years of PCS moves: a community that feels permanent. Comal ISD and New Braunfels ISD consistently rank among the stronger school districts in the region. The cost of living sits below San Antonio and well below Austin. The Guadalupe and Comal rivers, Gruene Historic District, and over 1,400 acres of city parkland give families room to breathe.
 
-The median home price in New Braunfels is approximately $339,000 in 2026. That's well within VA loan limits and more affordable than comparable communities in the Austin corridor.
+The median home price in New Braunfels is approximately $375,000 in 2026. That's well within VA loan limits and more affordable than comparable communities in the Austin corridor.
 
 ---
 
@@ -142,6 +142,6 @@ Browse listings: [Homes for Sale in New Braunfels →](/homes-for-sale-in-new-br
 - [VA Home Loans](https://www.benefits.va.gov/homeloans/) — U.S. Department of Veterans Affairs
 - [Texas GLO Veterans Home Loans](https://www.glo.texas.gov/veterans/home-loans) — Texas Veterans Land Board programs
 - [TSAHC Veterans Home Loans](https://www.tsahc.org/homebuyers-renters/veterans-home-loans) — Down payment assistance
-- [Zillow NB Market Data](https://www.zillow.com/home-values/39966/new-braunfels-tx/) — Median home price ~$339K (2026)
+- [Zillow NB Market Data](https://www.zillow.com/home-values/39966/new-braunfels-tx/) — Median home price ~$375K (2026, updated)
 - [veteranrealestatesa.com](https://veteranrealestatesa.com) — Competitor reference (Christopher Beal)
 - [VetHomeSearch NB](https://vethomesearch.com/search-new-braunfels-tx-homes-for-sale/) — Competitor reference

@@ -163,7 +163,7 @@ export default function ChucoLoader({ onComplete }: ChucoLoaderProps) {
         }}>
           <img
             ref={logoRef}
-            src="/chuco-logo-chrome.png"
+            src="/chuco-chrome-mascot.svg"
             alt="CHUCO"
             style={{ width: '100%', height: 'auto', display: 'block', position: 'relative', zIndex: 1 }}
           />

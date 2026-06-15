@@ -1,10 +1,10 @@
-import { internalMutation, query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 // ─── Internal Mutation ────────────────────────────────────────────────────────
 // Called by the cron action after the SEO Engine writes results.
 
-export const insertAudit = internalMutation({
+export const insertAudit = mutation({
   args: {
     projectId: v.string(),
     runAt: v.number(),

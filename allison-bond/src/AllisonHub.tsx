@@ -304,8 +304,8 @@ function AgreementPage({ c }) {
   const [sigData, setSigData] = useState<string | null>(DEV_MODE ? "data:image/png;base64,DEV" : null);
   const [saving, setSaving] = useState(false);
 
-  const saveAgreementMutation = useMutation(api.allisonTasks.saveAgreement);
-  const existingAgreement = useQuery(api.allisonTasks.getAgreement, { projectId: "allison-bond" });
+  const saveAgreementMutation = useMutation(api.agreements.saveAgreement);
+  const existingAgreement = useQuery(api.agreements.getAgreement, { clientSlug: "allison-bond", projectId: "allison-bond" });
 
   useEffect(() => {
     if (DEV_MODE || !existingAgreement) return;
@@ -368,7 +368,7 @@ function AgreementPage({ c }) {
     const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     setSaving(true);
     try {
-      await saveAgreementMutation({ projectId: "allison-bond", sigData: data, signedDate: date, signedAt: Date.now() });
+      await saveAgreementMutation({ clientSlug: "allison-bond", projectId: "allison-bond", sigData: data, signedDate: date });
       setSigned(true);
       setSignedDate(date);
       setSigData(data);
@@ -804,9 +804,9 @@ export function DiscoveryPage() {
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const saveDiscovery = useMutation(api.allisonTasks.saveDiscovery);
-  const setTask = useMutation(api.allisonTasks.setTask);
-  const existing = useQuery(api.allisonTasks.getDiscovery, { projectId: "allison-bond" });
+  const saveDiscovery = useMutation(api.discovery.saveDiscovery);
+  const setTask = useMutation(api.tasks.setTask);
+  const existing = useQuery(api.discovery.getDiscovery, { clientSlug: "allison-bond", projectId: "allison-bond" });
 
   useEffect(() => {
     if (existing) {
@@ -822,8 +822,8 @@ export function DiscoveryPage() {
     if (filled < 5) { alert("Please answer at least 5 questions before submitting."); return; }
     setSaving(true);
     try {
-      await saveDiscovery({ projectId: "allison-bond", responses: JSON.stringify(answers), submittedAt: Date.now() });
-      await setTask({ projectId: "allison-bond", key: "1-DISCOVERY-0", value: true });
+      await saveDiscovery({ clientSlug: "allison-bond", projectId: "allison-bond", responses: JSON.stringify(answers) });
+      await setTask({ clientSlug: "allison-bond", projectId: "allison-bond", taskKey: "1-DISCOVERY-0", completed: true });
       setSubmitted(true);
     } catch (e) { console.error(e); }
     setSaving(false);
@@ -890,19 +890,19 @@ export default function AllisonHub({ defaultView = "client", opsMode = false }) 
   const [expandedPhase, setExpandedPhase] = useState<number | null>(1);
   const [expandedMilestone, setExpandedMilestone] = useState<string | null>(null);
 
-  const rawTasks = useQuery(api.allisonTasks.getTasks, { projectId: "allison-bond" });
+  const rawTasks = useQuery(api.tasks.getTasks, { clientSlug: "allison-bond", projectId: "allison-bond" });
   const tasks = rawTasks ?? {};
-  const setTaskMut = useMutation(api.allisonTasks.setTask);
-  const agreement = useQuery(api.allisonTasks.getAgreement, { projectId: "allison-bond" });
-  const discovery = useQuery(api.allisonTasks.getDiscovery, { projectId: "allison-bond" });
-  const deliverables = useQuery(api.allisonTasks.getDeliverables, { projectId: "allison-bond" });
+  const setTaskMut = useMutation(api.tasks.setTask);
+  const agreement = useQuery(api.agreements.getAgreement, { clientSlug: "allison-bond", projectId: "allison-bond" });
+  const discovery = useQuery(api.discovery.getDiscovery, { clientSlug: "allison-bond", projectId: "allison-bond" });
+  const deliverables = useQuery(api.deliverables.getDeliverables, { clientSlug: "allison-bond", projectId: "allison-bond" });
 
   const ov = overall(tasks);
   const isInternal = view === "internal";
 
   const toggleTask = async (key: string, val: boolean) => {
     if (!isInternal) return;
-    await setTaskMut({ projectId: "allison-bond", key, value: val });
+    await setTaskMut({ clientSlug: "allison-bond", projectId: "allison-bond", taskKey: key, completed: val });
   };
 
   /* ── nav tabs ── */

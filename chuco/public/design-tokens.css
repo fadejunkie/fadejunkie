@@ -1,0 +1,90 @@
+/*
+  ╔══════════════════════════════════════════════════════╗
+  ║  CHUCO APPAREL — DESIGN TOKENS v2.0                  ║
+  ║  Master: design-preview.html                         ║
+  ║  Slave:  wireframe/index.html                        ║
+  ║                                                      ║
+  ║  Edit here → changes propagate to both files.        ║
+  ║  v2: rgba-white borders, luminance elevation,        ║
+  ║      accent-soft, full spacing + text scale          ║
+  ╚══════════════════════════════════════════════════════╝
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;700;900&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Gudea:wght@400;700&display=swap');
+
+:root {
+
+  /* ── Surfaces (darkest → lightest) ─────────── */
+  --canvas:            #0b090a;   /* Level 0 — page base, nav, footer */
+  --surface-1:         #161a1d;   /* Level 1 — cards, panels */
+  --surface-2:         #1e2326;   /* Level 2 — elevated containers, image bg */
+  --surface-3:         #272c30;   /* Level 3 — inputs, filter sidebar */
+
+  /* ── Borders (rgba-white — NOT solid dark) ── */
+  --border-subtle:     rgba(255,255,255,0.04);   /* Whisper — faintest separation */
+  --border-default:    rgba(255,255,255,0.06);   /* Standard — cards, nav, inputs */
+  --border-strong:     rgba(255,255,255,0.10);   /* Focus, hover emphasis */
+
+  /* ── Text ───────────────────────────────────── */
+  --text-primary:      #faf9f6;   /* Headlines, CTA labels — near-white */
+  --text-secondary:    #b1a7a6;   /* Nav links default, metadata */
+  --text-muted:        #636869;   /* Helper text, captions */
+  --text-dim:          #515659;   /* Eyebrow labels, faintest readable */
+
+  /* ── Accent (the only color) ────────────────── */
+  --accent:            #ba181b;   /* Mahogany Red — CTAs, badges, active states */
+  --accent-hover:      #e5383b;   /* Strawberry Red — hover on accent elements */
+  --accent-soft:       rgba(186,24,27,0.12);   /* Focus ring, tinted hover bg */
+  --on-accent:         #f5f3f4;   /* Text on accent-filled surfaces */
+
+  /* ── Shape ──────────────────────────────────── */
+  --radius-btn:        0px;   /* Button corner radius (editor-adjustable) */
+  --radius-card:       0px;   /* Card corner radius */
+  --radius-input:      0px;   /* Input / badge corner radius */
+  --border-width:      1px;   /* Default border thickness */
+
+  /* ── Typography ─────────────────────────────── */
+  --font-display:  'Prompt', sans-serif;       /* All-caps display, weight 700–900 */
+  --font-body:     'Merriweather', serif;      /* Body copy, descriptions */
+  --font-mono:     'Gudea', sans-serif;        /* Labels, buttons, nav, prices */
+
+  /* ── Spacing ────────────────────────────────── */
+  --space-xxs:     2px;
+  --space-xs:      4px;
+  --space-sm:      8px;
+  --space-md:      12px;
+  --space-lg:      16px;
+  --space-xl:      24px;
+  --space-xxl:     32px;
+  --space-xxxl:    48px;
+  --space-section: 64px;
+  --space-hero:    80px;
+
+  /* ────────────────────────────────────────────
+     Backwards-compat aliases
+     Wireframe and design-preview reference these
+     old names — keep them mapped so nothing breaks.
+  ──────────────────────────────────────────── */
+
+  /* design-preview.html uses: */
+  --surface-card:     var(--surface-1);
+  --surface-elevated: var(--surface-2);
+  --input:            var(--surface-3);
+  --divider:          var(--border-default);
+  --ghost-btn:        rgba(255,255,255,0.06);
+  --ash:              var(--text-dim);
+  --smoke:            var(--text-muted);
+  --silver:           var(--text-secondary);
+  --white:            var(--text-primary);
+  --red:              var(--accent);
+  --red-hover:        var(--accent-hover);
+
+  /* wireframe/index.html uses: */
+  --black:            var(--canvas);
+  --gray-dark:        var(--surface-1);
+  --gray-block:       var(--surface-2);
+  --gray-mid:         var(--surface-3);
+  --gray-border:      var(--border-default);
+  --gray-light:       rgba(255,255,255,0.06);
+  --gray-placeholder: #2c2c2c;   /* wireframe-only input placeholder */
+}

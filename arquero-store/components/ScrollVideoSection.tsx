@@ -13,7 +13,40 @@ export function ScrollVideoSection() {
     const tagline = taglineRef.current;
     if (!container || !video) return;
 
+    // Set correct src before loading — <source> child won't reload if changed after mount
+    const isMobile = window.innerWidth < 768;
+    video.src = isMobile
+      ? "/videos/craft-macro-scrub-vertical.mp4"
+      : "/videos/craft-macro-scrub.mp4";
+    video.load();
+
     let scrollTriggerInstance: { kill: () => void } | null = null;
+    let lockY = -1; // scroll position where we lock — -1 = not locked yet
+    let touchStartY = 0;
+
+    // Wheel handler — blocks scrolling back up past lock point
+    const onWheel = (e: WheelEvent) => {
+      if (lockY >= 0 && e.deltaY < 0 && window.scrollY <= lockY + 8) {
+        e.preventDefault();
+      }
+    };
+
+    // Touch handlers for mobile
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (lockY >= 0) {
+        const dy = e.touches[0].clientY - touchStartY;
+        if (dy > 0 && window.scrollY <= lockY + 8) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
 
     const init = async () => {
       const { gsap } = await import("gsap");
@@ -48,15 +81,28 @@ export function ScrollVideoSection() {
           // Dispatch progress so Navbar can fade in
           window.dispatchEvent(new CustomEvent("scroll-video-progress", { detail: p }));
         },
+        // When animation completes — lock the scroll position
+        onLeave: () => {
+          lockY = window.scrollY;
+        },
+        // If somehow re-entered from below, re-lock
+        onEnterBack: () => {
+          lockY = -1; // temporarily release so GSAP can scrub back
+        },
       });
     };
 
     init();
-    return () => { scrollTriggerInstance?.kill(); };
+    return () => {
+      scrollTriggerInstance?.kill();
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
   }, []);
 
   return (
-    <div ref={containerRef} style={{ height: "400vh", position: "relative" }}>
+    <div ref={containerRef} className="scroll-video-container">
       <div
         style={{
           position: "sticky",
@@ -71,7 +117,7 @@ export function ScrollVideoSection() {
           ref={videoRef}
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           style={{
             width: "100%",
             height: "100%",
@@ -82,9 +128,7 @@ export function ScrollVideoSection() {
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
           }}
-        >
-          <source src="/videos/craft-macro-scrub.mp4" type="video/mp4" />
-        </video>
+        />
 
         {/* Vignette */}
         <div

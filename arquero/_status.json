@@ -2,24 +2,19 @@
   "slug": "arquero",
   "name": "Arquero",
   "type": "client-hub",
-  "health": "needs-attention",
-  "lastScanned": "2026-04-14T02:20:08.577Z",
-  "lastChanged": "2026-04-14T02:15:08.554Z",
-  "currentPhase": "phase-1",
-  "pendingTasks": [
-    {
-      "phase": "phase-1",
-      "file": "01-discovery-session.md",
-      "title": "Arquero Co. — Phase 1 · Discovery Session"
-    }
+  "health": "active",
+  "lastScanned": "2026-05-14T00:00:00.000Z",
+  "lastChanged": "2026-05-14T00:00:00.000Z",
+  "currentPhase": "phase-2",
+  "pendingTasks": [],
+  "completedTasks": [
+    "Phase 1 — Discovery Session",
+    "Phase 1 — Mood + Direction (Direction B: Refined Craft)",
+    "Phase 1 — Logo Design (symbol mark + wordmark)",
+    "Phase 1 — Brand System (brand kit delivered)"
   ],
-  "completedTasks": [],
-  "clientBlockers": [
-    "Discovery questionnaire not filled"
-  ],
-  "pmAlerts": [
-    "Task stalled: Arquero Co. — Phase 1 · Discovery Session"
-  ],
+  "clientBlockers": [],
+  "pmAlerts": [],
   "agreementSigned": true,
   "contentEmpty": false,
   "contentFiles": [
@@ -37,5 +32,5 @@
   "paidAmount": "$1,900",
   "paymentType": "upfront",
   "invoiceNumber": "CAPLYORH-0020",
-  "notes": "Agreement signed + $1,900 upfront paid March 27, 2026. All 4 phases funded. Ready to kick off Phase 1."
+  "notes": "Phase 1 (Brand Identity) COMPLETE as of 2026-05-14. Logo + brand kit delivered. Direction B selected: Refined Craft — earth tones, San Miguel heritage palette. Symbol mark + wordmark exported. Moving to Phase 2 (Shopify storefront build)."
 }

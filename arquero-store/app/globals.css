@@ -81,6 +81,38 @@
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll video section — shorter on mobile */
+.scroll-video-container {
+  height: 400vh;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .scroll-video-container {
+    height: 220vh;
+  }
+}
+
+/* Shop filter tabs — horizontal scroll on mobile */
+.filter-tabs {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+@media (max-width: 640px) {
+  .filter-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    gap: 20px;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tabs a { flex-shrink: 0; }
 }
 
 html {
@@ -132,4 +164,8 @@ body {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--accent);
+}
+
+.manifesto-cta:hover {
+  background: #c9993f !important;
 }
