@@ -1,5 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
+
+// Client-facing: submit (clients post from design preview), list (ops reads via Twanii)
+// Ops-only writes: resolve, remove → internalMutation (SEC-9)
 
 export const submit = mutation({
   args: {
@@ -27,14 +30,15 @@ export const list = query({
   },
 });
 
-export const resolve = mutation({
+// Ops-only: only Anthony resolves/deletes feedback items
+export const resolve = internalMutation({
   args: { id: v.id("feedback") },
   handler: async (ctx, { id }) => {
     await ctx.db.patch(id, { resolved: true, resolvedAt: Date.now() });
   },
 });
 
-export const remove = mutation({
+export const remove = internalMutation({
   args: { id: v.id("feedback") },
   handler: async (ctx, { id }) => {
     await ctx.db.delete(id);

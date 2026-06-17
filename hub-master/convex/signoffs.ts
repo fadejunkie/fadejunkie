@@ -1,5 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
+
+// Client-facing: getSignoff (hub reads), submitSignature (wcorwin client signs monthly)
+// Ops-only: submitNotes → internalMutation (Anthony writes notes, not the client)
 
 export const getSignoff = query({
   args: {
@@ -16,7 +19,8 @@ export const getSignoff = query({
   },
 });
 
-export const submitNotes = mutation({
+// Ops-only: Anthony writes monthly notes before client sees the signoff
+export const submitNotes = internalMutation({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),
@@ -43,12 +47,12 @@ export const submitNotes = mutation({
   },
 });
 
+// Client-facing: wcorwin client signs off on the monthly deliverable report
 export const submitSignature = mutation({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),
     signature: v.string(),
-    // Optional: auto-complete a task key on sign (e.g. wcorwin "month1:6")
     completionTaskKey: v.optional(v.string()),
   },
   handler: async (ctx, { clientSlug, projectId, signature, completionTaskKey }) => {
@@ -70,7 +74,6 @@ export const submitSignature = mutation({
       });
     }
 
-    // Auto-mark a task complete on signoff (wcorwin pattern)
     if (completionTaskKey) {
       const task = await ctx.db
         .query("tasks")

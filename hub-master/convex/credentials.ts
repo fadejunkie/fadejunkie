@@ -1,7 +1,11 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, internalQuery } from "./_generated/server";
 
-export const getCredentials = query({
+// SEC-9: credentials table is ops-internal only.
+// Browser clients CANNOT call these functions.
+// Access via HTTP action at /api/credentials/* with Bearer token.
+
+export const getCredentials = internalQuery({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),
@@ -16,7 +20,7 @@ export const getCredentials = query({
   },
 });
 
-export const saveCredentials = mutation({
+export const saveCredentials = internalMutation({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),

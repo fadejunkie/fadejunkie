@@ -1,5 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, mutation, query } from "./_generated/server";
+
+// Client-facing: getAgreement (hub displays it), saveAgreement (client signs)
+// Ops-only: clearAgreement, updatePayment → internalMutation (SEC-9)
 
 export const getAgreement = query({
   args: {
@@ -58,7 +61,8 @@ export const saveAgreement = mutation({
   },
 });
 
-export const clearAgreement = mutation({
+// Ops-only: cannot be called from browser clients
+export const clearAgreement = internalMutation({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),
@@ -76,7 +80,8 @@ export const clearAgreement = mutation({
   },
 });
 
-export const updatePayment = mutation({
+// Ops-only: payment status updates come from server-side Stripe webhooks
+export const updatePayment = internalMutation({
   args: {
     clientSlug: v.string(),
     projectId: v.string(),

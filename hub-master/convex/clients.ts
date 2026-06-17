@@ -1,5 +1,8 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, query } from "./_generated/server";
+
+// Client-facing reads: listClients, getClient (hubs use these to bootstrap)
+// Ops-only writes: upsertClient, setClientStatus → internalMutation (SEC-9)
 
 export const listClients = query({
   args: {},
@@ -18,7 +21,8 @@ export const getClient = query({
   },
 });
 
-export const upsertClient = mutation({
+// Ops-only: client registry is managed by Anthony/agents, not by clients
+export const upsertClient = internalMutation({
   args: {
     slug: v.string(),
     name: v.string(),
@@ -45,7 +49,8 @@ export const upsertClient = mutation({
   },
 });
 
-export const setClientStatus = mutation({
+// Ops-only
+export const setClientStatus = internalMutation({
   args: {
     slug: v.string(),
     status: v.union(v.literal("active"), v.literal("prospect"), v.literal("archived")),
