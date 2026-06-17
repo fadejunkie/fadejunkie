@@ -518,9 +518,9 @@ const WfBtn = ({ w = 72, h = 24, style = {} }: any) => (
 );
 
 function SitePreviewPage() {
-  const { RED, RED_DIM, GREY } = useContext(ThemeCtx);
+  const { COAL, ZINC, GREY, ASH, SMOKE, WHITE, RED, RED_DIM } = useContext(ThemeCtx);
   return (
-    <div className="hub-page-content" style={{ padding: "24px 32px 48px" }}>
+    <div className="hub-page-content" style={{ padding: "24px 24px 48px" }}>
       <style>{`
         @keyframes pulse-glow {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px 2px #cc0000aa, 0 0 12px 4px #cc000044; }
@@ -530,59 +530,84 @@ function SitePreviewPage() {
           0%   { transform: scale(1);   opacity: 0.7; }
           100% { transform: scale(2.2); opacity: 0; }
         }
+        @media (max-width: 600px) {
+          .wf-iframe { height: 480px !important; }
+          .wf-blurb { padding: 16px !important; }
+        }
       `}</style>
 
-      {/* ── IN SESSION indicator ── */}
+      {/* ── Status indicator ── */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
         <div style={{ position: "relative", width: 10, height: 10, flexShrink: 0 }}>
-          <div style={{
-            position: "absolute", inset: 0, borderRadius: "50%",
-            background: RED, animation: "pulse-glow 1.8s ease-in-out infinite"
-          }} />
-          <div style={{
-            position: "absolute", inset: 0, borderRadius: "50%",
-            border: `1px solid ${RED}`, animation: "pulse-ring 1.8s ease-out infinite"
-          }} />
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: RED, animation: "pulse-glow 1.8s ease-in-out infinite" }} />
+          <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px solid ${RED}`, animation: "pulse-ring 1.8s ease-out infinite" }} />
         </div>
-        <div style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: 4,
-          fontFamily: "'IBM Plex Mono',monospace",
-          color: RED,
-          textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44`
-        }}>
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, fontFamily: "'IBM Plex Mono',monospace", color: RED, textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44` }}>
           IN SESSION
         </div>
-        <div style={{ height: 1, width: 40, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
+        <div style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           WIREFRAME · SITE UNDER CONSTRUCTION
         </div>
-        <div style={{ height: 1, width: 40, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+        <div style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+      </div>
+
+      {/* ── How it works blurb ── */}
+      <div className="wf-blurb" style={{
+        background: COAL,
+        border: `1px solid ${ZINC}`,
+        borderLeft: `3px solid ${RED}`,
+        padding: "20px 24px",
+        marginBottom: 20,
+        display: "flex",
+        flexDirection: "column",
+        gap: 14,
+      }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div style={{ fontSize: 9, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 3, color: RED, textTransform: "uppercase", marginBottom: 8 }}>
+              How This Works
+            </div>
+            <div style={{ fontSize: 13, color: SMOKE, lineHeight: 1.7, maxWidth: 520 }}>
+              This is the site structure before it goes to build — every page, every layout, every section mapped out
+              so you can see the bones before we put the walls up. Click through the pages at the top, check the flow,
+              and flag anything that needs to change before we move forward.
+            </div>
+          </div>
+          <a
+            href="/chuco-wireframe.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              border: `1px solid ${ZINC}`, color: ASH,
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, letterSpacing: 2,
+              textTransform: "uppercase", textDecoration: "none",
+              padding: "9px 16px", flexShrink: 0, whiteSpace: "nowrap",
+              transition: "border-color 0.15s, color 0.15s",
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = WHITE; (e.currentTarget as HTMLElement).style.color = WHITE; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = ZINC; (e.currentTarget as HTMLElement).style.color = ASH; }}
+          >
+            ↗ Open full page
+          </a>
+        </div>
       </div>
 
       {/* ── Wireframe iframe ── */}
-      <div style={{
-        borderRadius: 10, overflow: "hidden",
-        border: `1px solid #2a2a2a`,
-        boxShadow: `0 24px 60px #000000cc, 0 0 0 1px #1a0000`
-      }}>
+      <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid #2a2a2a`, boxShadow: `0 20px 50px #000000cc` }}>
         <iframe
+          className="wf-iframe"
           src="/chuco-wireframe.html"
           title="Chuco Apparel — Site Wireframe"
-          style={{
-            width: "100%",
-            height: 680,
-            border: "none",
-            display: "block",
-            background: "#000"
-          }}
+          style={{ width: "100%", height: 680, border: "none", display: "block", background: "#000" }}
         />
       </div>
 
-      {/* Caption */}
-      <div style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+      <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
         <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
-          FINAL DESIGN DELIVERED ON APPROVAL · BUILT TO MATCH YOUR BRAND
+          FINAL BUILD DELIVERED AFTER APPROVAL · MATCHES YOUR BRAND EXACTLY
         </div>
         <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
       </div>
@@ -593,10 +618,27 @@ function SitePreviewPage() {
 /* ═══════════════════════════════════════
    DESIGN PREVIEW PAGE
    ═══════════════════════════════════════ */
-function DesignPreviewPage() {
-  const { RED, RED_DIM, GREY } = useContext(ThemeCtx);
+function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
+  const { COAL, ZINC, GREY, ASH, SMOKE, WHITE, RED, RED_DIM, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
+  const [approving, setApproving] = useState(false);
+  const [approved, setApproved] = useState(false);
+
+  const mockupDelivered = !!tasks["p1-0"];
+  const designApproved  = !!tasks["p1-1"];
+  const awaitingApproval = mockupDelivered && !designApproved;
+
+  const handleApprove = async () => {
+    setApproving(true);
+    try {
+      await setTask({ clientSlug: "chuco", projectId: "chuco-apparel", taskKey: "p1-1", completed: true });
+      setApproved(true);
+    } finally {
+      setApproving(false);
+    }
+  };
+
   return (
-    <div className="hub-page-content" style={{ padding: "24px 32px 48px" }}>
+    <div className="hub-page-content" style={{ padding: "24px 24px 48px" }}>
       <style>{`
         @keyframes pulse-glow {
           0%, 100% { opacity: 1; box-shadow: 0 0 6px 2px #cc0000aa, 0 0 12px 4px #cc000044; }
@@ -606,34 +648,119 @@ function DesignPreviewPage() {
           0%   { transform: scale(1);   opacity: 0.7; }
           100% { transform: scale(2.2); opacity: 0; }
         }
+        @media (max-width: 600px) {
+          .dp-iframe { height: 480px !important; }
+          .dp-blurb { padding: 16px !important; }
+        }
       `}</style>
 
-      {/* ── IN SESSION indicator ── */}
+      {/* ── Status indicator ── */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 20 }}>
         <div style={{ position: "relative", width: 10, height: 10, flexShrink: 0 }}>
           <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: RED, animation: "pulse-glow 1.8s ease-in-out infinite" }} />
           <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px solid ${RED}`, animation: "pulse-ring 1.8s ease-out infinite" }} />
         </div>
         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, fontFamily: "'IBM Plex Mono',monospace", color: RED, textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44` }}>
-          IN SESSION
+          {designApproved ? "APPROVED" : "IN SESSION"}
         </div>
-        <div style={{ height: 1, width: 40, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
+        <div style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           DESIGN SYSTEM · COLORS · TYPOGRAPHY · COMPONENTS
         </div>
-        <div style={{ height: 1, width: 40, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+        <div style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
       </div>
 
-      {/* ── Design preview iframe ── */}
-      <div style={{ borderRadius: 10, overflow: "hidden", border: `1px solid #2a2a2a`, boxShadow: `0 24px 60px #000000cc, 0 0 0 1px #1a0000` }}>
+      {/* ── How it works blurb ── */}
+      <div className="dp-blurb" style={{
+        background: COAL,
+        border: `1px solid ${ZINC}`,
+        borderLeft: `3px solid ${RED}`,
+        padding: "20px 24px",
+        marginBottom: 20,
+        display: "flex",
+        flexDirection: "column",
+        gap: 14,
+      }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div style={{ fontSize: 9, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 3, color: RED, textTransform: "uppercase", marginBottom: 8 }}>
+              How This Works
+            </div>
+            <div style={{ fontSize: 13, color: SMOKE, lineHeight: 1.7, maxWidth: 520 }}>
+              This is your live design system — colors, fonts, shapes, and logo system, all locked in before a single line of code gets written.
+              Each section is a decision. Scroll through, flag anything with the feedback button at the bottom of each section,
+              and when everything looks right, sign off below.
+            </div>
+          </div>
+          <a
+            href="/chuco-design-preview.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              border: `1px solid ${ZINC}`, color: ASH,
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, letterSpacing: 2,
+              textTransform: "uppercase", textDecoration: "none",
+              padding: "9px 16px", flexShrink: 0, whiteSpace: "nowrap",
+              transition: "border-color 0.15s, color 0.15s",
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = WHITE; (e.currentTarget as HTMLElement).style.color = WHITE; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = ZINC; (e.currentTarget as HTMLElement).style.color = ASH; }}
+          >
+            ↗ Open full page
+          </a>
+        </div>
+
+        {/* Approval sign-off */}
+        <div style={{ borderTop: `1px solid ${ZINC}`, paddingTop: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ fontSize: 11, color: designApproved ? GREEN : (awaitingApproval ? SMOKE : GREY), fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 1 }}>
+            {designApproved
+              ? "✓ Design direction approved"
+              : awaitingApproval
+              ? "Ready for your sign-off. Does this look like Chuco?"
+              : "Design is still in development — approval available once mockup is delivered."}
+          </div>
+          {designApproved ? (
+            <div style={{
+              background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`,
+              color: GREEN, fontFamily: "'IBM Plex Mono',monospace",
+              fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+              padding: "9px 20px",
+            }}>
+              ✓ Approved
+            </div>
+          ) : (
+            <button
+              onClick={awaitingApproval ? handleApprove : undefined}
+              disabled={!awaitingApproval || approving}
+              style={{
+                background: awaitingApproval ? RED : "transparent",
+                border: `1px solid ${awaitingApproval ? RED : ZINC}`,
+                color: awaitingApproval ? WHITE : GREY,
+                fontFamily: "'IBM Plex Mono',monospace",
+                fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                padding: "9px 20px", cursor: awaitingApproval ? "pointer" : "default",
+                opacity: approving ? 0.6 : 1,
+                transition: "background 0.15s, border-color 0.15s",
+              }}
+            >
+              {approving ? "Saving…" : "Approve Design Direction →"}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* ── iframe ── */}
+      <div style={{ borderRadius: 8, overflow: "hidden", border: `1px solid #2a2a2a`, boxShadow: `0 20px 50px #000000cc` }}>
         <iframe
+          className="dp-iframe"
           src="/chuco-design-preview.html"
           title="Chuco Apparel — Design System Preview"
           style={{ width: "100%", height: 680, border: "none", display: "block", background: "#000" }}
         />
       </div>
 
-      <div style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+      <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
         <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           COLORS · FONTS · SHAPES · LOGO SYSTEM · COMPONENTS
@@ -1029,7 +1156,7 @@ export default function ChucoHub() {
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           {page === "workflow" && <WorkflowPage tasks={tasks} setTask={setTask} isOps={isOps} />}
           {page === "discovery" && <DiscoveryPage isOps={isOps} />}
-          {page === "design" && <DesignPreviewPage />}
+          {page === "design" && <DesignPreviewPage tasks={tasks} setTask={setTask} />}
           {page === "website" && <SitePreviewPage />}
           {page === "scope" && <ScopePage />}
           {page === "agreement" && <AgreementPage />}

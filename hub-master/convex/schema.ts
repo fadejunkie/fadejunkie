@@ -140,6 +140,16 @@ export default defineSchema({
     .index("by_client", ["clientSlug"])
     .index("by_client_project", ["clientSlug", "projectId"]),
 
+  // ─── Client Feedback (design preview / wireframe comments) ─────────────────
+  feedback: defineTable({
+    clientSlug: v.string(),
+    section: v.string(),
+    message: v.string(),
+    submittedAt: v.number(),
+    resolved: v.boolean(),
+    resolvedAt: v.optional(v.number()),
+  }).index("by_client", ["clientSlug"]),
+
   // ─── Task Reports + Master PDF Reports ──────────────────────────────────────
   reports: defineTable({
     clientSlug: v.string(),
