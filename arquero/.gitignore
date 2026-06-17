@@ -3,3 +3,8 @@ dist
 .env.local
 .vercel
 # convex/_generated is committed so Vercel can build without the parent repo
+
+# Deployment secrets — SEC-7
+.env.prod
+.env.production
+.env.staging

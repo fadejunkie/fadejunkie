@@ -3,3 +3,8 @@ dist/
 .env.local
 *.tsbuildinfo
 .vercel
+
+# Deployment secrets — SEC-7
+.env.prod
+.env.production
+.env.staging
