@@ -9,10 +9,10 @@ export const seedClients = mutation({
     const clients = [
       { slug: "wcorwin", name: "Weichert Corwin", status: "active" as const, hubUrl: "https://wcorwin.anthonytatis.com" },
       { slug: "arquero", name: "Arquero Co.", status: "active" as const, hubUrl: "https://arqueroco.anthonytatis.com" },
-      { slug: "sydney", name: "Sydney Spillman", status: "active" as const, hubUrl: "https://sydneyspillman.vercel.app" },
-      { slug: "wizardry", name: "Wizardry Ink", status: "active" as const, hubUrl: "https://wizardryink.vercel.app" },
-      { slug: "allison-bond", name: "Allison Bond", status: "prospect" as const, hubUrl: "https://allison-bond.vercel.app" },
-      { slug: "chuco", name: "Chuco", status: "prospect" as const, hubUrl: "https://chuco.vercel.app" },
+      { slug: "sydney", name: "Sydney Spillman", status: "active" as const, hubUrl: "https://sydneyspillman.anthonytatis.com" },
+      { slug: "wizardry", name: "Wizardry Ink", status: "active" as const, hubUrl: "https://wizardry.anthonytatis.com" },
+      { slug: "allison-bond", name: "Allison Bond", status: "prospect" as const, hubUrl: "https://allison-bond.anthonytatis.com" },
+      { slug: "chuco", name: "Chuco", status: "prospect" as const, hubUrl: "https://chuco.anthonytatis.com" },
     ];
 
     for (const client of clients) {
