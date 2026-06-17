@@ -11,7 +11,7 @@
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'Courier New', monospace;
+      font-family: var(--font-mono);
       font-size: 13px;
     }
 
@@ -153,7 +153,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       cursor: pointer;
-      font-family: inherit;
+      font-family: var(--font-mono);
     }
     .btn-primary {
       background: var(--red);
@@ -179,7 +179,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       cursor: pointer;
-      font-family: inherit;
+      font-family: var(--font-mono);
       border-radius: var(--radius-btn);
     }
     .section-header {
@@ -188,13 +188,15 @@
     }
     .section-header .label { margin-bottom: 8px; }
     .section-header h2 {
+      font-family: var(--font-display);
       font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 0.12em;
+      font-weight: 900;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
     .section-header .red-line { margin: 12px auto; }
     .section-header p {
+      font-family: var(--font-body);
       color: var(--text-muted);
       font-size: 12px;
       max-width: 400px;
@@ -215,7 +217,7 @@
       margin-bottom: 40px;
     }
     .footer-brand img { height: 36px; width: auto; display: block; margin-bottom: 12px; }
-    .footer-brand p { color: var(--text-dim); font-size: 11px; line-height: 1.7; }
+    .footer-brand p { font-family: var(--font-body); color: var(--text-dim); font-size: 11px; line-height: 1.7; }
     .footer-col h4 {
       font-size: 10px;
       letter-spacing: 0.18em;
@@ -292,15 +294,17 @@
     .hero-content { max-width: 520px; }
     .hero-content .label { color: var(--red); margin-bottom: 16px; }
     .hero-content h1 {
+      font-family: var(--font-display);
       font-size: 56px;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       line-height: 1.0;
       margin-bottom: 8px;
     }
     .hero-content h1 span { color: var(--red); }
     .hero-content p {
+      font-family: var(--font-body);
       color: #888;
       font-size: 13px;
       line-height: 1.7;
@@ -417,14 +421,16 @@
     }
     .brand-text-panel .label { color: var(--red); }
     .brand-text-panel h2 {
+      font-family: var(--font-display);
       font-size: 36px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       margin: 16px 0;
       line-height: 1.1;
     }
     .brand-text-panel p {
+      font-family: var(--font-body);
       color: var(--text-muted);
       line-height: 1.8;
       font-size: 12px;
@@ -483,12 +489,14 @@
       border-top: 1px solid var(--gray-border);
     }
     .newsletter-copy h3 {
+      font-family: var(--font-display);
       font-size: 24px;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
-    .newsletter-copy p { color: var(--text-muted); font-size: 12px; }
+    .newsletter-copy p { font-family: var(--font-body); color: var(--text-muted); font-size: 12px; }
     .newsletter-form {
       display: flex;
       gap: 0;
@@ -500,7 +508,7 @@
       color: var(--white);
       padding: 12px 20px;
       font-size: 11px;
-      font-family: inherit;
+      font-family: var(--font-mono);
       width: 280px;
       outline: none;
       border-radius: var(--radius-input);
@@ -516,9 +524,10 @@
     }
     .shop-header .label { color: var(--red); margin-bottom: 8px; }
     .shop-header h1 {
+      font-family: var(--font-display);
       font-size: 36px;
       font-weight: 900;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
     .shop-layout {
@@ -599,7 +608,7 @@
       color: var(--white);
       padding: 8px 12px;
       font-size: 11px;
-      font-family: inherit;
+      font-family: var(--font-mono);
       width: 80px;
       border-radius: var(--radius-input);
     }
@@ -617,7 +626,7 @@
       color: var(--white);
       padding: 8px 12px;
       font-size: 11px;
-      font-family: inherit;
+      font-family: var(--font-mono);
       border-radius: var(--radius-input);
     }
     .product-grid-3 {
@@ -709,9 +718,10 @@
     }
     .pdp-breadcrumb span { color: var(--text-muted); }
     .pdp-title {
+      font-family: var(--font-display);
       font-size: 28px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       line-height: 1.1;
       margin-bottom: 6px;
@@ -856,6 +866,7 @@
     }
     .accordion-header:hover { color: var(--white); }
     .accordion-body {
+      font-family: var(--font-body);
       padding: 0 0 16px;
       color: var(--text-dim);
       font-size: 11px;
