@@ -56,14 +56,17 @@ export default function ChucoLoader({ onComplete }: ChucoLoaderProps) {
       const logoH = rect.height;
       const logoW = rect.width;
 
-      const letterPcts = [0.09, 0.24, 0.46, 0.66, 0.86];
-      const scanY      = ovCY;
+      // Mascot sweep: erratic search across body (wings→torso→claws→chest), settle on face
+      const letterPcts = [0.15, 0.72, 0.22, 0.65, 0.50];
+      const scanY      = ovCY + logoH * 0.05;          // slightly below center (body level)
+      const faceX      = PAD + 0.50 * logoW;           // face is horizontally centered
+      const faceY      = 40  + 0.28 * logoH;           // face is ~28% from top of image
       const SCAN_R     = Math.min(logoH * 0.52, 80);
       const FULL_R     = Math.max(OW, OH) * 1.6;
 
-      const SCAN_START = 180;
-      const SCAN_DUR   = 3150;
-      const EXPAND_DUR = 1425;
+      const SCAN_START = 220;
+      const SCAN_DUR   = 4400;   // slower sweep (was 3150)
+      const EXPAND_DUR = 1900;   // slower expand (was 1425)
       const HOLD_DUR   = 600;
 
       let startTime: number | null = null;
@@ -93,10 +96,13 @@ export default function ChucoLoader({ onComplete }: ChucoLoaderProps) {
           const fromX     = PAD + letterPcts[fromIdx] * logoW;
           const toX       = PAD + letterPcts[toIdx]   * logoW;
           const cx        = lerp(fromX, toX, local);
-          const wobbleY   = noise(scanElapsed * 0.003) * logoH * 0.18;
-          const cy        = scanY + wobbleY;
-          const breathe   = 1 + 0.08 * Math.sin(scanElapsed * 0.007);
-          setSpotlight(cx, cy, SCAN_R * breathe, 0.58);
+          // wobble fades to 0 as spotlight approaches face (last stop)
+          const wobbleFade = Math.pow(1 - clamp(tScaled / (numLetters - 1), 0, 1), 1.8);
+          const wobbleY    = noise(scanElapsed * 0.003) * logoH * 0.22 * wobbleFade;
+          const wobbleX    = noise(scanElapsed * 0.0026 + 8) * logoW * 0.09 * wobbleFade;
+          const cy         = scanY + wobbleY;
+          const breathe    = 1 + 0.04 * Math.sin(scanElapsed * 0.005);
+          setSpotlight(cx + wobbleX, cy, SCAN_R * breathe, 0.68);
           rafId = requestAnimationFrame(tick);
           return;
         }
@@ -106,10 +112,10 @@ export default function ChucoLoader({ onComplete }: ChucoLoaderProps) {
         if (expandElapsed < EXPAND_DUR) {
           const t     = easeOut(expandElapsed / EXPAND_DUR);
           const lastX = PAD + letterPcts[letterPcts.length - 1] * logoW;
-          const cx    = lerp(lastX, ovCX, easeInOut(t));
-          const cy    = lerp(scanY, ovCY, easeInOut(t));
+          const cx    = lerp(lastX, faceX, easeInOut(t));  // pull to face center
+          const cy    = lerp(scanY,  faceY, easeInOut(t)); // pull up to face y
           const r     = lerp(SCAN_R, FULL_R, easeOut(t));
-          setSpotlight(cx, cy, r, lerp(0.55, 0.35, t));
+          setSpotlight(cx, cy, r, lerp(0.65, 0.30, t));    // softer start, snappier open
           rafId = requestAnimationFrame(tick);
           return;
         }
