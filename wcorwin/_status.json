@@ -1,0 +1,17 @@
+{
+  "slug": "wcorwin",
+  "name": "Wcorwin",
+  "type": "client-hub",
+  "health": "idle",
+  "lastScanned": "2026-04-14T01:45:09.073Z",
+  "lastChanged": "2026-04-14T00:40:11.315Z",
+  "currentPhase": null,
+  "pendingTasks": [],
+  "completedTasks": [],
+  "clientBlockers": [],
+  "pmAlerts": [],
+  "agreementSigned": true,
+  "contentEmpty": true,
+  "contentFiles": [],
+  "engagementValue": "$950/mo"
+}

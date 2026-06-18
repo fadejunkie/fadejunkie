@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuco Apparel — Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="/design-tokens.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--canvas);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ─── LAYOUT ─── */
+  .section { padding: 64px; border-bottom: 1px solid var(--divider); }
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    margin-bottom: 40px;
+  }
+  .accent-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--red);
+    margin-bottom: 16px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+
+  /* ─── HERO HEADER ─── */
+  .site-header {
+    background: var(--canvas);
+    border-bottom: 1px solid var(--divider);
+    padding: 0 64px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow: visible;
+    transition: padding-top 0.2s ease, height 0.2s ease, background 0.35s ease, border-color 0.35s ease;
+  }
+  .site-header.scrolled {
+    padding-top: 28px;
+    height: 108px;
+  }
+  .header-nav {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .site-header.nav-hidden {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+  .site-header.nav-hidden .header-nav {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+  }
+  .site-header .logo {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 101;
+  }
+  .site-header .logo img {
+    height: 130px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+  .header-nav { display: flex; gap: 32px; align-items: center; }
+  .header-nav a {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .header-nav a:hover { color: var(--white); }
+  .cart-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .cart-dot {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    background: var(--red);
+    border-radius: 50%;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--font-mono);
+  }
+
+
+  /* ─── DROP BANNER ─── */
+  .drop-banner {
+    background: var(--red);
+    padding: 10px 64px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+
+  /* ─── COLOR SWATCHES ─── */
+  .swatch-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100px;
+  }
+  .swatch-block {
+    width: 100px;
+    height: 64px;
+    border: 1px solid var(--divider);
+  }
+  .swatch-name {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+  .swatch-hex {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--white);
+  }
+  .swatch-role {
+    font-size: 10px;
+    color: var(--smoke);
+    line-height: 1.4;
+  }
+
+
+  /* ─── TYPOGRAPHY ─── */
+  .type-row {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--divider);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .type-meta { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+  .type-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  .type-spec {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ash);
+    line-height: 1.7;
+  }
+  .type-sample-hero {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.0;
+    color: var(--white);
+  }
+  .type-sample-hero span { color: var(--red); }
+  .type-sample-h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+    color: var(--white);
+  }
+  .type-sample-h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .type-sample-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .type-sample-body {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--smoke);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+  .type-sample-nav {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  .type-sample-price {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .type-sample-price-sale {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .type-sample-price-orig {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--smoke);
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+  .type-sample-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .type-sample-mono {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--silver);
+    letter-spacing: 0.05em;
+  }
+
+
+  /* ─── COMPONENTS ─── */
+
+  /* Buttons */
+  .btn-primary {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: var(--radius-btn);
+    transition: background 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--red-hover); }
+  .btn-ghost {
+    background: transparent;
+    color: #fff;
+    border: var(--border-width) solid var(--ghost-btn);
+    padding: 12px 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: var(--radius-btn);
+    transition: border-color 0.15s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--white); }
+  .btn-full {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: var(--radius-btn);
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+  .btn-row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+  /* Badges */
+  .badge {
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    border-radius: var(--radius-input);
+    display: inline-block;
+  }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+
+  /* Product Card */
+  .product-card {
+    background: transparent;
+    cursor: pointer;
+  }
+  .product-card-img {
+    background: var(--surface-elevated);
+    aspect-ratio: 3/4;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .product-card-img:hover img { opacity: 0.85; }
+  .product-card-img .badge { position: absolute; top: 12px; left: 12px; }
+  .product-card-info { padding: 12px 0; }
+  .product-card-name {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .product-card-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 6px;
+  }
+
+  /* Section accent rule */
+  .section-header { margin-bottom: 40px; }
+
+  /* Size picker */
+  .size-picker { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+  .size-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--divider);
+    background: transparent;
+    color: var(--ash);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .size-btn.active { border-color: var(--white); color: var(--white); }
+  .size-btn.oos { opacity: 0.3; cursor: not-allowed; text-decoration: line-through; }
+
+  /* Color swatches (product) */
+  .color-swatch-row { display: flex; gap: 8px; margin: 16px 0; }
+  .color-swatch-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .color-swatch-dot.active { border-color: var(--white); }
+
+  /* PDP mockup */
+  .pdp-mock { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--divider); }
+  .pdp-gallery {
+    background: var(--surface-elevated);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--divider);
+  }
+  .pdp-gallery img { width: 100%; height: 100%; object-fit: cover; }
+  .pdp-info { padding: 48px; }
+  .pdp-info .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 12px;
+  }
+  .pdp-info h1 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .pdp-info .price-block { margin: 16px 0; }
+  .pdp-divider { border: none; border-top: 1px solid var(--divider); margin: 20px 0; }
+  .pdp-info .label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 8px;
+  }
+
+  /* Filter sidebar */
+  .filter-bar {
+    background: var(--canvas);
+    border: 1px solid var(--divider);
+    padding: 24px;
+    width: 220px;
+  }
+  .filter-group { margin-bottom: 32px; }
+  .filter-group-header {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 14px;
+  }
+  .filter-check { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .filter-checkbox {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--ghost-btn);
+    background: transparent;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .filter-checkbox.checked { background: var(--red); border-color: var(--red); }
+  .filter-check-label {
+    font-size: 12px;
+    color: var(--silver);
+  }
+
+  /* Accordion */
+  .accordion { border-top: 1px solid var(--divider); }
+  .accordion-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--divider);
+    cursor: pointer;
+  }
+  .accordion-header {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  .accordion-toggle { color: var(--smoke); font-size: 18px; line-height: 1; }
+  .accordion-body {
+    padding: 0 0 16px;
+    font-size: 11px;
+    color: var(--ash);
+    line-height: 1.8;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  /* Footer */
+  .footer-mock {
+    background: #080808;
+    border-top: 1px solid var(--divider);
+    padding: 48px 64px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+  .footer-col-header {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    margin-bottom: 16px;
+  }
+  .footer-link {
+    display: block;
+    font-size: 11px;
+    color: var(--ash);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.15s;
+  }
+  .footer-link:hover { color: var(--white); }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-tagline { font-size: 11px; color: var(--smoke); margin-bottom: 20px; }
+  .social-row { display: flex; gap: 8px; }
+  .social-btn {
+    width: 28px;
+    height: 28px;
+    background: var(--surface-elevated);
+    border: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--silver);
+    cursor: pointer;
+  }
+
+  /* Logo assets section */
+  .logo-asset-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .logo-asset-card {
+    border: 1px solid var(--divider);
+    overflow: hidden;
+  }
+  .logo-asset-preview-dark {
+    background: var(--canvas);
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .logo-asset-preview-light {
+    background: #ffffff;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .logo-asset-info {
+    padding: 12px 16px;
+    background: var(--surface-card);
+  }
+  .logo-asset-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 2px;
+  }
+  .logo-asset-file {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ash);
+  }
+  .logo-asset-preview-dark img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+  }
+  .logo-asset-preview-light img {
+    max-width: 100%;
+    max-height: 100px;
+    object-fit: contain;
+  }
+
+  /* Logo showcase — master chrome hero */
+  .logo-hero-card {
+    border: 1px solid var(--border-strong);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .logo-hero-preview {
+    background: var(--canvas);
+    padding: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+    border-bottom: 1px solid var(--divider);
+    position: relative;
+  }
+  .logo-hero-preview img {
+    max-width: 600px;
+    width: 80%;
+    object-fit: contain;
+  }
+  .logo-hero-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+  .logo-hero-info {
+    padding: 16px 24px;
+    background: var(--surface-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-hero-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-primary);
+  }
+  .logo-hero-file {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .logo-use-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .logo-use-tag {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
+  }
+
+  /* Nametag variants row */
+  .logo-nametag-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .logo-nametag-card {
+    border: 1px solid var(--divider);
+    overflow: hidden;
+  }
+  .logo-nametag-preview-dark {
+    background: #f5f3f4;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .logo-nametag-preview-light {
+    background: var(--canvas);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .logo-nametag-preview-dark img,
+  .logo-nametag-preview-light img {
+    max-width: 100%;
+    max-height: 80px;
+    object-fit: contain;
+  }
+
+  /* Hero mockup */
+  .hero-mock {
+    position: relative;
+    height: 420px;
+    background: var(--surface-elevated);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .hero-mock-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+  .hero-mock-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.85) 40%, transparent 100%);
+  }
+  .hero-mock-content {
+    position: relative;
+    padding: 0 80px;
+    max-width: 600px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 16px;
+  }
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .hero-headline span { color: var(--red); }
+  .hero-subline {
+    font-size: 13px;
+    color: var(--silver);
+    line-height: 1.7;
+    max-width: 380px;
+    margin-bottom: 28px;
+  }
+  .scroll-indicator {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .scroll-indicator-line { width: 1px; height: 32px; background: var(--smoke); }
+  .scroll-indicator-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+
+  /* Spacing */
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mt-32 { margin-top: 32px; }
+  .mb-8 { margin-bottom: 8px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .col-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  /* ─── FEEDBACK DRAWER ─── */
+  .feedback-drawer {
+    border-top: 1px solid var(--divider);
+    margin-top: 48px;
+    padding-top: 0;
+  }
+  .feedback-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0;
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .feedback-toggle-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--smoke);
+    transition: color 0.15s;
+  }
+  .feedback-toggle:hover .feedback-toggle-label { color: var(--red); }
+  .feedback-toggle-arrow {
+    font-size: 10px;
+    color: var(--smoke);
+    margin-left: auto;
+    transition: transform 0.2s;
+  }
+  .feedback-toggle.open .feedback-toggle-arrow { transform: rotate(180deg); }
+  .feedback-toggle.open .feedback-toggle-label { color: var(--red); }
+
+  .feedback-body {
+    display: none;
+    padding: 0 0 20px;
+  }
+  .feedback-body.open { display: block; }
+
+  .feedback-textarea {
+    width: 100%;
+    background: var(--surface-card);
+    border: 1px solid var(--ghost-btn);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 14px 16px;
+    resize: vertical;
+    min-height: 96px;
+    outline: none;
+    border-radius: var(--radius-input);
+    transition: border-color 0.15s;
+    display: block;
+  }
+  .feedback-textarea:focus { border-color: var(--red); }
+  .feedback-textarea::placeholder { color: var(--ash); }
+
+  .feedback-image-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .feedback-image-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--ghost-btn);
+    color: var(--silver);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .feedback-image-label:hover { border-color: var(--white); color: var(--white); }
+  .feedback-image-label svg { flex-shrink: 0; }
+  .feedback-image-input { display: none; }
+  .feedback-image-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ash);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .feedback-image-preview {
+    max-height: 120px;
+    max-width: 200px;
+    object-fit: contain;
+    border: 1px solid var(--ghost-btn);
+    display: none;
+  }
+
+  .feedback-submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    gap: 12px;
+  }
+  .feedback-submit-btn {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: var(--radius-btn);
+    transition: background 0.15s;
+  }
+  .feedback-submit-btn:hover { background: var(--red-hover); }
+  .feedback-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .feedback-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 0.05em;
+    min-height: 16px;
+  }
+  .feedback-status.success { color: #4caf50; }
+  .feedback-status.error { color: var(--red); }
+
+  /* feedback log link */
+  .feedback-log-link {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    text-decoration: none;
+    z-index: 999;
+    transition: background 0.15s;
+  }
+  .feedback-log-link:hover { background: var(--red-hover); }
+  .feedback-log-link .badge-count {
+    display: inline-block;
+    background: #fff;
+    color: var(--red);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 9px;
+    text-align: center;
+    line-height: 16px;
+    margin-left: 6px;
+    font-weight: 700;
+  }
+
+  /* text-edit mode: editable elements get a blue outline */
+  body.text-edit-mode [contenteditable="true"] {
+    outline: 1px dashed #4a90d9 !important;
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── DROP BANNER ─── -->
+<div class="drop-banner">
+  SUMMER DROP 001 — FREE SHIPPING ON ORDERS OVER $75
+</div>
+
+<!-- ─── NAV MOCKUP ─── -->
+<header class="site-header">
+  <div class="logo"><img src="/MASTER%20LOGO/light/chuco-nametag-light-outline.svg" alt="Chuco Apparel"></div>
+  <nav class="header-nav">
+    <a href="#">Shop</a>
+    <a href="#">Collections</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <div class="cart-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <div class="cart-dot">3</div>
+    </div>
+  </nav>
+</header>
+
+
+<!-- ─── HERO MOCKUP ─── -->
+<div class="hero-mock">
+  <img src="model img 2.png" alt="Hero" class="hero-mock-img">
+  <div class="hero-mock-overlay"></div>
+  <div class="hero-mock-content">
+    <p class="hero-eyebrow">Chuco Apparel — Est. Texas</p>
+    <h1 class="hero-headline">WEAR<br>THE<br><span>CULTURE</span></h1>
+    <p class="hero-subline">Texas roots. Blue-collar hustle. Worn by those who came up from real life.</p>
+    <button class="btn-primary">SHOP NOW</button>
+  </div>
+  <div class="scroll-indicator">
+    <span class="scroll-indicator-label">Scroll</span>
+    <div class="scroll-indicator-line"></div>
+  </div>
+</div>
+
+
+<!-- ─── COLOR PALETTE ─── -->
+<section class="section">
+  <div class="section-label">01 — Foundation</div>
+  <div class="accent-rule"></div>
+  <div class="section-title">Color Palette</div>
+
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-block" style="background:#000000; border-color:#333;"></div>
+      <div class="swatch-name">Void Black</div>
+      <div class="swatch-hex">#000000</div>
+      <div class="swatch-role">Page base, nav</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#0a0a0a; border-color:#333;"></div>
+      <div class="swatch-name">Carbon</div>
+      <div class="swatch-hex">#0a0a0a</div>
+      <div class="swatch-role">Alt surface, tab bars</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#111111;"></div>
+      <div class="swatch-name">Coal</div>
+      <div class="swatch-hex">#111111</div>
+      <div class="swatch-role">Cards, panels</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#1a1a1a;"></div>
+      <div class="swatch-name">Iron</div>
+      <div class="swatch-hex">#1a1a1a</div>
+      <div class="swatch-role">Image bg, dark sections</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#222222;"></div>
+      <div class="swatch-name">Steel</div>
+      <div class="swatch-hex">#222222</div>
+      <div class="swatch-role">Inputs, filter sidebar</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#2a2a2a;"></div>
+      <div class="swatch-name">Slag</div>
+      <div class="swatch-hex">#2a2a2a</div>
+      <div class="swatch-role">Dividers, borders</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#333333;"></div>
+      <div class="swatch-name">Ember Gray</div>
+      <div class="swatch-hex">#333333</div>
+      <div class="swatch-role">Ghost buttons</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#444444;"></div>
+      <div class="swatch-name">Ash</div>
+      <div class="swatch-hex">#444444</div>
+      <div class="swatch-role">Dim text, inactive</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#555555;"></div>
+      <div class="swatch-name">Smoke</div>
+      <div class="swatch-hex">#555555</div>
+      <div class="swatch-role">Muted body text</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#888888;"></div>
+      <div class="swatch-name">Silver Smoke</div>
+      <div class="swatch-hex">#888888</div>
+      <div class="swatch-role">Nav links, placeholders</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#ffffff; border-color:#333;"></div>
+      <div class="swatch-name">Pure White</div>
+      <div class="swatch-hex">#ffffff</div>
+      <div class="swatch-role">Primary text, logo</div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-block" style="background:#CC0000;"></div>
+      <div class="swatch-name">Blood Red</div>
+      <div class="swatch-hex">#CC0000</div>
+      <div class="swatch-role">CTAs, badges, active states</div>
+    </div>
+  </div>
+
+  <div class="mt-32" style="background: var(--surface-card); padding: 20px 24px; border: 1px solid var(--divider);">
+    <div class="section-label" style="margin-bottom: 12px;">Blood Red Usage Rule</div>
+    <p style="font-size: 12px; color: var(--smoke); line-height: 1.7; max-width: 640px;">
+      <span style="color: var(--red); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;">ONLY ON →</span>
+      &nbsp; Primary CTA buttons · Product badges (NEW, DROP, HOT, SALE) · Active nav underline ·
+      Section accent rules (40px × 2px) · Cart count dot · Drop banner background ·
+      Sale price highlights · Hover/focus borders on filters.
+      <br><br>
+      <span style="color: var(--ash); font-family: var(--font-mono); font-size: 10px;">Appears rarely so it hits hard.</span>
+    </p>
+  </div>
+</section>
+
+
+<!-- ─── TYPOGRAPHY ─── -->
+<section class="section">
+  <div class="section-label">02 — Typography</div>
+  <div class="accent-rule"></div>
+  <div class="section-title">Type System</div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Display / H1</div>
+      <div class="type-spec">
+        Font: Prompt<br>
+        Size: 56px<br>
+        Weight: 900<br>
+        Case: All-caps<br>
+        Track: 0.06em<br>
+        Height: 1.0
+      </div>
+    </div>
+    <div>
+      <div class="type-sample-hero">WEAR THE<br><span>CULTURE</span></div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Section H2</div>
+      <div class="type-spec">
+        Font: Prompt<br>
+        Size: 28px<br>
+        Weight: 900<br>
+        Case: All-caps<br>
+        Track: 0.08em
+      </div>
+    </div>
+    <div>
+      <div class="type-sample-h2">New Arrivals</div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Brand Story H2</div>
+      <div class="type-spec">
+        Font: Prompt<br>
+        Size: 36px<br>
+        Weight: 900<br>
+        Case: All-caps<br>
+        Track: 0.06em
+      </div>
+    </div>
+    <div>
+      <div class="type-sample-hero" style="font-size: 36px;">From the Border.<br>For the Block.</div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Eyebrow / Label</div>
+      <div class="type-spec">
+        Font: Gudea<br>
+        Size: 9px<br>
+        Weight: 400<br>
+        Case: All-caps<br>
+        Track: 0.20em<br>
+        Color: --ash
+      </div>
+    </div>
+    <div style="padding-top: 8px;">
+      <div class="type-sample-eyebrow">Chuco Apparel — Est. San Antonio, TX</div>
+      <div style="margin-top: 16px;">
+        <div class="accent-rule"></div>
+        <div class="type-sample-h2">New Arrivals</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Body</div>
+      <div class="type-spec">
+        Font: Merriweather<br>
+        Size: 13px<br>
+        Weight: 400<br>
+        Color: --smoke<br>
+        Height: 1.7
+      </div>
+    </div>
+    <div>
+      <p class="type-sample-body">
+        Texas roots. Blue-collar hustle. Street culture, baseball, oilfields, faith —
+        for people who came up from real life. Chuco Apparel doesn't imitate the culture.
+        We are the culture. Every drop is limited. Every piece is earned.
+      </p>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Nav Links</div>
+      <div class="type-spec">
+        Font: Gudea<br>
+        Size: 11px<br>
+        Case: All-caps<br>
+        Track: 0.15em<br>
+        Color: --smoke → --white
+      </div>
+    </div>
+    <div style="display: flex; gap: 32px; padding-top: 8px;">
+      <div class="type-sample-nav">Shop</div>
+      <div class="type-sample-nav">Collections</div>
+      <div class="type-sample-nav" style="color: var(--white);">About ← hover</div>
+      <div class="type-sample-nav">Contact</div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Price</div>
+      <div class="type-spec">
+        Font: Gudea<br>
+        Size: 13px<br>
+        Weight: 700<br>
+        Use: UI chrome — not body
+      </div>
+    </div>
+    <div style="display: flex; gap: 32px; padding-top: 8px; align-items: center;">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--ash); letter-spacing: 0.1em; margin-bottom: 4px;">REGULAR</div>
+        <span class="type-sample-price">$45.00</span>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--ash); letter-spacing: 0.1em; margin-bottom: 4px;">SALE</div>
+        <span class="type-sample-price-sale">$32.00</span>
+        <span class="type-sample-price-orig">$45.00</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="type-meta">
+      <div class="type-tag">Button / CTA</div>
+      <div class="type-spec">
+        Font: Gudea<br>
+        Size: 11px<br>
+        Case: All-caps<br>
+        Track: 0.18em
+      </div>
+    </div>
+    <div style="padding-top: 8px;">
+      <div class="type-sample-btn">ADD TO CART · SHOP NOW · VIEW ALL PRODUCTS</div>
+    </div>
+  </div>
+
+  <div class="type-row" style="border-bottom: none;">
+    <div class="type-meta">
+      <div class="type-tag">Mono / Meta</div>
+      <div class="type-spec">
+        Font: Gudea<br>
+        Size: 11px<br>
+        Color: --silver
+      </div>
+    </div>
+    <div style="padding-top: 8px;">
+      <div class="type-sample-mono">SKU: CHU-HDY-001 · Size: M · Color: Black · In Stock</div>
+      <div class="type-sample-mono mt-8">Order #00147 · Placed Jun 7, 2026 · Status: Shipped</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── COMPONENTS ─── -->
+<section class="section">
+  <div class="section-label">03 — Components</div>
+  <div class="accent-rule"></div>
+  <div class="section-title">Component Library</div>
+
+  <!-- Buttons -->
+  <div class="col-label">Buttons</div>
+  <div class="btn-row mb-24">
+    <button class="btn-primary">SHOP NOW</button>
+    <button class="btn-primary">ADD TO CART</button>
+    <button class="btn-ghost">VIEW ALL PRODUCTS</button>
+    <button class="btn-ghost">OUR STORY</button>
+  </div>
+  <div class="mb-24" style="max-width: 320px;">
+    <button class="btn-full">ADD TO CART</button>
+  </div>
+
+  <!-- Badges -->
+  <div class="col-label mt-32">Product Badges</div>
+  <div class="badge-row">
+    <span class="badge">NEW</span>
+    <span class="badge">DROP</span>
+    <span class="badge">HOT</span>
+    <span class="badge">SALE</span>
+  </div>
+  <p style="font-size: 11px; color: var(--ash); font-family: var(--font-mono); letter-spacing: 0.05em;">
+    Sharp rectangle · #CC0000 bg · 8px all-caps mono · Position: top-left of product image
+  </p>
+
+  <!-- Product Cards -->
+  <div class="col-label mt-32">Product Cards — 4-col Grid</div>
+  <div class="grid-4">
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="model img 1.png" alt="Product">
+        <span class="badge">DROP</span>
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-sub">Hoodies</div>
+        <div class="product-card-name">I Trust In God Hoodie</div>
+        <span class="type-sample-price">$65.00</span>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img">
+        <img src="model img 2.png" alt="Product">
+        <span class="badge">NEW</span>
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-sub">T-Shirts</div>
+        <div class="product-card-name">WEAR THE CULTURE Tee</div>
+        <span class="type-sample-price">$45.00</span>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img" style="background: #1a1a1a;">
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-sub">Jerseys</div>
+        <div class="product-card-name">Chuco Block Jersey</div>
+        <span class="type-sample-price-sale">$55.00</span>
+        <span class="type-sample-price-orig">$70.00</span>
+        <span class="badge" style="vertical-align: middle; margin-left: 6px; font-size: 7px; padding: 2px 5px;">SALE</span>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-img" style="background: #1a1a1a;">
+      </div>
+      <div class="product-card-info">
+        <div class="product-card-sub">Hoodies</div>
+        <div class="product-card-name">Dragon Mark Hoodie</div>
+        <span class="type-sample-price">$72.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter + Size -->
+  <div class="col-label mt-32">Filter Sidebar + Size Picker</div>
+  <div style="display: flex; gap: 32px; align-items: flex-start;">
+    <div class="filter-bar">
+      <div class="filter-group">
+        <div class="filter-group-header">Collection</div>
+        <div class="filter-check"><div class="filter-checkbox checked"></div><span class="filter-check-label">Hoodies</span></div>
+        <div class="filter-check"><div class="filter-checkbox"></div><span class="filter-check-label">T-Shirts</span></div>
+        <div class="filter-check"><div class="filter-checkbox"></div><span class="filter-check-label">Jerseys</span></div>
+        <div class="filter-check"><div class="filter-checkbox"></div><span class="filter-check-label">Sweatpants</span></div>
+        <div class="filter-check"><div class="filter-checkbox"></div><span class="filter-check-label">Gymwear</span></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-header">Size</div>
+        <div class="size-picker">
+          <div class="size-btn">XS</div>
+          <div class="size-btn">S</div>
+          <div class="size-btn active">M</div>
+          <div class="size-btn">L</div>
+          <div class="size-btn">XL</div>
+          <div class="size-btn oos">2X</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="col-label">Color Swatches</div>
+      <div class="color-swatch-row">
+        <div class="color-swatch-dot active" style="background: #111111;"></div>
+        <div class="color-swatch-dot" style="background: #CC0000;"></div>
+        <div class="color-swatch-dot" style="background: #dddddd;"></div>
+      </div>
+      <p style="font-size: 10px; color: var(--ash); font-family: var(--font-mono); letter-spacing: 0.08em; margin-top: 8px;">Only curved element in system (28px circles)</p>
+
+      <div class="col-label mt-32">Accordion</div>
+      <div class="accordion" style="width: 320px;">
+        <div class="accordion-row">
+          <span class="accordion-header">Product Details</span>
+          <span class="accordion-toggle">+</span>
+        </div>
+        <div class="accordion-body" style="padding: 12px 0;">
+          100% heavyweight cotton. Screen-printed artwork. Machine wash cold, tumble dry low.
+        </div>
+        <div class="accordion-row">
+          <span class="accordion-header">Size & Fit</span>
+          <span class="accordion-toggle">+</span>
+        </div>
+        <div class="accordion-row">
+          <span class="accordion-header">Shipping & Returns</span>
+          <span class="accordion-toggle">+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── PDP MOCKUP ─── -->
+<section class="section">
+  <div class="section-label">04 — Product Detail Page</div>
+  <div class="accent-rule"></div>
+  <div class="section-title">PDP Layout</div>
+
+  <div class="pdp-mock">
+    <div class="pdp-gallery">
+      <img src="model img 1.png" alt="Product">
+    </div>
+    <div class="pdp-info">
+      <div class="eyebrow">Hoodies</div>
+      <h1>"I TRUST IN GOD" HOODIE</h1>
+      <div class="price-block">
+        <span class="type-sample-price" style="font-size: 18px;">$65.00</span>
+      </div>
+      <hr class="pdp-divider">
+      <div class="label">Color</div>
+      <div class="color-swatch-row">
+        <div class="color-swatch-dot active" style="background: #111111;"></div>
+        <div class="color-swatch-dot" style="background: #CC0000;"></div>
+      </div>
+      <div class="label mt-16">Size</div>
+      <div class="size-picker">
+        <div class="size-btn">XS</div>
+        <div class="size-btn">S</div>
+        <div class="size-btn active">M</div>
+        <div class="size-btn">L</div>
+        <div class="size-btn">XL</div>
+        <div class="size-btn oos">2X</div>
+      </div>
+      <div class="mt-24">
+        <button class="btn-full">ADD TO CART</button>
+      </div>
+      <hr class="pdp-divider">
+      <div class="accordion">
+        <div class="accordion-row">
+          <span class="accordion-header">Product Details</span>
+          <span class="accordion-toggle">+</span>
+        </div>
+        <div class="accordion-row">
+          <span class="accordion-header">Shipping</span>
+          <span class="accordion-toggle">+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── LOGO ASSETS ─── -->
+<section class="section">
+  <div class="section-label">05 — Logo Assets</div>
+  <div class="accent-rule"></div>
+  <div class="section-title">Master Logo System</div>
+
+  <!-- ── HERO: Master Chrome (logo + mascot) ── -->
+  <div class="logo-hero-card">
+    <div class="logo-hero-preview">
+      <div class="logo-hero-badge">Master Logo</div>
+      <img src="/MASTER%20LOGO/master-logo/chuco-master-chrome.svg" alt="Chuco Master Chrome Logo">
+    </div>
+    <div class="logo-hero-info">
+      <div>
+        <div class="logo-hero-title">Chrome Logo + Mascot</div>
+        <div class="logo-hero-file">MASTER LOGO/master-logo/chuco-master-chrome.svg</div>
+      </div>
+      <div class="logo-use-tags">
+        <span class="logo-use-tag">Website Hero</span>
+        <span class="logo-use-tag">Marketing</span>
+        <span class="logo-use-tag">Merch</span>
+        <span class="logo-use-tag">Hub</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Chrome Nametag + Chrome Mascot ── -->
+  <div class="logo-asset-grid" style="margin-bottom: 24px;">
+    <div class="logo-asset-card">
+      <div class="logo-asset-preview-dark">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-nametag.svg" alt="Chrome Nametag">
+      </div>
+      <div class="logo-asset-preview-light">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-nametag.svg" alt="Chrome Nametag Light">
+      </div>
+      <div class="logo-asset-info">
+        <div class="logo-asset-name">Chrome Nametag</div>
+        <div class="logo-asset-file">chuco-chrome-nametag.svg</div>
+        <div style="font-size: 9px; color: var(--accent); font-family: var(--font-mono); margin-top: 4px;">Navbar · Header · Apparel tag</div>
+      </div>
+    </div>
+
+    <div class="logo-asset-card">
+      <div class="logo-asset-preview-dark">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-mascot.svg" alt="Chrome Mascot">
+      </div>
+      <div class="logo-asset-preview-light">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-mascot.svg" alt="Chrome Mascot Light">
+      </div>
+      <div class="logo-asset-info">
+        <div class="logo-asset-name">Chrome Mascot</div>
+        <div class="logo-asset-file">chuco-chrome-mascot.svg</div>
+        <div style="font-size: 9px; color: var(--accent); font-family: var(--font-mono); margin-top: 4px;">Icon · Favicon · Social avatar</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Nametag Variants (dark / light) ── -->
+  <div style="font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;">Nametag Variants — Dark & Light</div>
+  <div class="logo-nametag-row">
+    <div class="logo-nametag-card">
+      <div class="logo-nametag-preview-dark">
+        <img src="/MASTER%20LOGO/dark/chuco-nametag-dark.svg" alt="Nametag Dark">
+      </div>
+      <div class="logo-asset-info">
+        <div class="logo-asset-name">Nametag — Dark</div>
+        <div class="logo-asset-file">MASTER LOGO/dark/chuco-nametag-dark.svg · .png · .af</div>
+        <div style="font-size: 9px; color: var(--accent); font-family: var(--font-mono); margin-top: 4px;">Dark bg · Website navbar · Email headers</div>
+      </div>
+    </div>
+
+    <div class="logo-nametag-card">
+      <div class="logo-nametag-preview-light">
+        <img src="/MASTER%20LOGO/light/chuco-nametag-light.svg" alt="Nametag Light">
+      </div>
+      <div class="logo-asset-info">
+        <div class="logo-asset-name">Nametag — Light</div>
+        <div class="logo-asset-file">MASTER LOGO/light/chuco-nametag-light.svg · .png · .af</div>
+        <div style="font-size: 9px; color: var(--accent); font-family: var(--font-mono); margin-top: 4px;">Light bg · Hang tags · Print · Packaging</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Usage key ── -->
+  <div style="background: var(--surface-1); border: 1px solid var(--divider); padding: 20px 24px; margin-top: 8px;">
+    <div class="section-label" style="margin-bottom: 12px;">Logo Usage Key</div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Master Chrome</div>
+        <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.6;">Hero sections, marketing materials, merch graphics, hub header</div>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Chrome Nametag</div>
+        <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.6;">Navbar wordmark, apparel tags, email signatures, social banners</div>
+      </div>
+      <div>
+        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Chrome Mascot</div>
+        <div style="font-size: 11px; color: var(--text-secondary); line-height: 1.6;">Favicon, social avatar, icon badge, embroidery mark</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER MOCKUP ─── -->
+<footer class="footer-mock">
+  <div>
+    <div class="footer-logo">CHUCO<span>.</span></div>
+    <div class="footer-tagline">WEAR THE CULTURE</div>
+    <div class="social-row">
+      <div class="social-btn">IG</div>
+      <div class="social-btn">TK</div>
+    </div>
+  </div>
+  <div>
+    <div class="footer-col-header">Shop</div>
+    <a class="footer-link" href="#">T-Shirts</a>
+    <a class="footer-link" href="#">Hoodies</a>
+    <a class="footer-link" href="#">Jerseys</a>
+    <a class="footer-link" href="#">Sweatpants</a>
+    <a class="footer-link" href="#">Gymwear</a>
+  </div>
+  <div>
+    <div class="footer-col-header">Info</div>
+    <a class="footer-link" href="#">About</a>
+    <a class="footer-link" href="#">Shipping</a>
+    <a class="footer-link" href="#">Returns</a>
+    <a class="footer-link" href="#">Contact</a>
+  </div>
+  <div>
+    <div class="footer-col-header">Legal</div>
+    <a class="footer-link" href="#">Privacy Policy</a>
+    <a class="footer-link" href="#">Terms of Service</a>
+  </div>
+</footer>
+
+<div style="background: #000; text-align: center; padding: 20px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; color: var(--ash);">
+  CHUCO APPAREL — DESIGN SYSTEM PREVIEW · GENERATED 2026-06-07
+</div>
+
+<script>
+// ── Feedback drawer logic ────────────────────────────────────────────────────
+
+function buildFeedbackDrawer(sectionName) {
+  const drawer = document.createElement('div');
+  drawer.className = 'feedback-drawer';
+  drawer.innerHTML = `
+    <button class="feedback-toggle" onclick="toggleDrawer(this)">
+      <span class="feedback-toggle-label">Leave feedback on this section</span>
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="flex-shrink:0">
+        <rect x="0" y="4" width="10" height="1.5" fill="#555"/>
+        <rect x="4" y="0" width="1.5" height="10" fill="#CC0000"/>
+      </svg>
+      <span class="feedback-toggle-arrow" style="color:#555;font-size:10px;">▼</span>
+    </button>
+    <div class="feedback-body">
+      <textarea
+        class="feedback-textarea"
+        placeholder="What looks right, what needs changing, any questions…"
+        rows="4"
+      ></textarea>
+      <div class="feedback-image-row">
+        <label class="feedback-image-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          Attach screenshot
+          <input type="file" class="feedback-image-input" accept="image/*">
+        </label>
+        <span class="feedback-image-name">No file selected</span>
+      </div>
+      <img class="feedback-image-preview" alt="Preview">
+      <div class="feedback-submit-row">
+        <button class="feedback-submit-btn" onclick="submitFeedback(this, '${sectionName}')">
+          Submit →
+        </button>
+        <span class="feedback-status"></span>
+      </div>
+    </div>
+  `;
+
+  // Wire up file input
+  const fileInput = drawer.querySelector('.feedback-image-input');
+  const fileName = drawer.querySelector('.feedback-image-name');
+  const preview = drawer.querySelector('.feedback-image-preview');
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+      fileName.textContent = file.name;
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.style.display = 'block';
+    } else {
+      fileName.textContent = 'No file selected';
+      preview.style.display = 'none';
+    }
+  });
+
+  return drawer;
+}
+
+function toggleDrawer(btn) {
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+async function submitFeedback(btn, sectionName) {
+  const drawer = btn.closest('.feedback-drawer');
+  const textarea = drawer.querySelector('.feedback-textarea');
+  const fileInput = drawer.querySelector('.feedback-image-input');
+  const status = drawer.querySelector('.feedback-status');
+
+  const text = textarea.value.trim();
+  if (!text) {
+    status.textContent = 'Please write something first.';
+    status.className = 'feedback-status error';
+    return;
+  }
+
+  btn.disabled = true;
+  status.textContent = 'Submitting…';
+  status.className = 'feedback-status';
+
+  try {
+    const res = await fetch('https://warmhearted-cormorant-536.convex.cloud/api/mutation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        path: 'feedback:submit',
+        args: { clientSlug: 'chuco', section: sectionName, message: text },
+        format: 'json'
+      })
+    });
+    if (!res.ok) throw new Error('Server error');
+    textarea.value = '';
+    if (fileInput) { fileInput.value = ''; }
+    drawer.querySelector('.feedback-image-name').textContent = 'No file selected';
+    drawer.querySelector('.feedback-image-preview').style.display = 'none';
+    status.textContent = '✓ Submitted!';
+    status.className = 'feedback-status success';
+    setTimeout(() => {
+      status.textContent = '';
+      status.className = 'feedback-status';
+    }, 3000);
+  } catch (e) {
+    status.textContent = 'Error — try again.';
+    status.className = 'feedback-status error';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── Inject drawers into every section ───────────────────────────────────────
+// ── Nav scroll behavior ───────────────────────────────────────────────────────
+const siteHeader = document.querySelector('.site-header');
+const dropBanner = document.querySelector('.drop-banner');
+const heroSection = document.querySelector('.hero-mock');
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+  const currentY = window.scrollY;
+  const bannerH = dropBanner ? dropBanner.offsetHeight : 0;
+  const heroThreshold = bannerH + (heroSection ? heroSection.offsetHeight : 400);
+
+  // Headroom: expand nav once banner scrolls away
+  siteHeader.classList.toggle('scrolled', currentY > bannerH);
+
+  // Past hero: hide nav links on scroll down, reveal on scroll up
+  if (currentY > heroThreshold) {
+    if (currentY > lastScrollY) {
+      siteHeader.classList.add('nav-hidden');
+    } else {
+      siteHeader.classList.remove('nav-hidden');
+    }
+  } else {
+    siteHeader.classList.remove('nav-hidden');
+  }
+
+  lastScrollY = currentY;
+}, { passive: true });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section.section');
+  sections.forEach(section => {
+    // Get section name from the section-label or section-title
+    const labelEl = section.querySelector('.section-label');
+    const titleEl = section.querySelector('.section-title');
+    const name = (titleEl ? titleEl.textContent : (labelEl ? labelEl.textContent : 'Section')).trim();
+    section.appendChild(buildFeedbackDrawer(name));
+  });
+
+  // Also add to hero, PDP, footer mock
+  const hero = document.querySelector('.hero-mock');
+  if (hero && hero.parentElement) {
+    const heroDrawerWrap = document.createElement('div');
+    heroDrawerWrap.style.cssText = 'background:#000;padding:0 64px;border-bottom:1px solid #2a2a2a;';
+    heroDrawerWrap.appendChild(buildFeedbackDrawer('Hero Section'));
+    hero.parentElement.insertBefore(heroDrawerWrap, hero.nextSibling);
+  }
+
+  loadCount();
+});
+</script>
+
+<!-- design editor removed -->
+
+</body>
+</html>

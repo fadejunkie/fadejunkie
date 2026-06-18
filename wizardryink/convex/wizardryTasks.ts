@@ -100,9 +100,10 @@ export const addDeliverable = mutation({
     projectId: v.string(),
     milestoneKey: v.string(),
     label: v.string(),
-    url: v.string(),
+    url: v.optional(v.string()),
     type: v.string(),
     addedAt: v.number(),
+    markdownContent: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("wizardryDeliverables", args);
@@ -113,5 +114,21 @@ export const removeDeliverable = mutation({
   args: { id: v.id("wizardryDeliverables") },
   handler: async (ctx, { id }) => {
     await ctx.db.delete(id);
+  },
+});
+
+export const saveDiscovery = mutation({
+  args: { projectId: v.string(), responses: v.string(), submittedAt: v.number() },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("wizardryDiscovery").withIndex("by_project", (q) => q.eq("projectId", args.projectId)).first();
+    if (existing) { await ctx.db.patch(existing._id, { responses: args.responses, submittedAt: args.submittedAt }); }
+    else { await ctx.db.insert("wizardryDiscovery", args); }
+  },
+});
+
+export const getDiscovery = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db.query("wizardryDiscovery").withIndex("by_project", (q) => q.eq("projectId", projectId)).first();
   },
 });

@@ -1,0 +1,171 @@
+/* Mexico En La Piel — Mexican heritage leather palette */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Rye&display=swap");
+@import "tailwindcss";
+
+/* Space Cowboy — self-hosted. Drop space-cowboy.woff2 into public/fonts/ to activate.
+   Rye (Google Fonts) is the active fallback until the file is provided. */
+@font-face {
+  font-family: "Space Cowboy";
+  src: url("/fonts/space-cowboy.woff2") format("woff2"),
+       url("/fonts/space-cowboy.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Mexico En La Piel — warm parchment + adobe red + burnished gold */
+  --canvas: #F5E6D3;           /* page floor — sun-warmed parchment */
+  --surface-soft: #EDD9BE;     /* alternate section bands, footer */
+  --surface-card: #F9EEE0;     /* cards, panels */
+  --surface-elevated: #FFFFFF; /* inputs, modals */
+  --hairline: #C4882A;         /* all borders & dividers — burnished gold */
+  --on-dark: #F5E6D3;          /* text on dark surfaces */
+  --body: #2A1205;             /* primary body text — deep leather brown */
+  --body-strong: #1A0A00;      /* subheadings, strong labels */
+  --muted: #7A5C3F;            /* captions, helper text — warm brown */
+  --primary: #5C1A0A;          /* deep adobe red — buttons, links, CTAs */
+  --primary-hover: #731F0C;
+  --primary-press: #3D1007;
+  --primary-soft: #F5D5C8;
+  --primary-fg: #F5E6D3;       /* text on primary-filled surfaces */
+  --accent: #C4882A;           /* burnished gold — decorative highlights */
+  --accent-fg: #1A0A00;
+  --secondary: #9B5E2A;
+  --maroon: #5C1A0A;           /* featured panels only — brand reserve */
+
+  /* Legacy aliases */
+  --bg: #F5E6D3;
+  --surface: #F9EEE0;
+  --border: #C4882A;
+  --text: #2A1205;
+  --text-muted: #7A5C3F;
+
+  /* Font vars — Space Cowboy self-hosted, Rye fallback via next/font/google */
+  --font-display: "Space Cowboy", var(--font-rye), serif;
+  --font-body: "DM Sans", var(--font-body-base), system-ui, sans-serif;
+
+  /* Elevation */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-2: 0 4px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-3: 0 8px 32px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+
+  /* Radius */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-card: var(--surface-card);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-hairline: var(--hairline);
+  --color-on-dark: var(--on-dark);
+  --color-body: var(--body);
+  --color-body-strong: var(--body-strong);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-maroon: var(--maroon);
+  /* legacy */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll video section — shorter on mobile */
+.scroll-video-container {
+  height: 400vh;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .scroll-video-container {
+    height: 220vh;
+  }
+}
+
+/* Shop filter tabs — horizontal scroll on mobile */
+.filter-tabs {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+@media (max-width: 640px) {
+  .filter-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    gap: 20px;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tabs a { flex-shrink: 0; }
+}
+
+html {
+  height: 100%;
+  background: var(--canvas);
+}
+
+body {
+  min-height: 100%;
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display headlines — Space Cowboy (Rye fallback) */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+}
+
+/* Eyebrow labels — uppercase, golden tan thread */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.manifesto-cta:hover {
+  background: #731F0C !important;
+}

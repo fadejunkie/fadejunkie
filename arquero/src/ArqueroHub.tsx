@@ -1,9 +1,11 @@
 // @ts-nocheck
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import { useQuery, useMutation, useAction } from "convex/react";
+import { marked } from "marked";
 import { api } from "../convex/_generated/api";
 
-const O="#e8541a",O2="#ff6b2b",EMBER="#ff4500",GREEN="#22c55e";
+const O="#004AAD",O2="#6189BE",EMBER="#DAAC58",GREEN="#22c55e";
 
 /* ── spark canvas ── */
 function SparkCanvas(){
@@ -24,11 +26,11 @@ const phases=[
   {id:1,name:"BRAND",subtitle:"Brand Discovery + Visual System",week:"WEEKS 1–2",fee:"$550",short:"BRAND · KIT",icon:"🎨",
     milestones:[
       {title:"DISCOVERY SESSION",clientDesc:"Define what Arquero stands for — positioning, audience, and brand voice for the welding lifestyle market.",
-        tasks:[{label:"Client intake call — brand story, values, target customer profile"},{label:"Define brand positioning: where does Arquero sit in the welding lifestyle space?"},{label:"Identify tone: rugged craftsmanship? modern industrial? streetwear-meets-trade?"},{label:"Competitor audit — 5 comparable welding/trade lifestyle brands"}]},
+        tasks:[{label:"Complete the Brand Intake Questionnaire",blocker:true},{label:"Define brand positioning: where does Arquero sit in the welding lifestyle space?"},{label:"Identify tone: rugged craftsmanship? modern industrial? streetwear-meets-trade?"},{label:"Competitor audit — 5 comparable welding/trade lifestyle brands"}]},
       {title:"MOOD + DIRECTION",clientDesc:"Visual direction deck before any design work begins.",
         tasks:[{label:"Build mood board — textures, typography, color feel, photography style"},{label:"Present 2 direction options (e.g. raw industrial vs. refined craft)"},{label:"Get client approval on direction before moving to logo design",blocker:true}]},
       {title:"LOGO DESIGN",clientDesc:"Three concepts refined into a final mark — primary logo, icon, and wordmark.",
-        tasks:[{label:"Generate 3 distinct logo concepts (AI-assisted + manual vector refinement)"},{label:"Present concepts with mockups — apparel tags, embroidery, social, packaging"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"}]},
+        tasks:[{label:"Generate 3 distinct logo concepts (hand-crafted + vector refinement)"},{label:"Present concepts with mockups — apparel tags, embroidery, social, packaging"},{label:"Revision round 1 on selected direction"},{label:"Revision round 2 — final polish and lockup variations"},{label:"Export final files: PNG (transparent), SVG (vector), PDF (print-ready)"},{label:"Create icon-only and wordmark-only variants"}]},
       {title:"BRAND SYSTEM",clientDesc:"Complete brand kit — colors, fonts, usage rules.",
         tasks:[{label:"Define primary palette — dark/steel tones + signature accent (welding orange/amber)"},{label:"Define secondary palette + neutrals with hex codes"},{label:"Select typography — display font (heavy/industrial) + body font (clean/readable)"},{label:"Build brand guidelines PDF: logo usage, minimum sizes, clear space, do's/don'ts"},{label:"Include application examples — tags, labels, packaging mockups, social templates"},{label:"Deliver complete brand kit to client"}]},
     ]},
@@ -226,10 +228,11 @@ function AgreementPage({colors}){
   const [lastChecked,setLastChecked]=useState<Date|null>(null);
   const [showInvoice,setShowInvoice]=useState(true);
 
-  const saveAgreementMutation=useMutation(api.arqueroTasks.saveAgreement);
-  const updatePaymentMutation=useMutation(api.arqueroTasks.updateAgreementPayment);
-  const checkStatusAction=useAction(api.arqueroTasks.checkInvoiceStatus);
-  const existingAgreement=useQuery(api.arqueroTasks.getAgreement,{projectId:"arquero-co"});
+  const saveAgreementMutation=useMutation(api.agreements.saveAgreement);
+  const updatePaymentMutation=useMutation(api.agreements.updatePayment);
+  // Payment confirmed — no Stripe polling needed (hub-master has no checkInvoiceStatus action)
+  const checkStatusAction=async()=>({});
+  const existingAgreement=useQuery(api.agreements.getAgreement,{clientSlug:"arquero",projectId:"arquero-co"});
 
 
   // Restore from Convex on load (skip in dev mode)
@@ -278,7 +281,7 @@ function AgreementPage({colors}){
       setSaving(true);
       try{
         const inv=INVOICE_MAP[payType];
-        await saveAgreementMutation({projectId:"arquero-co",agreementType:payType,sigData:data,signedDate:date,signedAt:Date.now(),invoiceNumber:inv.number});
+        await saveAgreementMutation({clientSlug:"arquero",projectId:"arquero-co",agreementType:payType,sigData:data,signedDate:date,invoiceNumber:inv.number});
       }finally{setSaving(false);}
     }
   };
@@ -294,7 +297,7 @@ function AgreementPage({colors}){
       if(result.status==="paid"){
         setPayStatus("paid");
         setReceiptUrl(result.receiptUrl??null);
-        await updatePaymentMutation({projectId:"arquero-co",paymentStatus:"paid",receiptUrl:result.receiptUrl??undefined,paidAt:result.paidAt??undefined});
+        await updatePaymentMutation({clientSlug:"arquero",projectId:"arquero-co",paymentStatus:"paid",receiptUrl:result.receiptUrl??undefined,paidAt:result.paidAt??undefined});
       }else{
         setPayStatus("idle");
       }
@@ -610,10 +613,235 @@ function AgreementPage({colors}){
 }
 
 /* ═══════════════════════════════════════
+   MILESTONE DELIVERABLES
+   ═══════════════════════════════════════ */
+function DocViewer({d,c,onClose}){
+  const slides=d.markdownContent?(d.markdownContent.split(/\n---\n/).filter(s=>s.trim())):null;
+  const isSlides=slides&&slides.length>1;
+  const [slide,setSlide]=useState(0);
+  const [viewMode,setViewMode]=useState(isSlides?"slides":"doc");
+
+  const renderHtml=(md)=>{marked.setOptions({breaks:true,gfm:true});return marked.parse(md||"")};
+
+  const downloadMd=()=>{
+    const blob=new Blob([d.markdownContent],{type:"text/markdown"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+    a.download=d.label.replace(/[^a-z0-9]+/gi,"-").toLowerCase()+".md";a.click();URL.revokeObjectURL(a.href);
+  };
+
+  const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
+  const isContent=!!(d.markdownContent&&d.markdownContent.length>0);
+
+  const proseStyles=`
+    .doc-prose{font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.8;color:${c.INK};}
+    .doc-prose h1{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:${c.INK};margin:0 0 16px;letter-spacing:1px;border-bottom:2px solid ${c.BLUE}22;padding-bottom:10px;}
+    .doc-prose h2{font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:700;color:${c.INK};margin:28px 0 10px;letter-spacing:0.5px;}
+    .doc-prose h3{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:2px;margin:20px 0 8px;}
+    .doc-prose p{margin:0 0 14px;}
+    .doc-prose strong{font-weight:700;color:${c.INK};}
+    .doc-prose em{font-style:italic;color:${c.STONE};}
+    .doc-prose ul,.doc-prose ol{margin:0 0 14px;padding-left:22px;}
+    .doc-prose li{margin-bottom:5px;}
+    .doc-prose a{color:${c.BLUE};text-decoration:underline;}
+    .doc-prose blockquote{border-left:3px solid ${c.BLUE};margin:0 0 14px;padding:10px 16px;background:${c.BLUE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;}
+    .doc-prose code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:${c.DEEP};padding:2px 6px;border-radius:3px;color:${c.NAVY};}
+    .doc-prose pre{background:${c.DEEP};border:1px solid ${c.EDGE};border-radius:6px;padding:14px 16px;overflow-x:auto;margin:0 0 14px;}
+    .doc-prose pre code{background:none;padding:0;}
+    .doc-prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:12px;}
+    .doc-prose th{background:${c.BLUE}10;color:${c.NAVY};font-weight:700;text-align:left;padding:8px 12px;border-bottom:2px solid ${c.BLUE}33;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+    .doc-prose td{padding:8px 12px;border-bottom:1px solid ${c.EDGE};vertical-align:top;}
+    .doc-prose tr:last-child td{border-bottom:none;}
+    .doc-prose img{max-width:100%;border-radius:8px;margin:8px 0;}
+    .doc-prose hr{border:none;border-top:1px solid ${c.EDGE};margin:24px 0;}
+    .slide-prose{display:flex;flex-direction:column;justify-content:center;min-height:340px;padding:32px 40px;}
+    .slide-prose h1{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:${c.INK};margin:0 0 20px;text-align:center;letter-spacing:1px;}
+    .slide-prose h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:${c.INK};margin:0 0 14px;}
+    .slide-prose h3{font-size:10px;font-weight:700;color:${c.BLUE};text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}
+    .slide-prose p{font-size:14px;line-height:1.7;margin:0 0 12px;color:${c.INK};}
+    .slide-prose ul,.slide-prose ol{padding-left:20px;margin:0 0 12px;}
+    .slide-prose li{font-size:13px;line-height:1.6;margin-bottom:6px;}
+    .slide-prose strong{font-weight:700;}
+    .slide-prose table{width:100%;border-collapse:collapse;font-size:12px;margin:0 0 12px;}
+    .slide-prose th{background:${c.BLUE}10;color:${c.NAVY};font-weight:700;padding:7px 10px;border-bottom:2px solid ${c.BLUE}33;font-size:10px;text-transform:uppercase;letter-spacing:1px;}
+    .slide-prose td{padding:7px 10px;border-bottom:1px solid ${c.EDGE};}
+    .slide-prose blockquote{border-left:3px solid ${c.BLUE};padding:10px 16px;background:${c.BLUE}08;color:${c.STONE};font-style:italic;border-radius:0 6px 6px 0;margin:0 0 12px;}
+  `;
+
+  return ReactDOM.createPortal(
+    <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.78)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+      <style>{proseStyles}</style>
+      <div onClick={e=>e.stopPropagation()} style={{background:c.BG,borderRadius:12,width:"calc(100vw - 40px)",maxWidth:960,height:"calc(100vh - 60px)",maxHeight:"90vh",display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${c.EDGE}`,boxShadow:"0 32px 80px rgba(0,0,0,0.5)"}}>
+        <div style={{padding:"14px 20px",borderBottom:`1px solid ${c.EDGE}`,display:"flex",alignItems:"center",gap:12,flexShrink:0,background:c.CARD}}>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{fontWeight:900,fontSize:14,fontFamily:"'Barlow Condensed',sans-serif",color:c.INK,letterSpacing:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+            <div style={{fontSize:9,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginTop:1,letterSpacing:1}}>
+              {isContent?"DOCUMENT":isPdf(d.url)?"PDF":isImg(d.url)?"IMAGE":"LINK"} · {new Date(d.addedAt).toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"})}
+            </div>
+          </div>
+          {isContent&&isSlides&&(
+            <div style={{display:"flex",background:c.DEEP,borderRadius:4,overflow:"hidden",border:`1px solid ${c.EDGE}`,flexShrink:0}}>
+              {[["doc","Document"],["slides","Slides"]].map(([v,l])=>(
+                <button key={v} onClick={()=>{setViewMode(v);setSlide(0)}} style={{padding:"4px 12px",fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",background:viewMode===v?c.BLUE:"transparent",color:viewMode===v?"#fff":c.SLATE,border:"none",cursor:"pointer"}}>{l.toUpperCase()}</button>
+              ))}
+            </div>
+          )}
+          {isContent&&(
+            <button onClick={downloadMd} style={{fontSize:10,fontWeight:700,letterSpacing:0.5,fontFamily:"'IBM Plex Mono',monospace",padding:"5px 12px",background:c.BLUE+"0c",color:c.BLUE,border:`1px solid ${c.BLUE}33`,borderRadius:4,cursor:"pointer",flexShrink:0}}>↓ .md</button>
+          )}
+          <button onClick={onClose} style={{fontSize:18,color:c.SLATE,background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"0 4px",flexShrink:0}}>×</button>
+        </div>
+
+        {isContent&&viewMode==="doc"&&(
+          <div style={{overflowY:"auto",flex:1,padding:"32px 48px"}}>
+            <div className="doc-prose" dangerouslySetInnerHTML={{__html:renderHtml(d.markdownContent)}}/>
+          </div>
+        )}
+
+        {isContent&&viewMode==="slides"&&(
+          <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+            <div style={{flex:1,overflowY:"auto",background:c.BG}}>
+              <div className="doc-prose slide-prose" dangerouslySetInnerHTML={{__html:renderHtml(slides[slide])}}/>
+            </div>
+            <div style={{borderTop:`1px solid ${c.EDGE}`,padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",background:c.CARD,flexShrink:0}}>
+              <button onClick={()=>setSlide(s=>Math.max(0,s-1))} disabled={slide===0} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===0?c.EDGE:c.SLATE,cursor:slide===0?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>‹</button>
+              <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                {slides.map((_,i)=>(
+                  <button key={i} onClick={()=>setSlide(i)} style={{width:i===slide?20:7,height:7,borderRadius:4,background:i===slide?c.BLUE:c.EDGE,border:"none",cursor:"pointer",transition:"all 0.2s",padding:0}}/>
+                ))}
+              </div>
+              <button onClick={()=>setSlide(s=>Math.min(slides.length-1,s+1))} disabled={slide===slides.length-1} style={{fontSize:18,background:"none",border:`1px solid ${c.EDGE}`,borderRadius:6,color:slide===slides.length-1?c.EDGE:c.SLATE,cursor:slide===slides.length-1?"default":"pointer",width:34,height:34,display:"flex",alignItems:"center",justifyContent:"center"}}>›</button>
+            </div>
+          </div>
+        )}
+
+        {!isContent&&isImg(d.url)&&(
+          <div style={{flex:1,overflow:"auto",display:"flex",flexDirection:"column",alignItems:"center",padding:24,gap:16,background:c.DEEP}}>
+            <img src={d.url} alt={d.label} style={{maxWidth:"100%",maxHeight:"60vh",borderRadius:8,boxShadow:"0 8px 32px rgba(0,0,0,0.3)",objectFit:"contain"}}/>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 18px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN FULL SIZE</a>
+          </div>
+        )}
+
+        {!isContent&&!isImg(d.url)&&(
+          <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:16,padding:40}}>
+            <div style={{fontSize:40}}>{isPdf(d.url)?"📄":"🔗"}</div>
+            <div style={{fontSize:14,fontWeight:600,color:c.INK,fontFamily:"'Barlow Condensed',sans-serif",textAlign:"center",letterSpacing:1}}>{d.label}</div>
+            <a href={d.url} target="_blank" rel="noopener noreferrer" style={{fontSize:11,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"8px 24px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer",textDecoration:"none"}}>↗ OPEN {isPdf(d.url)?"PDF":"LINK"}</a>
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+function MilestoneDeliverables({milestoneKey,c,isOps,deliverables,onAdd,onRemove}){
+  const [adding,setAdding]=useState(false);
+  const [addMode,setAddMode]=useState("url");
+  const [label,setLabel]=useState("");
+  const [url,setUrl]=useState("");
+  const [type,setType]=useState("screenshot");
+  const [mdContent,setMdContent]=useState("");
+  const [viewing,setViewing]=useState(null);
+
+  const items=(deliverables||[]).filter(d=>d.milestoneKey===milestoneKey);
+
+  const submit=()=>{
+    if(!label.trim())return;
+    if(addMode==="url"){
+      if(!url.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:url.trim(),type});
+    } else {
+      if(!mdContent.trim())return;
+      onAdd({milestoneKey,label:label.trim(),url:"",type:"md",markdownContent:mdContent.trim()});
+    }
+    setLabel("");setUrl("");setType("screenshot");setMdContent("");setAdding(false);
+  };
+
+  const isPdf=(u)=>u&&u.toLowerCase().endsWith(".pdf");
+  const isImg=(u)=>u&&(/\.(png|jpg|jpeg|gif|webp|svg)$/i.test(u)||u.includes("screenshot")||u.includes("imgur")||u.includes("cloudinary"));
+
+  const btnSm=(active)=>({fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",padding:"3px 8px",borderRadius:3,cursor:"pointer",border:`1px solid ${active?c.BLUE+"44":c.EDGE}`,background:active?c.BLUE+"0c":"transparent",color:active?c.BLUE:c.SLATE});
+
+  return(
+    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${c.EDGE}44`}}>
+      {viewing&&<DocViewer d={viewing} c={c} onClose={()=>setViewing(null)}/>}
+
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace"}}>DELIVERABLES</div>
+        {isOps&&!adding&&(
+          <button onClick={()=>setAdding(true)} style={{fontSize:10,fontWeight:600,color:c.BLUE,background:c.BLUE+"0c",border:`1px solid ${c.BLUE}22`,borderRadius:4,padding:"3px 10px",cursor:"pointer",fontFamily:"'IBM Plex Mono',monospace",letterSpacing:0.5}}>+ ADD</button>
+        )}
+      </div>
+
+      {items.length===0&&!adding&&(
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",fontStyle:"italic",padding:"4px 0"}}>No deliverables yet</div>
+      )}
+
+      {items.map(d=>{
+        const isContent=!!(d.markdownContent&&d.markdownContent.length>0);
+        const isImgUrl=!isContent&&isImg(d.url);
+        const isPdfUrl=!isContent&&isPdf(d.url);
+        const typeLabel=isContent?"DOC":isImgUrl?"IMG":isPdfUrl?"PDF":"URL";
+        const typeBg=isContent?c.NAVY+"14":isImgUrl?c.GREEN+"14":isPdfUrl?c.EMBER+"14":c.BLUE+"14";
+        const typeColor=isContent?c.NAVY:isImgUrl?c.GREEN:isPdfUrl?c.EMBER:c.BLUE;
+        return(
+          <div key={d._id} onClick={()=>setViewing(d)} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 12px",background:c.CARD,borderRadius:8,marginBottom:6,border:`1px solid ${c.EDGE}`,cursor:"pointer",transition:"border-color 0.15s"}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor=c.BLUE+"44"}
+            onMouseLeave={e=>e.currentTarget.style.borderColor=c.EDGE}>
+            <div style={{width:36,height:36,borderRadius:6,background:typeBg,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,border:`1px solid ${typeColor}22`}}>
+              <span style={{fontSize:9,fontWeight:800,color:typeColor,fontFamily:"'IBM Plex Mono',monospace",letterSpacing:0.5}}>{typeLabel}</span>
+            </div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{fontSize:13,fontWeight:600,color:c.INK,fontFamily:"'Barlow Condensed',sans-serif",letterSpacing:0.5,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.label}</div>
+              <div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginTop:2}}>
+                {isContent?"Document · Click to read":isImgUrl?"Image · Click to view":isPdfUrl?"PDF Document · Click to open":"External link · Click to open"}
+                {" · "}{new Date(d.addedAt).toLocaleDateString("en-US",{month:"short",day:"numeric"})}
+              </div>
+            </div>
+            <div style={{fontSize:14,color:c.SLATE,flexShrink:0}}>›</div>
+            {isOps&&(
+              <button onClick={e=>{e.stopPropagation();onRemove(d._id)}} style={{fontSize:14,color:c.SLATE,background:"none",border:"none",cursor:"pointer",padding:"2px 6px",borderRadius:3,lineHeight:1,flexShrink:0}} title="Remove">×</button>
+            )}
+          </div>
+        );
+      })}
+
+      {adding&&(
+        <div style={{background:c.DEEP,borderRadius:6,padding:"12px 14px",border:`1px solid ${c.BLUE}22`,marginTop:4}}>
+          <div style={{display:"flex",gap:6,marginBottom:10}}>
+            <button onClick={()=>setAddMode("url")} style={btnSm(addMode==="url")}>URL / File</button>
+            <button onClick={()=>setAddMode("content")} style={btnSm(addMode==="content")}>Paste Content</button>
+          </div>
+          {addMode==="url"&&(
+            <div style={{display:"flex",gap:6,marginBottom:8}}>
+              {[{v:"screenshot",l:"Screenshot"},{v:"pdf",l:"PDF"},{v:"link",l:"Link"}].map(o=>(
+                <button key={o.v} onClick={()=>setType(o.v)} style={{fontSize:9,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"4px 10px",borderRadius:3,cursor:"pointer",border:`1px solid ${type===o.v?c.BLUE+"44":c.EDGE}`,background:type===o.v?c.BLUE+"0c":"transparent",color:type===o.v?c.BLUE:c.SLATE}}>{o.l}</button>
+              ))}
+            </div>
+          )}
+          <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (e.g. Brand Positioning Doc)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:6}}/>
+          {addMode==="url"?(
+            <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="URL (paste link to image, PDF, or page)" style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:12,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+          ):(
+            <textarea value={mdContent} onChange={e=>setMdContent(e.target.value)} placeholder="Paste markdown content here…" rows={8} style={{width:"100%",padding:"7px 10px",background:c.CARD,border:`1px solid ${c.EDGE}`,borderRadius:4,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",marginBottom:8,resize:"vertical",lineHeight:1.6}}/>
+          )}
+          <div style={{display:"flex",gap:6}}>
+            <button onClick={submit} style={{fontSize:10,fontWeight:700,letterSpacing:1,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 16px",background:c.BLUE,color:"#fff",border:"none",borderRadius:4,cursor:"pointer"}}>SAVE</button>
+            <button onClick={()=>{setAdding(false);setLabel("");setUrl("");setMdContent("");}} style={{fontSize:10,fontWeight:600,fontFamily:"'IBM Plex Mono',monospace",padding:"6px 12px",background:"transparent",color:c.SLATE,border:`1px solid ${c.EDGE}`,borderRadius:4,cursor:"pointer"}}>CANCEL</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    WORKFLOW PAGE
    ═══════════════════════════════════════ */
-function WorkflowPage({view,tasks,onToggle,colors}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any}){
+function WorkflowPage({view,tasks,onToggle,colors,deliverables,onAddDeliverable,onRemoveDeliverable,discoveryData,onSubmitDiscovery,directionPick,onPick}:{view:string,tasks:Record<string,boolean>,onToggle:(key:string)=>void,colors:any,deliverables?:any[],onAddDeliverable?:any,onRemoveDeliverable?:any,discoveryData?:any,onSubmitDiscovery?:any,directionPick?:any,onPick?:any}){
   const {O,O2,EMBER,DARK,STEEL,PLATE,WELD,RIVET,ASH,SMOKE,LIGHT,GREEN}=colors;
+  const c={BG:DARK,CARD:PLATE,DEEP:WELD,EDGE:RIVET,SLATE:ASH,STONE:SMOKE,INK:LIGHT,BLUE:O,NAVY:O2,GREEN,EMBER};
   const [activePhase,setActivePhase]=useState(1);
   const [expanded,setExpanded]=useState({});
   useEffect(()=>{const a={};phases.forEach(p=>p.milestones.forEach(m=>{a[`${p.id}-${m.title}`]=true}));setExpanded(a)},[]);
@@ -720,6 +948,13 @@ function WorkflowPage({view,tasks,onToggle,colors}:{view:string,tasks:Record<str
                           );
                         })}
                       </div>
+                      <MilestoneDeliverables milestoneKey={`${phase.id}-${m.title}`} c={c} isOps={view==="internal"} deliverables={deliverables??[]} onAdd={onAddDeliverable??((()=>{}))} onRemove={onRemoveDeliverable??((()=>{}))}/>
+                      {phase.id===1&&m.title==="DISCOVERY SESSION"&&(
+                        <ArqueroDiscoveryForm c={c} opsMode={view==="internal"} discoveryData={discoveryData} onSubmit={onSubmitDiscovery}/>
+                      )}
+                      {phase.id===1&&m.title==="MOOD + DIRECTION"&&(
+                        <ArqueroDirectionPicker c={c} opsMode={view==="internal"} directionPick={directionPick} onPick={onPick}/>
+                      )}
                     </div>
                   )}
                 </div>
@@ -1117,13 +1352,391 @@ function WebsitePage({colors}){
 }
 
 /* ═══════════════════════════════════════
+   ARQUERO DISCOVERY FORM (inline)
+   ═══════════════════════════════════════ */
+const arqueroQuestions=[
+  {id:"brand_story",section:"YOUR BRAND",label:"What's the story behind Arquero? What does the name mean to you?",type:"textarea",placeholder:"Tell us the origin — the vision, the name, why now..."},
+  {id:"differentiator",section:"YOUR BRAND",label:"What makes Arquero different from other workwear or welder lifestyle brands?",type:"textarea",placeholder:"What do you bring that Weld Culture, Pipeliners, or generic workwear doesn't?"},
+  {id:"tagline",section:"YOUR BRAND",label:"Do you have a tagline in mind?",type:"text",placeholder:"e.g. 'Aim True. Weld True.' — or leave blank if undecided"},
+  {id:"target_customer",section:"YOUR CUSTOMER",label:"Who is the core Arquero customer?",type:"textarea",placeholder:"e.g. pipe welders, fabricators, weekend builders, trade apprentices..."},
+  {id:"purchase_driver",section:"YOUR CUSTOMER",label:"Why does your customer choose Arquero over a generic brand or a competitor?",type:"textarea",placeholder:"What's the pull — identity, quality, craft pride, community?"},
+  {id:"brand_feeling",section:"BRAND FEEL",label:"Pick 3-5 words that describe how you want the brand to feel.",type:"text",placeholder:"e.g. Raw, precise, proud, gritty, earned..."},
+  {id:"style_direction",section:"BRAND FEEL",label:"Which visual direction resonates most?",type:"select",options:["Raw Industrial — rough textures, heavy metal, forge energy","Refined Craft — precision, quality, understated confidence","Streetwear Edge — lifestyle-first, culture-native, hype-adjacent","Heritage Trade — old-school mastery, pride in craft, legacy"]},
+  {id:"inspiration",section:"BRAND FEEL",label:"Any brands, logos, or aesthetics you admire?",type:"textarea",placeholder:"Any industry — share names, links, or describe the feeling..."},
+  {id:"hero_product",section:"PRODUCT LINE",label:"What's the first product you want to launch with?",type:"text",placeholder:"e.g. heavyweight tee, welding bandana, snapback..."},
+  {id:"existing_assets",section:"PRODUCT LINE",label:"What do you already have?",type:"select",options:["Nothing yet — starting completely fresh","Have product ideas but no photos or designs","Have some product photos or mockups","Have branding concepts or logo ideas","Have everything — just need the store"]},
+];
+function ArqueroDiscoveryForm({c,opsMode,discoveryData,onSubmit}){
+  const [form,setForm]=useState({});
+  const [saving,setSaving]=useState(false);
+  useEffect(()=>{if(discoveryData?.responses){try{setForm(JSON.parse(discoveryData.responses))}catch{}}},[discoveryData]);
+  const submitted=!!(discoveryData?.submittedAt&&discoveryData.submittedAt>0);
+  const update=(id,val)=>setForm(p=>({...p,[id]:val}));
+  const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  const handleSubmit=async()=>{
+    const required=arqueroQuestions.filter(q=>q.type!=="select").slice(0,2);
+    if(required.some(q=>!form[q.id]?.trim()))return;
+    setSaving(true);try{await onSubmit(form);}finally{setSaving(false);}
+  };
+  const sections=[...new Set(arqueroQuestions.map(q=>q.section))];
+  if(submitted){
+    const summary=[{label:"Brand story",val:form.brand_story},{label:"Differentiator",val:form.differentiator},{label:"Target customer",val:form.target_customer}].filter(s=>s.val);
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6,marginBottom:summary.length?12:0}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:"'IBM Plex Mono',monospace"}}>Brand Intake Submitted</div>
+          {discoveryData?.submittedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",marginLeft:"auto"}}>{fmt(discoveryData.submittedAt)}</div>:null}
+          {opsMode&&<button onClick={async()=>{setSaving(true);try{await onSubmit(null)}finally{setSaving(false)}}} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:"'IBM Plex Mono',monospace",padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Reset"}</button>}
+        </div>
+        {summary.length>0&&<div style={{display:"flex",flexDirection:"column",gap:6}}>{summary.slice(0,3).map(s=>(<div key={s.label} style={{padding:"8px 12px",background:c.CARD,borderRadius:5,border:`1px solid ${c.EDGE}`}}><div style={{fontSize:9,fontWeight:700,color:c.SLATE,letterSpacing:2,fontFamily:"'IBM Plex Mono',monospace",marginBottom:2}}>{s.label.toUpperCase()}</div><div style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>{s.val.length>120?s.val.slice(0,120)+"…":s.val}</div></div>))}</div>}
+      </div>
+    );
+  }
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:14}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",textTransform:"uppercase",marginBottom:4}}>Brand Intake</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:"'IBM Plex Mono',monospace",lineHeight:1.5}}>Tell us about Arquero — your answers shape every brand decision.</div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:20,maxHeight:500,overflowY:"auto",paddingRight:4}}>
+        {sections.map(section=>(
+          <div key={section}>
+            <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:"'IBM Plex Mono',monospace",marginBottom:10,paddingBottom:6,borderBottom:`1px solid ${c.EDGE}`}}>{section}</div>
+            <div style={{display:"flex",flexDirection:"column",gap:14}}>
+              {arqueroQuestions.filter(q=>q.section===section).map(q=>(
+                <div key={q.id}>
+                  <label style={{display:"block",fontSize:11,fontWeight:600,color:c.INK,marginBottom:5,lineHeight:1.4,fontFamily:"'IBM Plex Mono',monospace"}}>{q.label}</label>
+                  {q.type==="textarea"?(<textarea value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} rows={2} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",resize:"vertical",boxSizing:"border-box",lineHeight:1.5,transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>
+                  ):q.type==="select"?(<div style={{display:"flex",flexDirection:"column",gap:4}}>{q.options.map(opt=>(<label key={opt} onClick={()=>update(q.id,opt)} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:form[q.id]===opt?c.BLUE+"18":c.BG,border:`1px solid ${form[q.id]===opt?c.BLUE+"66":c.EDGE}`,borderRadius:5,cursor:"pointer",transition:"all 0.15s"}}><div style={{width:14,height:14,borderRadius:"50%",border:`2px solid ${form[q.id]===opt?c.BLUE:c.EDGE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{form[q.id]===opt&&<div style={{width:6,height:6,borderRadius:"50%",background:c.BLUE}}/>}</div><span style={{fontSize:11,color:c.INK,fontFamily:"'IBM Plex Mono',monospace"}}>{opt}</span></label>))}</div>
+                  ):(<input type="text" value={form[q.id]||""} onChange={e=>update(q.id,e.target.value)} placeholder={q.placeholder} style={{width:"100%",padding:"8px 10px",background:c.BG,border:`1px solid ${c.EDGE}`,borderRadius:5,color:c.INK,fontSize:11,fontFamily:"'IBM Plex Mono',monospace",outline:"none",boxSizing:"border-box",transition:"border-color 0.15s"}} onFocus={e=>e.target.style.borderColor=c.BLUE} onBlur={e=>e.target.style.borderColor=c.EDGE}/>)}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{paddingTop:14,marginTop:8,borderTop:`1px solid ${c.EDGE}`}}>
+        <button onClick={handleSubmit} disabled={saving} style={{width:"100%",padding:"10px 0",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:"'IBM Plex Mono',monospace",background:c.BLUE,color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1}}>{saving?"SUBMITTING…":"SUBMIT INTAKE"}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   ARQUERO DIRECTION PICKER (modal)
+   ═══════════════════════════════════════ */
+function ArqueroDirectionPicker({c,opsMode,directionPick,onPick}){
+  const [modalOpen,setModalOpen]=useState(false);
+  const [selectedInModal,setSelectedInModal]=useState(null);
+  const [confirming,setConfirming]=useState(false);
+  const [saving,setSaving]=useState(false);
+  const [hoverA,setHoverA]=useState(false);
+  const [hoverB,setHoverB]=useState(false);
+  const [hoverConfirm,setHoverConfirm]=useState(false);
+  const [lightboxIdx,setLightboxIdx]=useState(null);
+  const [hoveredGalleryIdx,setHoveredGalleryIdx]=useState(null);
+
+  const activePick=directionPick?.pick&&directionPick.pick!==""?directionPick.pick:null;
+  const pickedAt=directionPick?.pickedAt;
+  const MONO="'IBM Plex Mono',monospace";
+  const BARLOW="'Barlow Condensed','Arial Narrow',sans-serif";
+  const optionNames={A:"Raw Industrial",B:"Refined Craft"};
+  const optionDescriptors={A:"Forge energy. Grit. Heavy metal presence.",B:"Precision. Warmth. Earned identity."};
+  const optionDescriptions={
+    A:"Hard contrast. Stamped into metal. The aesthetic of a brand that was forged, not designed — for welders who recognize the work.",
+    B:"Earth tones. Desert light. San Miguel heritage visible in the palette before a word is read. The direction that no competitor can copy.",
+  };
+  const optionChips={A:["Gritty","Heavy","Forge energy","Bold contrast"],B:["Precision","Quality","Earned","Heritage warmth"]};
+  const A_ACCENT="#8b7355";
+  const swatchesA=[{hex:"#2B2D2F",name:"Gunmetal"},{hex:"#8B4513",name:"Oxidized Bronze"},{hex:"#D4731A",name:"Forge Ember"},{hex:"#6B6E70",name:"Iron Grey"},{hex:"#111214",name:"Foundry Black"}];
+  const swatchesB=[{hex:"#C2623A",name:"Terracotta"},{hex:"#7A8B6F",name:"Desert Sage"},{hex:"#F0E6D4",name:"Bone"},{hex:"#3B2415",name:"Espresso"},{hex:"#B8943E",name:"Brass"}];
+  const optionTypography={A:"DISPLAY: BEBAS NEUE · BODY: IBM PLEX SANS",B:"DISPLAY: PLAYFAIR DISPLAY · BODY: SOURCE SERIF 4"};
+  const galleryImages=[
+    {src:"/moodboard-a.png",label:"THE FORGE"},
+    {src:"/moodboard-b.png",label:"THE CRAFT"},
+    {src:"/mb-vaquero.png",label:"VAQUERO"},
+    {src:"/mb-snakeskin.png",label:"SNAKESKIN"},
+    {src:"/mb-desert.png",label:"DESERT"},
+    {src:"/mb-pipeline.png",label:"PIPELINE"},
+    {src:"/mb-tradicion.png",label:"TRADICIÓN"},
+  ];
+
+  const handlePick=async(pick)=>{
+    setSaving(true);
+    try{await onPick(pick);}
+    finally{setSaving(false);setConfirming(false);setSelectedInModal(null);setModalOpen(false);}
+  };
+  const fmt=(ts)=>new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+
+  const openModal=()=>{setSelectedInModal(null);setConfirming(false);setModalOpen(true);};
+  const closeModal=()=>{if(saving)return;setModalOpen(false);setSelectedInModal(null);setConfirming(false);};
+
+  /* ── post-pick success badge ── */
+  if(activePick){
+    return(
+      <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:c.GREEN+"06",border:`1px solid ${c.GREEN}22`,borderRadius:6}}>
+          <div style={{width:20,height:20,borderRadius:"50%",background:c.GREEN+"20",border:`1.5px solid ${c.GREEN}44`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:c.GREEN,flexShrink:0,fontWeight:700}}>✓</div>
+          <div style={{fontSize:12,fontWeight:700,color:c.GREEN,fontFamily:MONO}}>Option {activePick} — {optionNames[activePick]} selected</div>
+          {pickedAt?<div style={{fontSize:10,color:c.SLATE,fontFamily:MONO,marginLeft:"auto"}}>{fmt(pickedAt)}</div>:null}
+          {opsMode&&<button onClick={()=>handlePick("")} disabled={saving} style={{fontSize:10,color:c.SLATE,background:"none",border:"none",cursor:"pointer",textDecoration:"underline",fontFamily:MONO,padding:0,marginLeft:4,opacity:saving?0.5:1}}>{saving?"…":"Change"}</button>}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── inline trigger ── */
+  return(
+    <div style={{borderTop:`1px solid ${c.EDGE}`,marginTop:16,paddingTop:16}}>
+      <div style={{marginBottom:12}}>
+        <div style={{fontSize:9,fontWeight:700,color:c.BLUE,letterSpacing:3,fontFamily:MONO,textTransform:"uppercase",marginBottom:4}}>Choose Your Direction</div>
+        <div style={{fontSize:11,color:c.SLATE,fontFamily:MONO,lineHeight:1.5}}>Pick the visual direction for Arquero — this unlocks logo design.</div>
+      </div>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:14}}>
+        <div style={{fontSize:11,color:c.STONE,fontFamily:MONO,opacity:0.7}}>A: Raw Industrial</div>
+        <div style={{flex:1,height:1,background:c.EDGE}}/>
+        <div style={{fontSize:11,color:c.STONE,fontFamily:MONO,opacity:0.7}}>B: Refined Craft</div>
+      </div>
+      <button
+        onClick={openModal}
+        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:MONO,background:c.BLUE,color:"#fff",border:"none",borderRadius:6,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}
+      >
+        <span style={{fontSize:12}}>▶</span> OPEN DIRECTION PICKER
+      </button>
+
+      {/* ── MODAL ── */}
+      {modalOpen&&ReactDOM.createPortal(
+        <div
+          onClick={e=>{if(e.target===e.currentTarget)closeModal();}}
+          style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.85)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:"16px"}}
+        >
+          <div style={{width:"100%",maxWidth:1100,maxHeight:"92vh",background:"#111010",border:"1px solid rgba(255,255,255,0.08)",borderRadius:16,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+
+            {/* modal header */}
+            <div style={{padding:"20px 24px 16px",borderBottom:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"flex-start",justifyContent:"space-between",flexShrink:0,background:"#111010"}}>
+              <div>
+                <div style={{fontSize:22,fontWeight:900,fontFamily:BARLOW,color:"#F5F0EA",letterSpacing:3,textTransform:"uppercase",lineHeight:1}}>THE VISUAL WORLD OF ARQUERO</div>
+                <div style={{fontSize:11,color:"#666",fontFamily:MONO,marginTop:6,lineHeight:1.5,maxWidth:560}}>Pick the direction that feels most like Arquero — this choice unlocks logo design.</div>
+              </div>
+              <button onClick={closeModal} style={{fontSize:20,color:"#666",background:"none",border:"none",cursor:"pointer",lineHeight:1,padding:"2px 6px",marginTop:-2,flexShrink:0,transition:"color 0.15s"}} onMouseEnter={e=>(e.target as HTMLButtonElement).style.color="#F5F0EA"} onMouseLeave={e=>(e.target as HTMLButtonElement).style.color="#666"}>×</button>
+            </div>
+
+            {/* modal body */}
+            <div style={{flex:1,overflowY:"auto",padding:"20px 24px 24px",background:"#111010"}}>
+
+              {/* confirmation step */}
+              {confirming&&selectedInModal?(
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minHeight:320,textAlign:"center",padding:"32px 24px"}}>
+                  <div style={{background:"#1A1614",border:"1px solid rgba(255,255,255,0.08)",borderRadius:12,padding:"32px 40px",maxWidth:520,width:"100%",display:"flex",flexDirection:"column",alignItems:"center"}}>
+                    <div style={{fontSize:10,fontWeight:700,color:"#888",fontFamily:MONO,letterSpacing:2,marginBottom:20,textTransform:"uppercase",fontStyle:"italic"}}>You chose:</div>
+                    <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:12,width:"100%",justifyContent:"center"}}>
+                      <img src={selectedInModal==="A"?"/moodboard-a.png":"/moodboard-b.png"} alt="" style={{width:80,height:50,objectFit:"cover",borderRadius:6,border:"1px solid rgba(255,255,255,0.1)",flexShrink:0}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{fontSize:32,fontWeight:900,fontFamily:BARLOW,color:"#F5F0EA",letterSpacing:1,textTransform:"uppercase",textAlign:"left",lineHeight:1.05}}>Option {selectedInModal} — {optionNames[selectedInModal]}</div>
+                    </div>
+                    <div style={{width:60,height:3,background:selectedInModal==="A"?"#2B2D2F":"#C2623A",borderRadius:2,marginBottom:20}}/>
+                    <div style={{fontSize:13,color:"#888",fontFamily:MONO,lineHeight:1.7,maxWidth:420,fontStyle:"italic",marginBottom:28}}>
+                      {optionDescriptions[selectedInModal]}{" "}This direction unlocks logo design for Arquero Co.
+                    </div>
+                    <div style={{display:"flex",gap:12,alignItems:"center"}}>
+                      <button
+                        onClick={()=>setConfirming(false)}
+                        style={{padding:"10px 20px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:"transparent",color:"#888",border:"1px solid #333",borderRadius:5,cursor:"pointer"}}
+                      >← BACK</button>
+                      <button
+                        onClick={()=>handlePick(selectedInModal)}
+                        onMouseEnter={()=>setHoverConfirm(true)}
+                        onMouseLeave={()=>setHoverConfirm(false)}
+                        disabled={saving}
+                        style={{padding:"10px 24px",fontSize:10,fontWeight:700,letterSpacing:1.5,fontFamily:MONO,background:selectedInModal==="A"?(hoverConfirm?"#2B2D2F":"#1C1917"):(hoverConfirm?"#A84F2E":"#C2623A"),color:"#fff",border:"none",borderRadius:5,cursor:saving?"wait":"pointer",opacity:saving?0.7:1,transition:"background 0.15s"}}
+                      >{saving?"SAVING…":"CONFIRM DIRECTION →"}</button>
+                    </div>
+                  </div>
+                </div>
+              ):(
+                /* two-column option cards + gallery */
+                <>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))",gap:16}}>
+
+                  {/* OPTION A */}
+                  <div style={{background:"#EDEAE5",border:"1px solid rgba(255,255,255,0.15)",borderRadius:14,overflow:"hidden",display:"flex",flexDirection:"column",boxShadow:"0 24px 64px rgba(0,0,0,0.5),0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.6)"}}>
+                    <div style={{height:3,background:"#2B2D2F",flexShrink:0}}/>
+                    <div style={{position:"relative",height:260,overflow:"hidden",flexShrink:0}}>
+                      <img src="/moodboard-a.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#EDEAE5 100%)"}}/>
+                    </div>
+                    <div style={{padding:"20px 22px 18px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:72,fontWeight:900,fontFamily:BARLOW,color:"#2B2D2F",lineHeight:1,marginBottom:4}}>A</div>
+                      <div style={{fontSize:16,fontWeight:700,fontFamily:BARLOW,color:"#1C1917",letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>Raw Industrial</div>
+                      <div style={{fontSize:12,color:"#6B6361",fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.A}</div>
+                      <div style={{height:1,background:"rgba(43,45,47,0.15)",marginBottom:14}}/>
+                      <div style={{marginBottom:14}}>
+                        <div style={{fontSize:8,fontWeight:700,color:"#8B8785",letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{display:"flex",gap:6}}>
+                          {swatchesA.map(s=>(
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:"1.5px solid rgba(43,45,47,0.2)",flexShrink:0,cursor:"default"}}/>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
+                        {optionChips.A.map(chip=>(
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:"#2B2D2F",background:"rgba(43,45,47,0.08)",border:"1px solid rgba(43,45,47,0.2)",borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:9,color:"#8B8785",fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.A}</div>
+                      <div style={{fontSize:13,color:"#3D3835",fontFamily:MONO,lineHeight:1.6,flex:1,marginBottom:18}}>{optionDescriptions.A}</div>
+                      <button
+                        onClick={()=>{setSelectedInModal("A");setConfirming(true);}}
+                        onMouseEnter={()=>setHoverA(true)}
+                        onMouseLeave={()=>setHoverA(false)}
+                        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:BARLOW,background:hoverA?"#2B2D2F":"#1C1917",color:"#F5F0EA",border:"none",borderRadius:6,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >SELECT RAW INDUSTRIAL</button>
+                    </div>
+                  </div>
+
+                  {/* OPTION B */}
+                  <div style={{background:"#F5EFE6",border:"1px solid rgba(255,255,255,0.15)",borderRadius:14,overflow:"hidden",display:"flex",flexDirection:"column",position:"relative",boxShadow:"0 24px 64px rgba(0,0,0,0.5),0 4px 16px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.6)"}}>
+                    <div style={{height:3,background:"#C2623A",flexShrink:0}}/>
+                    <div style={{position:"relative",height:260,overflow:"hidden",flexShrink:0}}>
+                      <img src="/moodboard-b.png" style={{width:"100%",height:"100%",objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                      <div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,transparent 30%,#F5EFE6 100%)"}}/>
+                      <div style={{position:"absolute",top:12,right:12,fontSize:9,fontWeight:800,color:"#fff",background:"#C2623A",padding:"4px 10px",borderRadius:4,letterSpacing:1.5,fontFamily:MONO,textTransform:"uppercase",lineHeight:1,boxShadow:"0 2px 8px rgba(194,98,58,0.4)"}}>RECOMMENDED</div>
+                    </div>
+                    <div style={{padding:"20px 22px 18px",flex:1,display:"flex",flexDirection:"column"}}>
+                      <div style={{fontSize:72,fontWeight:900,fontFamily:BARLOW,color:"#C2623A",lineHeight:1,marginBottom:4}}>B</div>
+                      <div style={{fontSize:16,fontWeight:700,fontFamily:BARLOW,color:"#1C1917",letterSpacing:1.5,textTransform:"uppercase",marginBottom:4}}>Refined Craft</div>
+                      <div style={{fontSize:12,color:"#6B5C52",fontFamily:MONO,fontStyle:"italic",marginBottom:14,lineHeight:1.4}}>{optionDescriptors.B}</div>
+                      <div style={{height:1,background:"rgba(194,98,58,0.2)",marginBottom:14}}/>
+                      <div style={{marginBottom:14}}>
+                        <div style={{fontSize:8,fontWeight:700,color:"#8B7B6E",letterSpacing:2,fontFamily:MONO,marginBottom:6}}>PALETTE</div>
+                        <div style={{display:"flex",gap:6}}>
+                          {swatchesB.map(s=>(
+                            <div key={s.hex} title={s.name} style={{width:22,height:22,borderRadius:"50%",background:s.hex,border:"1.5px solid rgba(194,98,58,0.2)",flexShrink:0,cursor:"default"}}/>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
+                        {optionChips.B.map(chip=>(
+                          <div key={chip} style={{fontSize:9,fontWeight:600,color:"#8B3A1E",background:"rgba(194,98,58,0.08)",border:"1px solid rgba(194,98,58,0.2)",borderRadius:20,padding:"3px 9px",fontFamily:MONO}}>{chip}</div>
+                        ))}
+                      </div>
+                      <div style={{fontSize:9,color:"#8B7B6E",fontFamily:MONO,letterSpacing:1,marginBottom:14}}>{optionTypography.B}</div>
+                      <div style={{fontSize:13,color:"#3D2E26",fontFamily:MONO,lineHeight:1.6,flex:1,marginBottom:18}}>{optionDescriptions.B}</div>
+                      <button
+                        onClick={()=>{setSelectedInModal("B");setConfirming(true);}}
+                        onMouseEnter={()=>setHoverB(true)}
+                        onMouseLeave={()=>setHoverB(false)}
+                        style={{width:"100%",padding:"12px 0",fontSize:11,fontWeight:700,letterSpacing:2,fontFamily:BARLOW,background:hoverB?"#A84F2E":"#C2623A",color:"#fff",border:"none",borderRadius:6,cursor:"pointer",transition:"background 0.15s",textTransform:"uppercase"}}
+                      >SELECT REFINED CRAFT</button>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* ── MOODBOARD GALLERY ── */}
+                <div style={{borderTop:"1px solid rgba(255,255,255,0.06)",paddingTop:20,marginTop:20,background:"#111010",margin:"20px -24px -24px",padding:"20px 24px 24px"}}>
+                  <div style={{fontSize:9,fontWeight:700,color:"#555",letterSpacing:2,fontFamily:MONO,marginBottom:14,textTransform:"uppercase"}}>Visual Moodboard</div>
+                  <div style={{display:"flex",gap:10,overflowX:"auto",paddingBottom:8,scrollbarWidth:"thin",scrollbarColor:`${c.EDGE} transparent`}}>
+                    {galleryImages.map((img,i)=>(
+                      <div
+                        key={img.src}
+                        onClick={()=>setLightboxIdx(i)}
+                        onMouseEnter={()=>setHoveredGalleryIdx(i)}
+                        onMouseLeave={()=>setHoveredGalleryIdx(null)}
+                        style={{width:220,flexShrink:0,borderRadius:8,overflow:"hidden",cursor:"pointer",border:`1px solid ${hoveredGalleryIdx===i?"rgba(194,98,58,0.6)":"rgba(255,255,255,0.1)"}`,transform:hoveredGalleryIdx===i?"scale(1.03)":"scale(1)",transition:"transform 0.2s ease, border-color 0.2s ease",boxShadow:hoveredGalleryIdx===i?"0 8px 24px rgba(0,0,0,0.4)":"none"}}
+                      >
+                        <img src={img.src} alt={img.label} style={{width:"100%",height:140,objectFit:"cover",display:"block"}} onError={e=>{(e.target as HTMLImageElement).style.display="none";}}/>
+                        <div style={{padding:"6px 8px",background:"#1A1614",fontSize:9,fontWeight:700,color:"rgba(255,255,255,0.5)",letterSpacing:1.5,fontFamily:MONO}}>{img.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                </>
+
+              )}
+            </div>
+          </div>
+        </div>
+      ,document.body)}
+
+      {/* ── LIGHTBOX ── */}
+      {lightboxIdx!==null&&ReactDOM.createPortal(
+        <div
+          onClick={()=>setLightboxIdx(null)}
+          style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",zIndex:3000,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}
+        >
+          {/* image + label */}
+          <div onClick={e=>e.stopPropagation()} style={{display:"flex",flexDirection:"column",alignItems:"center",maxWidth:"90vw"}}>
+            <img
+              src={galleryImages[lightboxIdx]?.src}
+              alt={galleryImages[lightboxIdx]?.label}
+              style={{maxWidth:"90vw",maxHeight:"88vh",objectFit:"contain",borderRadius:8}}
+              onError={e=>{(e.target as HTMLImageElement).style.display="none";}}
+            />
+            <div style={{fontSize:13,fontFamily:BARLOW,color:"rgba(255,255,255,0.85)",letterSpacing:2,marginTop:12,textTransform:"uppercase",fontWeight:600}}>{galleryImages[lightboxIdx]?.label}</div>
+          </div>
+          {/* prev arrow */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(i=>Math.max(0,i-1));}}
+            disabled={lightboxIdx===0}
+            style={{position:"absolute",left:20,top:"50%",transform:"translateY(-50%)",fontSize:26,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.4)",border:"none",borderRadius:"50%",width:44,height:44,cursor:"pointer",opacity:lightboxIdx===0?0.2:1,display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}
+          >‹</button>
+          {/* next arrow */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(i=>Math.min(galleryImages.length-1,i+1));}}
+            disabled={lightboxIdx===galleryImages.length-1}
+            style={{position:"absolute",right:20,top:"50%",transform:"translateY(-50%)",fontSize:26,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.4)",border:"none",borderRadius:"50%",width:44,height:44,cursor:"pointer",opacity:lightboxIdx===galleryImages.length-1?0.2:1,display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1}}
+          >›</button>
+          {/* close button */}
+          <button
+            onClick={e=>{e.stopPropagation();setLightboxIdx(null);}}
+            style={{position:"absolute",top:16,right:16,fontSize:16,color:"rgba(255,255,255,0.7)",background:"rgba(0,0,0,0.45)",border:"none",borderRadius:"50%",width:36,height:36,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}
+          >×</button>
+          {/* image counter */}
+          <div style={{position:"absolute",bottom:20,left:"50%",transform:"translateX(-50%)",fontSize:9,fontFamily:MONO,color:"rgba(255,255,255,0.4)",letterSpacing:2}}>{lightboxIdx+1} / {galleryImages.length}</div>
+        </div>
+      ,document.body)}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    MAIN APP
    ═══════════════════════════════════════ */
 export default function ArqueroHub({ defaultView = "internal", opsMode = true }: { defaultView?: "internal" | "client"; opsMode?: boolean }){
   const [page,setPage]=useState("workflow");
   const [view,setView]=useState<"internal"|"client">(defaultView);
-  const tasks = useQuery(api.arqueroTasks.getTasks, { projectId: "arquero-co" }) ?? {};
-  const setTaskMutation = useMutation(api.arqueroTasks.setTask);
+  const tasks = useQuery(api.tasks.getTasks, { clientSlug: "arquero", projectId: "arquero-co" }) ?? {};
+  const setTaskMutation = useMutation(api.tasks.setTask);
+  const deliverables = useQuery(api.deliverables.getDeliverables, { clientSlug: "arquero", projectId: "arquero-co" }) ?? [];
+  const addDeliverableMutation = useMutation(api.deliverables.addDeliverable);
+  const removeDeliverableMutation = useMutation(api.deliverables.removeDeliverable);
+  const onAddDeliverable = ({milestoneKey,label,url,type,markdownContent}) => {
+    addDeliverableMutation({clientSlug:"arquero",projectId:"arquero-co",milestoneKey,label,url:url||"",type,...(markdownContent?{markdownContent}:{})});
+  };
+  const onRemoveDeliverable = (id) => { removeDeliverableMutation({id}); };
+
+  const discoveryData = useQuery(api.discovery.getDiscovery, { clientSlug: "arquero", projectId: "arquero-co" }) ?? null;
+  const saveDiscoveryMutation = useMutation(api.discovery.saveDiscovery);
+  const onSubmitDiscovery = async (responses) => {
+    if (responses === null) {
+      await saveDiscoveryMutation({ clientSlug: "arquero", projectId: "arquero-co", responses: "{}" });
+      setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-DISCOVERY SESSION-0", completed: false });
+    } else {
+      await saveDiscoveryMutation({ clientSlug: "arquero", projectId: "arquero-co", responses: JSON.stringify(responses) });
+      setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-DISCOVERY SESSION-0", completed: true });
+    }
+  };
+
+  const directionPick = useQuery(api.directionPicks.getDirectionPick, { clientSlug: "arquero", projectId: "arquero-co" }) ?? null;
+  const saveDirectionPickMutation = useMutation(api.directionPicks.saveDirectionPick);
+  const onPickDirection = async (pick) => {
+    if (pick) {
+      await saveDirectionPickMutation({ clientSlug: "arquero", projectId: "arquero-co", pick });
+    }
+    setTaskMutation({ clientSlug: "arquero", projectId: "arquero-co", taskKey: "1-MOOD + DIRECTION-2", completed: !!pick });
+  };
+
   const ov=overall(tasks);
 
   const [theme,setTheme]=useState<"dark"|"light">(() => {
@@ -1276,7 +1889,7 @@ export default function ArqueroHub({ defaultView = "internal", opsMode = true }:
       </div>
 
       {/* ═══ PAGE CONTENT ═══ */}
-      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({projectId:"arquero-co",key,value:!tasks[key]})} colors={colors}/>}
+      {page==="workflow"&&<WorkflowPage view={view} tasks={tasks} onToggle={(key: string)=>setTaskMutation({clientSlug:"arquero",projectId:"arquero-co",taskKey:key,completed:!tasks[key]})} colors={colors} deliverables={deliverables} onAddDeliverable={onAddDeliverable} onRemoveDeliverable={onRemoveDeliverable} discoveryData={discoveryData} onSubmitDiscovery={onSubmitDiscovery} directionPick={directionPick} onPick={onPickDirection}/>}
       {page==="scope"&&<ScopePage colors={colors}/>}
       {page==="agreement"&&<AgreementPage colors={colors}/>}
       {page==="website"&&<WebsitePage colors={colors}/>}

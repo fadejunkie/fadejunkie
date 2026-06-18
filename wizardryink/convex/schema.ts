@@ -15,12 +15,19 @@ export default defineSchema({
     signedAt: v.number(),
   }).index("by_project", ["projectId"]),
 
+  wizardryDiscovery: defineTable({
+    projectId: v.string(),
+    responses: v.string(),
+    submittedAt: v.number(),
+  }).index("by_project", ["projectId"]),
+
   wizardryDeliverables: defineTable({
     projectId: v.string(),
     milestoneKey: v.string(),
     label: v.string(),
-    url: v.string(),
+    url: v.optional(v.string()),
     type: v.string(),
     addedAt: v.number(),
+    markdownContent: v.optional(v.string()),
   }).index("by_project_milestone", ["projectId", "milestoneKey"]),
 });

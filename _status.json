@@ -1,0 +1,14 @@
+{
+  "slug": "fadejunkie",
+  "name": "FadeJunkie",
+  "type": "core-project",
+  "health": "active",
+  "lastScanned": "2026-04-14T02:22:33.150Z",
+  "lastChanged": "2026-04-14T02:22:30.933Z",
+  "currentPhase": null,
+  "pendingTasks": [],
+  "completedTasks": [],
+  "clientBlockers": [],
+  "pmAlerts": [],
+  "engagementValue": null
+}

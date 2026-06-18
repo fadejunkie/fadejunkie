@@ -149,7 +149,7 @@ npm run watch-drive
 
 | Client | Domain | Source | Status |
 |--------|--------|--------|--------|
-| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `seo-engine/WCORWIN/` | Active — $950/mo |
+| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `wcorwin/` | Active — $950/mo |
 | Arquero Co. | arquero.co | `arquero/` | In build |
 
 ---

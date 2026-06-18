@@ -1,0 +1,36 @@
+{
+  "slug": "arquero",
+  "name": "Arquero",
+  "type": "client-hub",
+  "health": "active",
+  "lastScanned": "2026-05-14T00:00:00.000Z",
+  "lastChanged": "2026-05-14T00:00:00.000Z",
+  "currentPhase": "phase-2",
+  "pendingTasks": [],
+  "completedTasks": [
+    "Phase 1 — Discovery Session",
+    "Phase 1 — Mood + Direction (Direction B: Refined Craft)",
+    "Phase 1 — Logo Design (symbol mark + wordmark)",
+    "Phase 1 — Brand System (brand kit delivered)"
+  ],
+  "clientBlockers": [],
+  "pmAlerts": [],
+  "agreementSigned": true,
+  "contentEmpty": false,
+  "contentFiles": [
+    "01-brand-positioning.md",
+    "01-client-intake.md",
+    "01-competitor-audit.md",
+    "02-mood-direction-research.md",
+    "02-mood-direction.md"
+  ],
+  "engagementValue": "$2,500",
+  "signedDate": "2026-03-27",
+  "signedOffline": true,
+  "paymentStatus": "paid",
+  "paidDate": "2026-03-27",
+  "paidAmount": "$1,900",
+  "paymentType": "upfront",
+  "invoiceNumber": "CAPLYORH-0020",
+  "notes": "Phase 1 (Brand Identity) COMPLETE as of 2026-05-14. Logo + brand kit delivered. Direction B selected: Refined Craft — earth tones, San Miguel heritage palette. Symbol mark + wordmark exported. Moving to Phase 2 (Shopify storefront build)."
+}

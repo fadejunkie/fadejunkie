@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gruene TX — Neighborhood Guide &amp; Homes for Sale | Weichert Corwin</title>
+  <meta name="description" content="Explore Gruene — New Braunfels' historic gem on the Guadalupe River. Neighborhood guide, home prices, and local insights. Call (830) 632-5725." />
+  <meta name="keywords" content="Gruene TX real estate, Gruene New Braunfels homes for sale, living in Gruene TX, Gruene Historic District homes, homes near Gruene Hall" />
+  <meta property="og:title" content="Gruene TX — Neighborhood Guide &amp; Homes for Sale | Weichert Corwin" />
+  <meta property="og:description" content="Explore Gruene — New Braunfels' historic gem on the Guadalupe River. Neighborhood guide, home prices, and local insights." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #1a1b37; --crimson: #881a03; --white: #ffffff;
+      --charcoal: #212529; --dark-gray: #333333; --medium-gray: #495057;
+      --muted-gray: #6c757d; --off-white: #efefef; --black: #000000;
+      --border: 0.8px solid #1a1b37;
+      --transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Merriweather', serif; font-size: 16px; font-weight: 400; line-height: 1.5; color: var(--charcoal); background: var(--white); }
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: blur(4px); border-bottom: 0.8px solid rgba(0,0,0,0.1); padding: 0 24px; height: 90px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark { width: 44px; height: 44px; background: var(--navy); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Open Sans', Arial, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.5px; flex-shrink: 0; }
+    .nav-logo-text { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 400; color: var(--charcoal); line-height: 1.3; }
+    .nav-logo-text span { display: block; font-weight: 700; font-size: 14px; color: var(--navy); }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 400; color: rgba(0,0,0,0.75); text-decoration: none; text-transform: uppercase; padding: 8px 12px; transition: var(--transition); letter-spacing: 0.02em; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { background: var(--navy) !important; color: var(--white) !important; border-radius: 4px; border: 0.8px solid var(--navy); box-shadow: rgba(255,255,255,0.15) 0px 1px 0px 0px inset, rgba(0,0,0,0.075) 0px 1px 1px 0px; }
+    .nav-cta:hover { background: #13142a !important; }
+    .hero { position: relative; min-height: 600px; display: flex; align-items: flex-end; padding-bottom: 64px; margin-top: 90px; background-image: linear-gradient(15deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.35) 100%), url('/gruene/hero.webp'); background-size: cover; background-position: center; }
+    .hero-inner { max-width: 1140px; margin: 0 auto; padding: 0 24px; width: 100%; }
+    .hero-eyebrow { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .hero h1 { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(28px, 4vw, 40px); font-weight: 300; color: var(--white); line-height: 1.2; max-width: 700px; margin-bottom: 16px; }
+    .hero-sub { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(16px, 2vw, 19.2px); font-weight: 300; color: var(--off-white); line-height: 1.2; max-width: 560px; margin-bottom: 32px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-block; font-family: 'Merriweather', serif; font-size: 16px; font-weight: 400; padding: 10px 20px; border-radius: 4px; text-decoration: none; cursor: pointer; transition: var(--transition); border: 0.8px solid transparent; line-height: 1.5; }
+    .btn-primary { background: var(--navy); color: var(--white); border-color: var(--navy); box-shadow: rgba(255,255,255,0.15) 0px 1px 0px 0px inset, rgba(0,0,0,0.075) 0px 1px 1px 0px; }
+    .btn-primary:hover { background: #13142a; border-color: #13142a; }
+    .btn-outline-light { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.75); }
+    .btn-outline-light:hover { background: rgba(255,255,255,0.1); }
+    .btn-outline { background: transparent; color: var(--navy); border-color: var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: var(--white); }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 72px 0; }
+    .section-alt { background: var(--off-white); }
+    .breadcrumb { background: var(--off-white); border-bottom: 0.8px solid rgba(0,0,0,0.08); padding: 12px 24px; }
+    .breadcrumb-inner { max-width: 1140px; margin: 0 auto; font-family: 'Merriweather', serif; font-size: 13px; color: var(--muted-gray); }
+    .breadcrumb-inner a { color: var(--navy); text-decoration: none; }
+    .breadcrumb-inner a:hover { text-decoration: underline; }
+    .intro-grid { display: grid; grid-template-columns: 1fr 340px; gap: 64px; align-items: start; }
+    .intro-body h2 { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(22px, 3vw, 32px); font-weight: 300; color: var(--navy); line-height: 1.2; margin-bottom: 24px; }
+    .intro-body p { margin-bottom: 16px; color: var(--dark-gray); }
+    .sidebar-card { background: var(--navy); color: var(--white); border-radius: 4px; padding: 32px 24px; position: sticky; top: 100px; }
+    .sidebar-card h3 { font-family: 'Open Sans', Arial, sans-serif; font-size: 22px; font-weight: 300; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+    .sidebar-card p { font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 20px; line-height: 1.6; }
+    .sidebar-card .btn { width: 100%; text-align: center; margin-bottom: 12px; background: white; color: var(--navy); border-color: white; display: block; }
+    .sidebar-card .btn:hover { background: var(--off-white); }
+    .sidebar-divider { border: none; border-top: 0.8px solid rgba(255,255,255,0.2); margin: 20px 0; }
+    .sidebar-detail { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+    .sidebar-detail strong { color: white; }
+    h2.section-heading { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(22px, 3vw, 32px); font-weight: 300; color: var(--navy); line-height: 1.2; margin-bottom: 40px; }
+    .neighborhood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .neighborhood-card { border: 0.8px solid var(--navy); border-radius: 4px; padding: 28px 24px; }
+    .neighborhood-card h3 { font-family: 'Open Sans', Arial, sans-serif; font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .neighborhood-card .price-range { font-family: 'Merriweather', serif; font-size: 13px; color: var(--crimson); font-weight: 700; margin-bottom: 12px; display: block; }
+    .neighborhood-card p { font-size: 14px; color: var(--dark-gray); line-height: 1.6; }
+    .stats-section { padding: 72px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.75), rgba(0,0,0,0.5)), url('/gruene/hero.webp'); background-size: cover; background-position: center; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+    .stat-item { text-align: center; }
+    .stat-number { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(32px, 4vw, 48px); font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-family: 'Merriweather', serif; font-size: 13px; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.05em; }
+    .tips-list { list-style: none; }
+    .tips-list li { border-left: 3px solid var(--navy); padding: 16px 0 16px 24px; margin-bottom: 24px; }
+    .tips-list li h3 { font-family: 'Open Sans', Arial, sans-serif; font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .tips-list li p { color: var(--dark-gray); font-size: 15px; line-height: 1.6; }
+    .faq-item { border-bottom: 0.8px solid rgba(0,0,0,0.1); }
+    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 20px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Merriweather', serif; font-size: 16px; font-weight: 700; color: var(--charcoal); }
+    .faq-question:hover { color: var(--navy); }
+    .faq-answer { display: none; padding: 0 0 20px; color: var(--dark-gray); line-height: 1.7; }
+    .faq-answer.open { display: block; }
+    .faq-icon { font-size: 14px; color: var(--navy); flex-shrink: 0; }
+    .cta-banner { padding: 80px 0; background-image: linear-gradient(15deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('/gruene/hero.webp'); background-size: cover; background-position: center; text-align: center; }
+    .cta-banner h2 { font-family: 'Open Sans', Arial, sans-serif; font-size: clamp(24px, 3vw, 36px); font-weight: 300; color: white; margin-bottom: 16px; }
+    .cta-banner p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .cta-banner .btn-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    footer { background: var(--black); color: var(--off-white); padding: 60px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand h3 { font-family: 'Open Sans', Arial, sans-serif; font-size: 18px; font-weight: 700; color: white; margin-bottom: 12px; }
+    .footer-brand p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+    .footer-col h4 { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition); }
+    .footer-col ul li a:hover { color: white; }
+    .footer-bottom { border-top: 0.8px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.4); }
+    @media (max-width: 992px) {
+      .intro-grid { grid-template-columns: 1fr; }
+      .neighborhood-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 576px) {
+      .neighborhood-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- FAQPage Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Gruene a separate city from New Braunfels?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Gruene is a neighborhood and historic district within the city limits of New Braunfels. It has its own identity and character, but it falls under the NB municipal jurisdiction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far is Gruene from downtown San Antonio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Approximately 35 miles, or about 40 minutes via I-35. JBSA Randolph is roughly 30 minutes south."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there affordable homes near Gruene?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Historic District carries a premium, but surrounding subdivisions like Cotton Crossing and the broader Gruene Road corridor offer homes in the $300,000 to $400,000 range. East of Gruene, prices drop further."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What school district serves the Gruene area?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Comal ISD. Gruene Elementary is the neighborhood school, with students progressing through the Comal ISD system to New Braunfels High School or Smithson Valley High School depending on attendance zone."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Weichert Corwin sell homes in Gruene?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Gruene is in our backyard. Our office at 133 N Seguin Ave is just minutes from the Historic District. We've helped buyers find homes in Cotton Crossing, along River Road, and throughout the Gruene corridor. Our military buyer rebate program applies to all purchases — call us for details."
+      }
+    }
+  ]
+}
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.wcorwin.com"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Neighborhoods",
+      "item": "https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Gruene TX",
+      "item": "https://www.wcorwin.com/gruene-tx-real-estate"
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="https://www.wcorwin.com" class="nav-logo">
+    <img src="/assets/logo.png" alt="Weichert Corwin" style="height:72px;width:auto;display:block;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx">Search Homes</a></li>
+    <li><a href="https://www.wcorwin.com/about-us">About</a></li>
+    <li><a href="https://www.wcorwin.com" class="nav-cta">Call (830) 632-5725</a></li>
+  </ul>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="https://www.wcorwin.com">Home</a> &rsaquo;
+    <a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx">Neighborhoods</a> &rsaquo;
+    Gruene
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">New Braunfels, Texas &mdash; Neighborhood Guide</p>
+    <h1>Gruene, TX — living in New Braunfels' most historic neighborhood</h1>
+    <p class="hero-sub">The oldest dance hall in Texas. The Guadalupe River. A neighborhood that wasn't assembled in a planning office.</p>
+    <div class="hero-actions">
+      <a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx" class="btn btn-primary">Browse Gruene Listings</a>
+      <a href="tel:8306325725" class="btn btn-outline-light">Call (830) 632-5725</a>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="section">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-body">
+        <h2>New Braunfels' historic gem on the Guadalupe River</h2>
+        <p>There's a stretch of the Guadalupe River where the water runs clear over limestone, the live oaks are older than anyone who lives beneath them, and the dance hall on the corner has been playing music since 1878. That's Gruene.</p>
+        <p>Officially part of New Braunfels, Gruene (pronounced "green") is listed on the National Register of Historic Places and home to Gruene Hall, the oldest continuously operating dance hall in Texas. But it's also a residential community with real roots, and it draws homebuyers who want a neighborhood that wasn't assembled in a planning office.</p>
+        <h2 style="margin-top: 40px;">The story of Gruene</h2>
+        <p>Gruene was founded in the 1870s by German immigrant families who farmed cotton along the Guadalupe River. The community thrived until the boll weevil and the Great Depression nearly erased it. By the 1970s, many of the original buildings were slated for demolition, until a group of preservationists stepped in to save them.</p>
+        <p>Today, the Gruene Historic District retains its original character: the dance hall, the general store, the old cotton gin — now the Gristmill River Restaurant — and streets that look much the way they did a century ago. That spirit carries through into the residential areas surrounding the district.</p>
+        <h2 style="margin-top: 40px;">What it's like to live in Gruene</h2>
+        <p>Gruene is a place where people wave from their porches. The residential areas surrounding the historic district range from established older homes on shaded lots to newer construction in communities like Cotton Crossing, Gruene Leaf, and Vineyard at Gruene.</p>
+        <p>The Guadalupe River runs along the western edge, and river access is one of the defining lifestyle features. Tubing, kayaking, and fishing are part of the daily rhythm in warmer months. Gruene Hall hosts live music year-round. The Gristmill River Restaurant is one of the best-known dining spots in the Hill Country.</p>
+        <p>Gruene is served by Comal ISD, with access to Gruene Elementary, Oak Creek Elementary, and New Braunfels High School. Daily conveniences are a 5 to 10 minute drive along Gruene Road or Hunter Road.</p>
+      </div>
+      <div>
+        <div class="sidebar-card">
+          <h3>Talk to a Gruene specialist</h3>
+          <p>Our agents know the Historic District, River Road, and every subdivision between. We'll walk the ground with you.</p>
+          <a href="tel:8306325725" class="btn">(830) 632-5725</a>
+          <a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx" class="btn" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3);">Browse Listings</a>
+          <hr class="sidebar-divider" />
+          <div class="sidebar-detail">
+            <strong>Office</strong><br>133 N Seguin Ave<br>New Braunfels, TX 78130<br><br>
+            <strong>Buyer Rebate Program</strong><br>Available on all Gruene purchases.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEIGHBORHOODS -->
+<section class="section section-alt">
+  <div class="container">
+    <h2 class="section-heading">Gruene area neighborhoods</h2>
+    <div class="neighborhood-grid">
+      <div class="neighborhood-card">
+        <h3>Gruene Historic District</h3>
+        <span class="price-range">$400K – $700K+</span>
+        <p>Rare residential properties within the district itself. Restored homes on small lots. High-character, scarce — when they come to market, they move.</p>
+      </div>
+      <div class="neighborhood-card">
+        <h3>Cotton Crossing</h3>
+        <span class="price-range">$300K – $475K</span>
+        <p>Newer master-planned community adjacent to Gruene on the east side. Community pool, walking trails, family-friendly. Popular with first-time buyers.</p>
+      </div>
+      <div class="neighborhood-card">
+        <h3>Gruene Leaf</h3>
+        <span class="price-range">$325K – $450K</span>
+        <p>Smaller subdivision near Gruene Road and Common Street. Newer construction with Hill Country-influenced architecture.</p>
+      </div>
+      <div class="neighborhood-card">
+        <h3>Vineyard at Gruene</h3>
+        <span class="price-range">$400K – $650K+</span>
+        <p>Gated community along the Guadalupe River. Larger lots, higher-end homes, some with river views or direct access.</p>
+      </div>
+      <div class="neighborhood-card">
+        <h3>Gruene River Area</h3>
+        <span class="price-range">$275K – $550K</span>
+        <p>Properties along River Road — the closest residential proximity to the water. Mix of older homes, renovated properties, and some new construction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">$318K</div>
+        <div class="stat-label">Area Median Price</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">$614K</div>
+        <div class="stat-label">Historic District Median</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">90</div>
+        <div class="stat-label">Avg. Days on Market</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">194</div>
+        <div class="stat-label">Current Listings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUYER TIPS -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-heading">What to consider when buying near Gruene</h2>
+    <ul class="tips-list">
+      <li>
+        <h3>Flood zone awareness</h3>
+        <p>The Guadalupe River floods. Properties near the river or in low-lying areas may fall within FEMA flood zones. Always verify flood zone status before making an offer. Flood insurance can add $1,500 to $3,000+ per year. The 2002 and 1998 flood events significantly impacted areas along the corridor.</p>
+      </li>
+      <li>
+        <h3>Tourism traffic</h3>
+        <p>If you're buying within walking distance of the Historic District, expect increased traffic on weekends, holidays, and during major events — Gruene Music and Wine Fest, Thanksgiving weekend, etc. Most residents view this as a fair trade for the amenities. Experience a busy Saturday before committing to a specific street.</p>
+      </li>
+      <li>
+        <h3>HOA vs. non-HOA</h3>
+        <p>Master-planned communities like Cotton Crossing and Vineyard at Gruene have HOAs with fees and architectural guidelines. Older areas generally do not. Short-term rental restrictions vary — check before buying if you plan to list on Airbnb.</p>
+      </li>
+      <li>
+        <h3>Well and septic</h3>
+        <p>Some properties near Gruene are on city water and sewer. Others, particularly on larger lots, rely on well water and septic systems. Verify during due diligence — well inspection for flow rate and water quality, septic inspection for age and compliance.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt">
+  <div class="container" style="max-width: 760px;">
+    <h2 class="section-heading">Frequently asked questions</h2>
+    <div class="faq-item">
+      <button class="faq-question">Is Gruene a separate city from New Braunfels? <span class="faq-icon"><i class="fas fa-plus"></i></span></button>
+      <div class="faq-answer">No. Gruene is a neighborhood and historic district within the city limits of New Braunfels. It has its own identity and character, but it falls under the NB municipal jurisdiction.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">How far is Gruene from downtown San Antonio? <span class="faq-icon"><i class="fas fa-plus"></i></span></button>
+      <div class="faq-answer">Approximately 35 miles, or about 40 minutes via I-35. JBSA Randolph is roughly 30 minutes south.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Are there affordable homes near Gruene? <span class="faq-icon"><i class="fas fa-plus"></i></span></button>
+      <div class="faq-answer">Yes. The Historic District carries a premium, but surrounding subdivisions like Cotton Crossing and the broader Gruene Road corridor offer homes in the $300,000 to $400,000 range. East of Gruene, prices drop further.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">What school district serves the Gruene area? <span class="faq-icon"><i class="fas fa-plus"></i></span></button>
+      <div class="faq-answer">Comal ISD. Gruene Elementary is the neighborhood school, with students progressing through the Comal ISD system to New Braunfels High School or Smithson Valley High School depending on attendance zone.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Does Weichert Corwin sell homes in Gruene? <span class="faq-icon"><i class="fas fa-plus"></i></span></button>
+      <div class="faq-answer">Yes. Gruene is in our backyard. Our office at 133 N Seguin Ave is just minutes from the Historic District. We've helped buyers find homes in Cotton Crossing, along River Road, and throughout the Gruene corridor. Our buyer rebate program applies to all purchases.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <h2>Find your home in Gruene</h2>
+    <p>Weichert Corwin is veteran-owned and locally rooted. We know these streets. Call us and we'll walk the ground with you.</p>
+    <div class="btn-actions">
+      <a href="tel:8306325725" class="btn btn-primary">(830) 632-5725</a>
+      <a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx" class="btn btn-outline-light">Browse Listings</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Weichert Corwin</h3>
+        <p>Veteran-owned brokerage serving the New Braunfels, Canyon Lake, and Texas Hill Country market. Licensed in Texas.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Neighborhoods</h4>
+        <ul>
+          <li><a href="../canyon-lake/">Canyon Lake</a></li>
+          <li><a href="../spring-branch/">Spring Branch</a></li>
+          <li><a href="../seguin/">Seguin</a></li>
+          <li><a href="https://www.wcorwin.com/homes-for-sale-in-new-braunfels-tx">New Braunfels</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:8306325725">(830) 632-5725</a></li>
+          <li><a href="https://www.wcorwin.com/about-us">About Us</a></li>
+          <li><a href="https://www.wcorwin.com">wcorwin.com</a></li>
+          <li><a href="../va-home-loans/">VA Home Loans</a></li>
+          <li><a href="../buyer-rebate/">Buyer Rebate Program</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Weichert Realtors &mdash; Corwin &amp; Associates. 133 N Seguin Ave, New Braunfels, TX 78130.</p>
+      <p style="font-size: 12px;">Equal Housing Opportunity. All information deemed reliable but not guaranteed.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling;
+      const icon = btn.querySelector('.faq-icon i');
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon i').forEach(i => { i.className = 'fas fa-plus'; });
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.className = 'fas fa-minus';
+      }
+    });
+  });
+</script>
+</body>
+</html>

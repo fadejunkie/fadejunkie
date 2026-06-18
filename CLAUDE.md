@@ -104,6 +104,10 @@ All commands live in `.claude/commands/`.
 
 - **Read before delete.** Never delete a file based on its name alone. Always read the contents first and confirm it's safe to remove. No exceptions.
 
+- **Barber profile routes are NOT live.** The barber profile feature is experimental and WIP. Any routes related to barber profiles must be blocked from production via Next.js middleware. Never deploy to production without confirming barber routes are inaccessible to real users.
+
+- **Edu Hub is the only live feature.** fadejunkie.com serves the Edu Hub exclusively. Do not ship, promote, or link to any other feature from the production deployment.
+
 ## Debugging
 
 When a debugging session resolves a non-obvious bug, run `/debug-log` immediately. It will read the conversation, extract the pattern, and append it to the persistent debugging knowledge base in:
@@ -147,4 +151,4 @@ Usability-first. Fix issues as they surface. Don't overthink compliance — focu
 
 | Client | Domain | Source | Retainer |
 |--------|--------|--------|----------|
-| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `seo-engine/WCORWIN/` | $950/mo |
+| Weichert Realtors — Corwin & Associates | wcorwin.anthonytatis.com | `wcorwin/` | $950/mo |

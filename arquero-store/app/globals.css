@@ -1,0 +1,171 @@
+/* Arquero Co. — Southwest Ranch design system */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Rye&display=swap");
+@import "tailwindcss";
+
+/* Space Cowboy — self-hosted. Drop space-cowboy.woff2 into public/fonts/ to activate.
+   Rye (Google Fonts) is the active fallback until the file is provided. */
+@font-face {
+  font-family: "Space Cowboy";
+  src: url("/fonts/space-cowboy.woff2") format("woff2"),
+       url("/fonts/space-cowboy.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Arquero Southwest palette */
+  --canvas: #FFEECE;           /* page floor — warm cream, sun-faded parchment */
+  --surface-soft: #F5E8D0;     /* alternate section bands, footer */
+  --surface-card: #FFF5E0;     /* cards, panels */
+  --surface-elevated: #FFFFFF; /* inputs, modals */
+  --hairline: #DAAC58;         /* all borders & dividers — golden tan */
+  --on-dark: #FFEECE;          /* text on blue-filled surfaces */
+  --body: #474444;             /* primary body text — dark charcoal */
+  --body-strong: #313131;      /* subheadings, strong labels */
+  --muted: #7A6E5F;            /* captions, helper text */
+  --primary: #004AAD;          /* Southwest sky blue — buttons, links, CTAs */
+  --primary-hover: #0055C8;
+  --primary-press: #003585;
+  --primary-soft: #E0EBFF;
+  --primary-fg: #FFEECE;       /* text on primary-filled surfaces */
+  --accent: #DAAC58;           /* golden tan — decorative, never CTA */
+  --accent-fg: #313131;
+  --secondary: #6189BE;
+  --maroon: #6F1A1A;           /* featured panels only — brand reserve */
+
+  /* Legacy aliases — keeps any residual template refs from breaking */
+  --bg: #FFEECE;
+  --surface: #FFF5E0;
+  --border: #DAAC58;
+  --text: #474444;
+  --text-muted: #7A6E5F;
+
+  /* Font vars — Space Cowboy self-hosted, Rye fallback via next/font/google */
+  --font-display: "Space Cowboy", var(--font-rye), serif;
+  --font-body: "DM Sans", var(--font-body-base), system-ui, sans-serif;
+
+  /* Elevation */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-2: 0 4px 16px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06);
+  --shadow-3: 0 8px 32px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.08);
+
+  /* Radius */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-card: var(--surface-card);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-hairline: var(--hairline);
+  --color-on-dark: var(--on-dark);
+  --color-body: var(--body);
+  --color-body-strong: var(--body-strong);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-accent: var(--accent);
+  --color-maroon: var(--maroon);
+  /* legacy */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Scroll video section — shorter on mobile */
+.scroll-video-container {
+  height: 400vh;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .scroll-video-container {
+    height: 220vh;
+  }
+}
+
+/* Shop filter tabs — horizontal scroll on mobile */
+.filter-tabs {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+@media (max-width: 640px) {
+  .filter-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    gap: 20px;
+  }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tabs a { flex-shrink: 0; }
+}
+
+html {
+  height: 100%;
+  background: var(--canvas);
+}
+
+body {
+  min-height: 100%;
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display headlines — Space Cowboy (Rye fallback) */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -1.5px;
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.8px;
+}
+
+.display-md {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+}
+
+/* Eyebrow labels — uppercase, golden tan thread */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.manifesto-cta:hover {
+  background: #c9993f !important;
+}

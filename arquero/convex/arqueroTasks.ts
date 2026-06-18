@@ -37,6 +37,40 @@ export const setTask = mutation({
   },
 });
 
+/* ── Deliverables functions ── */
+
+export const getDeliverables = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db
+      .query("arqueroDeliverables")
+      .withIndex("by_project_milestone", (q) => q.eq("projectId", projectId))
+      .collect();
+  },
+});
+
+export const addDeliverable = mutation({
+  args: {
+    projectId: v.string(),
+    milestoneKey: v.string(),
+    label: v.string(),
+    url: v.optional(v.string()),
+    type: v.string(),
+    addedAt: v.number(),
+    markdownContent: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("arqueroDeliverables", args);
+  },
+});
+
+export const removeDeliverable = mutation({
+  args: { id: v.id("arqueroDeliverables") },
+  handler: async (ctx, { id }) => {
+    await ctx.db.delete(id);
+  },
+});
+
 /* ── Agreement functions ── */
 
 export const getAgreement = query({
@@ -141,6 +175,38 @@ export const checkInvoiceStatus = action({
     }
 
     return { status: "unpaid" as const, invoiceNumber, receiptUrl: null, paidAt: null };
+  },
+});
+
+export const saveDiscovery = mutation({
+  args: { projectId: v.string(), responses: v.string(), submittedAt: v.number() },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("arqueroDiscovery").withIndex("by_project", (q) => q.eq("projectId", args.projectId)).first();
+    if (existing) { await ctx.db.patch(existing._id, { responses: args.responses, submittedAt: args.submittedAt }); }
+    else { await ctx.db.insert("arqueroDiscovery", args); }
+  },
+});
+
+export const getDiscovery = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db.query("arqueroDiscovery").withIndex("by_project", (q) => q.eq("projectId", projectId)).first();
+  },
+});
+
+export const saveDirectionPick = mutation({
+  args: { projectId: v.string(), pick: v.string(), pickedAt: v.number() },
+  handler: async (ctx, args) => {
+    const existing = await ctx.db.query("arqueroDirectionPick").withIndex("by_project", (q) => q.eq("projectId", args.projectId)).first();
+    if (existing) { await ctx.db.patch(existing._id, { pick: args.pick, pickedAt: args.pickedAt }); }
+    else { await ctx.db.insert("arqueroDirectionPick", args); }
+  },
+});
+
+export const getDirectionPick = query({
+  args: { projectId: v.string() },
+  handler: async (ctx, { projectId }) => {
+    return await ctx.db.query("arqueroDirectionPick").withIndex("by_project", (q) => q.eq("projectId", projectId)).first();
   },
 });
 

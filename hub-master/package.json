@@ -1,0 +1,11 @@
+{
+  "name": "hub-master",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx convex dev"
+  },
+  "dependencies": {
+    "convex": "^1.18.0"
+  }
+}
