@@ -1,28 +1,10 @@
 // Instagram Feed — placeholder shell (API not yet configured)
 // TODO: Connect Instagram Basic Display API or add Elfsight embed for live feed
 
-const IG_URL = 'https://instagram.com/TheClipperConnect713'
+import Image from 'next/image'
 
-// Simple Instagram SVG icon
-function InstagramIcon() {
-  return (
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
-    </svg>
-  )
-}
+const IG_URL = 'https://instagram.com/TheClipperConnect713'
+const IG_PLACEHOLDER = 'https://placehold.co/400x400/0A0A0A/D4AF37?text=@TheClipperConnect713'
 
 export default function InstagramFeed() {
   return (
@@ -65,17 +47,21 @@ export default function InstagramFeed() {
             key={i}
             className="ig-cell"
             style={{
+              position: 'relative',
               aspectRatio: '1 / 1',
-              background: 'var(--surface-card)',
               border: '1px solid var(--hairline)',
               borderRadius: 4,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--muted)',
+              overflow: 'hidden',
             }}
           >
-            <InstagramIcon />
+            <Image
+              src={IG_PLACEHOLDER}
+              alt="@TheClipperConnect713 on Instagram"
+              fill
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 767px) 25vw, 17vw"
+              unoptimized
+            />
           </div>
         ))}
       </div>

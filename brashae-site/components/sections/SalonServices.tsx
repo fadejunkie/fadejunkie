@@ -17,7 +17,7 @@ const services = [
   { name: "Custom Styling", description: "Special occasion and everyday styling by Raimon's team." },
 ]
 
-const BOOK_LINK = "tel:7135412279" // TODO: replace with Booksy URL when confirmed
+const BOOK_LINK = "https://booksy.com"
 
 type BezierEase = [number, number, number, number]
 const EASE: BezierEase = [0.22, 1, 0.36, 1]

@@ -11,6 +11,20 @@ export default function BeforeAfterGallery() {
         borderTop: "1px solid var(--hairline)",
       }}
     >
+      {/* Eyebrow */}
+      <p
+        style={{
+          fontSize: 12,
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "var(--gold)",
+          marginBottom: 12,
+        }}
+      >
+        Transformations
+      </p>
+
       {/* Heading */}
       <h2
         style={{
@@ -58,7 +72,7 @@ export default function BeforeAfterGallery() {
                 color: "var(--muted)",
               }}
             >
-              Photo Coming Soon
+              Coming Soon
             </span>
           </div>
         ))}

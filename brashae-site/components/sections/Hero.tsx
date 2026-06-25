@@ -7,7 +7,7 @@ import AnimateIn from "@/components/shared/AnimateIn"
 import ParticleCanvas from "@/components/shared/ParticleCanvas"
 
 const SHOP_URL = "https://brashae-shop.vercel.app/shop"
-const BOOK_PHONE = "tel:7135412279"
+const BOOK_PHONE = "https://booksy.com"
 
 const stats = [
   { number: "30+", label: "Brands" },

@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import {
   motion,
@@ -10,27 +11,33 @@ import {
 } from "framer-motion"
 
 // TODO: Load from BRAND/kit/specials.json when available
-const specials = [
+const specials: { brand: string; name: string; price: string; originalPrice: string; badge: string; slug: string; image: string }[] = [
   {
-    brand: "ANDIS",
-    name: "Master MX Cordless Clipper",
-    price: "$189.99",
-    originalPrice: "$219.99",
-    slug: "andis-master-mx",
+    brand: "WAHL",
+    name: "Magic Clip Cordless",
+    price: "$119.99",
+    originalPrice: "$149.99",
+    badge: "20% OFF",
+    slug: "wahl-magic-clip-cordless",
+    image: "https://placehold.co/400x400/111111/D4AF37?text=Product",
   },
   {
-    brand: "JRL",
-    name: "2020C Professional Clipper",
-    price: "$249.99",
-    originalPrice: "$299.99",
-    slug: "jrl-2020c",
+    brand: "MIZANI",
+    name: "25 Miracle Milk",
+    price: "$24.99",
+    originalPrice: "$32.99",
+    badge: "24% OFF",
+    slug: "mizani-25-miracle-milk",
+    image: "https://placehold.co/400x400/111111/D4AF37?text=Product",
   },
   {
-    brand: "BABYLISS PRO",
-    name: "FX870 Boost+ Clipper",
-    price: "$129.99",
-    originalPrice: "$159.99",
-    slug: "babyliss-fx870",
+    brand: "GAMMA+",
+    name: "Ergo Aluminum",
+    price: "$89.99",
+    originalPrice: "$109.99",
+    badge: "18% OFF",
+    slug: "gamma-ergo-aluminum",
+    image: "https://placehold.co/400x400/111111/D4AF37?text=Product",
   },
 ]
 
@@ -116,14 +123,18 @@ function SpecialCard({
   name,
   price,
   originalPrice,
+  badge,
   slug,
+  image,
   animDelay,
 }: {
   brand: string
   name: string
   price: string
   originalPrice: string
+  badge: string
   slug: string
+  image: string
   animDelay: number
 }) {
   const href = `https://brashae-shop.vercel.app/shop/${slug}`
@@ -141,28 +152,24 @@ function SpecialCard({
           flexDirection: "column",
         }}
       >
-        {/* Image placeholder with SPECIAL badge */}
+        {/* Product image with discount badge */}
         <div
           style={{
             position: "relative",
             height: 200,
             background: "var(--surface-elevated)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <span
-            style={{
-              fontSize: 11,
-              color: "var(--muted)",
-              textTransform: "uppercase",
-            }}
-          >
-            Photo Coming Soon
-          </span>
+          <Image
+            src={image}
+            alt={name}
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="280px"
+            unoptimized
+          />
 
-          {/* SPECIAL badge */}
+          {/* Discount badge */}
           <span
             style={{
               position: "absolute",
@@ -178,7 +185,7 @@ function SpecialCard({
               lineHeight: 1.4,
             }}
           >
-            Special
+            {badge}
           </span>
         </div>
 
@@ -363,7 +370,9 @@ export default function MonthlySpecials() {
                   name={special.name}
                   price={special.price}
                   originalPrice={special.originalPrice}
+                  badge={special.badge}
                   slug={special.slug}
+                  image={special.image}
                   animDelay={i * 0.08}
                 />
               </div>
