@@ -163,4 +163,18 @@ export default defineSchema({
   })
     .index("by_client", ["clientSlug"])
     .index("by_client_project", ["clientSlug", "projectId"]),
+
+  // ─── GBP Assets (photos link + business hours from client) ──────────────────
+  gbpAssets: defineTable({
+    clientSlug: v.string(),
+    projectId: v.string(),
+    hours: v.optional(v.string()),        // JSON: { mon: { closed, open, close }, ... }
+    photosLink: v.optional(v.string()),   // Google Drive/Photos share URL
+    photosNote: v.optional(v.string()),   // free-form notes
+    yelpEmail: v.optional(v.string()),    // biz.yelp.com login email
+    yelpPassword: v.optional(v.string()), // biz.yelp.com login password
+    updatedAt: v.number(),
+  })
+    .index("by_client", ["clientSlug"])
+    .index("by_client_project", ["clientSlug", "projectId"]),
 });

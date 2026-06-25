@@ -4,52 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chuco Apparel — Wireframe</title>
+  <link rel="stylesheet" href="../design-tokens.css">
   <style>
-    :root {
-      --black: #000;
-      --white: #fff;
-      --red: #CC0000;
-      --gray-dark: #111;
-      --gray-mid: #222;
-      --gray-light: #333;
-      --gray-border: #2a2a2a;
-      --gray-block: #1a1a1a;
-      --gray-placeholder: #2c2c2c;
-      --text-muted: #555;
-      --text-dim: #444;
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-family: var(--font-mono);
       font-size: 13px;
-    }
-
-    /* ─── MONOSPACE — labels, metadata, buttons, badges, prices ─── */
-    .label, .wf-badge, .page-tab, .drop-banner,
-    .nav-links a, .cart-count,
-    .product-badge, .product-price,
-    .filter-group h4, .size-btn, .size-pill,
-    .option-label, .qty-val,
-    .accordion-header,
-    .footer-col h4, .footer-bottom,
-    .spec-key, .video-label,
-    .hero-scroll,
-    .newsletter-copy p,
-    .pdp-breadcrumb,
-    .result-count, .sort-select,
-    .meta-row,
-    .shop-header .label,
-    .related-section .label {
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
-    }
-
-    /* ─── BUTTONS always monospace ─── */
-    .btn, .btn-full, button {
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
     }
 
     /* ─── WIREFRAME LABEL ─── */
@@ -65,6 +28,7 @@
       padding: 4px 10px;
       z-index: 9999;
       text-transform: uppercase;
+      border-radius: var(--radius-input);
     }
 
     /* ─── NAV ─── */
@@ -73,26 +37,47 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
-      height: 60px;
+      height: 80px;
       border-bottom: 1px solid var(--gray-border);
       position: sticky;
       top: 0;
       background: var(--black);
       z-index: 100;
+      overflow: visible;
+      transition: padding-top 0.2s ease, height 0.2s ease, background 0.35s ease, border-color 0.35s ease;
+    }
+    nav.scrolled {
+      padding-top: 28px;
+      height: 108px;
+    }
+    nav.nav-hidden {
+      background: transparent;
+      border-bottom-color: transparent;
+    }
+    nav.nav-hidden .nav-links,
+    nav.nav-hidden .nav-actions {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
     }
     .nav-logo {
-      font-size: 20px;
-      font-weight: bold;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--white);
+      display: flex;
+      align-items: flex-start;
       cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      z-index: 101;
+      align-self: flex-start;
     }
-    .nav-logo span { color: var(--red); }
+    .nav-logo img { height: 130px; width: auto; display: block; }
+
+    /* Mobile nav strip — hidden by default, shown on mobile */
+    .mobile-nav-strip { display: none; }
     .nav-links {
       display: flex;
       gap: 32px;
       list-style: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
     .nav-links a {
       color: var(--text-muted);
@@ -108,6 +93,7 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
     .nav-actions .icon-block {
       width: 18px;
@@ -139,28 +125,6 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* ─── PAGE NAV TABS ─── */
-    .page-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--gray-border);
-      background: #0a0a0a;
-      padding: 0 32px;
-    }
-    .page-tab {
-      padding: 10px 20px;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      transition: all 0.15s;
-    }
-    .page-tab:hover { color: var(--white); }
-    .page-tab.active { color: var(--red); border-bottom-color: var(--red); }
-
     /* ─── COMMON ─── */
     .img-block {
       background: var(--gray-placeholder);
@@ -191,16 +155,21 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       cursor: pointer;
+      font-family: var(--font-mono);
     }
     .btn-primary {
       background: var(--red);
       color: var(--white);
       border: none;
+      border-radius: var(--radius-btn);
     }
     .btn-secondary {
       background: transparent;
       color: var(--white);
-      border: 1px solid var(--gray-light);
+      border-width: var(--border-width);
+      border-style: solid;
+      border-color: var(--gray-light);
+      border-radius: var(--radius-btn);
     }
     .btn-full {
       background: var(--red);
@@ -212,6 +181,8 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       cursor: pointer;
+      font-family: var(--font-mono);
+      border-radius: var(--radius-btn);
     }
     .section-header {
       text-align: center;
@@ -219,13 +190,15 @@
     }
     .section-header .label { margin-bottom: 8px; }
     .section-header h2 {
+      font-family: var(--font-display);
       font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 0.12em;
+      font-weight: 900;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
     .section-header .red-line { margin: 12px auto; }
     .section-header p {
+      font-family: var(--font-body);
       color: var(--text-muted);
       font-size: 12px;
       max-width: 400px;
@@ -245,8 +218,8 @@
       gap: 48px;
       margin-bottom: 40px;
     }
-    .footer-brand .nav-logo { font-size: 16px; margin-bottom: 12px; }
-    .footer-brand p { color: var(--text-dim); font-size: 11px; line-height: 1.7; }
+    .footer-brand img { height: 36px; width: auto; display: block; margin-bottom: 12px; }
+    .footer-brand p { font-family: var(--font-body); color: var(--text-dim); font-size: 11px; line-height: 1.7; }
     .footer-col h4 {
       font-size: 10px;
       letter-spacing: 0.18em;
@@ -323,15 +296,17 @@
     .hero-content { max-width: 520px; }
     .hero-content .label { color: var(--red); margin-bottom: 16px; }
     .hero-content h1 {
+      font-family: var(--font-display);
       font-size: 56px;
       font-weight: 900;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       line-height: 1.0;
       margin-bottom: 8px;
     }
     .hero-content h1 span { color: var(--red); }
     .hero-content p {
+      font-family: var(--font-body);
       color: #888;
       font-size: 13px;
       line-height: 1.7;
@@ -396,6 +371,8 @@
       margin-bottom: 14px;
       transition: opacity 0.2s;
       position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
     }
     .product-badge {
       position: absolute;
@@ -407,6 +384,7 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       padding: 3px 8px;
+      border-radius: var(--radius-input);
     }
     .product-info { padding: 0 2px; }
     .product-name {
@@ -445,14 +423,16 @@
     }
     .brand-text-panel .label { color: var(--red); }
     .brand-text-panel h2 {
+      font-family: var(--font-display);
       font-size: 36px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       margin: 16px 0;
       line-height: 1.1;
     }
     .brand-text-panel p {
+      font-family: var(--font-body);
       color: var(--text-muted);
       line-height: 1.8;
       font-size: 12px;
@@ -477,6 +457,8 @@
       justify-content: center;
       margin: 40px auto 0;
       position: relative;
+      border-radius: var(--radius-card);
+      overflow: hidden;
     }
     .play-btn {
       width: 64px;
@@ -509,12 +491,14 @@
       border-top: 1px solid var(--gray-border);
     }
     .newsletter-copy h3 {
+      font-family: var(--font-display);
       font-size: 24px;
-      letter-spacing: 0.12em;
+      font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
-    .newsletter-copy p { color: var(--text-muted); font-size: 12px; }
+    .newsletter-copy p { font-family: var(--font-body); color: var(--text-muted); font-size: 12px; }
     .newsletter-form {
       display: flex;
       gap: 0;
@@ -526,9 +510,10 @@
       color: var(--white);
       padding: 12px 20px;
       font-size: 11px;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-family: var(--font-mono);
       width: 280px;
       outline: none;
+      border-radius: var(--radius-input);
     }
     .newsletter-form input::placeholder { color: var(--text-dim); }
 
@@ -541,9 +526,10 @@
     }
     .shop-header .label { color: var(--red); margin-bottom: 8px; }
     .shop-header h1 {
+      font-family: var(--font-display);
       font-size: 36px;
       font-weight: 900;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
     .shop-layout {
@@ -608,6 +594,7 @@
       font-size: 10px;
       color: var(--text-dim);
       cursor: pointer;
+      border-radius: var(--radius-btn);
     }
     .size-btn.active {
       border-color: var(--red);
@@ -623,8 +610,9 @@
       color: var(--white);
       padding: 8px 12px;
       font-size: 11px;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-family: var(--font-mono);
       width: 80px;
+      border-radius: var(--radius-input);
     }
     .shop-main { padding: 32px 40px; }
     .shop-toolbar {
@@ -640,7 +628,8 @@
       color: var(--white);
       padding: 8px 12px;
       font-size: 11px;
-      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-family: var(--font-mono);
+      border-radius: var(--radius-input);
     }
     .product-grid-3 {
       display: grid;
@@ -701,6 +690,8 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 12px;
+      border-radius: var(--radius-card);
+      overflow: hidden;
     }
     .pdp-thumbs {
       display: flex;
@@ -729,9 +720,10 @@
     }
     .pdp-breadcrumb span { color: var(--text-muted); }
     .pdp-title {
+      font-family: var(--font-display);
       font-size: 28px;
       font-weight: 900;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       line-height: 1.1;
       margin-bottom: 6px;
@@ -798,6 +790,7 @@
       font-size: 11px;
       color: var(--text-dim);
       cursor: pointer;
+      border-radius: var(--radius-btn);
     }
     .size-pill.active {
       border-color: var(--white);
@@ -830,6 +823,7 @@
       cursor: pointer;
       background: none;
       border: none;
+      border-radius: var(--radius-btn);
     }
     .qty-val {
       width: 44px;
@@ -874,6 +868,7 @@
     }
     .accordion-header:hover { color: var(--white); }
     .accordion-body {
+      font-family: var(--font-body);
       padding: 0 0 16px;
       color: var(--text-dim);
       font-size: 11px;
@@ -957,6 +952,546 @@
       margin-bottom: 4px;
     }
     .spec-val { color: #666; line-height: 1.6; }
+
+    /* ─── COLLECTIONS PAGE ─── */
+    .collections-hero {
+      padding: 80px 64px 48px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .collections-hero h1 {
+      font-family: var(--font-display);
+      font-size: 52px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1.0;
+      margin: 12px 0 16px;
+    }
+    .collections-hero p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--gray-border);
+      margin-bottom: 2px;
+    }
+    .collection-card { position: relative; cursor: pointer; overflow: hidden; background: var(--surface-card); }
+    .collection-card.featured { grid-column: span 2; }
+    .collection-card-img {
+      height: 360px;
+      background: var(--surface-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      position: relative;
+      overflow: hidden;
+    }
+    .collection-card.featured .collection-card-img { height: 420px; }
+    .mascot-ghost {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+    .mascot-ghost img { height: 200px; width: auto; }
+    .collection-card-body {
+      padding: 24px 28px;
+      border-top: 1px solid var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .collection-card-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .collection-card-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+    .collection-cta {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    /* ─── LOOKBOOK PAGE ─── */
+    .lookbook-hero {
+      padding: 72px 64px 48px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .lookbook-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .lookbook-hero h1 {
+      font-family: var(--font-display);
+      font-size: 60px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 20px;
+    }
+    .lookbook-hero p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 440px;
+      line-height: 1.7;
+    }
+    .look-spread {
+      display: grid;
+      gap: 2px;
+      background: var(--gray-border);
+      margin-bottom: 2px;
+    }
+    .look-spread.two-col { grid-template-columns: 1fr 1fr; }
+    .look-spread.three-col { grid-template-columns: 2fr 1fr; }
+    .look-img {
+      background: var(--surface-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      position: relative;
+      overflow: hidden;
+    }
+    .look-img.tall { height: 560px; }
+    .look-img.medium { height: 380px; }
+    .look-img.short { height: 260px; }
+    .look-img-label {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .look-num { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em; color: var(--text-muted); }
+    .look-shop-tag {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: rgba(0,0,0,0.65);
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .look-caption {
+      background: var(--black);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .look-caption-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .look-caption-desc { font-family: var(--font-body); font-size: 12px; color: var(--text-secondary); }
+    .lookbook-mosaic {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--gray-border);
+      margin-bottom: 2px;
+    }
+    .mosaic-item {
+      background: var(--surface-elevated);
+      height: 280px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .mosaic-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+    .mosaic-item:hover .mosaic-overlay { opacity: 1; }
+    .mosaic-cta {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid var(--white);
+      padding: 8px 16px;
+    }
+
+    /* ─── ABOUT PAGE ─── */
+    .about-manifesto {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 64px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .about-manifesto-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .about-manifesto-bg img { height: 500px; width: auto; }
+    .about-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .about-manifesto h1 {
+      font-family: var(--font-display);
+      font-size: 64px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .about-manifesto > p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.8;
+      position: relative;
+    }
+    .about-story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .about-story-img {
+      background: var(--surface-elevated);
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      border-right: 1px solid var(--gray-border);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-story-img .mascot-ghost img { height: 320px; }
+    .about-story-text {
+      padding: 72px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .about-story-text h2 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      line-height: 1.1;
+      margin: 8px 0 16px;
+    }
+    .about-story-text p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+    .about-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .pillar {
+      padding: 48px 40px;
+      border-right: 1px solid var(--gray-border);
+    }
+    .pillar:last-child { border-right: none; }
+    .pillar-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--red);
+      margin-bottom: 20px;
+    }
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .pillar-body {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .about-cta-section {
+      padding: 80px 64px;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .about-cta-section h2 {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .about-cta-section p {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .about-cta-btns { display: flex; gap: 12px; justify-content: center; }
+
+    /* ════════════════════════════════════════
+       MOBILE — 768px
+    ════════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* ── Nav ── */
+      nav {
+        padding: 0 16px;
+        height: 64px;
+        flex-wrap: wrap;
+        overflow: visible;
+      }
+      .nav-logo img { height: 80px; }
+      .nav-links { display: none; }
+      .nav-actions .icon-block { width: 14px; height: 14px; }
+      .cart-count { font-size: 10px; }
+
+      /* Mobile nav link strip — shown below nav */
+      .mobile-nav-strip {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        background: var(--black);
+        border-bottom: 1px solid var(--gray-border);
+        padding: 0 16px;
+        gap: 0;
+      }
+      .mobile-nav-strip::-webkit-scrollbar { display: none; }
+      .mobile-nav-strip a {
+        padding: 12px 16px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        white-space: nowrap;
+        cursor: pointer;
+        font-family: var(--font-mono);
+        border-bottom: 2px solid transparent;
+        flex-shrink: 0;
+      }
+      .mobile-nav-strip a:hover { color: var(--white); }
+
+      /* ── Drop banner ── */
+      .drop-banner { padding: 8px 16px; font-size: 9px; letter-spacing: 0.1em; }
+
+      /* ── Hero ── */
+      .hero { height: 520px; }
+      .hero-overlay {
+        padding: 0 24px;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 55%);
+        align-items: flex-end;
+        padding-bottom: 48px;
+      }
+      .hero-content { max-width: 100%; }
+      .hero-content h1 { font-size: 38px; }
+      .hero-cta { flex-direction: column; gap: 10px; }
+      .hero-cta .btn { text-align: center; }
+
+      /* ── Sections / padding ── */
+      .featured-section { padding: 48px 20px; }
+      .mascot-section { padding: 48px 20px; }
+      .newsletter-section { padding: 48px 20px; flex-direction: column; gap: 28px; align-items: flex-start; }
+      .newsletter-form { flex-direction: column; gap: 0; width: 100%; }
+      .newsletter-form input { width: 100%; border-right: 1px solid var(--gray-border); border-bottom: none; border-radius: var(--radius-input) var(--radius-input) 0 0; }
+      .newsletter-form .btn { width: 100%; text-align: center; border-radius: 0 0 var(--radius-btn) var(--radius-btn); }
+      footer { padding: 40px 20px 24px; margin-top: 40px; }
+
+      /* ── Grids ── */
+      .product-grid-4 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+
+      /* ── Section headers ── */
+      .section-header h2 { font-size: 22px; }
+
+      /* ── Brand story ── */
+      .brand-section { grid-template-columns: 1fr; min-height: auto; }
+      .brand-img-panel { min-height: 280px; }
+      .brand-text-panel { padding: 40px 24px; }
+
+      /* ── Video ── */
+      .video-placeholder { height: 220px; }
+
+      /* ── Shop ── */
+      .shop-header { padding: 32px 20px 20px; }
+      .shop-header h1 { font-size: 28px; }
+      .shop-layout { grid-template-columns: 1fr; }
+      .shop-sidebar { display: none; }
+      .shop-main { padding: 20px 16px; }
+
+      /* ── PDP ── */
+      .pdp-layout { grid-template-columns: 1fr; }
+      .pdp-gallery { border-right: none; padding: 0; }
+      .pdp-main-img { height: 300px; }
+      .pdp-info { padding: 24px 20px; }
+      .pdp-title { font-size: 22px; }
+
+      /* ── Related section ── */
+      .related-section { padding: 40px 16px; }
+
+      /* ── Collections ── */
+      .collections-grid { grid-template-columns: 1fr; }
+      .collection-card.featured { grid-column: span 1; }
+      .collection-card-img { height: 260px; }
+      .collection-card.featured .collection-card-img { height: 300px; }
+      .collections-hero { padding: 48px 20px 32px; }
+      .collections-hero h1 { font-size: 36px; }
+
+      /* ── Lookbook ── */
+      .lookbook-hero { padding: 48px 20px 32px; }
+      .lookbook-hero h1 { font-size: 36px; }
+      .look-spread.two-col,
+      .look-spread.three-col { grid-template-columns: 1fr; }
+      .look-img.tall { height: 320px; }
+      .look-img.medium { height: 260px; }
+      .look-caption { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .lookbook-mosaic { grid-template-columns: repeat(2, 1fr); }
+      .mosaic-item { height: 200px; }
+
+      /* ── About ── */
+      .about-manifesto { padding: 60px 20px; min-height: auto; }
+      .about-manifesto h1 { font-size: 40px; }
+      .about-manifesto > p { font-size: 14px; }
+      .about-story { grid-template-columns: 1fr; }
+      .about-story-img { min-height: 280px; border-right: none; border-bottom: 1px solid var(--gray-border); }
+      .about-story-text { padding: 40px 24px; }
+      .about-story-text h2 { font-size: 28px; }
+      .about-pillars { grid-template-columns: repeat(2, 1fr); }
+      .pillar { padding: 32px 20px; }
+      .about-cta-section { padding: 48px 20px; }
+      .about-cta-section h2 { font-size: 28px; }
+      .about-cta-btns { flex-direction: column; align-items: center; }
+
+      /* ── Spec panel ── */
+      .spec-panel { padding: 32px 20px; }
+      .spec-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ════════════════════════════════════════
+       MOBILE — 480px (tight phones)
+    ════════════════════════════════════════ */
+    @media (max-width: 480px) {
+      .hero { height: 480px; }
+      .hero-content h1 { font-size: 32px; }
+      .product-grid-4,
+      .product-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .product-name { font-size: 10px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 20px; }
+      .about-pillars { grid-template-columns: 1fr; }
+      .lookbook-mosaic { grid-template-columns: 1fr; }
+      .mosaic-item { height: 240px; }
+      /* ── Additional tightening for 390px / iframe-embedded ── */
+      .spec-grid { grid-template-columns: 1fr !important; }
+      .about-manifesto h1 { font-size: 30px; }
+      .brand-text-panel h2 { font-size: 24px; }
+      .collections-hero h1,
+      .lookbook-hero h1 { font-size: 28px; }
+      .about-cta-section h2,
+      .about-story-text h2 { font-size: 24px; }
+      .hero-overlay { padding: 0 16px; padding-bottom: 40px; }
+    }
+
+    /* Prevent any element from causing horizontal overflow */
+    html, body { overflow-x: hidden; max-width: 100%; }
   </style>
 </head>
 <body>
@@ -965,12 +1500,14 @@
 
 <!-- ─── NAV ─── -->
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">CHUCO<span>.</span></div>
+  <div class="nav-logo" onclick="showPage('home')">
+    <img src="/MASTER%20LOGO/light/chuco-nametag-light-outline.svg" alt="Chuco Apparel" />
+  </div>
   <ul class="nav-links">
     <li><a onclick="showPage('shop')">Shop</a></li>
-    <li><a>Collections</a></li>
-    <li><a>Lookbook</a></li>
-    <li><a>About</a></li>
+    <li><a onclick="showPage('collections')">Collections</a></li>
+    <li><a onclick="showPage('lookbook')">Lookbook</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
   </ul>
   <div class="nav-actions">
     <div class="icon-block" title="Search"></div>
@@ -982,11 +1519,13 @@
   </div>
 </nav>
 
-<!-- ─── PAGE TABS (wireframe nav) ─── -->
-<div class="page-tabs">
-  <div class="page-tab active" id="tab-home" onclick="showPage('home')">1 — Homepage</div>
-  <div class="page-tab" id="tab-shop" onclick="showPage('shop')">2 — Shop / Collection</div>
-  <div class="page-tab" id="tab-pdp" onclick="showPage('pdp')">3 — Product Detail</div>
+<!-- ─── MOBILE NAV STRIP ─── -->
+<div class="mobile-nav-strip">
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('shop')">Shop</a>
+  <a onclick="showPage('collections')">Collections</a>
+  <a onclick="showPage('lookbook')">Lookbook</a>
+  <a onclick="showPage('about')">About</a>
 </div>
 
 <!-- ════════════════════════════════════════
@@ -995,19 +1534,19 @@
 <div class="page active" id="page-home">
 
   <!-- Drop banner -->
-  <div class="drop-banner">Castle Collection just dropped &nbsp;·&nbsp; Free shipping over $75</div>
+  <div class="drop-banner">New Drop — Castle Collection Now Live &nbsp;·&nbsp; Free shipping on orders over $75</div>
 
   <!-- Hero -->
   <section class="hero">
     <div class="hero-bg">
-      <span class="hero-bg-label">Full-width hero image / video background<br>[ product shot or mascot — model img 1.png ]</span>
+      <img src="/MASTER%20LOGO/master-logo/chuco-master-chrome.svg" alt="Chuco Master Logo" style="height:340px;width:auto;opacity:0.18;pointer-events:none;" />
     </div>
     <div class="hero-overlay">
       <div class="hero-content">
-        <div class="label">Chuco Apparel — Straight out the borderlands</div>
+        <div class="label">Chuco Apparel — Est. El Paso</div>
         <div class="red-line"></div>
-        <h1>Forged In<br>The <span>Dark.</span></h1>
-        <p>Heavy cloth. Gothic ink. Built where the desert meets the city and nobody asks permission.</p>
+        <h1>Born From<br>The <span>Streets.</span></h1>
+        <p>Heavy streetwear forged in the dark. Not for the soft.</p>
         <div class="hero-cta">
           <button class="btn btn-primary" onclick="showPage('shop')">Shop Now</button>
           <button class="btn btn-secondary">New Arrivals</button>
@@ -1023,10 +1562,10 @@
   <!-- Featured Products -->
   <section class="featured-section">
     <div class="section-header">
-      <div class="label">Latest</div>
+      <div class="label">Featured</div>
       <h2>New Drops</h2>
       <div class="red-line"></div>
-      <p>Small runs. Heavy weight. Once they're gone, they're gone.</p>
+      <p>Limited runs. Heavy fabric. Built to last.</p>
     </div>
 
     <div class="product-grid-4">
@@ -1090,8 +1629,8 @@
     <div class="brand-text-panel">
       <div class="label">The Brand</div>
       <div class="red-line"></div>
-      <h2>Dark.<br>Heavy.<br>Ours.</h2>
-      <p>Chuco comes from the same concrete you do. El Paso blood, San Antonio grit. We don't design for people watching from the outside.</p>
+      <h2>Raw.<br>Heavy.<br>Chuco.</h2>
+      <p>Born in the streets, designed for those who carry the culture. Every piece is a statement — no filters, no apologies.</p>
       <button class="btn btn-secondary" style="width:fit-content">Our Story</button>
     </div>
   </section>
@@ -1099,7 +1638,7 @@
   <!-- Product Video -->
   <section class="mascot-section">
     <div class="section-header">
-      <div class="label">The Drop</div>
+      <div class="label">Featured Drop</div>
       <h2>Castle Collection</h2>
       <div class="red-line"></div>
     </div>
@@ -1112,8 +1651,8 @@
   <!-- Newsletter -->
   <section class="newsletter-section">
     <div class="newsletter-copy">
-      <h3>Get on the list</h3>
-      <p>Drops hit your inbox first. No filler. No spam.</p>
+      <h3>Stay In The Loop</h3>
+      <p>Early access to drops. No spam. Ever.</p>
     </div>
     <div class="newsletter-form">
       <input type="text" placeholder="your@email.com" />
@@ -1125,8 +1664,8 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo">CHUCO<span style="color:var(--red)">.</span></div>
-        <p>Dark metal streetwear from the borderlands.<br>Heavy fabric. No compromise.</p>
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-nametag.svg" alt="Chuco Apparel" style="height:36px;width:auto;display:block;margin-bottom:12px;" />
+        <p>Dark metal streetwear from the borderlands.<br>Heavy fabric. Real culture.</p>
         <div class="social-row" style="margin-top:16px">
           <div class="social-icon">IG</div>
           <div class="social-icon">TK</div>
@@ -1176,7 +1715,7 @@
 <div class="page" id="page-shop">
 
   <div class="shop-header">
-    <div class="label">Full Catalog</div>
+    <div class="label">All Products</div>
     <h1>Shop</h1>
   </div>
 
@@ -1414,7 +1953,7 @@
       </div>
 
       <div class="pdp-title">Castle Sweater</div>
-      <div class="pdp-subtitle">Castle Collection · 12oz Heavy Fleece</div>
+      <div class="pdp-subtitle">Castle Collection · Heavy Fleece</div>
 
       <div class="pdp-price">
         <span class="original">$72.00</span>
@@ -1484,7 +2023,7 @@
           <span>+</span>
         </div>
         <div class="accordion-body">
-          12oz fleece pullover. Gothic lettering across the back, dragon mascot embroidered on chest. 80/20 cotton-poly blend. Cut oversized — size down if you want it fitted. Built heavy on purpose.
+          Heavy fleece pullover with gothic lettering and dragon mascot embroidery on chest. 80% cotton / 20% polyester blend. Oversized fit — size down for a fitted look.
         </div>
       </div>
       <div class="accordion-item">
@@ -1506,7 +2045,7 @@
   <!-- Related Products -->
   <section class="related-section">
     <div class="section-header">
-      <div class="label">Same Collection</div>
+      <div class="label">You May Also Like</div>
       <h2>More From The Drop</h2>
       <div class="red-line"></div>
     </div>
@@ -1552,6 +2091,356 @@
 
 </div>
 
+<!-- ════════════════════════════════════════
+     PAGE 4 — COLLECTIONS
+════════════════════════════════════════ -->
+<div class="page" id="page-collections">
+
+  <!-- Header -->
+  <div class="collections-hero">
+    <div class="label">Browse</div>
+    <h1>Collections</h1>
+    <p>Every drop is a chapter. Shop by collection to find what you're looking for — or just scroll and let it find you.</p>
+  </div>
+
+  <!-- Featured collection — full width -->
+  <div class="collections-grid">
+    <div class="collection-card featured" onclick="showPage('shop')">
+      <div class="collection-card-img">
+        <div class="mascot-ghost">
+          <img src="/MASTER%20LOGO/master-logo/chuco-master-chrome.svg" alt="" />
+        </div>
+        Collection Hero Image — Castle Collection
+      </div>
+      <div class="collection-card-body">
+        <div>
+          <div class="collection-card-name">Castle Collection</div>
+          <div class="collection-card-count">12 Products · Heavy Fleece · Gothic Hardware</div>
+        </div>
+        <div class="collection-cta">Shop Collection →</div>
+      </div>
+    </div>
+
+    <!-- Dragon Series -->
+    <div class="collection-card" onclick="showPage('shop')">
+      <div class="collection-card-img">
+        <div class="mascot-ghost">
+          <img src="/MASTER%20LOGO/master-logo/chuco-chrome-mascot.svg" alt="" />
+        </div>
+        Dragon Series
+      </div>
+      <div class="collection-card-body">
+        <div>
+          <div class="collection-card-name">Dragon Series</div>
+          <div class="collection-card-count">8 Products · Mascot Graphics</div>
+        </div>
+        <div class="collection-cta">Shop →</div>
+      </div>
+    </div>
+
+    <!-- Basics -->
+    <div class="collection-card" onclick="showPage('shop')">
+      <div class="collection-card-img">
+        Collection Image — Basics
+      </div>
+      <div class="collection-card-body">
+        <div>
+          <div class="collection-card-name">Basics</div>
+          <div class="collection-card-count">5 Products · Core Staples</div>
+        </div>
+        <div class="collection-cta">Shop →</div>
+      </div>
+    </div>
+
+    <!-- Sale -->
+    <div class="collection-card" onclick="showPage('shop')">
+      <div class="collection-card-img" style="border-top: 2px solid var(--red);">
+        Collection Image — Sale
+      </div>
+      <div class="collection-card-body">
+        <div>
+          <div class="collection-card-name" style="color:var(--red)">Sale</div>
+          <div class="collection-card-count">3 Products · Up to 30% Off</div>
+        </div>
+        <div class="collection-cta">Shop Sale →</div>
+      </div>
+    </div>
+
+    <!-- Upcoming (locked) -->
+    <div class="collection-card" style="opacity:0.45; cursor:default;">
+      <div class="collection-card-img">
+        Coming Soon — Q3 Drop
+      </div>
+      <div class="collection-card-body">
+        <div>
+          <div class="collection-card-name">Summer Drop — Q3</div>
+          <div class="collection-card-count">Coming Soon</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.15em;color:var(--text-dim)">LOCKED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer abbreviated -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 5 — LOOKBOOK
+════════════════════════════════════════ -->
+<div class="page" id="page-lookbook">
+
+  <!-- Hero -->
+  <div class="lookbook-hero">
+    <div class="lookbook-eyebrow">Chuco Apparel — SS 2026</div>
+    <h1>Lookbook</h1>
+    <p>Worn by those who built it from nothing. Every look tells the same story — you either carry the culture or you don't.</p>
+  </div>
+
+  <!-- Spread 1 — two column editorial -->
+  <div class="look-spread two-col">
+    <div class="look-img tall">
+      Look 01 — Model Shot<br>[ model img 1.png ]
+      <div class="look-img-label">
+        <span class="look-num">01</span>
+        <span class="look-shop-tag" onclick="showPage('pdp')">Shop This Look</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="look-img medium">
+        Look 01 — Detail Shot
+        <div class="look-img-label">
+          <span class="look-num"></span>
+          <span class="look-shop-tag" onclick="showPage('pdp')">Shop This Look</span>
+        </div>
+      </div>
+      <div style="background:var(--black);padding:32px 36px;flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <div class="look-caption-title">Castle Sweater · Dragon Tee</div>
+        <div class="look-caption-desc" style="margin-top:8px;">Heavy fleece + graphic tee layered. Texas winter, street-ready. Gothic hardware details throughout.</div>
+        <button class="btn btn-secondary" style="margin-top:20px;width:fit-content" onclick="showPage('pdp')">Shop the Look</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spread 2 — three column -->
+  <div class="look-spread three-col">
+    <div class="look-img tall">
+      Look 02 — Full Body<br>[ placeholder ]
+      <div class="look-img-label">
+        <span class="look-num">02</span>
+        <span class="look-shop-tag" onclick="showPage('pdp')">Shop This Look</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div class="look-img medium">
+        Look 02 — Chest Detail
+        <div class="look-img-label">
+          <span class="look-num"></span>
+          <span class="look-shop-tag" onclick="showPage('pdp')">Shop</span>
+        </div>
+      </div>
+      <div class="look-img" style="height:100%;min-height:160px;">
+        Look 02 — Back View
+        <div class="look-img-label">
+          <span class="look-num"></span>
+          <span class="look-shop-tag" onclick="showPage('pdp')">Shop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="look-caption">
+    <div>
+      <div class="look-caption-title">Gothic Crewneck · OG Snapback</div>
+      <div class="look-caption-desc">Block lettering, oversized fit. Worn low, worn heavy. This is the core of the culture.</div>
+    </div>
+    <button class="btn btn-secondary" onclick="showPage('pdp')">Shop the Look</button>
+  </div>
+
+  <!-- Spread 3 — two column reversed -->
+  <div class="look-spread two-col">
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div style="background:var(--black);padding:48px 40px;flex:1;display:flex;flex-direction:column;justify-content:center;">
+        <div class="lookbook-eyebrow">Look 03</div>
+        <div class="look-caption-title" style="font-size:22px;margin:12px 0 16px;">Dragon Hoodie<br>Red / Black</div>
+        <div class="look-caption-desc" style="font-size:13px;line-height:1.7;">The mascot front-and-center. Blood red on black. Every detail earned, nothing given.</div>
+        <button class="btn btn-primary" style="margin-top:24px;width:fit-content" onclick="showPage('pdp')">Shop This Look</button>
+      </div>
+      <div class="look-img short">
+        Look 03 — Sleeve Detail
+        <div class="look-img-label">
+          <span class="look-num"></span>
+          <span class="look-shop-tag" onclick="showPage('pdp')">Shop</span>
+        </div>
+      </div>
+    </div>
+    <div class="look-img tall">
+      Look 03 — Full Shot<br>[ placeholder ]
+      <div class="look-img-label">
+        <span class="look-num">03</span>
+        <span class="look-shop-tag" onclick="showPage('pdp')">Shop This Look</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mosaic grid — remaining looks -->
+  <div style="padding: 48px 64px 24px; border-top: 1px solid var(--gray-border);">
+    <div class="label">More Looks</div>
+    <h2 class="section-header" style="font-family:var(--font-display);font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:var(--white);margin-top:8px;margin-bottom:24px;">Season Archive</h2>
+  </div>
+  <div class="lookbook-mosaic">
+    <div class="mosaic-item">Look 04 — Basics Set<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+    <div class="mosaic-item">Look 05 — El Paso Tee<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+    <div class="mosaic-item">Look 06 — Mascot Zip-Up<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+    <div class="mosaic-item">Look 07 — Street Layered<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+    <div class="mosaic-item">Look 08 — All Black<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+    <div class="mosaic-item">Look 09 — Red Accent<div class="mosaic-overlay"><span class="mosaic-cta">Shop Look</span></div></div>
+  </div>
+
+  <!-- Footer abbreviated -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 6 — ABOUT
+════════════════════════════════════════ -->
+<div class="page" id="page-about">
+
+  <!-- Manifesto hero -->
+  <div class="about-manifesto">
+    <div class="about-manifesto-bg">
+      <img src="/MASTER%20LOGO/master-logo/chuco-master-chrome.svg" alt="" />
+    </div>
+    <div class="about-eyebrow">Est. El Paso, Texas</div>
+    <h1>Born From<br>The Block.</h1>
+    <p>Chuco Apparel isn't a brand — it's a response. To the oilfields, the borderlands, the blue-collar grind. We wear what we came from.</p>
+  </div>
+
+  <!-- Brand Story — split -->
+  <div class="about-story">
+    <div class="about-story-img">
+      <div class="mascot-ghost">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-mascot.svg" alt="" />
+      </div>
+      Brand / Model Image
+    </div>
+    <div class="about-story-text">
+      <div class="label">The Story</div>
+      <div class="red-line"></div>
+      <h2>Texas Roots.<br>Street Culture.<br>No Apologies.</h2>
+      <p>We grew up in a place where the sun burns hard and the work burns harder. Chuco Apparel started as a statement — not a business plan. Heavy fabric, gothic cuts, and a mascot that stares back.</p>
+      <p>Every piece is limited. Every drop is intentional. When we say "wear the culture" — we mean the real one. The one built from the ground up, not handed down from a marketing department.</p>
+      <button class="btn btn-secondary" style="width:fit-content" onclick="showPage('shop')">Shop Now</button>
+    </div>
+  </div>
+
+  <!-- Pillars — 4 values -->
+  <div class="about-pillars">
+    <div class="pillar">
+      <div class="pillar-icon"></div>
+      <div class="pillar-title">Raw by Design</div>
+      <div class="pillar-body">No softening. No filtering. The aesthetic is hard because the life it represents was hard. Every detail is earned.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon"></div>
+      <div class="pillar-title">Limited Runs</div>
+      <div class="pillar-body">Not everyone gets one. We keep production tight so that wearing Chuco still means something. No restocks. No apologies.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon"></div>
+      <div class="pillar-title">Heavy Fabric</div>
+      <div class="pillar-body">800gsm fleece. Double-stitched seams. Nothing thin, nothing cheap. Built to last longer than trends.</div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-icon"></div>
+      <div class="pillar-title">Culture First</div>
+      <div class="pillar-body">Texas borderlands. Oilfield shifts. Street corners. Faith. The things you can't buy from a shelf — that's what we're built on.</div>
+    </div>
+  </div>
+
+  <!-- Product video teaser -->
+  <section class="mascot-section" style="border-bottom:1px solid var(--gray-border);">
+    <div class="section-header">
+      <div class="label">See It Live</div>
+      <h2>Castle Collection Drop</h2>
+      <div class="red-line"></div>
+    </div>
+    <div class="video-placeholder">
+      <div class="play-btn">▶</div>
+      <div class="video-label">castle sweater product video.mp4</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="about-cta-section">
+    <h2>Ready to Wear<br>The Culture?</h2>
+    <p>Browse the full collection. Limited runs, heavy fabric, built from something real.</p>
+    <div class="about-cta-btns">
+      <button class="btn btn-primary" onclick="showPage('shop')">Shop Now</button>
+      <button class="btn btn-secondary" onclick="showPage('lookbook')">View Lookbook</button>
+    </div>
+  </div>
+
+  <!-- Footer — full -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="/MASTER%20LOGO/master-logo/chuco-chrome-nametag.svg" alt="Chuco Apparel" style="height:36px;width:auto;display:block;margin-bottom:12px;" />
+        <p>Dark metal streetwear from the borderlands.<br>Heavy fabric. Real culture.</p>
+        <div class="social-row" style="margin-top:16px">
+          <div class="social-icon">IG</div>
+          <div class="social-icon">TK</div>
+          <div class="social-icon">TW</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li>New Arrivals</li>
+          <li>Tops</li>
+          <li>Hoodies</li>
+          <li>Accessories</li>
+          <li>Sale</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li onclick="showPage('about')" style="cursor:pointer">About Chuco</li>
+          <li onclick="showPage('lookbook')" style="cursor:pointer">Lookbook</li>
+          <li>Size Guide</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li>Shipping Policy</li>
+          <li>Returns</li>
+          <li>FAQ</li>
+          <li>Track Order</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel. All rights reserved.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
 <!-- ─── SPEC PANEL ─── -->
 <div class="spec-panel">
   <h3>Wireframe Spec — Chuco Apparel Ecommerce</h3>
@@ -1566,11 +2455,11 @@
     </div>
     <div class="spec-item">
       <div class="spec-key">Pages Covered</div>
-      <div class="spec-val">Homepage · Shop/Collection<br>Product Detail (PDP)</div>
+      <div class="spec-val">Homepage · Shop · Product Detail<br>Collections · Lookbook · About</div>
     </div>
     <div class="spec-item">
       <div class="spec-key">Still Needed</div>
-      <div class="spec-val">Cart / Checkout (Shopify native)<br>Product collections from client<br>Product photography</div>
+      <div class="spec-val">Cart / Checkout (Shopify native)<br>Product collections from client<br>Real copy + brand tagline</div>
     </div>
   </div>
 </div>
@@ -1578,11 +2467,33 @@
 <script>
   function showPage(name) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
     document.getElementById('page-' + name).classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelector('nav').classList.remove('scrolled', 'nav-hidden');
   }
+
+  // ── Nav scroll behavior (matches design preview) ─────────────────────────
+  const wfNav = document.querySelector('nav');
+  const wfDropBanner = document.querySelector('.drop-banner');
+  let wfLastScrollY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const bannerH = wfDropBanner ? wfDropBanner.offsetHeight : 0;
+    const activePage = document.querySelector('.page.active');
+    const wfHero = activePage ? activePage.querySelector('.hero') : null;
+    const heroThreshold = bannerH + (wfHero ? wfHero.offsetHeight : 400);
+
+    wfNav.classList.toggle('scrolled', currentY > bannerH);
+
+    if (currentY > heroThreshold) {
+      wfNav.classList.toggle('nav-hidden', currentY > wfLastScrollY);
+    } else {
+      wfNav.classList.remove('nav-hidden');
+    }
+
+    wfLastScrollY = currentY;
+  });
 </script>
 
 </body>

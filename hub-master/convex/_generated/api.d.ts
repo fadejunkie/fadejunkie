@@ -15,6 +15,8 @@ import type * as crons from "../crons.js";
 import type * as deliverables from "../deliverables.js";
 import type * as directionPicks from "../directionPicks.js";
 import type * as discovery from "../discovery.js";
+import type * as feedback from "../feedback.js";
+import type * as gbpAssets from "../gbpAssets.js";
 import type * as listings from "../listings.js";
 import type * as reports from "../reports.js";
 import type * as seed from "../seed.js";
@@ -38,6 +40,8 @@ declare const fullApi: ApiFromModules<{
   deliverables: typeof deliverables;
   directionPicks: typeof directionPicks;
   discovery: typeof discovery;
+  feedback: typeof feedback;
+  gbpAssets: typeof gbpAssets;
   listings: typeof listings;
   reports: typeof reports;
   seed: typeof seed;

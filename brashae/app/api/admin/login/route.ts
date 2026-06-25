@@ -15,11 +15,11 @@ export async function POST(req: NextRequest) {
   const { password } = await req.json()
   const adminPassword = process.env.ADMIN_PASSWORD
 
-  if (!adminPassword || password !== adminPassword) {
+  if (!adminPassword || password.trim() !== adminPassword.trim()) {
     return NextResponse.json({ error: 'Invalid password' }, { status: 401 })
   }
 
-  const hash = await hashPassword(adminPassword)
+  const hash = await hashPassword(adminPassword.trim())
   const res = NextResponse.json({ ok: true })
   res.cookies.set('brashae_admin', hash, {
     httpOnly: true,

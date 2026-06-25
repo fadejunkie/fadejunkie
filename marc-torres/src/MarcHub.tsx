@@ -1382,6 +1382,334 @@ function generatePdf(title: string, content: string, filename: string) {
 }
 
 /* ═══════════════════════════════════════
+   GBP ASSETS PAGE — Photos + Hours
+   ═══════════════════════════════════════ */
+const DAYS = [
+  { key: "mon", label: "Monday"    },
+  { key: "tue", label: "Tuesday"   },
+  { key: "wed", label: "Wednesday" },
+  { key: "thu", label: "Thursday"  },
+  { key: "fri", label: "Friday"    },
+  { key: "sat", label: "Saturday"  },
+  { key: "sun", label: "Sunday"    },
+];
+
+type DayHours = { closed: boolean; open: string; close: string };
+type WeekHours = Record<string, DayHours>;
+
+const DEFAULT_HOURS: WeekHours = {
+  mon: { closed: false, open: "09:00", close: "20:00" },
+  tue: { closed: false, open: "09:00", close: "20:00" },
+  wed: { closed: false, open: "09:00", close: "20:00" },
+  thu: { closed: false, open: "09:00", close: "20:00" },
+  fri: { closed: false, open: "09:00", close: "20:00" },
+  sat: { closed: false, open: "09:00", close: "17:00" },
+  sun: { closed: true,  open: "09:00", close: "17:00" },
+};
+
+function GbpAssetsPage({ isOps }: { isOps: boolean }) {
+  const { C } = useContext(ThemeCtx);
+  const existing   = useQuery(api.gbpAssets.getGbpAssets, { clientSlug: CLIENT_SLUG, projectId: PROJECT_ID });
+  const saveAssets = useMutation(api.gbpAssets.saveGbpAssets);
+
+  const [hours, setHours]           = useState<WeekHours>(DEFAULT_HOURS);
+  const [photosLink, setPhotosLink] = useState("");
+  const [photosNote, setPhotosNote] = useState("");
+  const [yelpEmail, setYelpEmail]   = useState("");
+  const [yelpPassword, setYelpPassword] = useState("");
+  const [showYelpPass, setShowYelpPass] = useState(false);
+  const [saved, setSaved]           = useState(false);
+  const [saving, setSaving]         = useState(false);
+
+  useEffect(() => {
+    if (existing) {
+      try {
+        if (existing.hours)        setHours(JSON.parse(existing.hours));
+        if (existing.photosLink)   setPhotosLink(existing.photosLink);
+        if (existing.photosNote)   setPhotosNote(existing.photosNote);
+        if (existing.yelpEmail)    setYelpEmail(existing.yelpEmail);
+        if (existing.yelpPassword) setYelpPassword(existing.yelpPassword);
+        setSaved(true);
+      } catch {}
+    }
+  }, [existing]);
+
+  const setDay = (day: string, field: "closed" | "open" | "close", value: string | boolean) => {
+    if (isOps) return;
+    setHours(prev => ({ ...prev, [day]: { ...prev[day], [field]: value } }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    await saveAssets({
+      clientSlug: CLIENT_SLUG,
+      projectId: PROJECT_ID,
+      hours: JSON.stringify(hours),
+      photosLink: photosLink || undefined,
+      photosNote: photosNote || undefined,
+      yelpEmail: yelpEmail || undefined,
+      yelpPassword: yelpPassword || undefined,
+    });
+    setSaving(false);
+    setSaved(true);
+  };
+
+  const inputStyle: React.CSSProperties = {
+    padding: "8px 12px", borderRadius: 7,
+    border: `1px solid ${C.hairline}`, background: C.surface2,
+    color: C.ink, fontSize: 13, fontFamily: FONT,
+    outline: "none", boxSizing: "border-box",
+  };
+
+  const formatTime = (t: string) => {
+    if (!t) return "—";
+    const [h, m] = t.split(":");
+    const hr = parseInt(h, 10);
+    return `${hr % 12 || 12}:${m} ${hr < 12 ? "AM" : "PM"}`;
+  };
+
+  return (
+    <div className="page-content">
+
+      {/* ── Business Hours ── */}
+      <SectionDivider label="Business Hours" />
+      {!isOps && (
+        <p style={{ fontSize: 13, color: C.inkSubtle, marginBottom: 20, lineHeight: 1.6, letterSpacing: "-0.05px" }}>
+          Accurate hours on your GBP reduce missed calls and improve local ranking.
+          Set each day below — toggle to Closed if you don't operate that day.
+        </p>
+      )}
+
+      <div style={{ background: C.surface1, border: `1px solid ${C.hairline}`, borderRadius: 12, overflow: "hidden", marginBottom: 32 }}>
+        {DAYS.map((day, i) => {
+          const d: DayHours = hours[day.key] || DEFAULT_HOURS[day.key];
+          return (
+            <div
+              key={day.key}
+              style={{
+                display: "flex", alignItems: "center", padding: "12px 20px", gap: 16,
+                borderBottom: i < DAYS.length - 1 ? `1px solid ${C.hairline}` : "none",
+                flexWrap: "wrap",
+              }}
+            >
+              <div style={{ fontSize: 13, fontWeight: 500, color: C.inkMuted, width: 96, flexShrink: 0 }}>{day.label}</div>
+
+              {/* Open/Closed toggle */}
+              <div
+                onClick={() => setDay(day.key, "closed", !d.closed)}
+                style={{ display: "flex", alignItems: "center", gap: 7, cursor: isOps ? "default" : "pointer", flexShrink: 0 }}
+              >
+                <div style={{
+                  width: 32, height: 18, borderRadius: 9, position: "relative",
+                  background: d.closed ? C.surface3 : C.primary,
+                  transition: "background 0.15s",
+                }}>
+                  <div style={{
+                    position: "absolute", top: 2,
+                    left: d.closed ? 2 : 16,
+                    width: 14, height: 14, borderRadius: "50%", background: "#fff",
+                    transition: "left 0.15s",
+                  }} />
+                </div>
+                <span style={{ fontSize: 10, color: d.closed ? C.inkTertiary : C.primary, fontFamily: MONO, letterSpacing: "0.3px", width: 40 }}>
+                  {d.closed ? "CLOSED" : "OPEN"}
+                </span>
+              </div>
+
+              {/* Time inputs */}
+              {!d.closed && !isOps && (
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <input type="time" value={d.open}  onChange={e => setDay(day.key, "open",  e.target.value)} style={{ ...inputStyle, width: 120 }} />
+                  <span style={{ fontSize: 11, color: C.inkTertiary }}>to</span>
+                  <input type="time" value={d.close} onChange={e => setDay(day.key, "close", e.target.value)} style={{ ...inputStyle, width: 120 }} />
+                </div>
+              )}
+
+              {/* Ops read-only time display */}
+              {!d.closed && isOps && (
+                <span style={{ fontSize: 13, color: C.inkMuted, fontFamily: MONO }}>
+                  {formatTime(d.open)} – {formatTime(d.close)}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ── GBP Photos ── */}
+      <SectionDivider label="GBP Photos" />
+
+      {!isOps && (
+        <>
+          <div style={{ background: "rgba(94,106,210,0.06)", border: `1px solid rgba(94,106,210,0.2)`, borderRadius: 10, padding: "14px 18px", marginBottom: 20 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: C.ink, marginBottom: 5 }}>Why photos matter</div>
+            <div style={{ fontSize: 12, color: C.inkSubtle, lineHeight: 1.7 }}>
+              Right now your Google profile has only 2 owner-uploaded photos. Profiles with 10+ owner photos get
+              significantly more clicks, calls, and direction requests. We need real gym photos to unlock that boost.
+            </div>
+          </div>
+
+          <div style={{ background: C.surface1, border: `1px solid ${C.hairline}`, borderRadius: 10, padding: "14px 18px", marginBottom: 16 }}>
+            <div style={{ fontSize: 10, fontWeight: 500, color: C.inkSubtle, letterSpacing: "0.5px", fontFamily: MONO, textTransform: "uppercase", marginBottom: 10 }}>
+              What to photograph (aim for 10+)
+            </div>
+            {[
+              "Exterior of the building / signage",
+              "Front entrance or lobby",
+              "The mat / training floor",
+              "Classes in action (with permission)",
+              "Instructor / staff headshots",
+              "Kids Bullyproof class",
+              "Women's self-defense class",
+              "Awards, belts, or achievement wall",
+              "Logo banners or branded gear",
+              "Any other gym / class shots",
+            ].map((item, i) => (
+              <div key={i} style={{ display: "flex", gap: 10, marginBottom: 5, alignItems: "flex-start" }}>
+                <span style={{ fontSize: 10, color: C.primary, fontFamily: MONO, marginTop: 2, flexShrink: 0 }}>{String(i + 1).padStart(2, "0")}</span>
+                <span style={{ fontSize: 12, color: C.inkMuted, lineHeight: 1.5 }}>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: C.surface2, border: `1px solid ${C.hairline}`, borderRadius: 10, padding: "14px 18px", marginBottom: 20 }}>
+            <div style={{ fontSize: 10, fontWeight: 500, color: C.inkSubtle, letterSpacing: "0.5px", fontFamily: MONO, textTransform: "uppercase", marginBottom: 8 }}>How to share</div>
+            {[
+              "Take 10+ photos with your phone at the gym",
+              "Open Google Photos or Google Drive",
+              "Create an album/folder and add the photos",
+              'Tap Share → "Anyone with the link can view"',
+              "Paste the share link below and hit Save",
+            ].map((step, i) => (
+              <div key={i} style={{ display: "flex", gap: 10, marginBottom: 5 }}>
+                <span style={{ fontSize: 11, color: C.primary, fontFamily: MONO, flexShrink: 0 }}>{i + 1}.</span>
+                <span style={{ fontSize: 12, color: C.inkMuted, lineHeight: 1.5 }}>{step}</span>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 11, color: C.inkSubtle, marginBottom: 6, letterSpacing: "-0.05px" }}>
+          Google Drive or Google Photos share link
+        </div>
+        <input
+          type="url"
+          value={photosLink}
+          onChange={e => !isOps && setPhotosLink(e.target.value)}
+          placeholder={isOps ? "—" : "https://drive.google.com/drive/folders/..."}
+          readOnly={isOps}
+          style={{ ...inputStyle, width: "100%" }}
+        />
+      </div>
+
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 11, color: C.inkSubtle, marginBottom: 6, letterSpacing: "-0.05px" }}>
+          Notes <span style={{ color: C.inkTertiary }}>(optional)</span>
+        </div>
+        <textarea
+          value={photosNote}
+          onChange={e => !isOps && setPhotosNote(e.target.value)}
+          placeholder={isOps ? "" : "e.g. The mat photos are from Saturday class, let me know if you need more"}
+          readOnly={isOps}
+          rows={3}
+          style={{ ...inputStyle, width: "100%", resize: "vertical" as const }}
+        />
+      </div>
+
+      {/* ── Yelp Login ── */}
+      <SectionDivider label="Yelp Login" />
+
+      {!isOps && (
+        <div style={{ background: "rgba(245,95,68,0.06)", border: "1px solid rgba(245,95,68,0.2)", borderRadius: 10, padding: "14px 18px", marginBottom: 20 }}>
+          <div style={{ fontSize: 13, fontWeight: 500, color: C.ink, marginBottom: 5 }}>One quick fix needed</div>
+          <div style={{ fontSize: 12, color: C.inkSubtle, lineHeight: 1.7 }}>
+            Your Yelp listing currently shows <strong style={{ color: C.ink }}>GracieUniversity.com</strong> as the website — that's the wrong URL.
+            We need to log into <strong style={{ color: C.ink }}>biz.yelp.com</strong> to update it to{" "}
+            <strong style={{ color: C.ink }}>graciejiujitsusanantonio.com</strong>.
+            Enter your credentials below — we'll make the change and you can update your password after.
+          </div>
+        </div>
+      )}
+
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 11, color: C.inkSubtle, marginBottom: 6, letterSpacing: "-0.05px" }}>
+          Yelp login email
+        </div>
+        <input
+          type={isOps ? "text" : "email"}
+          value={yelpEmail}
+          onChange={e => !isOps && setYelpEmail(e.target.value)}
+          placeholder={isOps ? "—" : "your@email.com"}
+          readOnly={isOps}
+          style={{ ...inputStyle, width: "100%" }}
+        />
+      </div>
+
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ fontSize: 11, color: C.inkSubtle, marginBottom: 6, letterSpacing: "-0.05px" }}>
+          Yelp password
+        </div>
+        <div style={{ position: "relative" }}>
+          <input
+            type={showYelpPass ? "text" : "password"}
+            value={yelpPassword}
+            onChange={e => !isOps && setYelpPassword(e.target.value)}
+            placeholder={isOps ? (yelpPassword ? "••••••••" : "—") : "••••••••"}
+            readOnly={isOps && !showYelpPass}
+            style={{ ...inputStyle, width: "100%", paddingRight: 48 }}
+          />
+          {yelpPassword && (
+            <button
+              onClick={() => setShowYelpPass(p => !p)}
+              style={{
+                position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
+                background: "none", border: "none", cursor: "pointer",
+                color: C.inkTertiary, fontSize: 11, fontFamily: MONO, padding: 0,
+              }}
+            >
+              {showYelpPass ? "hide" : "show"}
+            </button>
+          )}
+        </div>
+        {!isOps && (
+          <div style={{ fontSize: 11, color: C.inkTertiary, marginTop: 6, letterSpacing: "-0.05px" }}>
+            Stored securely in your private hub. You can change your Yelp password after we make the fix.
+          </div>
+        )}
+      </div>
+
+      {!isOps && (
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            style={{
+              padding: "9px 20px",
+              background: saving ? C.surface2 : C.primary,
+              color: saving ? C.inkSubtle : "#fff",
+              border: "none", borderRadius: 8, fontSize: 13, fontWeight: 500,
+              cursor: saving ? "default" : "pointer", fontFamily: FONT,
+              letterSpacing: "-0.1px", transition: "background 0.15s",
+            }}
+          >
+            {saving ? "Saving…" : saved ? "Update" : "Save"}
+          </button>
+          {saved && <span style={{ fontSize: 12, color: C.success }}>✓ Saved</span>}
+        </div>
+      )}
+
+      {isOps && existing && (
+        <div style={{ fontSize: 11, color: C.inkTertiary, fontFamily: MONO }}>
+          Last updated {new Date(existing.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
    REPORTS PAGE
    ═══════════════════════════════════════ */
 function ReportsPage({ isOps }: { isOps: boolean }) {
@@ -1711,16 +2039,18 @@ export default function MarcHub() {
   const setTask       = useMutation(api.tasks.setTask);
   const discoveryData = useQuery(api.discovery.getDiscovery, { clientSlug: CLIENT_SLUG, projectId: PROJECT_ID });
   const agreementData = useQuery(api.agreements.getAgreement, { clientSlug: CLIENT_SLUG, projectId: PROJECT_ID });
+  const gbpAssetsData = useQuery(api.gbpAssets.getGbpAssets, { clientSlug: CLIENT_SLUG, projectId: PROJECT_ID });
   const discoveryBadge  = discoveryData !== undefined && !discoveryData;
   const agreementBadge  = agreementData !== undefined && !agreementData;
+  const gbpAssetsBadge  = gbpAssetsData !== undefined && !gbpAssetsData;
 
   const total = PHASES.flatMap(p => p.tasks).length;
   const done  = Object.values(tasks).filter(Boolean).length;
   const pct   = Math.round((done / total) * 100);
 
   const NAV = isOps
-    ? [{ id: "tracker", label: "Tracker" }, { id: "scope", label: "Scope" }, { id: "discovery", label: "Discovery", badge: discoveryBadge }, { id: "agreement", label: "Agreement", badge: agreementBadge }, { id: "reports", label: "Reports" }]
-    : [{ id: "tracker", label: "Progress" }, { id: "scope", label: "Scope" }, { id: "discovery", label: "Onboarding", badge: discoveryBadge }, { id: "agreement", label: "Agreement", badge: agreementBadge }, { id: "reports", label: "Deliverables" }];
+    ? [{ id: "tracker", label: "Tracker" }, { id: "scope", label: "Scope" }, { id: "discovery", label: "Discovery", badge: discoveryBadge }, { id: "agreement", label: "Agreement", badge: agreementBadge }, { id: "gbp-assets", label: "GBP Assets", badge: gbpAssetsBadge }, { id: "reports", label: "Reports" }]
+    : [{ id: "tracker", label: "Progress" }, { id: "scope", label: "Scope" }, { id: "discovery", label: "Onboarding", badge: discoveryBadge }, { id: "agreement", label: "Agreement", badge: agreementBadge }, { id: "gbp-assets", label: "Photos & Hours", badge: gbpAssetsBadge }, { id: "reports", label: "Deliverables" }];
 
   const T = theme;
 
@@ -1836,11 +2166,12 @@ export default function MarcHub() {
       </div>
 
       {/* Page */}
-      {page === "tracker"   && <TrackerPage tasks={tasks} setTask={setTask} />}
-      {page === "scope"     && <ScopePage />}
-      {page === "discovery" && <DiscoveryPage isOps={isOps} onGoToAgreement={() => setPage("agreement")} />}
-      {page === "agreement" && <AgreementPage />}
-      {page === "reports"   && <ReportsPage isOps={isOps} />}
+      {page === "tracker"    && <TrackerPage tasks={tasks} setTask={setTask} />}
+      {page === "scope"      && <ScopePage />}
+      {page === "discovery"  && <DiscoveryPage isOps={isOps} onGoToAgreement={() => setPage("agreement")} />}
+      {page === "agreement"  && <AgreementPage />}
+      {page === "gbp-assets" && <GbpAssetsPage isOps={isOps} />}
+      {page === "reports"    && <ReportsPage isOps={isOps} />}
     </div>
     </ThemeCtx.Provider>
   );

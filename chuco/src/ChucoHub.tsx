@@ -517,8 +517,26 @@ const WfBtn = ({ w = 72, h = 24, style = {} }: any) => (
   <div style={{ width: w, height: h, border: `1px solid ${WF_DIM}`, borderRadius: 2, flexShrink: 0, ...style }} />
 );
 
-function SitePreviewPage() {
-  const { COAL, ZINC, GREY, ASH, SMOKE, WHITE, RED, RED_DIM } = useContext(ThemeCtx);
+function SitePreviewPage({ tasks, setTask, isOps }: { tasks: any; setTask: any; isOps: boolean }) {
+  const { COAL, ZINC, GREY, ASH, SMOKE, WHITE, RED, RED_DIM, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
+  const [approving, setApproving] = useState(false);
+
+  const mockupDelivered  = !!tasks["p1-0"];
+  const wireframeApproved = !!tasks["p1-1"];
+  const awaitingApproval  = mockupDelivered && !wireframeApproved;
+
+  const handleApprove = async () => {
+    setApproving(true);
+    try {
+      await setTask({ clientSlug: "chuco", projectId: "chuco-apparel", taskKey: "p1-1", completed: true });
+    } finally {
+      setApproving(false);
+    }
+  };
+
+  const handleReset = async () => {
+    await setTask({ clientSlug: "chuco", projectId: "chuco-apparel", taskKey: "p1-1", completed: false });
+  };
   return (
     <div className="hub-page-content" style={{ padding: "24px 24px 48px" }}>
       <style>{`
@@ -531,8 +549,10 @@ function SitePreviewPage() {
           100% { transform: scale(2.2); opacity: 0; }
         }
         @media (max-width: 600px) {
-          .wf-iframe { height: 480px !important; }
-          .wf-blurb { padding: 16px !important; }
+          .wf-blurb { padding: 16px !important; font-size: 13px !important; }
+          .wf-status-divider { display: none !important; }
+          .wf-status-sub { display: none !important; }
+          .wf-footer-caption { display: none !important; }
         }
       `}</style>
 
@@ -543,13 +563,13 @@ function SitePreviewPage() {
           <div style={{ position: "absolute", inset: 0, borderRadius: "50%", border: `1px solid ${RED}`, animation: "pulse-ring 1.8s ease-out infinite" }} />
         </div>
         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, fontFamily: "'IBM Plex Mono',monospace", color: RED, textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44` }}>
-          IN SESSION
+          {wireframeApproved ? "APPROVED" : "IN SESSION"}
         </div>
-        <div style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
-        <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
+        <div className="wf-status-divider" style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
+        <div className="wf-status-sub" style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           WIREFRAME · SITE UNDER CONSTRUCTION
         </div>
-        <div style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+        <div className="wf-status-divider" style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
       </div>
 
       {/* ── How it works blurb ── */}
@@ -575,6 +595,7 @@ function SitePreviewPage() {
             </div>
           </div>
           <a
+            className="blurb-open-link"
             href="/chuco-wireframe.html"
             target="_blank"
             rel="noopener noreferrer"
@@ -592,6 +613,59 @@ function SitePreviewPage() {
             ↗ Open full page
           </a>
         </div>
+
+        {/* Approval sign-off */}
+        <div style={{ borderTop: `1px solid ${ZINC}`, paddingTop: 14, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+          <div style={{ fontSize: 11, color: wireframeApproved ? GREEN : (awaitingApproval ? SMOKE : GREY), fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 1 }}>
+            {wireframeApproved
+              ? "✓ Design direction approved"
+              : awaitingApproval
+              ? "Ready for your sign-off. Does this layout feel right?"
+              : "Wireframe is still in development — approval available once delivered."}
+          </div>
+          {wireframeApproved ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{
+                background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`,
+                color: GREEN, fontFamily: "'IBM Plex Mono',monospace",
+                fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                padding: "9px 20px",
+              }}>
+                ✓ Approved
+              </div>
+              {isOps && (
+                <button
+                  onClick={handleReset}
+                  style={{
+                    background: "transparent", border: `1px solid ${ZINC}`,
+                    color: GREY, fontFamily: "'IBM Plex Mono',monospace",
+                    fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                    padding: "9px 14px", cursor: "pointer",
+                  }}
+                >
+                  Reset
+                </button>
+              )}
+            </div>
+          ) : (
+            <button
+              onClick={awaitingApproval ? handleApprove : undefined}
+              disabled={!awaitingApproval || approving}
+              style={{
+                background: awaitingApproval ? RED : "transparent",
+                border: `1px solid ${awaitingApproval ? RED : ZINC}`,
+                color: awaitingApproval ? WHITE : GREY,
+                fontFamily: "'IBM Plex Mono',monospace",
+                fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                padding: "9px 20px", cursor: awaitingApproval ? "pointer" : "default",
+                opacity: approving ? 0.6 : 1,
+                transition: "background 0.15s, border-color 0.15s",
+              }}
+            >
+              {approving ? "Saving…" : "Approve Design Direction →"}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* ── Wireframe iframe ── */}
@@ -600,11 +674,29 @@ function SitePreviewPage() {
           className="wf-iframe"
           src="/chuco-wireframe.html"
           title="Chuco Apparel — Site Wireframe"
-          style={{ width: "100%", height: 680, border: "none", display: "block", background: "#000" }}
+          style={{ width: "100%", height: 900, border: "none", display: "block", background: "#000" }}
         />
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+      {/* ── Mobile CTA — replaces iframe scroll on small screens ── */}
+      <a
+        className="wf-mobile-cta"
+        href="/chuco-wireframe.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "none", // shown via CSS on mobile
+          width: "100%", marginTop: 12, padding: "16px",
+          background: RED, color: WHITE, textAlign: "center",
+          fontSize: 11, fontWeight: 700, letterSpacing: 3,
+          fontFamily: "'IBM Plex Mono',monospace", textDecoration: "none",
+          textTransform: "uppercase",
+        }}
+      >
+        VIEW FULL WIREFRAME →
+      </a>
+
+      <div className="wf-footer-caption" style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
         <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           FINAL BUILD DELIVERED AFTER APPROVAL · MATCHES YOUR BRAND EXACTLY
@@ -618,7 +710,7 @@ function SitePreviewPage() {
 /* ═══════════════════════════════════════
    DESIGN PREVIEW PAGE
    ═══════════════════════════════════════ */
-function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
+function DesignPreviewPage({ tasks, setTask, isOps }: { tasks: any; setTask: any; isOps: boolean }) {
   const { COAL, ZINC, GREY, ASH, SMOKE, WHITE, RED, RED_DIM, GREEN, GREEN_BG, GREEN_BORDER } = useContext(ThemeCtx);
   const [approving, setApproving] = useState(false);
   const [approved, setApproved] = useState(false);
@@ -637,6 +729,10 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
     }
   };
 
+  const handleReset = async () => {
+    await setTask({ clientSlug: "chuco", projectId: "chuco-apparel", taskKey: "p1-1", completed: false });
+  };
+
   return (
     <div className="hub-page-content" style={{ padding: "24px 24px 48px" }}>
       <style>{`
@@ -649,8 +745,10 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
           100% { transform: scale(2.2); opacity: 0; }
         }
         @media (max-width: 600px) {
-          .dp-iframe { height: 480px !important; }
-          .dp-blurb { padding: 16px !important; }
+          .dp-blurb { padding: 16px !important; font-size: 13px !important; }
+          .dp-status-divider { display: none !important; }
+          .dp-status-sub { display: none !important; }
+          .dp-footer-caption { display: none !important; }
         }
       `}</style>
 
@@ -663,11 +761,11 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 4, fontFamily: "'IBM Plex Mono',monospace", color: RED, textShadow: `0 0 8px ${RED}88, 0 0 20px ${RED}44` }}>
           {designApproved ? "APPROVED" : "IN SESSION"}
         </div>
-        <div style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
-        <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
+        <div className="dp-status-divider" style={{ height: 1, width: 32, background: `linear-gradient(90deg, ${RED_DIM}, transparent)` }} />
+        <div className="dp-status-sub" style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           DESIGN SYSTEM · COLORS · TYPOGRAPHY · COMPONENTS
         </div>
-        <div style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
+        <div className="dp-status-divider" style={{ height: 1, width: 32, background: `linear-gradient(270deg, ${RED_DIM}, transparent)` }} />
       </div>
 
       {/* ── How it works blurb ── */}
@@ -693,6 +791,7 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
             </div>
           </div>
           <a
+            className="blurb-open-link"
             href="/chuco-design-preview.html"
             target="_blank"
             rel="noopener noreferrer"
@@ -721,13 +820,28 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
               : "Design is still in development — approval available once mockup is delivered."}
           </div>
           {designApproved ? (
-            <div style={{
-              background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`,
-              color: GREEN, fontFamily: "'IBM Plex Mono',monospace",
-              fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
-              padding: "9px 20px",
-            }}>
-              ✓ Approved
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{
+                background: GREEN_BG, border: `1px solid ${GREEN_BORDER}`,
+                color: GREEN, fontFamily: "'IBM Plex Mono',monospace",
+                fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                padding: "9px 20px",
+              }}>
+                ✓ Approved
+              </div>
+              {isOps && (
+                <button
+                  onClick={handleReset}
+                  style={{
+                    background: "transparent", border: `1px solid ${ZINC}`,
+                    color: GREY, fontFamily: "'IBM Plex Mono',monospace",
+                    fontSize: 9, letterSpacing: 2, textTransform: "uppercase",
+                    padding: "9px 14px", cursor: "pointer",
+                  }}
+                >
+                  Reset
+                </button>
+              )}
             </div>
           ) : (
             <button
@@ -756,11 +870,29 @@ function DesignPreviewPage({ tasks, setTask }: { tasks: any; setTask: any }) {
           className="dp-iframe"
           src="/chuco-design-preview.html"
           title="Chuco Apparel — Design System Preview"
-          style={{ width: "100%", height: 680, border: "none", display: "block", background: "#000" }}
+          style={{ width: "100%", height: 900, border: "none", display: "block", background: "#000" }}
         />
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+      {/* ── Mobile CTA — hidden on desktop, shown via CSS on mobile ── */}
+      <a
+        className="dp-mobile-cta"
+        href="/chuco-design-preview.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: "none",
+          width: "100%", marginTop: 12, padding: "16px",
+          background: RED, color: WHITE, textAlign: "center",
+          fontSize: 11, fontWeight: 700, letterSpacing: 3,
+          fontFamily: "'IBM Plex Mono',monospace", textDecoration: "none",
+          textTransform: "uppercase",
+        }}
+      >
+        VIEW FULL DESIGN →
+      </a>
+
+      <div className="dp-footer-caption" style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
         <div style={{ width: 4, height: 4, borderRadius: "50%", background: RED_DIM }} />
         <div style={{ fontSize: 9, color: GREY, fontFamily: "'IBM Plex Mono',monospace", letterSpacing: 2 }}>
           COLORS · FONTS · SHAPES · LOGO SYSTEM · COMPONENTS
@@ -906,6 +1038,7 @@ function AgreementPage() {
 
         <div style={{ display: "flex", gap: 10 }}>
           <a
+            className="agreement-receipt-btn"
             href={CHUCO_INVOICE.pdf}
             target="_blank"
             rel="noopener noreferrer"
@@ -1063,16 +1196,31 @@ export default function ChucoHub() {
             .hub-header-label { display: none !important; }
             .hub-header-divider { display: none !important; }
             .hub-header-progress-bar { display: none !important; }
-            .hub-header-pct { font-size: 8px !important; }
-            .hub-infostrip { padding: 8px 16px !important; gap: 14px !important; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap !important; }
+            .hub-header-pct { font-size: 10px !important; }
+            /* Info strip — hide MONTHLY (visible on SCOPE tab), pad-right for last item */
+            .hub-infostrip { padding: 8px 16px 8px 16px !important; gap: 12px !important; overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap !important; padding-right: 28px !important; }
+            .hub-infostrip-monthly { display: none !important; }
+            /* Nav — 44px tap target, overflow fade */
+            .hub-nav-wrapper { position: relative !important; }
+            .hub-nav-wrapper::after { content: ''; position: absolute; right: 0; top: 0; bottom: 1px; width: 36px; background: linear-gradient(to left, #000000 20%, transparent 100%); pointer-events: none; z-index: 1; }
             .hub-nav { padding: 0 0 0 4px !important; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
             .hub-nav::-webkit-scrollbar { display: none; }
-            .hub-nav button { padding: 12px 12px !important; font-size: 9px !important; white-space: nowrap; }
+            .hub-nav button { padding: 14px 12px !important; font-size: 10px !important; white-space: nowrap; min-height: 44px !important; }
             .hub-page-content { padding: 16px 16px 40px !important; }
             .scope-recs-grid { grid-template-columns: 1fr !important; }
             .scope-deal-grid { gap: 16px !important; }
             .wf-product-grid { grid-template-columns: repeat(2, 1fr) !important; }
             .section-header { margin-top: 20px !important; }
+            /* Tap targets */
+            .hub-theme-toggle { min-width: 44px !important; min-height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+            .blurb-open-link { min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
+            .agreement-receipt-btn { min-height: 44px !important; display: inline-flex !important; align-items: center !important; }
+            /* Mobile-only iframe CTAs */
+            .wf-mobile-cta { display: block !important; }
+            .dp-mobile-cta { display: block !important; }
+            /* Iframe heights on mobile — 280px preview thumbnail */
+            .wf-iframe { height: 280px !important; }
+            .dp-iframe { height: 280px !important; }
           }
         `}</style>
 
@@ -1094,6 +1242,7 @@ export default function ChucoHub() {
             </div>
             {/* Theme toggle */}
             <button
+              className="hub-theme-toggle"
               onClick={toggleTheme}
               title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
               style={{
@@ -1114,12 +1263,12 @@ export default function ChucoHub() {
             <div style={{ fontSize: 13, fontWeight: 700, color: WHITE }}>Chuco Apparel</div>
           </div>
           {[
-            { label: "TOTAL", value: "$750" },
-            { label: "PAYMENTS", value: "3 × $250" },
-            { label: "MONTHLY", value: "$45/mo" },
-            { label: "TURNAROUND", value: "72 hrs" },
+            { label: "TOTAL", value: "$750", cls: "" },
+            { label: "PAYMENTS", value: "3 × $250", cls: "" },
+            { label: "MONTHLY", value: "$45/mo", cls: "hub-infostrip-monthly" },
+            { label: "TURNAROUND", value: "72 hrs", cls: "" },
           ].map(item => (
-            <div key={item.label} style={{ flexShrink: 0 }}>
+            <div key={item.label} className={item.cls || undefined} style={{ flexShrink: 0 }}>
               <div style={{ fontSize: 9, color: GREY, letterSpacing: 3, fontFamily: "'IBM Plex Mono',monospace" }}>{item.label}</div>
               <div style={{ fontSize: 12, color: SMOKE }}>{item.value}</div>
             </div>
@@ -1127,7 +1276,8 @@ export default function ChucoHub() {
         </div>
 
         {/* Nav */}
-        <div className="hub-nav" style={{ background: BLACK, borderBottom: `1px solid ${ZINC}`, padding: "0 32px", display: "flex", gap: 0 }}>
+        <div className="hub-nav-wrapper" style={{ position: "relative", background: BLACK, borderBottom: `1px solid ${ZINC}` }}>
+        <div className="hub-nav" style={{ padding: "0 32px", display: "flex", gap: 0 }}>
           {NAV.map(n => (
             <button
               key={n.id}
@@ -1151,13 +1301,14 @@ export default function ChucoHub() {
             </button>
           ))}
         </div>
+        </div>
 
         {/* Page content */}
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           {page === "workflow" && <WorkflowPage tasks={tasks} setTask={setTask} isOps={isOps} />}
           {page === "discovery" && <DiscoveryPage isOps={isOps} />}
-          {page === "design" && <DesignPreviewPage tasks={tasks} setTask={setTask} />}
-          {page === "website" && <SitePreviewPage />}
+          {page === "design" && <DesignPreviewPage tasks={tasks} setTask={setTask} isOps={isOps} />}
+          {page === "website" && <SitePreviewPage tasks={tasks} setTask={setTask} isOps={isOps} />}
           {page === "scope" && <ScopePage />}
           {page === "agreement" && <AgreementPage />}
         </div>

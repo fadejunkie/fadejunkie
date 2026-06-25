@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SA's Finest — Brand Package Downloads</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;500;600;700;900&display=swap');
+
+    :root {
+      --black: #0a0a0a;
+      --gold: #C9A84C;
+      --gold-dim: #a8883a;
+      --surface: #141414;
+      --border: #222;
+      --text: #e8e8e8;
+      --muted: #666;
+    }
+
+    html.light {
+      --black: #f5f5f3;
+      --surface: #ffffff;
+      --border: #e0e0dc;
+      --text: #111;
+      --muted: #888;
+    }
+    html.light .logo-preview { background: #ebebeb !important; }
+    html.light .logo-preview.white-bg { background: #f9f9f9 !important; border: 1px solid #e0e0dc; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 0 0 80px;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--black);
+      z-index: 10;
+    }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--gold);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--black);
+      letter-spacing: -0.5px;
+    }
+    .header-title { font-size: 14px; font-weight: 600; color: var(--text); }
+    .header-sub { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+    .badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 48px 32px 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .hero p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 520px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .stat-item { }
+    .stat-num { font-size: 22px; font-weight: 700; color: var(--gold); }
+    .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'IBM Plex Mono', monospace; }
+
+    /* Content */
+    .content { padding: 0 32px; }
+
+    /* Section */
+    .section { margin-top: 48px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title { font-size: 11px; font-weight: 700; color: var(--gold); font-family: 'IBM Plex Mono', monospace; letter-spacing: 1px; text-transform: uppercase; }
+    .section-count { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+
+    /* Logo grid */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .logo-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .logo-preview {
+      background: #1a1a1a;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-preview.white-bg { background: #fff; }
+    .logo-preview img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .logo-card-body { padding: 14px 16px; }
+    .logo-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+
+    .dl-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      cursor: pointer;
+    }
+    .dl-btn.svg {
+      background: rgba(201,168,76,0.12);
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .dl-btn.svg:hover { background: rgba(201,168,76,0.22); }
+    .dl-btn.png {
+      background: rgba(255,255,255,0.05);
+      color: #aaa;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .dl-btn.png:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+    .dl-btn.sqr {
+      background: rgba(100,100,255,0.08);
+      color: #888;
+      border: 1px solid rgba(100,100,255,0.15);
+    }
+    .dl-btn.sqr:hover { background: rgba(100,100,255,0.15); color: #bbb; }
+
+    .dl-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+    .dl-label { font-size: 10px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-bottom: 5px; }
+
+    /* Docs grid */
+    .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .doc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .doc-icon {
+      width: 40px; height: 40px;
+      background: rgba(201,168,76,0.1);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+    .doc-info { flex: 1; min-width: 0; }
+    .doc-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .doc-meta { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+    .doc-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: rgba(201,168,76,0.12);
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .doc-dl:hover { background: rgba(201,168,76,0.22); }
+
+    /* Footer */
+    .footer {
+      margin-top: 64px;
+      padding: 24px 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-text { font-size: 12px; color: var(--muted); }
+    .footer-brand { font-size: 12px; color: var(--gold); font-family: 'IBM Plex Mono', monospace; }
+
+    /* Light switch */
+    .light-switch {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .light-switch:hover { border-color: var(--gold); color: var(--gold); }
+
+    @media (max-width: 600px) {
+      .header { padding: 20px 16px; }
+      .hero { padding: 32px 16px 24px; }
+      .content { padding: 0 16px; }
+      .hero h1 { font-size: 22px; }
+      .hero-stats { gap: 20px; }
+      .footer { padding: 20px 16px; flex-direction: column; gap: 8px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-mark">SA</div>
+      <div>
+        <div class="header-title">SA's Finest Barbershop</div>
+        <div class="header-sub">Brand Package — Final Delivery</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="light-switch" id="themeToggle" onclick="toggleTheme()">
+        <span id="themeIcon">☀️</span>
+        <span id="themeLabel">Light</span>
+      </button>
+      <span class="badge">PAID ✓</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Your Files Are Ready</h1>
+    <p>All logo variations, sizes, and brand documents. SVG files are your master files — use them for printing and large-format. PNGs are ready for digital use at 1×, 2×, and 3× resolution.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Logo Variations</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">50</div>
+        <div class="stat-label">Total Files</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Brand Docs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Logo Files</span>
+        <span class="section-count">— 6 variations · SVG + PNG @1x @2x @3x</span>
+      </div>
+      <div class="logo-grid">
+
+        <!-- Black -->
+        <div class="logo-card">
+          <div class="logo-preview">
+            <img src="/downloads/saf-final-black@1x.png" alt="Black" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">Black</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-final-black.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-final-black@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-black@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-black@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-final-black-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-black-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-black-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-black-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- White -->
+        <div class="logo-card">
+          <div class="logo-preview white-bg">
+            <img src="/downloads/saf-final-white@1x.png" alt="White" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">White</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-final-white.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-final-white@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-white@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-white@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-final-white-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-white-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-white-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-white-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spurs Badge -->
+        <div class="logo-card">
+          <div class="logo-preview">
+            <img src="/downloads/saf-final-spurs-badge@1x.png" alt="Spurs Badge" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">Spurs Badge</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-final-spurs-badge.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-badge@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-badge@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-badge@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-badge-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-badge-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-badge-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-badge-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spurs Gradient -->
+        <div class="logo-card">
+          <div class="logo-preview">
+            <img src="/downloads/saf-final-spurs-gradient@1x.png" alt="Spurs Gradient" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">Spurs Gradient</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-final-spurs-gradient.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-gradient@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-gradient@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-spurs-gradient@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-gradient-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-gradient-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-gradient-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-spurs-gradient-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticker -->
+        <div class="logo-card">
+          <div class="logo-preview">
+            <img src="/downloads/saf-final-sticker@1x.png" alt="Sticker" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">Sticker</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-final-sticker.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-final-sticker@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-sticker@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-final-sticker@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-final-sticker-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-sticker-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-sticker-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-final-sticker-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Liquid Metal -->
+        <div class="logo-card">
+          <div class="logo-preview">
+            <img src="/downloads/saf-liquid-metal@1x.png" alt="Liquid Metal" />
+          </div>
+          <div class="logo-card-body">
+            <div class="logo-name">Liquid Metal</div>
+            <div class="dl-label">Master</div>
+            <div class="dl-buttons">
+              <a class="dl-btn svg" href="/downloads/saf-liquid-metal.svg" download>SVG</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Horizontal</div>
+            <div class="dl-buttons">
+              <a class="dl-btn png" href="/downloads/saf-liquid-metal@1x.png" download>@1x</a>
+              <a class="dl-btn png" href="/downloads/saf-liquid-metal@2x.png" download>@2x</a>
+              <a class="dl-btn png" href="/downloads/saf-liquid-metal@3x.png" download>@3x</a>
+            </div>
+            <div class="dl-divider"></div>
+            <div class="dl-label">PNG — Square</div>
+            <div class="dl-buttons">
+              <a class="dl-btn sqr" href="/downloads/saf-liquid-metal-sqr.svg" download>SVG</a>
+              <a class="dl-btn sqr" href="/downloads/saf-liquid-metal-sqr@1x.png" download>@1x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-liquid-metal-sqr@2x.png" download>@2x</a>
+              <a class="dl-btn sqr" href="/downloads/saf-liquid-metal-sqr@3x.png" download>@3x</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Brand Docs -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Brand Documents</span>
+        <span class="section-count">— 2 PDFs</span>
+      </div>
+      <div class="docs-grid">
+        <div class="doc-card">
+          <div class="doc-icon">🎨</div>
+          <div class="doc-info">
+            <div class="doc-name">Brand Colors & Fonts</div>
+            <div class="doc-meta">PDF · Color palette + typography</div>
+            <a class="doc-dl" href="/downloads/saf-brand-colors-fonts.pdf" download>Download PDF</a>
+          </div>
+        </div>
+        <div class="doc-card">
+          <div class="doc-icon">📐</div>
+          <div class="doc-info">
+            <div class="doc-name">Logo Usage Guide</div>
+            <div class="doc-meta">PDF · Sizing, spacing, dos & don'ts</div>
+            <a class="doc-dl" href="/downloads/saf-usage-guide.pdf" download>Download PDF</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">Questions? Reach out to Anthony — twanii</div>
+    <div class="footer-brand">SA's FINEST BARBERSHOP © 2026</div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const isLight = document.documentElement.classList.toggle('light');
+      document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+      document.getElementById('themeLabel').textContent = isLight ? 'Dark' : 'Light';
+      localStorage.setItem('saf-theme', isLight ? 'light' : 'dark');
+    }
+    // Restore saved preference
+    if (localStorage.getItem('saf-theme') === 'light') {
+      document.documentElement.classList.add('light');
+      document.getElementById('themeIcon').textContent = '🌙';
+      document.getElementById('themeLabel').textContent = 'Dark';
+    }
+  </script>
+</body>
+</html>

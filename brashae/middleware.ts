@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/admin/login', req.url))
   }
 
-  const expected = await hashPassword(adminPassword)
+  const expected = await hashPassword(adminPassword.trim())
 
   if (!cookie || cookie.value !== expected) {
     return NextResponse.redirect(new URL('/admin/login', req.url))

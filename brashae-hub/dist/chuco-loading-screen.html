@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHUCO — Loading Screen</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* ---- LOADER ---- */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    /* ---- LOGO ---- */
+    #logo-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: min(560px, 82vw);
+    }
+
+    #logo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      /* Logo visible underneath — spotlight cuts through the overlay */
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- SPOTLIGHT OVERLAY ---- */
+    /* Sits ON TOP of the logo. Starts fully black, then a radial-gradient
+       "hole" is cut into it via JS — revealing the logo beneath. */
+    #spotlight-overlay {
+      position: absolute;
+      inset: -40px; /* extend past logo edges so darkness bleeds */
+      z-index: 2;
+      pointer-events: none;
+      /* Initial state: completely dark */
+      background: #000;
+      transition: none;
+    }
+
+    /* ---- VIGNETTE (always present for cinematic feel) ---- */
+    #vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%,
+        transparent 40%,
+        rgba(0,0,0,0.55) 75%,
+        rgba(0,0,0,0.92) 100%
+      );
+    }
+
+    /* ---- EXIT ---- */
+    #loader.exit {
+      animation: fade-out 0.55s ease-in forwards;
+    }
+    @keyframes fade-out {
+      0%   { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
+    }
+
+    /* ---- SITE BEHIND ---- */
+    #site {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.15);
+      font-size: 11px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site">[ chuco.com ]</div>
+
+  <div id="loader">
+    <div id="logo-wrap">
+      <img id="logo-img" src="chuco-logo-chrome.png" alt="CHUCO" />
+      <div id="spotlight-overlay"></div>
+    </div>
+    <div id="vignette"></div>
+  </div>
+
+  <script>
+    // ============================================================
+    //  CHUCO SPOTLIGHT LOADER
+    //
+    //  Phase 1 (0 → ~2200ms):  Small spotlight scans L→R across
+    //                           each letter with organic wobble
+    //  Phase 2 (~2200 → 3400ms): Spotlight expands rapidly
+    //  Phase 3 (3400 → 3800ms): Full reveal + subtle bloom
+    //  Phase 4 (4000ms):        Exit fade
+    // ============================================================
+
+    const overlay  = document.getElementById('spotlight-overlay');
+    const logoWrap = document.getElementById('logo-wrap');
+    const loader   = document.getElementById('loader');
+
+    // ---- helpers ----
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function easeInOut(t)  { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+    function easeOut(t)    { return 1 - Math.pow(1 - t, 3); }
+    function easeIn(t)     { return t * t * t; }
+    function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
+
+    // Tiny Perlin-ish noise for organic wobble
+    function noise(t) {
+      return Math.sin(t * 3.1) * 0.4 + Math.sin(t * 7.3) * 0.3 + Math.sin(t * 13.7) * 0.15;
+    }
+
+    function setSpotlight(cx, cy, r, softness = 0.55) {
+      // cx, cy in px relative to the overlay element
+      // r = radius in px
+      // softness: 0 = hard edge, 1 = very soft falloff
+      const inner = r * (1 - softness);
+      const outer = r;
+      overlay.style.background =
+        `radial-gradient(circle at ${cx}px ${cy}px, ` +
+        `transparent 0%, ` +
+        `transparent ${inner}px, ` +
+        `rgba(0,0,0,0.10) ${lerp(inner, outer, 0.3)}px, ` +
+        `rgba(0,0,0,0.55) ${lerp(inner, outer, 0.6)}px, ` +
+        `rgba(0,0,0,0.88) ${lerp(inner, outer, 0.85)}px, ` +
+        `rgba(0,0,0,0.98) ${outer}px)`;
+    }
+
+    // ---- Wait for logo to render so we know its real pixel size ----
+    const logoImg = document.getElementById('logo-img');
+
+    function startAnimation() {
+      const rect    = logoWrap.getBoundingClientRect();
+      const ovRect  = overlay.getBoundingClientRect();
+
+      // Overlay is inset -40px on every side of logoWrap,
+      // so its top-left is 40px before logoWrap's top-left.
+      // Spotlight coords are relative to the OVERLAY element.
+      const PAD = 40; // must match CSS inset value
+
+      const OW = ovRect.width;   // overlay width
+      const OH = ovRect.height;  // overlay height
+
+      // Center of overlay in overlay-local coords
+      const ovCX = OW / 2;
+      const ovCY = OH / 2;
+
+      // Logo height in overlay-local coords
+      const logoH = rect.height;
+      const logoW = rect.width;
+
+      // Letter scan path: X positions (overlay-local)
+      // Logo starts at PAD from overlay left edge
+      // Letters: C  H  U  C  O  — approximate % along logo width
+      const letterPcts = [0.09, 0.24, 0.46, 0.66, 0.86];
+      const scanY      = ovCY; // vertical center of logo
+
+      // Spotlight size params
+      const SCAN_R     = Math.min(logoH * 0.52, 80);   // radius during scan
+      const FULL_R     = Math.max(OW, OH) * 1.6;        // radius at full reveal
+
+      // ---- Phase 1: scan ----
+      const SCAN_START  = 180;   // ms delay before scan starts
+      const SCAN_DUR    = 3150;  // ms total scan duration
+      const EXPAND_DUR  = 1425;  // ms expansion duration
+      const HOLD_DUR    = 600;   // ms hold at full before exit
+      const EXIT_DELAY  = SCAN_START + SCAN_DUR + EXPAND_DUR + HOLD_DUR;
+
+      let startTime = null;
+
+      function tick(ts) {
+        if (!startTime) startTime = ts;
+        const elapsed = ts - startTime;
+
+        if (elapsed < SCAN_START) {
+          // Pre-scan: darkness with tiny flicker on first letter pos
+          const flickerX = PAD + letterPcts[0] * logoW;
+          const flickerR = SCAN_R * 0.12 * (0.5 + 0.5 * Math.sin(elapsed * 0.08));
+          setSpotlight(flickerX, scanY, flickerR, 0.7);
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        const scanElapsed = elapsed - SCAN_START;
+
+        if (scanElapsed < SCAN_DUR) {
+          // ---- PHASE 1: spotlight scanning across letters ----
+          const t = scanElapsed / SCAN_DUR;
+
+          // Progress along letter path with eased movement
+          // Spotlight dwells slightly on each letter
+          const numLetters = letterPcts.length;
+          const tScaled    = t * (numLetters - 1);
+          const fromIdx    = Math.floor(clamp(tScaled, 0, numLetters - 2));
+          const toIdx      = fromIdx + 1;
+          const local      = easeInOut(clamp(tScaled - fromIdx, 0, 1));
+
+          const fromX = PAD + letterPcts[fromIdx] * logoW;
+          const toX   = PAD + letterPcts[toIdx]   * logoW;
+          const cx    = lerp(fromX, toX, local);
+
+          // Organic vertical wobble — like a human moving a spotlight
+          const wobbleY = noise(scanElapsed * 0.003) * logoH * 0.18;
+          const cy = scanY + wobbleY;
+
+          // Slight radius breathe during scan
+          const breathe = 1 + 0.08 * Math.sin(scanElapsed * 0.007);
+          const r = SCAN_R * breathe;
+
+          setSpotlight(cx, cy, r, 0.58);
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        const expandElapsed = scanElapsed - SCAN_DUR;
+
+        if (expandElapsed < EXPAND_DUR) {
+          // ---- PHASE 2: spotlight expands to full ----
+          const t = easeOut(expandElapsed / EXPAND_DUR);
+
+          // Start from last letter position
+          const lastX = PAD + letterPcts[letterPcts.length - 1] * logoW;
+          const cx    = lerp(lastX, ovCX, easeInOut(t));
+          const cy    = lerp(scanY, ovCY, easeInOut(t));
+          const r     = lerp(SCAN_R, FULL_R, easeOut(t));
+
+          // Soften as it expands (hard → softer)
+          const soft = lerp(0.55, 0.35, t);
+
+          setSpotlight(cx, cy, r, soft);
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        // ---- PHASE 3: full reveal ----
+        overlay.style.background = 'transparent';
+        overlay.style.display = 'none';
+
+        // Exit after hold
+        setTimeout(() => {
+          loader.classList.add('exit');
+          setTimeout(() => loader.style.display = 'none', 560);
+        }, HOLD_DUR);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    // Start once logo is loaded
+    if (logoImg.complete) {
+      startAnimation();
+    } else {
+      logoImg.addEventListener('load', startAnimation);
+    }
+  </script>
+</body>
+</html>
