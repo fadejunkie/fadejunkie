@@ -1,4 +1,9 @@
 import Image from 'next/image'
+import ProSupplyProgram from '@/components/sections/ProSupplyProgram'
+import Testimonials from '@/components/sections/Testimonials'
+import InstagramFeed from '@/components/sections/InstagramFeed'
+import LocationHours from '@/components/sections/LocationHours'
+import Footer from '@/components/Footer'
 
 const SHOP_URL = 'https://brashae-shop.vercel.app/shop'
 
@@ -29,6 +34,7 @@ const newArrivals = [
 
 export default function HomePage() {
   return (
+    <>
     <main style={{ background: 'var(--canvas)', color: 'var(--on-dark)', minHeight: '100vh' }}>
 
       {/* ── PROMO BANNER ────────────────────────────────── */}
@@ -66,7 +72,7 @@ export default function HomePage() {
           position: 'absolute', bottom: 0, left: 0, right: 0,
           padding: 'clamp(24px, 4vw, 72px) clamp(24px, 5vw, 80px)',
         }}>
-          <p style={{ ...label, marginBottom: 20 }}>BRASHAE'S BARBER BEAUTY SUPPLY</p>
+          <p style={{ ...label, marginBottom: 20 }}>BRASHAE&apos;S BARBER BEAUTY SUPPLY</p>
           <h1 style={{
             fontSize: 'clamp(3rem, 7vw, 6.5rem)',
             fontWeight: 800,
@@ -81,7 +87,7 @@ export default function HomePage() {
             marginTop: 20, maxWidth: '40ch', lineHeight: 1.5,
             textWrap: 'pretty',
           }}>
-            Professional supply store & salon suite complex. 11902 S Gessner, Houston TX.
+            Professional supply store &amp; salon suite complex. 11902 S Gessner, Houston TX.
           </p>
           <div style={{ display: 'flex', gap: 16, marginTop: 36, flexWrap: 'wrap' }}>
             <a href={SHOP_URL} className="btn-gold" style={{
@@ -315,63 +321,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────── */}
-      <footer style={{
-        padding: 'clamp(60px, 8vw, 80px) clamp(24px, 5vw, 80px) 40px',
-        borderTop: '1px solid var(--hairline)',
-      }}>
-        <div
-          className="footer-grid"
-          style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: 48, marginBottom: 60,
-          }}
-        >
-          <div>
-            {/* Letter-spacing removed per DESIGN.md brand rule — no letter-spacing overrides */}
-            <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--gold)', marginBottom: 12 }}>
-              BRASHAE'S
-            </p>
-            <p style={{
-              fontSize: 13, color: 'var(--muted)', lineHeight: 1.6, maxWidth: '30ch',
-              textWrap: 'pretty',
-            }}>
-              Houston's Premier Barber & Beauty Complex. Professional supplies and 30+ salon suites.
-            </p>
-          </div>
-          <div>
-            <p style={{ ...label, marginBottom: 20, color: 'var(--muted)' }}>LINKS</p>
-            {[
-              { label: 'Shop', href: '/shop' },
-              { label: 'Salon Suites', href: '/#suites' },
-              { label: 'Our Professionals', href: '/professionals' },
-              { label: 'Contact', href: '/contact' },
-            ].map((l) => (
-              <a key={l.label} href={l.href} className="nav-link" style={{
-                display: 'block', fontSize: 13, color: 'var(--muted)', marginBottom: 12,
-                cursor: 'pointer',
-              }}>{l.label}</a>
-            ))}
-          </div>
-          <div>
-            <p style={{ ...label, marginBottom: 20, color: 'var(--muted)' }}>CONTACT</p>
-            <p style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.8 }}>
-              11902 S Gessner<br />
-              Houston, TX<br />
-              713-541-2279<br />
-              Mon–Tue: 10am–6pm<br />
-              Wed–Fri: 8am–7pm<br />
-              Sat: 8am–6pm
-            </p>
-          </div>
-        </div>
-        <div style={{ borderTop: '1px solid var(--hairline)', paddingTop: 24 }}>
-          <p style={{ fontSize: 11, color: 'var(--muted)' }}>
-            © 2026 Brashae's Barber Beauty Supply. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      {/* ── PRO SUPPLY PROGRAM ──────────────────────────── */}
+      <ProSupplyProgram />
+
+      {/* ── TESTIMONIALS ────────────────────────────────── */}
+      <Testimonials />
+
+      {/* ── INSTAGRAM FEED ──────────────────────────────── */}
+      <InstagramFeed />
+
+      {/* ── LOCATION + HOURS ────────────────────────────── */}
+      <LocationHours />
 
     </main>
+
+    <Footer />
+    </>
   )
 }
