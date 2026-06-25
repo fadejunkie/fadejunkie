@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Surface & Background */
+  --canvas: #000000;
+  --surface-soft: #0A0A0A;
+  --surface-card: #111111;
+  --surface-elevated: #1C1C1C;
+  --hairline: #2A2A2A;
+
+  /* Text */
+  --on-dark: #FFFFFF;
+  --body-strong: #E6E6E6;
+  --body: #BBBBBB;
+  --muted: #7E7E7E;
+
+  /* Accent / Inverted */
+  --cream: #FFF8F0;
+  --gold: #D4AF37;
+  --gold-light: #E8D06A;
+  --gold-dim: #9A7E2E;
+
+  /* Interaction */
+  --gold-glow-border: rgba(212, 175, 55, 0.4);
+  --gold-fill-dim: rgba(212, 175, 55, 0.12);
+
+  /* Legacy alias */
+  --white: #ffffff;
+
+  /* Typography Scale */
+  --text-xs:   0.6875rem;
+  --text-sm:   0.75rem;
+  --text-base: 0.875rem;
+  --text-md:   1rem;
+  --text-lg:   1.0625rem;
+  --text-xl:   1.125rem;
+  --text-2xl:  1.25rem;
+  --text-3xl:  1.5rem;
+  --text-4xl:  1.75rem;
+  --text-5xl:  2rem;
+  --text-6xl:  2.5rem;
+  --text-hero: 3rem;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+}
+
+html {
+  background: var(--canvas);
+  color: var(--on-dark);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--canvas);
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.scroll-hide::-webkit-scrollbar { display: none; }
+.scroll-hide { scrollbar-width: none; }
+
+/* ── Heading defaults ── */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* ── Body copy defaults ── */
+p {
+  text-wrap: pretty;
+}
+
+/* ── Card Hover (gold border glow) ── */
+.card-hover {
+  transition: border-color 0.2s ease;
+}
+.card-hover:hover {
+  border-color: var(--gold-glow-border) !important;
+}
+
+/* ── Button helpers ── */
+.btn-gold {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.btn-gold:hover {
+  background: var(--gold-light) !important;
+  border-color: var(--gold-light) !important;
+}
+.btn-gold:active {
+  transform: scale(0.97);
+}
+.btn-outline-gold {
+  transition: background 0.2s ease;
+}
+.btn-outline-gold:hover {
+  background: rgba(212, 175, 55, 0.08) !important;
+}
+
+/* ── Nav link hover ── */
+.nav-link {
+  transition: color 0.15s ease;
+}
+.nav-link:hover {
+  color: var(--on-dark) !important;
+}
+
+/* ── Focus States ── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Input focus border shift ── */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--gold) !important;
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Responsive Utilities ── */
+@media (max-width: 640px) {
+  .suite-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .featured-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

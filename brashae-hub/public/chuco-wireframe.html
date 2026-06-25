@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chuco Apparel — Wireframe</title>
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --red: #CC0000;
+      --gray-dark: #111;
+      --gray-mid: #222;
+      --gray-light: #333;
+      --gray-border: #2a2a2a;
+      --gray-block: #1a1a1a;
+      --gray-placeholder: #2c2c2c;
+      --text-muted: #555;
+      --text-dim: #444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    /* ─── MONOSPACE — labels, metadata, buttons, badges, prices ─── */
+    .label, .wf-badge, .page-tab, .drop-banner,
+    .nav-links a, .cart-count,
+    .product-badge, .product-price,
+    .filter-group h4, .size-btn, .size-pill,
+    .option-label, .qty-val,
+    .accordion-header,
+    .footer-col h4, .footer-bottom,
+    .spec-key, .video-label,
+    .hero-scroll,
+    .newsletter-copy p,
+    .pdp-breadcrumb,
+    .result-count, .sort-select,
+    .meta-row,
+    .shop-header .label,
+    .related-section .label {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    /* ─── BUTTONS always monospace ─── */
+    .btn, .btn-full, button {
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    /* ─── WIREFRAME LABEL ─── */
+    .wf-badge {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      z-index: 9999;
+      text-transform: uppercase;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      border-bottom: 1px solid var(--gray-border);
+      position: sticky;
+      top: 0;
+      background: var(--black);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--white);
+      cursor: pointer;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-actions {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-actions .icon-block {
+      width: 18px;
+      height: 18px;
+      background: var(--gray-light);
+      cursor: pointer;
+    }
+    .cart-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .cart-count .dot {
+      background: var(--red);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      font-size: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+    }
+
+    /* ─── PAGE SYSTEM ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── PAGE NAV TABS ─── */
+    .page-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--gray-border);
+      background: #0a0a0a;
+      padding: 0 32px;
+    }
+    .page-tab {
+      padding: 10px 20px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+    .page-tab:hover { color: var(--white); }
+    .page-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ─── COMMON ─── */
+    .img-block {
+      background: var(--gray-placeholder);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .label {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .red-line {
+      width: 40px;
+      height: 2px;
+      background: var(--red);
+      margin: 12px 0;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--gray-light);
+    }
+    .btn-full {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      width: 100%;
+      padding: 16px;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .section-header .label { margin-bottom: 8px; }
+    .section-header h2 {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .section-header .red-line { margin: 12px auto; }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--gray-border);
+      padding: 48px 64px 32px;
+      margin-top: 80px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+    .footer-brand .nav-logo { font-size: 16px; margin-bottom: 12px; }
+    .footer-brand p { color: var(--text-dim); font-size: 11px; line-height: 1.7; }
+    .footer-col h4 {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      margin-bottom: 8px;
+      color: var(--text-dim);
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .footer-col ul li:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--gray-border);
+      padding-top: 24px;
+      color: var(--text-dim);
+      font-size: 10px;
+    }
+    .social-row {
+      display: flex;
+      gap: 12px;
+    }
+    .social-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--gray-block);
+      border: 1px solid var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+
+    /* ════════════════════════════════════════
+       PAGE 1 — HOMEPAGE
+    ════════════════════════════════════════ */
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 640px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      width: 100%;
+      height: 100%;
+      background: var(--gray-block);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-bg-label {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.85) 40%, transparent 100%);
+      display: flex;
+      align-items: center;
+      padding: 0 80px;
+    }
+    .hero-content { max-width: 520px; }
+    .hero-content .label { color: var(--red); margin-bottom: 16px; }
+    .hero-content h1 {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.0;
+      margin-bottom: 8px;
+    }
+    .hero-content h1 span { color: var(--red); }
+    .hero-content p {
+      color: #888;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 20px 0 32px;
+      max-width: 380px;
+    }
+    .hero-cta { display: flex; gap: 16px; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .hero-scroll .tick {
+      width: 1px;
+      height: 32px;
+      background: var(--gray-light);
+    }
+
+    /* Drop banner */
+    .drop-banner {
+      background: var(--red);
+      text-align: center;
+      padding: 10px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* Featured Products */
+    .featured-section {
+      padding: 80px 64px;
+    }
+    .product-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .product-card {
+      cursor: pointer;
+    }
+    .product-card:hover .product-img { opacity: 0.85; }
+    .product-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--gray-block);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      transition: opacity 0.2s;
+      position: relative;
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+    }
+    .product-info { padding: 0 2px; }
+    .product-name {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .product-price {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .product-price .price-main { color: var(--white); }
+
+    /* Brand story */
+    .brand-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 500px;
+    }
+    .brand-img-panel {
+      background: var(--gray-block);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .brand-text-panel {
+      padding: 80px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .brand-text-panel .label { color: var(--red); }
+    .brand-text-panel h2 {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 16px 0;
+      line-height: 1.1;
+    }
+    .brand-text-panel p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      font-size: 12px;
+      max-width: 400px;
+      margin-bottom: 32px;
+    }
+
+    /* Mascot / video section */
+    .mascot-section {
+      padding: 80px 64px;
+      text-align: center;
+      background: var(--gray-block);
+    }
+    .video-placeholder {
+      width: 100%;
+      max-width: 840px;
+      height: 480px;
+      background: #111;
+      border: 1px solid var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 40px auto 0;
+      position: relative;
+    }
+    .play-btn {
+      width: 64px;
+      height: 64px;
+      border: 1px solid var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--red);
+      font-size: 22px;
+    }
+    .video-label {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      padding: 80px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--gray-border);
+    }
+    .newsletter-copy h3 {
+      font-size: 24px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .newsletter-copy p { color: var(--text-muted); font-size: 12px; }
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+    }
+    .newsletter-form input {
+      background: var(--gray-block);
+      border: 1px solid var(--gray-border);
+      border-right: none;
+      color: var(--white);
+      padding: 12px 20px;
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      width: 280px;
+      outline: none;
+    }
+    .newsletter-form input::placeholder { color: var(--text-dim); }
+
+    /* ════════════════════════════════════════
+       PAGE 2 — COLLECTION / SHOP
+    ════════════════════════════════════════ */
+    .shop-header {
+      padding: 48px 64px 32px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .shop-header .label { color: var(--red); margin-bottom: 8px; }
+    .shop-header h1 {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .shop-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      min-height: 600px;
+    }
+    .shop-sidebar {
+      border-right: 1px solid var(--gray-border);
+      padding: 32px 24px;
+    }
+    .filter-group { margin-bottom: 32px; }
+    .filter-group h4 {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .filter-option-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-checkbox {
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--gray-light);
+      flex-shrink: 0;
+    }
+    .filter-checkbox.checked {
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .filter-count {
+      font-size: 9px;
+      color: var(--text-dim);
+    }
+    .size-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .size-btn {
+      height: 32px;
+      border: 1px solid var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+    .size-btn.active {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .price-range {
+      display: flex;
+      gap: 8px;
+    }
+    .price-input {
+      background: var(--gray-block);
+      border: 1px solid var(--gray-border);
+      color: var(--white);
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      width: 80px;
+    }
+    .shop-main { padding: 32px 40px; }
+    .shop-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .result-count { color: var(--text-muted); font-size: 11px; }
+    .sort-select {
+      background: var(--gray-block);
+      border: 1px solid var(--gray-border);
+      color: var(--white);
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    }
+    .product-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .load-more {
+      text-align: center;
+      margin-top: 48px;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-top: 48px;
+    }
+    .page-num {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+    }
+    .page-num.active {
+      border-color: var(--red);
+      color: var(--red);
+    }
+    .page-num:hover { color: var(--white); }
+
+    /* ════════════════════════════════════════
+       PAGE 3 — PRODUCT DETAIL (PDP)
+    ════════════════════════════════════════ */
+    .pdp-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 700px;
+    }
+    .pdp-gallery {
+      padding: 40px;
+      border-right: 1px solid var(--gray-border);
+    }
+    .pdp-main-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--gray-block);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .pdp-thumbs {
+      display: flex;
+      gap: 8px;
+    }
+    .pdp-thumb {
+      width: 68px;
+      height: 86px;
+      background: var(--gray-placeholder);
+      border: 1px solid var(--gray-border);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .pdp-thumb.active { border-color: var(--red); }
+    .pdp-info {
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+    }
+    .pdp-breadcrumb {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .pdp-breadcrumb span { color: var(--text-muted); }
+    .pdp-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .pdp-subtitle {
+      color: var(--text-dim);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .pdp-price {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+    .pdp-price .original {
+      color: var(--text-dim);
+      text-decoration: line-through;
+      font-size: 16px;
+      margin-right: 12px;
+    }
+    .pdp-price .sale { color: var(--red); }
+    .pdp-divider {
+      border: none;
+      border-top: 1px solid var(--gray-border);
+      margin: 20px 0;
+    }
+    .option-label {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .color-swatches {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .swatch.active { border-color: var(--white); }
+    .swatch.black { background: #111; border: 2px solid #444; }
+    .swatch.red { background: var(--red); }
+    .swatch.white-s { background: #ddd; }
+    .size-picker {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .size-pill {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      cursor: pointer;
+    }
+    .size-pill.active {
+      border-color: var(--white);
+      color: var(--white);
+    }
+    .size-pill.out {
+      opacity: 0.3;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+    .qty-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--gray-border);
+    }
+    .qty-btn {
+      width: 40px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .qty-val {
+      width: 44px;
+      text-align: center;
+      font-size: 13px;
+      border-left: 1px solid var(--gray-border);
+      border-right: 1px solid var(--gray-border);
+      padding: 10px 0;
+    }
+    .pdp-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .pdp-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .meta-icon {
+      width: 14px;
+      height: 14px;
+      background: var(--gray-light);
+      flex-shrink: 0;
+    }
+    .accordion-item {
+      border-top: 1px solid var(--gray-border);
+    }
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .accordion-header:hover { color: var(--white); }
+    .accordion-body {
+      padding: 0 0 16px;
+      color: var(--text-dim);
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    /* Related products */
+    .related-section {
+      padding: 64px;
+      border-top: 1px solid var(--gray-border);
+    }
+    .related-section .section-header { text-align: left; margin-bottom: 32px; }
+    .related-section .section-header .red-line { margin: 12px 0; }
+
+    /* ════════════════════════════════════════
+       ANNOTATION SYSTEM
+    ════════════════════════════════════════ */
+    .annotation {
+      position: relative;
+      display: inline-block;
+    }
+    .ann-dot {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: var(--red);
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 18px;
+      cursor: help;
+      vertical-align: super;
+      margin-left: 4px;
+      position: relative;
+      z-index: 10;
+    }
+    .ann-dot:hover + .ann-tooltip { display: block; }
+    .ann-tooltip {
+      display: none;
+      position: absolute;
+      left: 24px;
+      top: -4px;
+      background: #1a1a1a;
+      border: 1px solid var(--red);
+      padding: 8px 12px;
+      font-size: 10px;
+      color: var(--white);
+      white-space: nowrap;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* ─── SPEC PANEL ─── */
+    .spec-panel {
+      background: #0a0a0a;
+      border-top: 1px solid var(--gray-border);
+      padding: 24px 64px;
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+    .spec-panel h3 {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .spec-item { }
+    .spec-key {
+      color: var(--red);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 9px;
+      margin-bottom: 4px;
+    }
+    .spec-val { color: #666; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="wf-badge">Wireframe</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">CHUCO<span>.</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('shop')">Shop</a></li>
+    <li><a>Collections</a></li>
+    <li><a>Lookbook</a></li>
+    <li><a>About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="icon-block" title="Search"></div>
+    <div class="icon-block" title="Account"></div>
+    <div class="cart-count">
+      <span>Cart</span>
+      <span class="dot">2</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── PAGE TABS (wireframe nav) ─── -->
+<div class="page-tabs">
+  <div class="page-tab active" id="tab-home" onclick="showPage('home')">1 — Homepage</div>
+  <div class="page-tab" id="tab-shop" onclick="showPage('shop')">2 — Shop / Collection</div>
+  <div class="page-tab" id="tab-pdp" onclick="showPage('pdp')">3 — Product Detail</div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 1 — HOMEPAGE
+════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Drop banner -->
+  <div class="drop-banner">Castle Collection just dropped &nbsp;·&nbsp; Free shipping over $75</div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <span class="hero-bg-label">Full-width hero image / video background<br>[ product shot or mascot — model img 1.png ]</span>
+    </div>
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <div class="label">Chuco Apparel — Straight out the borderlands</div>
+        <div class="red-line"></div>
+        <h1>Forged In<br>The <span>Dark.</span></h1>
+        <p>Heavy cloth. Gothic ink. Built where the desert meets the city and nobody asks permission.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="showPage('shop')">Shop Now</button>
+          <button class="btn btn-secondary">New Arrivals</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="tick"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="featured-section">
+    <div class="section-header">
+      <div class="label">Latest</div>
+      <h2>New Drops</h2>
+      <div class="red-line"></div>
+      <p>Small runs. Heavy weight. Once they're gone, they're gone.</p>
+    </div>
+
+    <div class="product-grid-4">
+      <!-- Product 1 -->
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">
+          <div>
+            <div class="product-badge">New</div>
+            Product Photo<br>[ model img 1.png ]
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Castle Sweater</div>
+          <div class="product-price"><span class="price-main">$65.00</span></div>
+        </div>
+      </div>
+      <!-- Product 2 -->
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">
+          Product Photo<br>[ placeholder ]
+        </div>
+        <div class="product-info">
+          <div class="product-name">Dragon Tee — Black</div>
+          <div class="product-price"><span class="price-main">$38.00</span></div>
+        </div>
+      </div>
+      <!-- Product 3 -->
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">
+          <div class="product-badge" style="position:static;margin-bottom:4px;display:inline-block;">Sale</div>
+          <br>Product Photo<br>[ placeholder ]
+        </div>
+        <div class="product-info">
+          <div class="product-name">Chuco Logo Hoodie</div>
+          <div class="product-price">
+            <span class="original">$72.00</span>
+            <span class="sale">$54.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- Product 4 -->
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">Product Photo<br>[ placeholder ]</div>
+        <div class="product-info">
+          <div class="product-name">Gothic Crewneck</div>
+          <div class="product-price"><span class="price-main">$58.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:40px;">
+      <button class="btn btn-secondary" onclick="showPage('shop')">View All Products</button>
+    </div>
+  </section>
+
+  <!-- Brand Story -->
+  <section class="brand-section">
+    <div class="brand-img-panel">
+      Mascot / brand image<br>[ chuco-mascot.svg ]
+    </div>
+    <div class="brand-text-panel">
+      <div class="label">The Brand</div>
+      <div class="red-line"></div>
+      <h2>Dark.<br>Heavy.<br>Ours.</h2>
+      <p>Chuco comes from the same concrete you do. El Paso blood, San Antonio grit. We don't design for people watching from the outside.</p>
+      <button class="btn btn-secondary" style="width:fit-content">Our Story</button>
+    </div>
+  </section>
+
+  <!-- Product Video -->
+  <section class="mascot-section">
+    <div class="section-header">
+      <div class="label">The Drop</div>
+      <h2>Castle Collection</h2>
+      <div class="red-line"></div>
+    </div>
+    <div class="video-placeholder">
+      <div class="play-btn">▶</div>
+      <div class="video-label">castle sweater product video.mp4</div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter-section">
+    <div class="newsletter-copy">
+      <h3>Get on the list</h3>
+      <p>Drops hit your inbox first. No filler. No spam.</p>
+    </div>
+    <div class="newsletter-form">
+      <input type="text" placeholder="your@email.com" />
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">CHUCO<span style="color:var(--red)">.</span></div>
+        <p>Dark metal streetwear from the borderlands.<br>Heavy fabric. No compromise.</p>
+        <div class="social-row" style="margin-top:16px">
+          <div class="social-icon">IG</div>
+          <div class="social-icon">TK</div>
+          <div class="social-icon">TW</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li>New Arrivals</li>
+          <li>Tops</li>
+          <li>Hoodies</li>
+          <li>Accessories</li>
+          <li>Sale</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li>About Chuco</li>
+          <li>Lookbook</li>
+          <li>Size Guide</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li>Shipping Policy</li>
+          <li>Returns</li>
+          <li>FAQ</li>
+          <li>Track Order</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel. All rights reserved.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 2 — SHOP / COLLECTION
+════════════════════════════════════════ -->
+<div class="page" id="page-shop">
+
+  <div class="shop-header">
+    <div class="label">Full Catalog</div>
+    <h1>Shop</h1>
+  </div>
+
+  <div class="shop-layout">
+
+    <!-- Sidebar Filters -->
+    <aside class="shop-sidebar">
+
+      <div class="filter-group">
+        <h4>Collections</h4>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox checked"></div>
+            All
+          </div>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Castle Collection
+          </div>
+          <span class="filter-count">12</span>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Dragon Series
+          </div>
+          <span class="filter-count">8</span>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Basics
+          </div>
+          <span class="filter-count">5</span>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Sale
+          </div>
+          <span class="filter-count">3</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Category</h4>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Hoodies &amp; Sweaters
+          </div>
+          <span class="filter-count">10</span>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            T-Shirts
+          </div>
+          <span class="filter-count">9</span>
+        </div>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox"></div>
+            Accessories
+          </div>
+          <span class="filter-count">6</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Size</h4>
+        <div class="size-grid">
+          <div class="size-btn">XS</div>
+          <div class="size-btn active">S</div>
+          <div class="size-btn active">M</div>
+          <div class="size-btn">L</div>
+          <div class="size-btn">XL</div>
+          <div class="size-btn">2XL</div>
+          <div class="size-btn">3XL</div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Price Range</h4>
+        <div class="price-range">
+          <input class="price-input" placeholder="$0" />
+          <span style="color:var(--text-dim);align-self:center">–</span>
+          <input class="price-input" placeholder="$150" />
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Availability</h4>
+        <div class="filter-option">
+          <div class="filter-option-label">
+            <div class="filter-checkbox checked"></div>
+            In Stock Only
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Product Grid -->
+    <div class="shop-main">
+      <div class="shop-toolbar">
+        <span class="result-count">28 products</span>
+        <select class="sort-select">
+          <option>Sort: Featured</option>
+          <option>Price: Low → High</option>
+          <option>Price: High → Low</option>
+          <option>Newest</option>
+        </select>
+      </div>
+
+      <div class="product-grid-3">
+        <!-- Row 1 -->
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">
+            <div><div class="product-badge">New</div><br>Product Photo</div>
+          </div>
+          <div class="product-info">
+            <div class="product-name">Castle Sweater</div>
+            <div class="product-price"><span class="price-main">$65.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Dragon Tee — Black</div>
+            <div class="product-price"><span class="price-main">$38.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Chuco Logo Hoodie</div>
+            <div class="product-price"><span class="original">$72.00</span> <span class="sale">$54.00</span></div>
+          </div>
+        </div>
+        <!-- Row 2 -->
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Gothic Crewneck</div>
+            <div class="product-price"><span class="price-main">$58.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Blood Red Tee</div>
+            <div class="product-price"><span class="price-main">$40.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Mascot Zip-Up</div>
+            <div class="product-price"><span class="price-main">$78.00</span></div>
+          </div>
+        </div>
+        <!-- Row 3 -->
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">OG Snapback</div>
+            <div class="product-price"><span class="price-main">$34.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">El Paso Tee</div>
+            <div class="product-price"><span class="price-main">$36.00</span></div>
+          </div>
+        </div>
+        <div class="product-card" onclick="showPage('pdp')">
+          <div class="product-img img-block">Product Photo</div>
+          <div class="product-info">
+            <div class="product-name">Dragon Hoodie — Red</div>
+            <div class="product-price"><span class="price-main">$74.00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <div class="page-num active">1</div>
+        <div class="page-num">2</div>
+        <div class="page-num">3</div>
+        <div class="page-num">→</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (abbreviated) -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 3 — PRODUCT DETAIL PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-pdp">
+
+  <div class="pdp-layout">
+
+    <!-- Gallery -->
+    <div class="pdp-gallery">
+      <div class="pdp-main-img">
+        Main Product Image<br>[ model img 1.png ]
+      </div>
+      <div class="pdp-thumbs">
+        <div class="pdp-thumb active"></div>
+        <div class="pdp-thumb"></div>
+        <div class="pdp-thumb"></div>
+        <div class="pdp-thumb"></div>
+        <div class="pdp-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--red);font-size:9px;">▶ Video</div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="pdp-info">
+      <div class="pdp-breadcrumb">
+        <span onclick="showPage('home')" style="cursor:pointer">Home</span> /
+        <span onclick="showPage('shop')" style="cursor:pointer">Shop</span> /
+        <span>Castle Sweater</span>
+      </div>
+
+      <div class="pdp-title">Castle Sweater</div>
+      <div class="pdp-subtitle">Castle Collection · 12oz Heavy Fleece</div>
+
+      <div class="pdp-price">
+        <span class="original">$72.00</span>
+        <span class="sale">$65.00</span>
+      </div>
+
+      <hr class="pdp-divider" />
+
+      <!-- Color -->
+      <div class="option-label">Color — <span style="color:var(--white)">Black</span></div>
+      <div class="color-swatches">
+        <div class="swatch black active"></div>
+        <div class="swatch red"></div>
+        <div class="swatch white-s"></div>
+      </div>
+
+      <!-- Size -->
+      <div class="option-label">Size — <span style="color:var(--white)">M</span> &nbsp;<span style="color:var(--red);cursor:pointer">Size Guide</span></div>
+      <div class="size-picker">
+        <div class="size-pill">XS</div>
+        <div class="size-pill">S</div>
+        <div class="size-pill active">M</div>
+        <div class="size-pill">L</div>
+        <div class="size-pill">XL</div>
+        <div class="size-pill out">2XL</div>
+      </div>
+
+      <!-- Qty -->
+      <div class="option-label">Quantity</div>
+      <div class="qty-row">
+        <div class="qty-control">
+          <button class="qty-btn">−</button>
+          <div class="qty-val">1</div>
+          <button class="qty-btn">+</button>
+        </div>
+        <span style="color:var(--text-dim);font-size:10px;letter-spacing:0.08em">8 left in stock</span>
+      </div>
+
+      <!-- CTAs -->
+      <div class="pdp-actions">
+        <button class="btn-full">Add to Cart</button>
+        <button class="btn btn-secondary" style="width:100%;text-align:center">Buy Now</button>
+      </div>
+
+      <!-- Trust signals -->
+      <div class="pdp-meta">
+        <div class="meta-row">
+          <div class="meta-icon"></div>
+          <span>Free shipping on orders over $75</span>
+        </div>
+        <div class="meta-row">
+          <div class="meta-icon"></div>
+          <span>30-day returns</span>
+        </div>
+        <div class="meta-row">
+          <div class="meta-icon"></div>
+          <span>Ships in 2–5 business days</span>
+        </div>
+      </div>
+
+      <hr class="pdp-divider" />
+
+      <!-- Accordion -->
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>Description</span>
+          <span>+</span>
+        </div>
+        <div class="accordion-body">
+          12oz fleece pullover. Gothic lettering across the back, dragon mascot embroidered on chest. 80/20 cotton-poly blend. Cut oversized — size down if you want it fitted. Built heavy on purpose.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>Size &amp; Fit</span>
+          <span>+</span>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>Shipping &amp; Returns</span>
+          <span>+</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <section class="related-section">
+    <div class="section-header">
+      <div class="label">Same Collection</div>
+      <h2>More From The Drop</h2>
+      <div class="red-line"></div>
+    </div>
+    <div class="product-grid-4">
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">Product Photo</div>
+        <div class="product-info">
+          <div class="product-name">Dragon Tee — Black</div>
+          <div class="product-price"><span class="price-main">$38.00</span></div>
+        </div>
+      </div>
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">Product Photo</div>
+        <div class="product-info">
+          <div class="product-name">Gothic Crewneck</div>
+          <div class="product-price"><span class="price-main">$58.00</span></div>
+        </div>
+      </div>
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">Product Photo</div>
+        <div class="product-info">
+          <div class="product-name">Mascot Zip-Up</div>
+          <div class="product-price"><span class="price-main">$78.00</span></div>
+        </div>
+      </div>
+      <div class="product-card" onclick="showPage('pdp')">
+        <div class="product-img img-block">Product Photo</div>
+        <div class="product-info">
+          <div class="product-name">OG Snapback</div>
+          <div class="product-price"><span class="price-main">$34.00</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (abbreviated) -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 Chuco Apparel.</span>
+      <span>Powered by Shopify</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ─── SPEC PANEL ─── -->
+<div class="spec-panel">
+  <h3>Wireframe Spec — Chuco Apparel Ecommerce</h3>
+  <div class="spec-grid">
+    <div class="spec-item">
+      <div class="spec-key">Platform</div>
+      <div class="spec-val">Shopify (branded wrapper)<br>Client provides inventory</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-key">Palette</div>
+      <div class="spec-val">Black #000000<br>White #FFFFFF<br>Blood Red #CC0000</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-key">Pages Covered</div>
+      <div class="spec-val">Homepage · Shop/Collection<br>Product Detail (PDP)</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-key">Still Needed</div>
+      <div class="spec-val">Cart / Checkout (Shopify native)<br>Product collections from client<br>Product photography</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
