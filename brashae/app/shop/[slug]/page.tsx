@@ -19,7 +19,7 @@ export default function ProductPage() {
 
   if (product === undefined) {
     return (
-      <main style={{ paddingTop: 56, minHeight: '100vh' }}>
+      <main style={{ paddingTop: 64, minHeight: '100vh' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
           <div style={{ aspectRatio: '1/1', background: 'var(--surface-soft)' }} />
           <div style={{ padding: '80px 48px' }}>
@@ -34,7 +34,7 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <main style={{ paddingTop: 56, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <main style={{ paddingTop: 64, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ textAlign: 'center' }}>
           <p style={{ ...label, marginBottom: 16 }}>NOT FOUND</p>
           <Link href="/shop" style={{ fontSize: 13, color: 'var(--gold)' }}>← Back to Shop</Link>
@@ -50,11 +50,11 @@ export default function ProductPage() {
   const imageUrl = product.images?.[0]
 
   return (
-    <main style={{ paddingTop: 56, minHeight: '100vh' }}>
+    <main style={{ paddingTop: 64, minHeight: '100vh' }}>
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        minHeight: 'calc(100vh - 56px)',
+        minHeight: 'calc(100vh - 64px)',
       }}>
         {/* Image */}
         <div style={{ position: 'relative', aspectRatio: '1/1', background: 'var(--surface-soft)' }}>

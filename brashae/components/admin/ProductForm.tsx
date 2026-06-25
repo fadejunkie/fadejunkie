@@ -86,10 +86,13 @@ export default function ProductForm({ initialData }: Props) {
 
   const inputStyle = {
     width: '100%', padding: '10px 12px',
-    background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.12)',
-    color: '#fff', fontSize: 13, outline: 'none',
+    background: 'var(--surface-soft)' as const, border: '1px solid var(--hairline)' as const,
+    color: 'var(--on-dark)' as const, fontSize: 13,
+    borderRadius: 6,
+    transition: 'border-color 0.2s ease' as const,
+    fontFamily: 'inherit' as const,
   }
-  const labelStyle = { fontSize: 11, textTransform: 'uppercase' as const, fontWeight: 700, color: 'rgba(255,255,255,0.4)', display: 'block' as const, marginBottom: 6 }
+  const labelStyle = { fontSize: 11, textTransform: 'uppercase' as const, fontWeight: 700, color: 'var(--muted)' as const, display: 'block' as const, marginBottom: 6 }
   const fieldStyle = { marginBottom: 20 }
 
   return (
@@ -196,17 +199,23 @@ export default function ProductForm({ initialData }: Props) {
       {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 16 }}>{error}</p>}
 
       <div style={{ display: 'flex', gap: 12 }}>
-        <button type="submit" disabled={saving} style={{
-          padding: '14px 32px', background: '#C9A84C', border: 'none',
+        <button type="submit" disabled={saving} className={!saving ? 'btn-gold' : ''} style={{
+          padding: '14px 32px', background: saving ? 'var(--muted)' : 'var(--gold)', border: 'none',
           color: '#000', fontSize: 13, fontWeight: 700,
           textTransform: 'uppercase', cursor: saving ? 'not-allowed' : 'pointer',
+          borderRadius: 6,
+          transition: 'background 0.2s ease, transform 0.15s ease',
+          fontFamily: 'inherit',
         }}>
           {saving ? 'Saving…' : initialData ? 'Update Product' : 'Create Product'}
         </button>
         <button type="button" onClick={() => router.push('/admin/products')} style={{
           padding: '14px 24px', background: 'transparent',
-          border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.6)',
+          border: '1px solid var(--hairline)', color: 'var(--body)',
           fontSize: 13, cursor: 'pointer',
+          borderRadius: 6,
+          transition: 'border-color 0.2s ease, color 0.2s ease',
+          fontFamily: 'inherit',
         }}>
           Cancel
         </button>

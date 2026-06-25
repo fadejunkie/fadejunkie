@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function CartPage() {
   return (
     <main style={{
-      paddingTop: 56, minHeight: '100vh',
+      paddingTop: 64, minHeight: '100vh',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       <div style={{ textAlign: 'center' }}>

@@ -52,9 +52,12 @@ export default function AdminLogin() {
             autoFocus
             style={{
               width: '100%', padding: '14px 16px',
-              background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.12)',
-              color: '#fff', fontSize: 14, outline: 'none',
+              background: 'var(--surface-soft)', border: '1px solid var(--hairline)',
+              color: 'var(--on-dark)', fontSize: 14,
               marginBottom: 12,
+              borderRadius: 6,
+              transition: 'border-color 0.2s ease',
+              fontFamily: 'inherit',
             }}
           />
           {error && (
@@ -63,12 +66,16 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading || !password}
+            className={(!loading && password) ? 'btn-gold' : ''}
             style={{
               width: '100%', padding: 16,
-              background: loading ? '#888' : '#C9A84C',
+              background: (loading || !password) ? 'var(--muted)' : 'var(--gold)',
               color: '#000', border: 'none',
               fontSize: 13, fontWeight: 700,
-              textTransform: 'uppercase', cursor: loading ? 'not-allowed' : 'pointer',
+              textTransform: 'uppercase', cursor: (loading || !password) ? 'not-allowed' : 'pointer',
+              borderRadius: 6,
+              transition: 'background 0.2s ease',
+              fontFamily: 'inherit',
             }}
           >
             {loading ? 'Checking...' : 'Enter'}

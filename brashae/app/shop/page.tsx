@@ -35,12 +35,12 @@ function ShopContent() {
   })
 
   return (
-    <main style={{ paddingTop: 56, minHeight: '100vh' }}>
+    <main style={{ paddingTop: 64, minHeight: '100vh' }}>
       {/* Header */}
       <div style={{ padding: 'clamp(40px, 6vw, 72px) clamp(24px, 5vw, 80px) 0' }}>
         <p style={{ ...label, marginBottom: 12 }}>ALL PRODUCTS</p>
         <h1 style={{
-          fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 0.95,
+          fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, lineHeight: 1.0,
           textWrap: 'balance',
         }}>Shop</h1>
       </div>
@@ -131,7 +131,7 @@ function ShopContent() {
 export default function ShopPage() {
   return (
     <Suspense fallback={
-      <main style={{ paddingTop: 56, minHeight: '100vh' }}>
+      <main style={{ paddingTop: 64, minHeight: '100vh' }}>
         <div style={{ padding: 'clamp(40px, 6vw, 72px) clamp(24px, 5vw, 80px)' }}>
           <div style={{ width: 80, height: 11, background: 'var(--surface-card)', marginBottom: 12 }} />
           <div style={{ width: 200, height: 48, background: 'var(--surface-card)' }} />
