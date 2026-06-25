@@ -22,13 +22,13 @@
 
   /* Accent / Inverted */
   --cream: #FFF8F0;
-  --gold: #C9A84C;
-  --gold-light: #E8C96A;
-  --gold-dim: #8A6E2E;
+  --gold: #D4AF37;
+  --gold-light: #E8D06A;
+  --gold-dim: #9A7E2E;
 
   /* Interaction */
-  --gold-glow-border: rgba(201, 168, 76, 0.4);
-  --gold-fill-dim: rgba(201, 168, 76, 0.12);
+  --gold-glow-border: rgba(212, 175, 55, 0.4);
+  --gold-fill-dim: rgba(212, 175, 55, 0.12);
 
   /* Legacy alias */
   --white: #ffffff;
@@ -117,7 +117,7 @@ p {
   transition: background 0.2s ease;
 }
 .btn-outline-gold:hover {
-  background: rgba(201, 168, 76, 0.08) !important;
+  background: rgba(212, 175, 55, 0.08) !important;
 }
 
 /* ── Nav link hover ── */
