@@ -42,13 +42,15 @@ export default function Navbar() {
         padding: '0 clamp(24px, 4vw, 48px)',
         transition: 'border-color 0.3s ease',
       }}>
-        {/* Wordmark */}
-        <a href="/" style={{
-          fontSize: 15, fontWeight: 800,
-          color: 'var(--gold)',
-          cursor: 'pointer',
-        }}>
-          BRASHAE&apos;S
+        {/* Logo */}
+        <a href="/" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+          <img
+            src="/brashae-logo.svg"
+            alt="Brashae's Barber Beauty Supply"
+            width={140}
+            height={63}
+            style={{ height: 48, width: 'auto', maxWidth: '100%', objectFit: 'contain', display: 'block' }}
+          />
         </a>
 
         {/* Desktop nav links */}
@@ -128,7 +130,16 @@ export default function Navbar() {
           }}
           className="nav-mobile-overlay"
         >
-          <div style={{ padding: '32px 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ padding: '24px 24px 0', display: 'flex', alignItems: 'center', borderBottom: '1px solid var(--hairline)', paddingBottom: 20, marginBottom: 8 }}>
+              <img
+                src="/brashae-logo.svg"
+                alt="Brashae's Barber Beauty Supply"
+                width={140}
+                height={63}
+                style={{ height: 52, width: 'auto', maxWidth: '80%', objectFit: 'contain', display: 'block' }}
+              />
+            </div>
+          <div style={{ padding: '16px 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
             {navLinks.map((link) => (
               <a
                 key={link.label}

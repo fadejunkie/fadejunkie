@@ -167,8 +167,8 @@ export default function MeetProfessionals() {
               {pro.photo ? (
                 <div
                   style={{
-                    width: 96,
-                    height: 96,
+                    width: 120,
+                    height: 120,
                     borderRadius: "50%",
                     overflow: "hidden",
                     border: "2px solid rgba(201,168,76,0.3)",
@@ -180,15 +180,15 @@ export default function MeetProfessionals() {
                     src={pro.photo}
                     alt={pro.name}
                     fill
-                    style={{ objectFit: "cover" }}
-                    sizes="96px"
+                    style={{ objectFit: "cover", objectPosition: "top" }}
+                    sizes="120px"
                   />
                 </div>
               ) : (
                 <div
                   style={{
-                    width: 96,
-                    height: 96,
+                    width: 120,
+                    height: 120,
                     borderRadius: "50%",
                     background: "var(--surface-card)",
                     border: "2px solid rgba(201,168,76,0.3)",
@@ -198,15 +198,14 @@ export default function MeetProfessionals() {
                     flexShrink: 0,
                   }}
                 >
-                  <span
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "var(--gold)",
-                    }}
-                  >
-                    B|B
-                  </span>
+                  <img
+                    src="/brashae-logo.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width={80}
+                    height={80}
+                    style={{ width: '60%', height: '60%', objectFit: 'contain', opacity: 0.4, display: 'block' }}
+                  />
                 </div>
               )}
 

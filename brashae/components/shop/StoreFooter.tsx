@@ -97,21 +97,14 @@ export default function StoreFooter() {
 
             {/* Column 1 — Brand */}
             <div>
-              {/* Logo */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                <img
-                  src="/brand/logo-symbol.png"
-                  alt=""
-                  aria-hidden="true"
-                  width={36}
-                  height={36}
-                  style={{ mixBlendMode: 'multiply', objectFit: 'contain', display: 'block' }}
-                  onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-                />
-                <span style={{ fontWeight: 700, fontSize: 14, color: '#111111' }}>
-                  Brashae&rsquo;s
-                </span>
-              </div>
+              {/* Original logo — mix-blend-mode removes white bg on cream canvas */}
+              <img
+                src="/brashae-logo.svg"
+                alt="Brashae's Barber Beauty Supply"
+                width={180}
+                height={80}
+                style={{ height: 64, width: 'auto', maxWidth: '100%', objectFit: 'contain', display: 'block', mixBlendMode: 'multiply', marginBottom: 12 }}
+              />
               <p style={{ fontSize: 13, fontWeight: 600, color: '#333333', margin: '0 0 6px' }}>
                 {brand.name}
               </p>

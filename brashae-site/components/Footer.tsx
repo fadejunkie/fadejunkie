@@ -59,9 +59,13 @@ export default function Footer() {
 
         {/* Col 1: Brand */}
         <div>
-          <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--gold)', marginBottom: 12 }}>
-            BRASHAE&apos;S
-          </p>
+          <img
+            src="/brashae-logo.svg"
+            alt="Brashae's Barber Beauty Supply"
+            width={200}
+            height={90}
+            style={{ height: 80, width: 'auto', maxWidth: '100%', objectFit: 'contain', display: 'block', marginBottom: 12 }}
+          />
           <p style={{
             fontSize: 13, fontWeight: 400, color: 'var(--muted)',
             lineHeight: 1.65, maxWidth: '26ch',

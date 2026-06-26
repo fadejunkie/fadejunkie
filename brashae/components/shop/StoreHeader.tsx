@@ -97,30 +97,21 @@ export default function StoreHeader() {
             textDecoration: 'none',
           }}
         >
-          {/* B|B monogram — mix-blend-mode removes white bg on cream */}
+          {/* Original logo — mix-blend-mode removes white bg on cream canvas */}
           <img
-            src="/brand/logo-symbol.png"
-            alt=""
-            aria-hidden="true"
-            width={32}
-            height={32}
+            src="/brashae-logo.svg"
+            alt="Brashae's Barber Beauty Supply"
+            width={160}
+            height={72}
             style={{
-              mixBlendMode: 'multiply',
+              height: 44,
+              width: 'auto',
+              maxWidth: '100%',
               objectFit: 'contain',
               display: 'block',
+              mixBlendMode: 'multiply',
             }}
-            onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
           />
-          <span
-            style={{
-              fontWeight: 700,
-              fontSize: 14,
-              color: '#111111',
-              letterSpacing: 'initial',
-            }}
-          >
-            Brashae&rsquo;s
-          </span>
         </Link>
 
         {/* Center — desktop nav links */}
