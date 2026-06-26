@@ -4,7 +4,6 @@
 
 import Image from "next/image"
 import AnimateIn from "@/components/shared/AnimateIn"
-import ParticleCanvas from "@/components/shared/ParticleCanvas"
 
 const SHOP_URL = "https://brashae-shop.vercel.app/shop"
 const BOOK_PHONE = "https://booksy.com"
@@ -49,14 +48,6 @@ export default function Hero() {
             "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.85) 100%)",
         }}
       />
-
-      {/* ── Particle canvas (above photo, behind text) ── */}
-      <div
-        aria-hidden="true"
-        style={{ position: "absolute", inset: 0, zIndex: 10 }}
-      >
-        <ParticleCanvas />
-      </div>
 
       {/* ── Text content ── */}
       <div

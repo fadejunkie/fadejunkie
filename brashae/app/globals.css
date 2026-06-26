@@ -154,3 +154,68 @@ select:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Ecomm Light Theme ── */
+/* Applied via data-theme="ecomm" wrapper in app/shop/layout.tsx */
+[data-theme="ecomm"] {
+  --canvas: #FAF7F2;
+  --surface-soft: #FBF8F3;
+  --surface-card: #FFFDF9;
+  --surface-elevated: #EDE8E1;
+  --hairline: rgba(0, 0, 0, 0.08);
+  --on-dark: #111111;
+  --body-strong: #333333;
+  --body: #555555;
+  --muted: #999999;
+}
+
+[data-theme="ecomm"] html,
+[data-theme="ecomm"] body {
+  background: #FAF7F2;
+  color: #111111;
+}
+
+/* Ecomm focus ring — dark brown (gold fails WCAG on cream at 2.8:1) */
+[data-theme="ecomm"] :focus-visible {
+  outline: 2px solid #5B3E00;
+  outline-offset: 3px;
+  border-radius: inherit;
+}
+
+/* Ecomm card hover — same gold glow signal, works on light bg */
+[data-theme="ecomm"] .card-hover:hover {
+  border-color: rgba(201, 168, 76, 0.5) !important;
+  box-shadow: 0 4px 16px rgba(201, 168, 76, 0.12) !important;
+}
+
+/* Ecomm image fade-in */
+[data-theme="ecomm"] img {
+  transition: opacity 0.3s ease-in;
+}
+
+/* Ecomm scroll-reveal utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-scale.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

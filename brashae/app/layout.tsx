@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import ConvexClientProvider from '@/components/ConvexClientProvider'
-import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
   title: "Brashae's Shop — Professional Barber & Beauty Supply",
@@ -13,7 +12,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <ConvexClientProvider>
-          <Navbar />
           {children}
         </ConvexClientProvider>
       </body>
