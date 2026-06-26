@@ -16,6 +16,7 @@ export interface FilterSidebarProps {
   onClose: () => void
   activeFilters: ActiveFilters
   onFilterChange: (filters: ActiveFilters) => void
+  mobileOnly?: boolean
 }
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -448,6 +449,7 @@ export default function FilterSidebar({
   onClose,
   activeFilters,
   onFilterChange,
+  mobileOnly = false,
 }: FilterSidebarProps) {
   const [showAllBrands, setShowAllBrands] = useState(false)
 
@@ -514,7 +516,7 @@ export default function FilterSidebar({
       `}</style>
 
       {/* ── Desktop Sidebar ────────────────────────────────────────────────── */}
-      <aside
+      {!mobileOnly && <aside
         className="filter-sidebar-desktop"
         style={{
           width: 240,
@@ -575,7 +577,7 @@ export default function FilterSidebar({
           showAllBrands={showAllBrands}
           onToggleShowAll={() => setShowAllBrands((v) => !v)}
         />
-      </aside>
+      </aside>}
 
       {/* ── Mobile Bottom Sheet ────────────────────────────────────────────── */}
       <div className="filter-sidebar-mobile">

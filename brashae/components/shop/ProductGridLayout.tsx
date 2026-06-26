@@ -216,6 +216,7 @@ export default function ProductGridLayout({ children, productCount, activeCollec
         onClose={() => setFilterOpen(false)}
         activeFilters={activeFilters}
         onFilterChange={() => {}}
+        mobileOnly
       />
     </>
   )

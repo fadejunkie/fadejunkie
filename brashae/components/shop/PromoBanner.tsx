@@ -319,21 +319,23 @@ export default function PromoBanner() {
           </div>
         </div>
 
-        {/* Right — image placeholder */}
+        {/* Right — logo */}
         <div className="promo-banner__image" aria-hidden="true">
-          {/* TODO: replace with hero product photography once available */}
-          <span
+          <img
+            src="/brashae-logo.svg"
+            alt=""
+            aria-hidden="true"
+            width={340}
+            height={153}
             style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 800,
-              fontSize: '48px',
-              color: '#C9A84C',
-              userSelect: 'none',
-              letterSpacing: 'initial',
+              width: '72%',
+              maxWidth: 340,
+              height: 'auto',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply',
+              display: 'block',
             }}
-          >
-            B|B
-          </span>
+          />
         </div>
 
       </section>
